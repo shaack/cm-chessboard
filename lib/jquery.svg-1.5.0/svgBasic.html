@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<title>jQuery SVG Basics</title>
+<link rel="stylesheet" href="jquery.svg.css">
+<style>
+#svgbasics { width: 400px; height: 300px; border: 1px solid #484; }
+</style>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="jquery.svg.js"></script>
+<script>
+$(function() {
+	$('#svgbasics').svg({onLoad: drawInitial});
+	$('#rect,#line,#circle,#ellipse').click(drawShape);
+	$('#clear').click(function() {
+		$('#svgbasics').svg('get').clear();
+	});
+	$('#export').click(function() {
+		var xml = $('#svgbasics').svg('get').toSVG();
+		$('#svgexport').html(xml.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'));
+	});
+});
+
+function drawInitial(svg) {
+	svg.circle(75, 75, 50, {fill: 'none', stroke: 'red', strokeWidth: 3});
+	var g = svg.group({stroke: 'black', strokeWidth: 2});
+	svg.line(g, 15, 75, 135, 75);
+	svg.line(g, 75, 15, 75, 135);
+}
+
+var colours = ['purple', 'red', 'orange', 'yellow', 'lime', 'green', 'blue', 'navy', 'black'];
+
+function drawShape() {
+	var shape = this.id;
+	var svg = $('#svgbasics').svg('get');
+	if (shape == 'rect') {
+		svg.rect(random(300), random(200), random(100) + 100, random(100) + 100,
+			{fill: colours[random(9)], stroke: colours[random(9)], strokeWidth: random(5) + 1});
+	}
+	else if (shape == 'line') {
+		svg.line(random(400), random(300), random(400), random(300),
+			{stroke: colours[random(9)], strokeWidth: random(5) + 1});
+	}
+	else if (shape == 'circle') {
+		svg.circle(random(300) + 50, random(200) + 50, random(80) + 20,
+			{fill: colours[random(9)], stroke: colours[random(9)], strokeWidth: random(5) + 1});
+	}
+	else if (shape == 'ellipse') {
+		svg.ellipse(random(300) + 50, random(200) + 50, random(80) + 20, random(80) + 20,
+			{fill: colours[random(9)], stroke: colours[random(9)], strokeWidth: random(5) + 1});
+	}
+}
+
+function random(range) {
+	return Math.floor(Math.random() * range);
+}
+</script>
+</head>
+<body>
+<h1>jQuery SVG Basics</h1>
+<p>This page demonstrates the very basics of the <a href="http://keith-wood.name/svg.html">jQuery SVG plugin</a>.
+	It contains the minimum requirements for using the plugin and
+	can be used as the basis for your own experimentation.</p>
+<p>The page creates an SVG document in the area below and draws an initial display.
+	The buttons then add randomly sized and coloured shapes on demand.</p>
+<p>For more detail see the <a href="http://keith-wood.name/svgRef.html">documentation reference</a> page.</p>
+<div id="svgbasics"></div>
+<p><button id="rect">Add rectangle</button> <button id="line">Add line</button>
+	<button id="circle">Add circle</button> <button id="ellipse">Add ellipse</button>
+	<button id="clear">Clear</button> <button id="export">Export</button></p>
+<div id="svgexport"></div>
+</body>
+</html>
