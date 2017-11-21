@@ -15,5 +15,16 @@
   "bugs": {
     "url": "https://github.com/shaack/ChessmailBoard/issues"
   },
-  "homepage": "https://github.com/shaack/ChessmailBoard#readme"
+  "homepage": "https://github.com/shaack/ChessmailBoard#readme",
+  "devDependencies": {
+    "steal": "^1.6.0",
+    "steal-tools": "^1.9.2"
+  },
+  "dependencies": {
+    "chess.js": "^0.10.2",
+    "jquery": "^3.2.1"
+  },
+  "steal": {
+    "transpiler": "babel"
+  }
 }

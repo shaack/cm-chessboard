@@ -1,0 +1,13 @@
+.chessmail-board {
+  .board-border {
+    fill: #eee;
+  }
+  .square {
+    &.white {
+      fill: #ccc;
+    }
+    &.black {
+      fill: #999;
+    }
+  }
+}

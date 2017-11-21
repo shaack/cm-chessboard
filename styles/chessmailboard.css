@@ -1,0 +1,13 @@
+/* line 2, _skin-base.scss */
+.chessmail-board .board-border {
+  fill: #eee; }
+
+/* line 6, _skin-base.scss */
+.chessmail-board .square.white {
+  fill: #ccc; }
+
+/* line 9, _skin-base.scss */
+.chessmail-board .square.black {
+  fill: #999; }
+
+/*# sourceMappingURL=chessmailboard.css.map */

@@ -10,7 +10,7 @@ Chessboard for chessmail.eu
 
 ## Configuration
 On the right, default values
-```js
+```
 var config = {
     figures: "media/commons.js",
     markers: "media/markers.js",
@@ -33,3 +33,11 @@ var config = {
 ### callbacks
 #### onMove(fieldFrom, fieldTo)
 - Click oder Drag allowed
+
+# References
+- http://keith-wood.name/svg.html
+- https://css-tricks.com/ajaxing-svg-sprite/
+- https://stackoverflow.com/questions/16488884/add-svg-element-to-existing-svg-using-dom
+- https://stackoverflow.com/questions/3642035/jquerys-append-not-working-with-svg-element
+
+
