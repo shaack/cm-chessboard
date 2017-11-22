@@ -21,8 +21,8 @@
     "steal-tools": "^1.9.2"
   },
   "dependencies": {
-    "chess.js": "^0.10.2",
-    "jquery": "^3.2.1"
+    "jquery": "^3.2.1",
+    "svg.js": "^2.6.3"
   },
   "steal": {
     "transpiler": "babel"

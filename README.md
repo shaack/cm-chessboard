@@ -35,9 +35,11 @@ var config = {
 - Click oder Drag allowed
 
 # References
-- http://keith-wood.name/svg.html
 - https://css-tricks.com/ajaxing-svg-sprite/
 - https://stackoverflow.com/questions/16488884/add-svg-element-to-existing-svg-using-dom
 - https://stackoverflow.com/questions/3642035/jquerys-append-not-working-with-svg-element
 
+## SVG.js
+- http://svgjs.com/
+- https://stackoverflow.com/questions/15911246/loading-a-svg-file-with-svg-js
 
