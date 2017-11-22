@@ -3,7 +3,7 @@
  * Date: 21.11.2017
  */
 
-import '../lib/jquery.svg-1.5.0/jquery.svg.min'
+import 'svg.js'
 
 export class ChessmailBoardView {
 
@@ -11,23 +11,41 @@ export class ChessmailBoardView {
         this.$el = $el;
         this.config = config;
     }
+/*
+    loadSprite() {
+        this.spriteContainerId = this.config.sprite;
+        this.$spriteContainer = $("#" + this.config.sprite);
+        if(!$spriteContainer.length) {
+            $("body").append($spriteContainer);
 
-    redraw() {
-        this.$el.svg({
-            onLoad: (svg) => {
-                this.drawBoard(svg)
-            },
-            settings: {class: 'chessmail-board'}
-        });
-
+        }
+    }
+*/
+    updateMetrics() {
+        this.width = this.$el.width();
+        this.height = this.$el.height();
+        this.innerWidth = this.width - 2 * this.config.borderWidth;
+        this.innerHeight = this.height - 2 * this.config.borderWidth;
+        this.squareWidth = this.innerWidth / 8;
+        this.squareHeight = this.innerHeight / 8;
     }
 
+    /**
+     * Redraw the whole board and all figures
+     */
+    redraw(model) {
+        const svg = SVG(this.$el[0]).addClass("chessmail-board");
+        this.updateMetrics();
+        this.drawBoard(svg);
+        this.drawFigures(svg, model);
+    }
+
+    /**
+     * Draw the checkered board
+     * @param svg
+     */
     drawBoard(svg) {
-        const width = this.$el.width();
-        const height = this.$el.height();
-        const innerWidth = width - 2 * this.config.borderWidth;
-        const innerHeight = height - 2 * this.config.borderWidth;
-        svg.rect(0, 0, width, height, {class: 'board-border'});
+        svg.rect(this.width, this.height).addClass("board-border");
         let letFrom = 104, letTo = 97, letDiff = -1, numFrom = 1, numTo = 8, numDiff = 1;
         if (this.config.orientation === 'black') {
             letFrom = 97;
@@ -38,21 +56,45 @@ export class ChessmailBoardView {
             numDiff = -1;
         }
         let numIndex = 0;
-        let letIndex = 0;
-        for (let letter = letFrom; letter !== letTo + letDiff; letter += letDiff) {
+        let chaIndex = 0;
+        for (let char = letFrom; char !== letTo + letDiff; char += letDiff) {
             for (let number = numFrom; number !== numTo + numDiff; number += numDiff) {
-                const squareColor = (numIndex % 2 + letIndex % 2) % 2 ? 'black' : 'white';
+                const squareColor = (numIndex % 2 + chaIndex % 2) % 2 ? 'black' : 'white';
                 const fieldClass = "square " + squareColor;
-                const fieldCoords = String.fromCharCode(letter) + number;
-                const x = this.config.borderWidth + numIndex * innerWidth / 8;
-                const y = this.config.borderWidth + letIndex * innerHeight / 8;
-                const width = innerWidth / 8;
-                const height = innerHeight / 8;
-                svg.rect(x, y, width, height, {class: fieldClass, 'data-coords': fieldCoords});
+                const fieldCoords = String.fromCharCode(char) + number;
+                const x = this.config.borderWidth + numIndex * this.innerWidth / 8;
+                const y = this.config.borderWidth + chaIndex * this.innerHeight / 8;
+                svg.rect(this.squareWidth, this.squareHeight).move(x,y).addClass(fieldClass).data("coords", fieldCoords);
                 numIndex++;
             }
-            letIndex++;
+            chaIndex++;
             numIndex = 0;
         }
+
+    }
+
+    drawFigures(svg, model) {
+        let letFrom = 104, letTo = 97, letDiff = -1, numFrom = 1, numTo = 8, numDiff = 1;
+        if (this.config.orientation === 'black') {
+            letFrom = 97;
+            letTo = 104;
+            letDiff = 1;
+            numFrom = 8;
+            numTo = 1;
+            numDiff = -1;
+        }
+        let numIndex = 0;
+        let chaIndex = 0;
+        for (let char = letFrom; char !== letTo + letDiff; char += letDiff) {
+            for (let number = numFrom; number !== numTo + numDiff; number += numDiff) {
+                const x = this.config.borderWidth + numIndex * this.innerWidth / 8;
+                const y = this.config.borderWidth + chaIndex * this.innerHeight / 8;
+                numIndex++;
+
+            }
+            chaIndex++;
+            numIndex = 0;
+        }
+        console.log(model.board);
     }
 }

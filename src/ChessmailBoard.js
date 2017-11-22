@@ -3,8 +3,8 @@
  * Date: 21.11.2017
  */
 import 'jquery'
-import Chess from 'chess.js'
 import {ChessmailBoardView} from "./ChessmailBoardView";
+import {ChessmailBoardModel} from "./ChessmailBoardModel";
 
 export class ChessmailBoard {
 
@@ -16,15 +16,16 @@ export class ChessmailBoard {
             orientation: 'white'
         };
         Object.assign(this.config, config);
+        this.model = new ChessmailBoardModel(this.config.initialPosition);
         this.view = new ChessmailBoardView($el, this.config);
         this.init();
     }
 
-    /*
-        reset board and draw initial position
+    /**
+     * reset board and draw initial position
      */
     init() {
-        this.chess = new Chess(this.config.initialPosition);
-        this.view.redraw();
+        this.view.redraw(this.model);
     }
+
 }
