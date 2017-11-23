@@ -1,5 +1,5 @@
 # chessmailboardJS
-Chessboard for chessmail.eu
+Chessboard for chessmail.eu / chessmail.de
 
 ## Requirements
 - jQuery
