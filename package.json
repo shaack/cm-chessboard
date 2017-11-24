@@ -1,28 +1,24 @@
 {
-  "name": "chessmailboard",
+  "name": "chessmail-board",
   "version": "1.0.0",
-  "description": "Chessboard for chessmail.eu",
+  "description": "Chessboard for chessmail.de / chessmail.eu",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shaack/ChessmailBoard.git"
+    "url": "git+https://github.com/shaack/chessmail-board.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/shaack/ChessmailBoard/issues"
+    "url": "https://github.com/shaack/chessmail-board/issues"
   },
-  "homepage": "https://github.com/shaack/ChessmailBoard#readme",
+  "homepage": "https://github.com/shaack/chessmail-board#readme",
   "devDependencies": {
     "steal": "^1.6.0",
     "steal-tools": "^1.9.2"
-  },
-  "dependencies": {
-    "jquery": "^3.2.1",
-    "svg.js": "^2.6.3"
   },
   "steal": {
     "transpiler": "babel"

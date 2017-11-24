@@ -4,11 +4,12 @@
  */
 export class ChessmailBoardModel {
 
-    constructor(fen) {
+    constructor(fen, orientation) {
         if(!fen) {
             console.error("no fen");
         }
         this.board = this.parseFen(fen);
+        this.orientation = orientation;
     }
 
     get(position) {

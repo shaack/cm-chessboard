@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ChessmailBoard</title>
+    <title>chessmail-board</title>
     <link rel="stylesheet" href="lib/jquery.svg-1.5.0/jquery.svg.css"/>
     <link rel="stylesheet" href="styles/chessmailboard.css"/>
     <style type="text/css">
@@ -16,13 +16,13 @@
     </style>
 </head>
 <body>
-<div class="board board1"></div>
-<div class="board board2"></div>
+<div class="board" id="board1"></div>
+<div class="board" id="board2"></div>
 <script src="node_modules/steal/steal.js"></script>
 <script>
-    steal.import("src/ChessmailBoard").then(function (m) {
-        let board1 = new m.ChessmailBoard($(".board1"), {});
-        let board2 = new m.ChessmailBoard($(".board2"), {orientation: 'black'});
+    steal.import("src/chessmail-board/ChessmailBoard").then(function (m) {
+        let board1 = new m.ChessmailBoard(document.getElementById("board1"), {});
+        let board2 = new m.ChessmailBoard(document.getElementById("board2"), {initialOrientation: 'black'});
     });
 </script>
 </body>

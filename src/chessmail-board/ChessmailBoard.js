@@ -2,23 +2,23 @@
  * Author: shaack
  * Date: 21.11.2017
  */
-import 'jquery'
 import {ChessmailBoardView} from "./ChessmailBoardView";
 import {ChessmailBoardModel} from "./ChessmailBoardModel";
 
 export class ChessmailBoard {
 
-    constructor($el, config) {
+    constructor(containerElement, config) {
         this.config = {
-            sprite: "assets/sprite.svg", // figures and markers
+            sprite: "./assets/sprite.svg", // figures and markers
             initialPosition: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+            initialOrientation: 'white',
             borderWidth: 10,
-            orientation: 'white'
         };
         Object.assign(this.config, config);
-        this.model = new ChessmailBoardModel(this.config.initialPosition);
-        this.view = new ChessmailBoardView($el, this.config);
-        this.init();
+        this.model = new ChessmailBoardModel(this.config.initialPosition, this.config.initialOrientation);
+        this.view = new ChessmailBoardView(containerElement, this.config, () => {
+            this.init();
+        });
     }
 
     /**
