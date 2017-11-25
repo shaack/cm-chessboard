@@ -25,7 +25,7 @@ export class ChessmailBoardView {
                 "marker"], () => {
                 ChessmailBoardView.spriteLoadingStatus = "loaded";
                 callback();
-            });
+            }, 40);
         } else if (ChessmailBoardView.spriteLoadingStatus === "loading") {
             setTimeout(() => {
                 this.loadWaitingTries++;
@@ -74,14 +74,6 @@ export class ChessmailBoardView {
     }
 
     /**
-     * @param position
-     * return coords [squareX, squareY]
-     */
-    positionToCoords(position) {
-
-    }
-
-    /**
      * Draw the checkered board
      */
     drawBoard(model) {
@@ -97,7 +89,7 @@ export class ChessmailBoardView {
                 const squareGroup = Svg.addElement(this.svg, "g", {
                     transform: "translate(" + x + "," + y + ")"
                 });
-                const square = Svg.addElement(squareGroup, "rect", {
+                Svg.addElement(squareGroup, "rect", {
                     width: this.squareWidth, height: this.squareHeight
                 });
                 squareGroup.setAttribute("class", fieldClass);
@@ -111,9 +103,31 @@ export class ChessmailBoardView {
     }
 
     drawFigures(model) {
+        // bq as reference for calculation of scaling
+        const bq = Svg.addElement(this.svg, "use", {"href": "#bq"});
+        const bqHeight = bq.getBoundingClientRect().height;
+        Svg.removeElement(bq);
+        const scaling = this.squareHeight / 40;
+
         for (let squareY = 0; squareY < 8; squareY++) {
             for (let squareX = 0; squareX < 8; squareX++) {
+                const figureName = model.board[squareY][squareX];
+                if(figureName) {
+                    const position = ChessmailBoardView.coordsToPosition(squareX, squareY);
+                    const squareGroup = this.svg.querySelector("g[data-position='" + position + "']");
+                    const figure = Svg.addElement(squareGroup, "use", {"href": "#" + figureName});
+                    let transform = "scale(" + scaling + ")";
+                    figure.setAttribute("transform", transform);
 
+                    const figureWidth = figure.offsetWidth;
+                    const figureHeight = figure.getBoundingClientRect().height;
+
+                    // figure.setAttribute("x", (this.squareWidth - figureWidth * scaling) / 2);
+
+
+                    // console.log(figureName, this.squareWidth, figureWidth);
+
+                }
             }
         }
         console.log(model.board);

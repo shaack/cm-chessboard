@@ -47,8 +47,9 @@ export class Svg {
      * @param url
      * @param elementIds array of element-ids, relevant for `use` in the svgs
      * @param callback called after successful load, parameter is the svg element
+     * @param grid the grid size of the sprite
      */
-    static loadSprite(url, elementIds, callback) {
+    static loadSprite(url, elementIds, callback, grid = 1) {
         const request = new XMLHttpRequest();
         request.open("GET", url);
         request.send();
@@ -71,8 +72,15 @@ export class Svg {
                 if (!elementNode) {
                     console.error("error, node id=" + elementId + " not found in sprite");
                 } else {
-                    // remove transform
-                    elementNode.removeAttribute("transform");
+                    const transformList = elementNode.transform.baseVal;
+                    Object.keys(transformList).forEach((key) => {
+                        const transform = transformList[key];
+                        // retransform items on grid
+                        if(transform.type === 2) {
+                            transform.matrix.e = transform.matrix.e % grid;
+                            transform.matrix.f = transform.matrix.f % grid;
+                        }
+                    });
                     if (!elementNode.hasAttribute("fill")) {
                         elementNode.setAttribute("fill", "none"); // bugfix for Sketch SVGs
                     }
