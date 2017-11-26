@@ -1,15 +1,12 @@
 # chessmailboardJS
 Chessboard for chessmail.eu / chessmail.de
-
-## Requirements
-- jQuery
-- chess.js
+No runtime requirements.
 
 ## Figures
-- One file per set, like `figures/commons.svg`  
+- One file per set, see `figures/commons.svg`  
 
 ## Configuration
-On the right, default values
+With default values: 
 ```
 var config = {
     figures: "media/commons.js",
@@ -25,11 +22,11 @@ var config = {
 }
 ```  
 
-## API
+## API (Not implemented yet)
 ### fen(string fen)
 - Set the position as fen
 ### enableMoves(boolean enable)
-- Enable interactive Moving
+- Enable interactive Moving via Mouse or Touch
 ### callbacks
 #### onMove(fieldFrom, fieldTo)
 - Click oder Drag allowed
