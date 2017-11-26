@@ -86,9 +86,10 @@ export class ChessmailBoardView {
                 const fieldPosition = ChessmailBoardView.coordsToPosition(squareX, squareY);
                 const x = this.config.borderWidth + squareX * this.innerWidth / 8;
                 const y = this.config.borderWidth + squareY * this.innerHeight / 8;
-                const squareGroup = Svg.addElement(this.svg, "g", {
-                    transform: "translate(" + x + "," + y + ")"
-                });
+                const squareGroup = Svg.addElement(this.svg, "g");
+                let transform = (this.svg.createSVGTransform(x,y));
+                transform.setTranslate(x,y);
+                squareGroup.transform.baseVal.appendItem(transform);
                 Svg.addElement(squareGroup, "rect", {
                     width: this.squareWidth, height: this.squareHeight
                 });
@@ -112,21 +113,12 @@ export class ChessmailBoardView {
         for (let squareY = 0; squareY < 8; squareY++) {
             for (let squareX = 0; squareX < 8; squareX++) {
                 const figureName = model.board[squareY][squareX];
-                if(figureName) {
+                if (figureName) {
                     const position = ChessmailBoardView.coordsToPosition(squareX, squareY);
                     const squareGroup = this.svg.querySelector("g[data-position='" + position + "']");
                     const figure = Svg.addElement(squareGroup, "use", {"href": "#" + figureName});
                     let transform = "scale(" + scaling + ")";
-                    figure.setAttribute("transform", transform);
-
-                    const figureWidth = figure.offsetWidth;
-                    const figureHeight = figure.getBoundingClientRect().height;
-
-                    // figure.setAttribute("x", (this.squareWidth - figureWidth * scaling) / 2);
-
-
-                    // console.log(figureName, this.squareWidth, figureWidth);
-
+                    figure.setAttribute("transform", transform); // TODO replace with transform.baseVal.appendItem(transform);
                 }
             }
         }
