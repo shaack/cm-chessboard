@@ -3,7 +3,11 @@
  * Date: 23.11.2017
  */
 
-const NAMESPACE = "http://www.w3.org/2000/svg";
+const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
+
+if (typeof NodeList.prototype.forEach !== "function") { // IE
+    NodeList.prototype.forEach = Array.prototype.forEach;
+}
 
 export class Svg {
 
@@ -13,7 +17,7 @@ export class Svg {
      * @returns {Element}
      */
     static createSvg(containerElement) {
-        let svg = document.createElementNS(NAMESPACE, "svg");
+        let svg = document.createElementNS(SVG_NAMESPACE, "svg");
         svg.setAttribute("width", "100%");
         svg.setAttribute("height", "100%");
         containerElement.appendChild(svg);
@@ -27,9 +31,17 @@ export class Svg {
      * @returns {Element}
      */
     static addElement(parent, name, attributes) {
-        let element = document.createElementNS(NAMESPACE, name);
+        let element = document.createElementNS(SVG_NAMESPACE, name);
+        if (name === "use") {
+            attributes["xlink:href"] = attributes["href"]; // fix for safari
+        }
         for (let attribute in attributes) {
-            element.setAttribute(attribute, attributes[attribute]);
+            if (attribute.indexOf(":") !== -1) {
+                const value = attribute.split(":");
+                element.setAttributeNS("http://www.w3.org/1999/" + value[0], value[1], attributes[attribute]);
+            } else {
+                element.setAttribute(attribute, attributes[attribute]);
+            }
         }
         parent.appendChild(element);
         return element;
@@ -67,20 +79,19 @@ export class Svg {
             spriteSvg.removeAttribute("height");
             const defs = this.addElement(spriteSvg, "defs");
             // filter relevant nodes
-            new Set(elementIds).forEach((elementId) => {
+            elementIds.forEach((elementId) => {
                 let elementNode = svgDom.getElementById(elementId);
                 if (!elementNode) {
                     console.error("error, node id=" + elementId + " not found in sprite");
                 } else {
                     const transformList = elementNode.transform.baseVal;
-                    Object.keys(transformList).forEach((key) => {
-                        const transform = transformList[key];
-                        // retransform items on grid
-                        if(transform.type === 2) {
-                            transform.matrix.e = transform.matrix.e % grid;
-                            transform.matrix.f = transform.matrix.f % grid;
+                    for (let i = 0; i < transformList.numberOfItems; i++) {
+                        const transform = transformList.getItem(i);
+                        // re-transform items on grid
+                        if (transform.type === 2) {
+                            transform.setTranslate(transform.matrix.e % grid, transform.matrix.f % grid);
                         }
-                    });
+                    }
                     if (!elementNode.hasAttribute("fill")) {
                         elementNode.setAttribute("fill", "none"); // bugfix for Sketch SVGs
                     }
