@@ -25,6 +25,7 @@ export class Svg {
     }
 
     /**
+     * Add an Element to a SVG DOM
      * @param parent
      * @param name
      * @param attributes
@@ -55,7 +56,7 @@ export class Svg {
     }
 
     /**
-     * Load sprite into html document (as `svg/defs), elements can be referenced by `use` from all Svgs in page
+     * Load sprite into html document (as `svg/defs`), elements can be referenced by `use` from all Svgs in page
      * @param url
      * @param elementIds array of element-ids, relevant for `use` in the svgs
      * @param callback called after successful load, parameter is the svg element
