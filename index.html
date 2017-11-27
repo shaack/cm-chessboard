@@ -4,30 +4,15 @@
     <meta charset="UTF-8">
     <title>chessmail-board</title>
     <link rel="stylesheet" href="styles/chessmail-board.css"/>
-    <style type="text/css">
-        .board {
-            width: 400px;
-            height: 380px;
-            float: left;
-            margin: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        #board2 {
-            width: 300px;
-            height: 300px;
-
-        }
-    </style>
 </head>
 <body>
-<div class="board" id="board1"></div>
-<div class="board" id="board2"></div>
-<script type="module">
-    import {ChessmailBoard} from "./src/chessmail-board/ChessmailBoard.js"
-
-    let board1 = new ChessmailBoard(document.getElementById("board1"), {});
-    let board2 = new ChessmailBoard(document.getElementById("board2"), {initialOrientation: 'black'});
-</script>
+<h1>chessmail-board</h1>
+<p>The board for <a href="https://www.chessmail.de">chessmail.de</a> / <a href="https://www.chessmail.eu">chessmail.eu</a></p>
+<p>Written in vanilla ES6, based on SVG, with almost no external dependencies.</p>
+<h2>Examples</h2>
+<ul>
+    <li><a href="examples/simple-boards.html">Simple Chessboards</a></li>
+    <li><a href="examples/responsive-board.html">Responsive Chessboard</a></li>
+</ul>
 </body>
 </html>
