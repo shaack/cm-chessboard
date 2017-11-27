@@ -2,7 +2,7 @@
   "name": "chessmail-board",
   "version": "1.0.0",
   "description": "Chessboard for chessmail.de / chessmail.eu",
-  "main": "index.js",
+  "main": "src/chessmail-board/ChessmailBoard.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,11 +16,7 @@
     "url": "https://github.com/shaack/chessmail-board/issues"
   },
   "homepage": "https://github.com/shaack/chessmail-board#readme",
-  "devDependencies": {
-    "steal": "^1.6.0",
-    "steal-tools": "^1.9.2"
-  },
-  "steal": {
-    "transpiler": "babel"
+  "dependencies": {
+    "svjs-svg": "1.x"
   }
 }

@@ -3,11 +3,9 @@
  * Date: 21.11.2017
  */
 
-import {Svg} from "../svjs/Svg"
+import {Svg} from "../../node_modules/svjs-svg/src/svjs/Svg.js";
 
 export class ChessmailBoardView {
-
-    static spriteLoadingStatus = "not_loaded";
 
     constructor(containerElement, config, callback) {
         this.containerElement = containerElement;
@@ -126,3 +124,5 @@ export class ChessmailBoardView {
     }
 
 }
+// static
+ChessmailBoardView.spriteLoadingStatus = "not_loaded";

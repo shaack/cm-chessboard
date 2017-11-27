@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>chessmail-board</title>
-    <link rel="stylesheet" href="styles/chessmailboard.css"/>
+    <link rel="stylesheet" href="styles/chessmail-board.css"/>
     <style type="text/css">
         .board {
             width: 400px;
@@ -22,12 +22,11 @@
 <body>
 <div class="board" id="board1"></div>
 <div class="board" id="board2"></div>
-<script src="node_modules/steal/steal.js"></script>
-<script>
-    steal.import("src/chessmail-board/ChessmailBoard").then(function (m) {
-        let board1 = new m.ChessmailBoard(document.getElementById("board1"), {});
-        let board2 = new m.ChessmailBoard(document.getElementById("board2"), {initialOrientation: 'black'});
-    });
+<script type="module">
+    import {ChessmailBoard} from "./src/chessmail-board/ChessmailBoard.js"
+        let board1 = new ChessmailBoard(document.getElementById("board1"), {});
+        let board2 = new ChessmailBoard(document.getElementById("board2"), {initialOrientation: 'black'});
+
 </script>
 </body>
 </html>

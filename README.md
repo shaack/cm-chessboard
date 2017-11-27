@@ -1,31 +1,20 @@
 # chessmailboardJS
 Chessboard for chessmail.eu / chessmail.de
 
-## Requirements
-- jQuery
-- chess.js
-
-## Figures
-- One file per set, like `figures/commons.svg`  
+## Install
+`npm install`
 
 ## Configuration
 On the right, default values
 ```
-var config = {
-    figures: "media/commons.js",
-    markers: "media/markers.js",
+this.config = {
+    sprite: "./assets/sprite.svg", // figures and markers
     initialPosition: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-    style : {
-        darkField: "#",
-        whiteField: "#",
-        fieldBorder: "#",
-        boardBorder: "#",
-        coordinates: "inside"
-    }
-}
+    initialOrientation: 'white'
+};
 ```  
 
-## API
+## API (not implemented yet)
 ### fen(string fen)
 - Set the position as fen
 ### enableMoves(boolean enable)
@@ -34,12 +23,4 @@ var config = {
 #### onMove(fieldFrom, fieldTo)
 - Click oder Drag allowed
 
-# References
-- https://css-tricks.com/ajaxing-svg-sprite/
-- https://stackoverflow.com/questions/16488884/add-svg-element-to-existing-svg-using-dom
-- https://stackoverflow.com/questions/3642035/jquerys-append-not-working-with-svg-element
-
-## SVG.js
-- http://svgjs.com/
-- https://stackoverflow.com/questions/15911246/loading-a-svg-file-with-svg-js
 

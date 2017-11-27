@@ -2,8 +2,8 @@
  * Author: shaack
  * Date: 21.11.2017
  */
-import {ChessmailBoardView} from "./ChessmailBoardView";
-import {ChessmailBoardModel} from "./ChessmailBoardModel";
+import {ChessmailBoardView} from "./ChessmailBoardView.js";
+import {ChessmailBoardModel} from "./ChessmailBoardModel.js";
 
 export class ChessmailBoard {
 
