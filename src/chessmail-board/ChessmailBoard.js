@@ -12,7 +12,8 @@ export class ChessmailBoard {
             sprite: "./assets/sprite.svg", // figures and markers
             initialPosition: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
             initialOrientation: 'white',
-            borderWidth: 10
+            borderWidth: 10,
+            spriteGrid: 40
         };
         Object.assign(this.config, config);
         this.model = new ChessmailBoardModel(this.config.initialPosition, this.config.initialOrientation);
