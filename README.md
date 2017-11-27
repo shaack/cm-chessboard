@@ -33,11 +33,14 @@ this.config = {
 - Set the position as fen
 
 ### enableMoves(boolean enable)
-- Enable interactive Moving
+- Enable interactive moving
 
 ### callbacks
 
-#### onMove(fieldFrom, fieldTo)
-- Click oder Drag allowed
+#### onBeforeMove(fieldFrom, fieldTo)
+- Click oder drag allowed
+
+#### onAfterMove(fieldFrom, fieldTo)
+- Click oder drag allowed
 
 
