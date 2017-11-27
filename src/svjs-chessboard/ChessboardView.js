@@ -5,10 +5,10 @@
 
 import {Svg} from "../../node_modules/svjs-svg/src/svjs/Svg.js";
 
-export class ChessmailBoardView {
+export class ChessboardView {
 
     constructor(containerElement, model, config, callback) {
-        ChessmailBoardView.spriteLoadingStatus = "not_loaded"; // static
+        ChessboardView.spriteLoadingStatus = "not_loaded"; // static
         this.containerElement = containerElement;
         this.config = config;
         this.loadWaitingTries = 0;
@@ -26,16 +26,16 @@ export class ChessmailBoardView {
     }
 
     loadSprite(config, callback) {
-        if (ChessmailBoardView.spriteLoadingStatus === "not_loaded") {
-            ChessmailBoardView.spriteLoadingStatus = "loading";
+        if (ChessboardView.spriteLoadingStatus === "not_loaded") {
+            ChessboardView.spriteLoadingStatus = "loading";
             Svg.loadSprite(config.sprite, [
                 "wk", "wq", "wr", "wb", "wn", "wp",
                 "bk", "bq", "br", "bb", "bn", "bp",
                 "marker"], () => {
-                ChessmailBoardView.spriteLoadingStatus = "loaded";
+                ChessboardView.spriteLoadingStatus = "loaded";
                 callback();
             }, config.spriteGrid);
-        } else if (ChessmailBoardView.spriteLoadingStatus === "loading") {
+        } else if (ChessboardView.spriteLoadingStatus === "loading") {
             setTimeout(() => {
                 this.loadWaitingTries++;
                 if (this.loadWaitingTries < 1000) {
@@ -44,10 +44,10 @@ export class ChessmailBoardView {
                     console.error("timeout loading sprite", config.sprite);
                 }
             }, 10);
-        } else if (ChessmailBoardView.spriteLoadingStatus === "loaded") {
+        } else if (ChessboardView.spriteLoadingStatus === "loaded") {
             callback();
         } else {
-            console.error("error ChessmailBoardView.spriteLoadingStatus", ChessmailBoardView.spriteLoadingStatus);
+            console.error("error ChessboardView.spriteLoadingStatus", ChessboardView.spriteLoadingStatus);
         }
 
     }
@@ -70,7 +70,7 @@ export class ChessmailBoardView {
             Svg.removeElement(this.svg);
         }
         this.svg = Svg.createSvg(this.containerElement);
-        this.svg.setAttribute("class", "chessmail-board");
+        this.svg.setAttribute("class", "svjs-chessboard");
         this.updateMetrics();
         this.mainGroup = Svg.addElement(this.svg, "g");
         this.drawBoard(this.model);
@@ -107,7 +107,7 @@ export class ChessmailBoardView {
                     width: this.squareWidth, height: this.squareHeight
                 });
                 squareGroup.setAttribute("class", fieldClass);
-                squareGroup.setAttribute("data-position", ChessmailBoardView.coordsToPosition(squareX, squareY));
+                squareGroup.setAttribute("data-position", ChessboardView.coordsToPosition(squareX, squareY));
                 if (this.model.orientation === "black") {
                     const transform = (this.svg.createSVGTransform());
                     transform.setRotate(180, this.squareWidth / 2, this.squareHeight / 2);
@@ -137,7 +137,7 @@ export class ChessmailBoardView {
             for (let squareX = 0; squareX < 8; squareX++) {
                 const figureName = this.model.board[squareY][squareX];
                 if (figureName) {
-                    const position = ChessmailBoardView.coordsToPosition(squareX, squareY);
+                    const position = ChessboardView.coordsToPosition(squareX, squareY);
                     const squareGroup = this.svg.querySelector("g[data-position='" + position + "']");
                     const figure = Svg.addElement(squareGroup, "use", {"href": "#" + figureName});
                     squareGroup.setAttribute("class", squareGroup.getAttribute("class") + " f" + figureName.substr(0, 1));

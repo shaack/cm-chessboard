@@ -1,11 +1,11 @@
-# chessmail-board
+# svjs-chessboard
 
 The chessboard for [chessmail.eu](https://www.chessmail.eu) / [chessmail.de](https://www.chessmail.de)
 
 Very lightweight, implemented in SVG, written in ES6 and almost no external dependencies.
 
-- Demo: [http://shaack.com/projekte/chessmail-board/](http://shaack.com/projekte/chessmail-board/)
-- Repository: [https://github.com/shaack/chessmail-board](https://github.com/shaack/chessmail-board)
+- Demo: [http://shaack.com/projekte/svjs-chessboard/](http://shaack.com/projekte/svjs-chessboard/)
+- Repository: [https://github.com/shaack/svjs-chessboard](https://github.com/shaack/svjs-chessboard)
 
 ## Install
 

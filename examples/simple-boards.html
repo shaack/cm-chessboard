@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>chessmail-board</title>
-    <link rel="stylesheet" href="../styles/chessmail-board.css"/>
+    <title>svjs-chessboard</title>
+    <link rel="stylesheet" href="../styles/screen.css"/>
     <style type="text/css">
         .board {
             float: left;
@@ -26,11 +26,19 @@
 <h1>Simple Chessboards</h1>
 <div class="board" id="board1"></div>
 <div class="board" id="board2"></div>
+<br style="clear: both"/>
+<pre>
+window.board1 = new Chessboard(document.getElementById("board1"));
+window.board2 = new Chessboard(document.getElementById("board2"), {
+    initialOrientation: 'black',
+    initialPosition: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR w Gkq - 4 11"
+});
+</pre>
 <script type="module">
-    import {ChessmailBoard} from "../src/chessmail-board/ChessmailBoard.js"
+    import {Chessboard} from "../src/svjs-chessboard/Chessboard.js"
 
-    window.board1 = new ChessmailBoard(document.getElementById("board1"));
-    window.board2 = new ChessmailBoard(document.getElementById("board2"), {
+    window.board1 = new Chessboard(document.getElementById("board1"));
+    window.board2 = new Chessboard(document.getElementById("board2"), {
         initialOrientation: 'black',
         initialPosition: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR w Gkq - 4 11"
     });

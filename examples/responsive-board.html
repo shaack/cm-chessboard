@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>chessmail-board</title>
-    <link rel="stylesheet" href="../styles/chessmail-board.css"/>
+    <title>svjs-chessboard</title>
+    <link rel="stylesheet" href="../styles/screen.css"/>
     <style type="text/css">
         #board {
             width: calc(100vw - 40px);
@@ -14,10 +14,13 @@
 <body>
 <h1>Responsive Chessboard</h1>
 <div class="board" id="board"></div>
+<pre>
+window.board = new Chessboard(document.getElementById("board"), {responsive: true});
+</pre>
 <script type="module">
-    import {ChessmailBoard} from "../src/chessmail-board/ChessmailBoard.js"
+    import {Chessboard} from "../src/svjs-chessboard/Chessboard.js"
 
-    window.board = new ChessmailBoard(document.getElementById("board"), {responsive: true});
+    window.board = new Chessboard(document.getElementById("board"), {responsive: true});
 </script>
 </body>
 </html>

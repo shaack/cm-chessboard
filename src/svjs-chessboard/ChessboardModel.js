@@ -2,7 +2,7 @@
  * Author: shaack
  * Date: 22.11.2017
  */
-export class ChessmailBoardModel {
+export class ChessboardModel {
 
     constructor(fen, orientation) {
         if (!fen) {

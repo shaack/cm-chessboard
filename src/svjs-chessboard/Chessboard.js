@@ -2,10 +2,10 @@
  * Author: shaack
  * Date: 21.11.2017
  */
-import {ChessmailBoardView} from "./ChessmailBoardView.js";
-import {ChessmailBoardModel} from "./ChessmailBoardModel.js";
+import {ChessboardView} from "./ChessboardView.js";
+import {ChessboardModel} from "./ChessboardModel.js";
 
-export class ChessmailBoard {
+export class Chessboard {
 
     constructor(containerElement, config = {}) {
         this.config = {
@@ -19,8 +19,8 @@ export class ChessmailBoard {
             onAfterMove: null // callback after interactive move
         };
         Object.assign(this.config, config);
-        this.model = new ChessmailBoardModel(this.config.initialPosition, this.config.initialOrientation);
-        this.view = new ChessmailBoardView(containerElement, this.model, this.config, () => {
+        this.model = new ChessboardModel(this.config.initialPosition, this.config.initialOrientation);
+        this.view = new ChessboardView(containerElement, this.model, this.config, () => {
             this.init();
         });
         this.interactiveMoveWhite = false;

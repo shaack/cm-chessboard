@@ -1,6 +1,18 @@
 body {
+  color: #333;
   background-color: #f2f2f2;
   padding: 20px;
   margin: 0;
   font-family: "Helvetica Neue", sans-serif;
+}
+
+a {
+  color: #00e;
+  &:visited {
+    color: #333;
+  }
+}
+
+pre {
+  white-space: pre-wrap;
 }
