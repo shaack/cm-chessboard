@@ -1,13 +1,18 @@
 .chessmail-board {
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.6);
   .board-border {
-    fill: #eeeeee;
+    fill: #eedab6;
+  }
+  .surrounding-line {
+    stroke-width: 0.3%;
+    stroke: #b38965;
   }
   .square {
     &.white {
-      fill: #cccccc;
+      fill: #eedab6;
     }
     &.black {
-      fill: #999999;
+      fill: #b38965;
     }
   }
 }

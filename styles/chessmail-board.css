@@ -1,23 +1,25 @@
 /* line 1, _global.scss */
 body {
+  background-color: #f2f2f2;
   padding: 20px;
   margin: 0;
   font-family: "Helvetica Neue", sans-serif; }
 
-/* line 7, _global.scss */
-.board {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); }
-
-/* line 2, _skin-base.scss */
-.chessmail-board .board-border {
-  fill: #eeeeee; }
-
-/* line 6, _skin-base.scss */
-.chessmail-board .square.white {
-  fill: #cccccc; }
-
-/* line 9, _skin-base.scss */
-.chessmail-board .square.black {
-  fill: #999999; }
+/* line 1, _skin-base.scss */
+.chessmail-board {
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.6); }
+  /* line 3, _skin-base.scss */
+  .chessmail-board .board-border {
+    fill: #eedab6; }
+  /* line 6, _skin-base.scss */
+  .chessmail-board .surrounding-line {
+    stroke-width: 0.3%;
+    stroke: #b38965; }
+  /* line 11, _skin-base.scss */
+  .chessmail-board .square.white {
+    fill: #eedab6; }
+  /* line 14, _skin-base.scss */
+  .chessmail-board .square.black {
+    fill: #b38965; }
 
 /*# sourceMappingURL=chessmail-board.css.map */

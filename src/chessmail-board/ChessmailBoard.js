@@ -14,7 +14,8 @@ export class ChessmailBoard {
             initialOrientation: 'white',
             responsive: false,
             spriteGrid: 40,
-            onBeforeMove: null, // callback, before interactive move
+            interactiveMoveMode: MOVE_MODE_LIVE,
+            onBeforeMove: null, // callback, before interactive move, return true for ok
             onAfterMove: null // callback after interactive move
         };
         Object.assign(this.config, config);
@@ -24,7 +25,7 @@ export class ChessmailBoard {
         });
         this.interactiveMoveWhite = false;
         this.interactiveMoveBlack = false;
-        this.interactiveMoveMode = MOVE_MODE_PBM;
+        this.interactiveMoveMode = config.interactiveMoveMode;
     }
 
     /**
@@ -38,13 +39,18 @@ export class ChessmailBoard {
      * Enables move via user input
      * @param enableWhite
      * @param enableBlack
-     * @param mode
      */
-    setEnableInteractiveMove(enableWhite, enableBlack, mode) {
+    setInteractiveMove(enableWhite, enableBlack) {
         this.interactiveMoveWhite = enableWhite;
         this.interactiveMoveBlack = enableBlack;
-        this.interactiveMoveMode = mode;
+    }
 
+    /**
+     * The move mode controls how the interaction is displayed
+     * @param mode
+     */
+    setInteractiveMoveMode(mode) {
+        this.interactiveMoveMode = mode;
     }
 }
 

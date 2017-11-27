@@ -16,9 +16,14 @@ Very lightweight, implemented in SVG, written in ES6 and almost no external depe
 With default values
 ```
 this.config = {
-    sprite: "./assets/sprite.svg", // figures and markers
+    sprite: "../assets/sprite.svg", // figures and markers
     initialPosition: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-    initialOrientation: 'white'
+    initialOrientation: 'white',
+    responsive: false,
+    spriteGrid: 40,
+    interactiveMoveMode: MOVE_MODE_LIVE,
+    onBeforeMove: null, // callback, before interactive move, return true for ok
+    onAfterMove: null // callback after interactive move
 };
 ```  
 

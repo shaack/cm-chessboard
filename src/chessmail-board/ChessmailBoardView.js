@@ -8,6 +8,7 @@ import {Svg} from "../../node_modules/svjs-svg/src/svjs/Svg.js";
 export class ChessmailBoardView {
 
     constructor(containerElement, model, config, callback) {
+        ChessmailBoardView.spriteLoadingStatus = "not_loaded"; // static
         this.containerElement = containerElement;
         this.config = config;
         this.loadWaitingTries = 0;
@@ -114,6 +115,15 @@ export class ChessmailBoardView {
                 }
             }
         }
+        Svg.addElement(this.mainGroup, "line", {x1: this.borderWidth, y1: this.borderWidth,
+            x2: this.width - this.borderWidth, y2: this.borderWidth, class: "surrounding-line"});
+        Svg.addElement(this.mainGroup, "line", {x1: this.borderWidth, y1: this.height - this.borderWidth,
+            x2: this.width - this.borderWidth, y2: this.height - this.borderWidth, class: "surrounding-line"});
+        Svg.addElement(this.mainGroup, "line", {x1: this.borderWidth, y1: this.borderWidth,
+            x2: this.borderWidth, y2: this.height - this.borderWidth, class: "surrounding-line"});
+        Svg.addElement(this.mainGroup, "line", {x1: this.width - this.borderWidth, y1: this.borderWidth,
+            x2: this.width - this.borderWidth, y2: this.height - this.borderWidth, class: "surrounding-line"});
+
         if (this.model.orientation === "black") {
             const transform = (this.svg.createSVGTransform());
             transform.setRotate(180, this.width / 2, this.height / 2);
@@ -130,6 +140,9 @@ export class ChessmailBoardView {
                     const position = ChessmailBoardView.coordsToPosition(squareX, squareY);
                     const squareGroup = this.svg.querySelector("g[data-position='" + position + "']");
                     const figure = Svg.addElement(squareGroup, "use", {"href": "#" + figureName});
+                    squareGroup.setAttribute("class", squareGroup.getAttribute("class") + " f" + figureName.substr(0, 1));
+                    squareGroup.setAttribute("data-figure", figureName);
+                    // figure.setAttribute("filter", "url(#dropshadow)");
                     // center on square
                     const transformTranslate = (this.svg.createSVGTransform());
                     transformTranslate.setTranslate((this.squareWidth / 2 - this.config.spriteGrid * scaling / 2), 0);
@@ -144,6 +157,3 @@ export class ChessmailBoardView {
     }
 
 }
-
-// static
-ChessmailBoardView.spriteLoadingStatus = "not_loaded";
