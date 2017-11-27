@@ -23,7 +23,7 @@ export class ChessmailBoardView {
                 "marker"], () => {
                 ChessmailBoardView.spriteLoadingStatus = "loaded";
                 callback();
-            }, 40);
+            }, config.spriteGrid);
         } else if (ChessmailBoardView.spriteLoadingStatus === "loading") {
             setTimeout(() => {
                 this.loadWaitingTries++;
@@ -108,7 +108,7 @@ export class ChessmailBoardView {
     }
 
     drawFigures(model) {
-        const scaling = this.squareHeight / 40;
+        const scaling = this.squareHeight / this.config.spriteGrid;
         for (let squareY = 0; squareY < 8; squareY++) {
             for (let squareX = 0; squareX < 8; squareX++) {
                 const figureName = model.board[squareY][squareX];
@@ -116,8 +116,14 @@ export class ChessmailBoardView {
                     const position = ChessmailBoardView.coordsToPosition(squareX, squareY);
                     const squareGroup = this.svg.querySelector("g[data-position='" + position + "']");
                     const figure = Svg.addElement(squareGroup, "use", {"href": "#" + figureName});
-                    let transform = "scale(" + scaling + ")";
-                    figure.setAttribute("transform", transform); // TODO replace with transform.baseVal.appendItem(transform);
+                    // center on square
+                    const transformTranslate = (this.svg.createSVGTransform());
+                    transformTranslate.setTranslate((this.squareWidth / 2 - this.config.spriteGrid * scaling / 2), 0);
+                    figure.transform.baseVal.appendItem(transformTranslate);
+                    // scale
+                    const transformScale = (this.svg.createSVGTransform());
+                    transformScale.setScale(scaling, scaling);
+                    figure.transform.baseVal.appendItem(transformScale);
                 }
             }
         }
