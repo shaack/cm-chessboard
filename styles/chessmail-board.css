@@ -1,3 +1,15 @@
+/* line 1, _global.scss */
+body {
+  padding: 10px;
+  margin: 0;
+  font-family: "Helvetica Neue", sans-serif; }
+
+/* line 7, _global.scss */
+.board {
+  box-sizing: border-box;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  margin: 10px; }
+
 /* line 2, _skin-base.scss */
 .chessmail-board .board-border {
   fill: #eee; }

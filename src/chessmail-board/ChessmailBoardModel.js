@@ -5,13 +5,18 @@
 export class ChessmailBoardModel {
 
     constructor(fen, orientation) {
-        if(!fen) {
+        if (!fen) {
             console.error("no fen");
         }
         this.board = this.parseFen(fen);
         this.orientation = orientation;
     }
 
+    /**
+     * Get figure at position
+     * @param position
+     * @returns figureName
+     */
     get(position) {
         const row = position.substr(0, 1);
         const col = position.substr(1, 1);
@@ -21,6 +26,7 @@ export class ChessmailBoardModel {
     /**
      * set board from fen
      * @param fen
+     * @returns board as 2 dimensional array
      */
     parseFen(fen) {
         let board = [];
@@ -45,7 +51,6 @@ export class ChessmailBoardModel {
                         figure = "b" + char;
                     }
                 }
-
                 board[r][c] = figure;
             }
         }

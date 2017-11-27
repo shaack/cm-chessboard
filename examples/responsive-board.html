@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>chessmail-board</title>
+    <link rel="stylesheet" href="../styles/chessmail-board.css"/>
+    <style type="text/css">
+        #board {
+            width: calc(100vw - 40px);
+            height: calc(100vw - 40px);
+        }
+    </style>
+</head>
+<body>
+<h1>Responsive Chessboard</h1>
+<div class="board" id="board"></div>
+<script type="module">
+    import {ChessmailBoard} from "../src/chessmail-board/ChessmailBoard.js"
+
+    window.board = new ChessmailBoard(document.getElementById("board"), {responsive: true});
+</script>
+</body>
+</html>
