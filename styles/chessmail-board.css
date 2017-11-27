@@ -1,25 +1,23 @@
 /* line 1, _global.scss */
 body {
-  padding: 10px;
+  padding: 20px;
   margin: 0;
   font-family: "Helvetica Neue", sans-serif; }
 
 /* line 7, _global.scss */
 .board {
-  box-sizing: border-box;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  margin: 10px; }
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); }
 
 /* line 2, _skin-base.scss */
 .chessmail-board .board-border {
-  fill: #eee; }
+  fill: #eeeeee; }
 
 /* line 6, _skin-base.scss */
 .chessmail-board .square.white {
-  fill: #ccc; }
+  fill: #cccccc; }
 
 /* line 9, _skin-base.scss */
 .chessmail-board .square.black {
-  fill: #999; }
+  fill: #999999; }
 
 /*# sourceMappingURL=chessmail-board.css.map */
