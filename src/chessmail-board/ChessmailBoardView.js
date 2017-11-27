@@ -57,6 +57,7 @@ export class ChessmailBoardView {
         this.svg = Svg.createSvg(this.containerElement);
         this.svg.setAttribute("class", "chessmail-board");
         this.updateMetrics();
+        this.mainGroup = Svg.addElement(this.svg, "g");
         this.drawBoard(model);
         this.drawFigures(model);
     }
@@ -75,39 +76,39 @@ export class ChessmailBoardView {
      * Draw the checkered board
      */
     drawBoard(model) {
-        let boardBorder = Svg.addElement(this.svg, "rect", {width: this.width, height: this.height});
+        let boardBorder = Svg.addElement(this.mainGroup, "rect", {width: this.width, height: this.height});
         boardBorder.setAttribute("class", "board-border");
         for (let squareY = 0; squareY < 8; squareY++) {
             for (let squareX = 0; squareX < 8; squareX++) {
                 const squareColor = (squareX % 2 + squareY % 2) % 2 ? 'black' : 'white';
                 const fieldClass = "square " + squareColor;
-                const fieldPosition = ChessmailBoardView.coordsToPosition(squareX, squareY);
                 const x = this.config.borderWidth + squareX * this.innerWidth / 8;
                 const y = this.config.borderWidth + squareY * this.innerHeight / 8;
-                const squareGroup = Svg.addElement(this.svg, "g");
-                let transform = (this.svg.createSVGTransform(x,y));
-                transform.setTranslate(x,y);
+                const squareGroup = Svg.addElement(this.mainGroup, "g");
+                const transform = (this.svg.createSVGTransform());
+                transform.setTranslate(x, y);
                 squareGroup.transform.baseVal.appendItem(transform);
                 Svg.addElement(squareGroup, "rect", {
                     width: this.squareWidth, height: this.squareHeight
                 });
                 squareGroup.setAttribute("class", fieldClass);
-                squareGroup.setAttribute("data-position", fieldPosition);
+                squareGroup.setAttribute("data-position", ChessmailBoardView.coordsToPosition(squareX, squareY));
+                if (model.orientation === "black") {
+                    const transform = (this.svg.createSVGTransform());
+                    transform.setRotate(180, this.squareWidth / 2, this.squareHeight / 2);
+                    squareGroup.transform.baseVal.appendItem(transform);
+                }
             }
         }
         if (model.orientation === "black") {
-            this.svg.setAttribute("transform", "rotate(180)");
-            this.svg.setAttribute("transform-origin", "" + this.width / 2 + " " + this.height / 2);
+            const transform = (this.svg.createSVGTransform());
+            transform.setRotate(180, this.width / 2, this.height / 2);
+            this.mainGroup.transform.baseVal.appendItem(transform);
         }
     }
 
     drawFigures(model) {
-        // bq as reference for calculation of scaling
-        const bq = Svg.addElement(this.svg, "use", {"href": "#bq"});
-        const bqHeight = bq.getBoundingClientRect().height;
-        Svg.removeElement(bq);
         const scaling = this.squareHeight / 40;
-
         for (let squareY = 0; squareY < 8; squareY++) {
             for (let squareX = 0; squareX < 8; squareX++) {
                 const figureName = model.board[squareY][squareX];
@@ -120,9 +121,10 @@ export class ChessmailBoardView {
                 }
             }
         }
-        console.log(model.board);
+        // console.log(model.board);
     }
 
 }
+
 // static
 ChessmailBoardView.spriteLoadingStatus = "not_loaded";
