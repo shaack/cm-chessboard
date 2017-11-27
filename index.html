@@ -7,11 +7,12 @@
     <style type="text/css">
         .board {
             width: 400px;
-            height: 400px;
+            height: 380px;
             float: left;
             margin: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
+
         #board2 {
             width: 300px;
             height: 300px;
@@ -24,9 +25,9 @@
 <div class="board" id="board2"></div>
 <script type="module">
     import {ChessmailBoard} from "./src/chessmail-board/ChessmailBoard.js"
-        let board1 = new ChessmailBoard(document.getElementById("board1"), {});
-        let board2 = new ChessmailBoard(document.getElementById("board2"), {initialOrientation: 'black'});
 
+    let board1 = new ChessmailBoard(document.getElementById("board1"), {});
+    let board2 = new ChessmailBoard(document.getElementById("board2"), {initialOrientation: 'black'});
 </script>
 </body>
 </html>
