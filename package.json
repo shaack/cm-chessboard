@@ -1,21 +1,21 @@
 {
-  "name": "svjs-chessboard",
+  "name": "cm-chessboard",
   "version": "1.0.0",
   "description": "Chessboard for chessmail.de / chessmail.eu",
-  "main": "src/svjs-chessboard/Chessboard.js",
+  "main": "src/cm-chessboard/Chessboard.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shaack/svjs-chessboard.git"
+    "url": "git+https://github.com/shaack/cm-chessboard.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/shaack/svjs-chessboard/issues"
+    "url": "https://github.com/shaack/cm-chessboard/issues"
   },
-  "homepage": "https://github.com/shaack/svjs-chessboard#readme",
+  "homepage": "https://github.com/shaack/cm-chessboard#readme",
   "dependencies": {
     "svjs-svg": "1.x"
   }

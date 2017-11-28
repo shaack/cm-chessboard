@@ -70,7 +70,7 @@ export class ChessboardView {
             Svg.removeElement(this.svg);
         }
         this.svg = Svg.createSvg(this.containerElement);
-        this.svg.setAttribute("class", "svjs-chessboard");
+        this.svg.setAttribute("class", "cm-chessboard");
         this.updateMetrics();
         this.mainGroup = Svg.addElement(this.svg, "g");
         this.drawBoard(this.model);
