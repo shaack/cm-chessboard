@@ -9,12 +9,12 @@ export class Chessboard {
 
     constructor(containerElement, config = {}) {
         this.config = {
-            sprite: "../assets/sprite.svg", // figures and markers
             initialPosition: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-            initialOrientation: 'white',
-            responsive: false,
-            spriteGrid: 40,
-            interactiveMoveMode: MOVE_MODE_LIVE,
+            initialOrientation: 'white', // white on bottom
+            sprite: "../assets/sprite.svg", // figures and markers
+            spriteGrid: 40, // one figure every 40 px
+            responsive: false, // detect window resize
+            interactiveMoveMode: MOVE_MODE_LIVE, // type of interactive movement with mouse or tap
             onBeforeMove: null, // callback, before interactive move, return true for ok
             onAfterMove: null // callback after interactive move
         };
