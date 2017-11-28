@@ -2,7 +2,7 @@
 
 The chessboard for [chessmail.eu](https://www.chessmail.eu) / [chessmail.de](https://www.chessmail.de)
 
-Very lightweight, implemented in SVG, written in ES6 and almost no external dependencies.
+Lightweight, SVG, ES6-module and almost no external dependencies.
 
 - Demo: [http://shaack.com/projekte/cm-chessboard/](http://shaack.com/projekte/cm-chessboard/)
 - Repository: [https://github.com/shaack/cm-chessboard](https://github.com/shaack/cm-chessboard)
