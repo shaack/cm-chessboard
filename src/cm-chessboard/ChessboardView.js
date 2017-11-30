@@ -5,15 +5,21 @@
 
 import {Svg} from "../../node_modules/svjs-svg/src/svjs/Svg.js";
 
+const SPRITE_LOADING_STATUS = {
+    notLoaded: 1,
+    loading: 2,
+    loaded: 3
+};
+
 export class ChessboardView {
 
     constructor(containerElement, model, config, callback) {
-        ChessboardView.spriteLoadingStatus = "not_loaded"; // static
         this.containerElement = containerElement;
         this.config = config;
         this.spriteLoadWaitingTries = 0;
         this.model = model;
         this.loadSprite(config, callback);
+        this.spriteLoadDelay = 0;
         if (config.responsive) {
             window.addEventListener('resize', () => {
                 if (this.containerElement.offsetWidth !== this.width ||
@@ -25,25 +31,29 @@ export class ChessboardView {
     }
 
     loadSprite(config, callback) {
-        if (ChessboardView.spriteLoadingStatus === "not_loaded") {
-            ChessboardView.spriteLoadingStatus = "loading";
+        if (ChessboardView.spriteLoadingStatus === SPRITE_LOADING_STATUS.notLoaded) {
+            console.log("NOT LOADED");
+            ChessboardView.spriteLoadingStatus = SPRITE_LOADING_STATUS.loading;
             Svg.loadSprite(config.sprite, [
                 "wk", "wq", "wr", "wb", "wn", "wp",
                 "bk", "bq", "br", "bb", "bn", "bp",
                 "marker"], () => {
-                ChessboardView.spriteLoadingStatus = "loaded";
+                ChessboardView.spriteLoadingStatus = SPRITE_LOADING_STATUS.loaded;
                 callback();
             }, config.spriteGrid);
-        } else if (ChessboardView.spriteLoadingStatus === "loading") {
+        } else if (ChessboardView.spriteLoadingStatus === SPRITE_LOADING_STATUS.loading) {
+            console.log("LOADING");
             setTimeout(() => {
                 this.spriteLoadWaitingTries++;
-                if (this.spriteLoadWaitingTries < 1000) {
+                if (this.spriteLoadWaitingTries < 10) {
                     this.loadSprite(config, callback);
                 } else {
                     console.error("timeout loading sprite", config.sprite);
                 }
-            }, 10);
-        } else if (ChessboardView.spriteLoadingStatus === "loaded") {
+            }, this.spriteLoadDelay);
+            this.spriteLoadDelay += 10;
+        } else if (ChessboardView.spriteLoadingStatus === SPRITE_LOADING_STATUS.loaded) {
+            console.log("LOADED");
             callback();
         } else {
             console.error("error ChessboardView.spriteLoadingStatus", ChessboardView.spriteLoadingStatus);
@@ -154,5 +164,6 @@ export class ChessboardView {
             }
         }
     }
-
 }
+
+ChessboardView.spriteLoadingStatus = SPRITE_LOADING_STATUS.notLoaded;
