@@ -10,13 +10,14 @@
     "type": "git",
     "url": "git+https://github.com/shaack/cm-chessboard.git"
   },
-  "author": "",
+  "author": "Stefan Haack (http://shaack.com)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/shaack/cm-chessboard/issues"
   },
   "homepage": "https://github.com/shaack/cm-chessboard#readme",
   "dependencies": {
+    "svjs-observe": "1.x",
     "svjs-svg": "1.x"
   }
 }
