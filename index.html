@@ -4,6 +4,17 @@
     <meta charset="UTF-8">
     <title>cm-chessboard</title>
     <link rel="stylesheet" href="styles/screen.css"/>
+    <style type="text/css">
+        .board {
+            float: left;
+        }
+        #board1 {
+            width: 400px;
+            height: 380px;
+            margin-right: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
 <h1>cm-chessboard</h1>
@@ -15,5 +26,13 @@
     <li><a href="examples/simple-boards.html">Simple Chessboards</a></li>
     <li><a href="examples/responsive-board.html">Responsive Chessboard</a></li>
 </ul>
+<h2>Chessboard</h2>
+<div class="board" id="board1"></div>
+<script type="module">
+    import {Chessboard} from "./src/cm-chessboard/Chessboard.js"
+    window.board1 = new Chessboard(document.getElementById("board1"), {
+        sprite: "./assets/sprite.svg"
+    });
+</script>
 </body>
 </html>
