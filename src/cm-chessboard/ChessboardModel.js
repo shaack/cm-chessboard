@@ -13,13 +13,13 @@ export class ChessboardModel {
     }
 
     /**
-     * Get figure at position
-     * @param position
+     * Get figure on field
+     * @param field
      * @returns figureName
      */
-    get(position) {
-        const row = position.substr(0, 1);
-        const col = position.substr(1, 1);
+    getField(field) {
+        const row = field.substr(0, 1);
+        const col = field.substr(1, 1);
         return this.board[8 - col][row.charCodeAt(0) - 97];
     }
 
@@ -28,7 +28,7 @@ export class ChessboardModel {
      * @param fen
      * @returns board as 2 dimensional array
      */
-    parseFen(fen) {
+    setPosition(fen) {
         let board = [];
         const parts = fen.replace(/^\s*/, "").replace(/\s*$/, "").split(/\/|\s/);
         for (let r = 0; r < 8; r++) {
@@ -55,5 +55,9 @@ export class ChessboardModel {
             }
         }
         this.board = board;
+    }
+
+    getPosition() {
+        // TODO
     }
 }
