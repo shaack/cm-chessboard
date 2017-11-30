@@ -16,12 +16,13 @@ Lightweight, SVG, ES6-module and almost no external dependencies.
 With default values
 ```
 this.config = {
-    initialPosition: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-    initialOrientation: 'white', // white on bottom
+    position: startPositionFen,
+    orientation: COLOR.white, // white on bottom
+    showNotation: false, // TODO
     sprite: "../assets/sprite.svg", // figures and markers
     spriteGrid: 40, // one figure every 40 px
     responsive: false, // detect window resize
-    interactiveMoveMode: MOVE_MODE_LIVE, // type of interactive movement with mouse or tap
+    // moveInputMode: MOVE_MODE.pbm, // type of interactive movement with mouse or tap
     onBeforeMove: null, // callback, before interactive move, return true for ok
     onAfterMove: null // callback after interactive move
 };
