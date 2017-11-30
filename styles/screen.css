@@ -26,11 +26,12 @@ pre {
   /* line 6, _skin-base.scss */
   .cm-chessboard .surrounding-line {
     stroke-width: 0.3%;
+    stroke-linecap: round;
     stroke: #b38965; }
-  /* line 11, _skin-base.scss */
+  /* line 12, _skin-base.scss */
   .cm-chessboard .square.white {
     fill: #eedab6; }
-  /* line 14, _skin-base.scss */
+  /* line 15, _skin-base.scss */
   .cm-chessboard .square.black {
     fill: #b38965; }
 
