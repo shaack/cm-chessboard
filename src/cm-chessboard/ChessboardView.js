@@ -24,7 +24,6 @@ export class ChessboardView {
             window.addEventListener('resize', () => {
                 if (this.containerElement.offsetWidth !== this.width ||
                     this.containerElement.offsetHeight !== this.height) {
-                    this.redraw();
                 }
             });
         }
