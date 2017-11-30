@@ -8,6 +8,7 @@
         .board {
             float: left;
         }
+
         #board1 {
             width: 400px;
             height: 380px;
@@ -18,7 +19,8 @@
 </head>
 <body>
 <h1>cm-chessboard</h1>
-<p>The chessboard for <a href="https://www.chessmail.de">chessmail.de</a> / <a href="https://www.chessmail.eu">chessmail.eu</a></p>
+<p>The chessboard for <a href="https://www.chessmail.de">chessmail.de</a> / <a href="https://www.chessmail.eu">chessmail.eu</a>
+</p>
 <p>Lightweight, SVG, ES6-module and almost no external dependencies.</p>
 <p>Repository: <a href="https://github.com/shaack/cm-chessboard">https://github.com/shaack/cm-chessboard</a></p>
 <h2>Examples</h2>
@@ -30,8 +32,9 @@
 <div class="board" id="board1"></div>
 <script type="module">
     import {Chessboard} from "./src/cm-chessboard/Chessboard.js"
+
     window.board1 = new Chessboard(document.getElementById("board1"), {
-        sprite: "./assets/sprite.svg"
+        sprite: {file: "./assets/sprite.svg", grid: 40}
     });
 </script>
 </body>

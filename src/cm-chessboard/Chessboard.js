@@ -11,9 +11,15 @@ export const COLOR = {
     black: "black"
 };
 
-export const MOVE_MODE = {
-    live: "live",
-    pbm: "pbm"
+export const INPUT_MODE = {
+    dragFigure: 1,
+    showMarker: 2
+};
+
+export const MARKER_TYPE = {
+    newMove: {slice: "marker1", opacity: 0.9},
+    lastMove: {slice: "marker1", opacity: 0.5},
+    emphasize: {slice: "marker2", opacity: 0.5}
 };
 
 export const startPositionFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
@@ -25,12 +31,16 @@ export class Chessboard {
             position: startPositionFen,
             orientation: COLOR.white, // white on bottom
             showNotation: false, // TODO
-            sprite: "../assets/sprite.svg", // figures and markers
-            spriteGrid: 40, // one figure every 40 px
             responsive: false, // detect window resize
-            // moveInputMode: MOVE_MODE.pbm, // type of interactive movement with mouse or tap
-            onBeforeMove: null, // callback, before interactive move, return true for ok
-            onAfterMove: null // callback after interactive move
+            inputMode: INPUT_MODE.dragFigure, // type of interactive movement with mouse or tap
+            sprite: {
+                file: "../assets/sprite.svg", // figures and markers
+                grid: 40, // one figure every 40 px
+            },
+            callbacks: {
+                beforeMove: null, // callback, before figure move
+                afterMove: null // callback after figure move
+            }
         };
         Object.assign(this.config, config);
         this.model = new ChessboardModel();
@@ -43,6 +53,20 @@ export class Chessboard {
     }
 
     // API
+
+    addMarker(field, type = MARKER_TYPE.emphasize) {
+        // TODO
+    }
+
+    /**
+     * Set field to null to remove all marker from board.
+     * Set type to null, to remove all types.
+     * @param field
+     * @param type
+     */
+    removeMarker(field = null, type = MARKER_TYPE.emphasize) {
+        // TODO
+    }
 
     set position(fen) {
         this.model.parseFen(fen);

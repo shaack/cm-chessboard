@@ -34,13 +34,13 @@ export class ChessboardView {
         if (ChessboardView.spriteLoadingStatus === SPRITE_LOADING_STATUS.notLoaded) {
             console.log("NOT LOADED");
             ChessboardView.spriteLoadingStatus = SPRITE_LOADING_STATUS.loading;
-            Svg.loadSprite(config.sprite, [
+            Svg.loadSprite(config.sprite.file, [
                 "wk", "wq", "wr", "wb", "wn", "wp",
                 "bk", "bq", "br", "bb", "bn", "bp",
-                "marker"], () => {
+                "marker1", "marker2"], () => {
                 ChessboardView.spriteLoadingStatus = SPRITE_LOADING_STATUS.loaded;
                 callback();
-            }, config.spriteGrid);
+            }, config.sprite.grid);
         } else if (ChessboardView.spriteLoadingStatus === SPRITE_LOADING_STATUS.loading) {
             console.log("LOADING");
             setTimeout(() => {
@@ -48,7 +48,7 @@ export class ChessboardView {
                 if (this.spriteLoadWaitingTries < 10) {
                     this.loadSprite(config, callback);
                 } else {
-                    console.error("timeout loading sprite", config.sprite);
+                    console.error("timeout loading sprite", config.sprite.file);
                 }
             }, this.spriteLoadDelay);
             this.spriteLoadDelay += 10;
@@ -87,12 +87,12 @@ export class ChessboardView {
     }
 
     /**
-     * convert displayed field to chess position.
+     * convert displayed field to chess field.
      * @param squareX
      * @param squareY
-     * return position
+     * return field
      */
-    static coordsToPosition(squareX, squareY) {
+    static coordsToField(squareX, squareY) {
         return String.fromCharCode(97 + squareX) + (8 - squareY);
     }
 
@@ -116,7 +116,7 @@ export class ChessboardView {
                     width: this.squareWidth, height: this.squareHeight
                 });
                 squareGroup.setAttribute("class", fieldClass);
-                squareGroup.setAttribute("data-position", ChessboardView.coordsToPosition(squareX, squareY));
+                squareGroup.setAttribute("data-field", ChessboardView.coordsToField(squareX, squareY));
                 if (this.model.orientation === "black") {
                     const transform = (this.svg.createSVGTransform());
                     transform.setRotate(180, this.squareWidth / 2, this.squareHeight / 2);
@@ -141,20 +141,20 @@ export class ChessboardView {
     }
 
     drawFigures() {
-        const scaling = this.squareHeight / this.config.spriteGrid;
+        const scaling = this.squareHeight / this.config.sprite.grid;
         for (let squareY = 0; squareY < 8; squareY++) {
             for (let squareX = 0; squareX < 8; squareX++) {
                 const figureName = this.model.board[squareY][squareX];
                 if (figureName) {
-                    const position = ChessboardView.coordsToPosition(squareX, squareY);
-                    const squareGroup = this.svg.querySelector("g[data-position='" + position + "']");
+                    const field = ChessboardView.coordsToField(squareX, squareY);
+                    const squareGroup = this.svg.querySelector("g[data-field='" + field + "']");
                     const figure = Svg.addElement(squareGroup, "use", {"href": "#" + figureName});
                     squareGroup.setAttribute("class", squareGroup.getAttribute("class") + " f" + figureName.substr(0, 1));
                     squareGroup.setAttribute("data-figure", figureName);
                     // figure.setAttribute("filter", "url(#dropshadow)");
                     // center on square
                     const transformTranslate = (this.svg.createSVGTransform());
-                    transformTranslate.setTranslate((this.squareWidth / 2 - this.config.spriteGrid * scaling / 2), 0);
+                    transformTranslate.setTranslate((this.squareWidth / 2 - this.config.sprite.grid * scaling / 2), 0);
                     figure.transform.baseVal.appendItem(transformTranslate);
                     // scale
                     const transformScale = (this.svg.createSVGTransform());
