@@ -4,12 +4,12 @@
  */
 export class ChessboardModel {
 
-    constructor(fen, orientation) {
-        if (!fen) {
-            console.error("no fen");
-        }
-        this.board = this.parseFen(fen);
-        this.orientation = orientation;
+    constructor() {
+        this.board = null;
+        this.orientation = null;
+        this.moveInputWhiteEnabled = false;
+        this.moveInputBlackEnabled = false;
+        this.moveInputMode = null;
     }
 
     /**
@@ -54,6 +54,6 @@ export class ChessboardModel {
                 board[r][c] = figure;
             }
         }
-        return board;
+        this.board = board;
     }
 }
