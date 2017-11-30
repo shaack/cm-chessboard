@@ -11,14 +11,13 @@ export class ChessboardView {
         ChessboardView.spriteLoadingStatus = "not_loaded"; // static
         this.containerElement = containerElement;
         this.config = config;
-        this.loadWaitingTries = 0;
+        this.spriteLoadWaitingTries = 0;
         this.model = model;
         this.loadSprite(config, callback);
         if (config.responsive) {
             window.addEventListener('resize', () => {
                 if (this.containerElement.offsetWidth !== this.width ||
                     this.containerElement.offsetHeight !== this.height) {
-                    this.updateMetrics();
                     this.redraw();
                 }
             });
@@ -37,8 +36,8 @@ export class ChessboardView {
             }, config.spriteGrid);
         } else if (ChessboardView.spriteLoadingStatus === "loading") {
             setTimeout(() => {
-                this.loadWaitingTries++;
-                if (this.loadWaitingTries < 1000) {
+                this.spriteLoadWaitingTries++;
+                if (this.spriteLoadWaitingTries < 1000) {
                     this.loadSprite(config, callback);
                 } else {
                     console.error("timeout loading sprite", config.sprite);
@@ -73,8 +72,8 @@ export class ChessboardView {
         this.svg.setAttribute("class", "cm-chessboard");
         this.updateMetrics();
         this.mainGroup = Svg.addElement(this.svg, "g");
-        this.drawBoard(this.model);
-        this.drawFigures(this.model);
+        this.drawBoard();
+        this.drawFigures();
     }
 
     /**
