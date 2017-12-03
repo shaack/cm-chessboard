@@ -25,7 +25,7 @@ const DEFAULT_SPRITE_GRID = 40;
 
 export class Chessboard {
 
-    constructor(containerElement, config = {}) {
+    constructor(containerElement, config = {}, callback) {
         this.config = {
             position: null,
             orientation: COLOR.white, // white on bottom
@@ -51,6 +51,7 @@ export class Chessboard {
             this.setOrientation(this.config.orientation);
             this.model.inputMode = this.config.inputMode;
             this.view.setNeedsRedraw();
+            callback();
         });
         this.view.setNeedsRedraw();
     }
@@ -63,7 +64,7 @@ export class Chessboard {
     }
 
     /**
-     * Set field to null to remove all marker from board.
+     * Set field to null to remove all marker from squares.
      * Set type to null, to remove all types.
      * @param field
      * @param type
@@ -71,6 +72,10 @@ export class Chessboard {
     removeMarker(field = null, type = MARKER_TYPE.emphasize) {
         this.model.removeMarker(field, type);
         this.view.setNeedsRedraw();
+    }
+
+    getSquare(square) {
+        return this.model.getSquare(square);
     }
 
     setPosition(fen) {
