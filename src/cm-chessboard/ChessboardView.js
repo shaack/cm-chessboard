@@ -108,7 +108,7 @@ export class ChessboardView {
      */
     drawBoard() {
         let boardBorder = Svg.addElement(this.mainGroup, "rect", {width: this.width, height: this.height});
-        boardBorder.setAttribute("class", "squares-border");
+        boardBorder.setAttribute("class", "board-border");
         for (let squareY = 0; squareY < 8; squareY++) {
             for (let squareX = 0; squareX < 8; squareX++) {
                 const squareColor = (squareX % 2 + squareY % 2) % 2 ? 'black' : 'white';
