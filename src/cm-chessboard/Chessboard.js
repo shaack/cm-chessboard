@@ -102,6 +102,10 @@ export class Chessboard {
         return this.model.orientation;
     }
 
+    remove() {
+        this.view.remove();
+    }
+
     /**
      * Enables moves via user input, mouse or touch
      * @param color
