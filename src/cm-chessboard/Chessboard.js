@@ -50,16 +50,16 @@ export class Chessboard {
             this.setPosition(this.config.position);
             this.setOrientation(this.config.orientation);
             this.model.inputMode = this.config.inputMode;
-            this.view.requestRedraw();
+            this.view.setNeedsRedraw();
         });
-        this.view.requestRedraw();
+        this.view.setNeedsRedraw();
     }
 
     // API
 
     addMarker(field, type = MARKER_TYPE.emphasize) {
         this.model.addMarker(field, type);
-        this.view.requestRedraw();
+        this.view.setNeedsRedraw();
     }
 
     /**
@@ -70,7 +70,7 @@ export class Chessboard {
      */
     removeMarker(field = null, type = MARKER_TYPE.emphasize) {
         this.model.removeMarker(field, type);
-        this.view.requestRedraw();
+        this.view.setNeedsRedraw();
     }
 
     setPosition(fen) {
@@ -81,8 +81,7 @@ export class Chessboard {
         } else {
             this.model.setPosition(fen);
         }
-        // console.log("setPosition", fen, this.model.board);
-        this.view.requestRedraw();
+        this.view.setNeedsRedraw();
     }
 
     getPosition() {
@@ -91,7 +90,7 @@ export class Chessboard {
 
     setOrientation(color) {
         this.model.orientation = color;
-        this.view.requestRedraw();
+        this.view.setNeedsRedraw();
     }
 
     getOrientation() {

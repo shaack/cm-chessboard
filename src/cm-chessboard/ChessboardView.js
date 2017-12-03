@@ -24,10 +24,11 @@ export class ChessboardView {
             window.addEventListener('resize', () => {
                 if (this.containerElement.offsetWidth !== this.width ||
                     this.containerElement.offsetHeight !== this.height) {
+                    this.setNeedsRedraw();
                 }
             });
         }
-        // TODO requestRedraw on observer
+        // TODO setNeedsRedraw on observer
         // this.board
         // this.orientation
     }
@@ -70,31 +71,26 @@ export class ChessboardView {
         this.squareHeight = this.innerHeight / 8;
     }
 
-    requestRedraw() {
-        console.log("request requestRedraw");
+    /**
+     * Redraw async and only once
+     */
+    setNeedsRedraw() {
+        console.log("request setNeedsRedraw");
         if(this.redrawTimer) {
             window.clearTimeout(this.redrawTimer);
         }
-        // requestRedraw async only once per tik
         this.redrawTimer = setTimeout(() => {
-            this.redraw();
+            console.log("# redraw");
+            if (this.svg) {
+                Svg.removeElement(this.svg);
+            }
+            this.svg = Svg.createSvg(this.containerElement);
+            this.svg.setAttribute("class", "cm-chessboard");
+            this.updateMetrics();
+            this.mainGroup = Svg.addElement(this.svg, "g");
+            this.redrawBoard();
+            this.drawFigures();
         });
-    }
-
-    /**
-     * Redraw the whole board and all figures
-     */
-    redraw() {
-        console.log("# redraw");
-        if (this.svg) {
-            Svg.removeElement(this.svg);
-        }
-        this.svg = Svg.createSvg(this.containerElement);
-        this.svg.setAttribute("class", "cm-chessboard");
-        this.updateMetrics();
-        this.mainGroup = Svg.addElement(this.svg, "g");
-        this.redrawBoard();
-        this.drawFigures();
     }
 
     /**

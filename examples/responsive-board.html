@@ -20,7 +20,8 @@ window.board = new Chessboard(document.getElementById("board"), {responsive: tru
 <script type="module">
     import {Chessboard} from "../src/cm-chessboard/Chessboard.js"
 
-    window.board = new Chessboard(document.getElementById("board"), {responsive: true});
+    window.board = new Chessboard(document.getElementById("board"),
+        {position: "start", responsive: true});
 </script>
 </body>
 </html>
