@@ -5,7 +5,13 @@
 export class ChessboardModel {
 
     constructor() {
-        this.board = null;
+        this.board = [];
+        for (let i = 0; i < 8; i++) {
+            this.board[i] = [];
+            for (let j = 0; j < 8; j++) {
+                this.board[i][j] = "";
+            }
+        }
         this.orientation = null;
         this.moveInputWhiteEnabled = false;
         this.moveInputBlackEnabled = false;
@@ -26,35 +32,33 @@ export class ChessboardModel {
     /**
      * set board from fen
      * @param fen
-     * @returns board as 2 dimensional array
      */
     setPosition(fen) {
-        let board = [];
-        const parts = fen.replace(/^\s*/, "").replace(/\s*$/, "").split(/\/|\s/);
-        for (let r = 0; r < 8; r++) {
-            board[r] = [];
-            const row = parts[r].replace(/\d/g, (str) => {
-                const numSpaces = parseInt(str);
-                let ret = '';
-                for (let i = 0; i < numSpaces; i++) {
-                    ret += '-';
-                }
-                return ret;
-            });
-            for (let c = 0; c < 8; c++) {
-                const char = row.substr(c, 1);
-                let figure = "";
-                if (char !== '-') {
-                    if (char.toUpperCase() === char) {
-                        figure = "w" + char.toLowerCase();
-                    } else {
-                        figure = "b" + char;
+        if(fen) {
+            const parts = fen.replace(/^\s*/, "").replace(/\s*$/, "").split(/\/|\s/);
+            for (let r = 0; r < 8; r++) {
+                const row = parts[r].replace(/\d/g, (str) => {
+                    const numSpaces = parseInt(str);
+                    let ret = '';
+                    for (let i = 0; i < numSpaces; i++) {
+                        ret += '-';
                     }
+                    return ret;
+                });
+                for (let c = 0; c < 8; c++) {
+                    const char = row.substr(c, 1);
+                    let figure = "";
+                    if (char !== '-') {
+                        if (char.toUpperCase() === char) {
+                            figure = "w" + char.toLowerCase();
+                        } else {
+                            figure = "b" + char;
+                        }
+                    }
+                    this.board[r][c] = figure;
                 }
-                board[r][c] = figure;
             }
         }
-        this.board = board;
     }
 
     getPosition() {

@@ -27,11 +27,13 @@ export class ChessboardView {
                 }
             });
         }
+        // TODO requestRedraw on observer
+        // this.board
+        // this.orientation
     }
 
     loadSprite(config, callback) {
         if (ChessboardView.spriteLoadingStatus === SPRITE_LOADING_STATUS.notLoaded) {
-            console.log("NOT LOADED");
             ChessboardView.spriteLoadingStatus = SPRITE_LOADING_STATUS.loading;
             Svg.loadSprite(config.sprite.file, [
                 "wk", "wq", "wr", "wb", "wn", "wp",
@@ -41,7 +43,6 @@ export class ChessboardView {
                 callback();
             }, config.sprite.grid);
         } else if (ChessboardView.spriteLoadingStatus === SPRITE_LOADING_STATUS.loading) {
-            console.log("LOADING");
             setTimeout(() => {
                 this.spriteLoadWaitingTries++;
                 if (this.spriteLoadWaitingTries < 10) {
@@ -52,7 +53,6 @@ export class ChessboardView {
             }, this.spriteLoadDelay);
             this.spriteLoadDelay += 10;
         } else if (ChessboardView.spriteLoadingStatus === SPRITE_LOADING_STATUS.loaded) {
-            console.log("LOADED");
             callback();
         } else {
             console.error("error ChessboardView.spriteLoadingStatus", ChessboardView.spriteLoadingStatus);
@@ -70,18 +70,30 @@ export class ChessboardView {
         this.squareHeight = this.innerHeight / 8;
     }
 
+    requestRedraw() {
+        console.log("request requestRedraw");
+        if(this.redrawTimer) {
+            window.clearTimeout(this.redrawTimer);
+        }
+        // requestRedraw async only once per tik
+        this.redrawTimer = setTimeout(() => {
+            this.redraw();
+        });
+    }
+
     /**
      * Redraw the whole board and all figures
      */
     redraw() {
-        if(this.svg) {
+        console.log("# redraw");
+        if (this.svg) {
             Svg.removeElement(this.svg);
         }
         this.svg = Svg.createSvg(this.containerElement);
         this.svg.setAttribute("class", "cm-chessboard");
         this.updateMetrics();
         this.mainGroup = Svg.addElement(this.svg, "g");
-        this.drawBoard();
+        this.redrawBoard();
         this.drawFigures();
     }
 
@@ -98,7 +110,8 @@ export class ChessboardView {
     /**
      * Draw the checkered board
      */
-    drawBoard() {
+    redrawBoard() {
+        console.log("drawBoard");
         let boardBorder = Svg.addElement(this.mainGroup, "rect", {width: this.width, height: this.height});
         boardBorder.setAttribute("class", "board-border");
         for (let squareY = 0; squareY < 8; squareY++) {
@@ -123,14 +136,22 @@ export class ChessboardView {
                 }
             }
         }
-        Svg.addElement(this.mainGroup, "line", {x1: this.borderWidth, y1: this.borderWidth,
-            x2: this.width - this.borderWidth, y2: this.borderWidth, class: "surrounding-line"});
-        Svg.addElement(this.mainGroup, "line", {x1: this.borderWidth, y1: this.height - this.borderWidth,
-            x2: this.width - this.borderWidth, y2: this.height - this.borderWidth, class: "surrounding-line"});
-        Svg.addElement(this.mainGroup, "line", {x1: this.borderWidth, y1: this.borderWidth,
-            x2: this.borderWidth, y2: this.height - this.borderWidth, class: "surrounding-line"});
-        Svg.addElement(this.mainGroup, "line", {x1: this.width - this.borderWidth, y1: this.borderWidth,
-            x2: this.width - this.borderWidth, y2: this.height - this.borderWidth, class: "surrounding-line"});
+        Svg.addElement(this.mainGroup, "line", {
+            x1: this.borderWidth, y1: this.borderWidth,
+            x2: this.width - this.borderWidth, y2: this.borderWidth, class: "surrounding-line"
+        });
+        Svg.addElement(this.mainGroup, "line", {
+            x1: this.borderWidth, y1: this.height - this.borderWidth,
+            x2: this.width - this.borderWidth, y2: this.height - this.borderWidth, class: "surrounding-line"
+        });
+        Svg.addElement(this.mainGroup, "line", {
+            x1: this.borderWidth, y1: this.borderWidth,
+            x2: this.borderWidth, y2: this.height - this.borderWidth, class: "surrounding-line"
+        });
+        Svg.addElement(this.mainGroup, "line", {
+            x1: this.width - this.borderWidth, y1: this.borderWidth,
+            x2: this.width - this.borderWidth, y2: this.height - this.borderWidth, class: "surrounding-line"
+        });
 
         if (this.model.orientation === "black") {
             const transform = (this.svg.createSVGTransform());
@@ -140,6 +161,7 @@ export class ChessboardView {
     }
 
     drawFigures() {
+        console.log("drawFigures");
         const scaling = this.squareHeight / this.config.sprite.grid;
         for (let squareY = 0; squareY < 8; squareY++) {
             for (let squareX = 0; squareX < 8; squareX++) {
@@ -165,4 +187,4 @@ export class ChessboardView {
     }
 }
 
-ChessboardView.spriteLoadingStatus = SPRITE_LOADING_STATUS.notLoaded;
+ChessboardView.spriteLoadingStatus = SPRITE_LOADING_STATUS.notLoaded; // static

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test cm-chessboard</title>
+    <link rel="stylesheet" href="../styles/screen.css"/>
+    <style type="text/css">
+        .board {
+            /* float: left; */
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+<div class="board" id="testboard1"></div>
+<script type="module">
+    import {TestPosition} from "./TestPosition.js"
+
+    TestPosition.run();
+</script>
+</body>
+</html>

@@ -19,14 +19,15 @@ export const MARKER_TYPE = {
     lastMove: {slice: "marker1", opacity: 0.5},
     emphasize: {slice: "marker2", opacity: 0.5}
 };
-export const startPositionFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+export const FEN_START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+export const FEN_EMPTY_POSITION = "8/8/8/8/8/8/8/8";
 const DEFAULT_SPRITE_GRID = 40;
 
 export class Chessboard {
 
     constructor(containerElement, config = {}) {
         this.config = {
-            position: startPositionFen,
+            position: null,
             orientation: COLOR.white, // white on bottom
             showNotation: false, // TODO
             responsive: false, // detect window resize
@@ -41,7 +42,7 @@ export class Chessboard {
             }
         };
         Object.assign(this.config, config);
-        if(!this.config.sprite.grid) {
+        if (!this.config.sprite.grid) {
             this.config.sprite.grid = DEFAULT_SPRITE_GRID;
         }
         this.model = new ChessboardModel();
@@ -49,14 +50,16 @@ export class Chessboard {
             this.setPosition(this.config.position);
             this.setOrientation(this.config.orientation);
             this.model.inputMode = this.config.inputMode;
-            this.view.redraw(); // TODO remove and redraw on observer
+            this.view.requestRedraw();
         });
+        this.view.requestRedraw();
     }
 
     // API
 
     addMarker(field, type = MARKER_TYPE.emphasize) {
         this.model.addMarker(field, type);
+        this.view.requestRedraw();
     }
 
     /**
@@ -67,18 +70,28 @@ export class Chessboard {
      */
     removeMarker(field = null, type = MARKER_TYPE.emphasize) {
         this.model.removeMarker(field, type);
+        this.view.requestRedraw();
     }
 
     setPosition(fen) {
-        this.model.setPosition(fen);
+        if (fen === "start") {
+            this.model.setPosition(FEN_START_POSITION);
+        } else if (fen === "empty") {
+            this.model.setPosition(FEN_EMPTY_POSITION);
+        } else {
+            this.model.setPosition(fen);
+        }
+        // console.log("setPosition", fen, this.model.board);
+        this.view.requestRedraw();
     }
 
     getPosition() {
-        // return this.model.createFen(); // TODO
+        return this.model.getPosition();
     }
 
     setOrientation(color) {
         this.model.orientation = color;
+        this.view.requestRedraw();
     }
 
     getOrientation() {
