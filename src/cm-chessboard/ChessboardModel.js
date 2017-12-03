@@ -5,39 +5,33 @@
 export class ChessboardModel {
 
     constructor() {
-        this.board = [];
-        for (let i = 0; i < 8; i++) {
-            this.board[i] = [];
-            for (let j = 0; j < 8; j++) {
-                this.board[i][j] = "";
-            }
-        }
+        this.squares = new Array(64).fill("");
         this.orientation = null;
-        this.moveInputWhiteEnabled = false;
-        this.moveInputBlackEnabled = false;
-        this.moveInputMode = null;
+        // this.moveInputWhiteEnabled = false;
+        // this.moveInputBlackEnabled = false;
+        // this.moveInputMode = null;
     }
 
     /**
-     * Get figure on field
-     * @param field
+     * Get figure on square
+     * @param square
      * @returns figureName
      */
-    getField(field) {
-        const row = field.substr(0, 1);
-        const col = field.substr(1, 1);
-        return this.board[8 - col][row.charCodeAt(0) - 97];
+    getSquare(square) {
+        const file = square.substr(0, 1).charCodeAt(0) - 97;
+        const rank = square.substr(1, 1) - 1;
+        return this.squares[8 * rank + file];
     }
 
     /**
-     * set board from fen
+     * set squares from fen
      * @param fen
      */
     setPosition(fen) {
-        if(fen) {
+        if (fen) {
             const parts = fen.replace(/^\s*/, "").replace(/\s*$/, "").split(/\/|\s/);
-            for (let r = 0; r < 8; r++) {
-                const row = parts[r].replace(/\d/g, (str) => {
+            for (let part = 0; part < 8; part++) {
+                const row = parts[7 - part].replace(/\d/g, (str) => {
                     const numSpaces = parseInt(str);
                     let ret = '';
                     for (let i = 0; i < numSpaces; i++) {
@@ -55,13 +49,42 @@ export class ChessboardModel {
                             figure = "b" + char;
                         }
                     }
-                    this.board[r][c] = figure;
+                    this.squares[part * 8 + c] = figure;
                 }
             }
         }
     }
 
     getPosition() {
-        // TODO
+        let fen = "";
+        let lastField = "";
+        let parts = new Array(8).fill("");
+        for (let part = 0; part < 8; part++) {
+            let spaceCounter = 0;
+            for (let i = 0; i < 8; i++) {
+                let addChar = "?";
+                const figure = this.squares[part * 8 + i];
+                if(figure === "") {
+                    spaceCounter++;
+                } else {
+                    if(spaceCounter > 0) {
+                        parts[7-part] += spaceCounter;
+                        spaceCounter = 0;
+                    }
+                    const color = figure.substr(0,1);
+                    const name = figure.substr(1,1);
+                    if(color === "w") {
+                        parts[7-part] += name.toUpperCase();
+                    } else {
+                        parts[7-part] += name;
+                    }
+                }
+            }
+            if(spaceCounter > 0) {
+                parts[7-part] += spaceCounter;
+                spaceCounter = 0;
+            }
+        }
+        return parts.join("/");
     }
 }
