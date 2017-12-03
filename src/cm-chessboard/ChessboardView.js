@@ -29,7 +29,7 @@ export class ChessboardView {
             });
         }
         // TODO setNeedsRedraw on observer
-        // this.board
+        // this.squares
         // this.orientation
     }
 
@@ -75,12 +75,12 @@ export class ChessboardView {
      * Redraw async and only once
      */
     setNeedsRedraw() {
-        console.log("request setNeedsRedraw");
+        // console.log("request setNeedsRedraw");
         if(this.redrawTimer) {
             window.clearTimeout(this.redrawTimer);
         }
         this.redrawTimer = setTimeout(() => {
-            console.log("# redraw");
+            // console.log("=> redraw");
             if (this.svg) {
                 Svg.removeElement(this.svg);
             }
@@ -88,7 +88,7 @@ export class ChessboardView {
             this.svg.setAttribute("class", "cm-chessboard");
             this.updateMetrics();
             this.mainGroup = Svg.addElement(this.svg, "g");
-            this.redrawBoard();
+            this.drawBoard();
             this.drawFigures();
         });
     }
@@ -104,12 +104,11 @@ export class ChessboardView {
     }
 
     /**
-     * Draw the checkered board
+     * Draw the checkered squares
      */
-    redrawBoard() {
-        console.log("drawBoard");
+    drawBoard() {
         let boardBorder = Svg.addElement(this.mainGroup, "rect", {width: this.width, height: this.height});
-        boardBorder.setAttribute("class", "board-border");
+        boardBorder.setAttribute("class", "squares-border");
         for (let squareY = 0; squareY < 8; squareY++) {
             for (let squareX = 0; squareX < 8; squareX++) {
                 const squareColor = (squareX % 2 + squareY % 2) % 2 ? 'black' : 'white';
@@ -157,11 +156,10 @@ export class ChessboardView {
     }
 
     drawFigures() {
-        console.log("drawFigures");
         const scaling = this.squareHeight / this.config.sprite.grid;
         for (let squareY = 0; squareY < 8; squareY++) {
             for (let squareX = 0; squareX < 8; squareX++) {
-                const figureName = this.model.board[squareY][squareX];
+                const figureName = this.model.squares[squareY][squareX];
                 if (figureName) {
                     const field = ChessboardView.coordsToField(squareX, squareY);
                     const squareGroup = this.svg.querySelector("g[data-field='" + field + "']");
