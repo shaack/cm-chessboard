@@ -16,6 +16,9 @@ export class TestPosition extends Test {
             Test.assertEquals("bq", chessboard.getSquare("d8"));
             Test.assertEquals("wp", chessboard.getSquare("a2"));
             Test.assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", chessboard.getPosition());
+            setTimeout(() => {
+                chessboard.remove();
+            });
         });
     }
 
