@@ -4,6 +4,7 @@
  */
 
 import {Svg} from "../../node_modules/svjs-svg/src/svjs/Svg.js";
+import {SQUARE_COORDINATES} from "./ChessboardModel.js";
 
 const SPRITE_LOADING_STATUS = {
     notLoaded: 1,
@@ -28,9 +29,7 @@ export class ChessboardView {
                 }
             });
         }
-        // TODO setNeedsRedraw on observer
-        // this.squares
-        // this.orientation
+
     }
 
     loadSprite(config, callback) {
@@ -71,16 +70,20 @@ export class ChessboardView {
         this.squareHeight = this.innerHeight / 8;
     }
 
+    remove() {
+        if(this.svg) {
+            Svg.removeElement(this.svg);
+        }
+    }
+
     /**
      * Redraw async and only once
      */
     setNeedsRedraw() {
-        // console.log("request setNeedsRedraw");
         if(this.redrawTimer) {
             window.clearTimeout(this.redrawTimer);
         }
         this.redrawTimer = setTimeout(() => {
-            // console.log("=> redraw");
             if (this.svg) {
                 Svg.removeElement(this.svg);
             }
@@ -91,16 +94,6 @@ export class ChessboardView {
             this.drawBoard();
             this.drawFigures();
         });
-    }
-
-    /**
-     * convert displayed field to chess field.
-     * @param squareX
-     * @param squareY
-     * return field
-     */
-    static coordsToField(squareX, squareY) {
-        return String.fromCharCode(97 + squareX) + (8 - squareY);
     }
 
     /**
@@ -123,7 +116,7 @@ export class ChessboardView {
                     width: this.squareWidth, height: this.squareHeight
                 });
                 squareGroup.setAttribute("class", fieldClass);
-                squareGroup.setAttribute("data-field", ChessboardView.coordsToField(squareX, squareY));
+                squareGroup.setAttribute("data-field", String.fromCharCode(97 + squareX) + (8 - squareY));
                 if (this.model.orientation === "black") {
                     const transform = (this.svg.createSVGTransform());
                     transform.setRotate(180, this.squareWidth / 2, this.squareHeight / 2);
@@ -157,27 +150,25 @@ export class ChessboardView {
 
     drawFigures() {
         const scaling = this.squareHeight / this.config.sprite.grid;
-        for (let squareY = 0; squareY < 8; squareY++) {
-            for (let squareX = 0; squareX < 8; squareX++) {
-                const figureName = this.model.squares[squareY][squareX];
-                if (figureName) {
-                    const field = ChessboardView.coordsToField(squareX, squareY);
-                    const squareGroup = this.svg.querySelector("g[data-field='" + field + "']");
-                    const figure = Svg.addElement(squareGroup, "use", {"href": "#" + figureName});
-                    squareGroup.setAttribute("class", squareGroup.getAttribute("class") + " f" + figureName.substr(0, 1));
-                    squareGroup.setAttribute("data-figure", figureName);
-                    // figure.setAttribute("filter", "url(#dropshadow)");
-                    // center on square
-                    const transformTranslate = (this.svg.createSVGTransform());
-                    transformTranslate.setTranslate((this.squareWidth / 2 - this.config.sprite.grid * scaling / 2), 0);
-                    figure.transform.baseVal.appendItem(transformTranslate);
-                    // scale
-                    const transformScale = (this.svg.createSVGTransform());
-                    transformScale.setScale(scaling, scaling);
-                    figure.transform.baseVal.appendItem(transformScale);
-                }
-            }
-        }
+       for (let i=0; i<64; i++) {
+           const figureName = this.model.squares[i];
+           if (figureName) {
+               const field = SQUARE_COORDINATES[i];
+               const squareGroup = this.svg.querySelector("g[data-field='" + field + "']");
+               const figure = Svg.addElement(squareGroup, "use", {"href": "#" + figureName});
+               squareGroup.setAttribute("class", squareGroup.getAttribute("class") + " f" + figureName.substr(0, 1));
+               squareGroup.setAttribute("data-figure", figureName);
+               // figure.setAttribute("filter", "url(#dropshadow)");
+               // center on square
+               const transformTranslate = (this.svg.createSVGTransform());
+               transformTranslate.setTranslate((this.squareWidth / 2 - this.config.sprite.grid * scaling / 2), 0);
+               figure.transform.baseVal.appendItem(transformTranslate);
+               // scale
+               const transformScale = (this.svg.createSVGTransform());
+               transformScale.setScale(scaling, scaling);
+               figure.transform.baseVal.appendItem(transformScale);
+           }
+       }
     }
 }
 
