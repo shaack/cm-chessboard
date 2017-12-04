@@ -51,9 +51,7 @@ export class Chessboard {
             this.setOrientation(this.config.orientation);
             this.model.inputMode = this.config.inputMode;
             this.view.setNeedsRedraw();
-            if(callback) {
-                callback();
-            }
+            callback ? callback() : null;
         });
         this.view.setNeedsRedraw();
     }
