@@ -184,8 +184,8 @@ export class ChessboardView {
         for (let file = 0; file < 8; file++) {
             const textElement = Svg.addElement(this.svg, "text", {
                 class: "coordinate file",
-                x: (28 + this.config.sprite.grid * file) * scalingX,
-                y: this.height - 2.5 * scalingY,
+                x: this.borderWidth + (18 + this.config.sprite.grid * file) * scalingX,
+                y: this.height - (this.borderWidth / 3.3),
                 style: "font-size: " + scalingY * 7 + "px"
             });
             if (this.model.orientation === "white") {
@@ -199,8 +199,8 @@ export class ChessboardView {
         for (let rank = 0; rank < 8; rank++) {
             const textElement = Svg.addElement(this.svg, "text", {
                 class: "coordinate rank",
-                x: 2.6 * scalingX,
-                y: 34 * scalingY + rank * this.squareHeight,
+                x: (this.borderWidth / 3.5) ,
+                y: this.borderWidth + 23 * scalingY + rank * this.squareHeight,
                 style: "font-size: " + scalingY * 7 + "px"
             });
             if (this.model.orientation === "white") {
