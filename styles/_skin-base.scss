@@ -1,5 +1,5 @@
 .cm-chessboard {
-  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.6);
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.6);
   .board-border {
     fill: #eedab6;
   }
@@ -15,5 +15,9 @@
     &.black {
       fill: #b38965;
     }
+  }
+  .coordinate {
+    fill: #b38965;
+    font-size: 7px;
   }
 }

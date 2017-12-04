@@ -29,7 +29,7 @@ export class Chessboard {
         this.config = {
             position: null,
             orientation: COLOR.white, // white on bottom
-            showNotation: false, // TODO
+            showCoordinates: true,
             responsive: false, // detect window resize
             inputMode: INPUT_MODE.dragFigure, // type of interactive movement with mouse or tap
             sprite: {
@@ -51,7 +51,9 @@ export class Chessboard {
             this.setOrientation(this.config.orientation);
             this.model.inputMode = this.config.inputMode;
             this.view.setNeedsRedraw();
-            callback();
+            if(callback) {
+                callback();
+            }
         });
         this.view.setNeedsRedraw();
     }

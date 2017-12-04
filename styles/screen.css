@@ -34,5 +34,9 @@ pre {
   /* line 15, _skin-base.scss */
   .cm-chessboard .square.black {
     fill: #b38965; }
+  /* line 19, _skin-base.scss */
+  .cm-chessboard .coordinate {
+    fill: #b38965;
+    font-size: 7px; }
 
 /*# sourceMappingURL=screen.css.map */

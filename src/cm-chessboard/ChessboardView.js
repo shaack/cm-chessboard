@@ -71,7 +71,7 @@ export class ChessboardView {
     }
 
     remove() {
-        if(this.svg) {
+        if (this.svg) {
             Svg.removeElement(this.svg);
         }
     }
@@ -80,7 +80,7 @@ export class ChessboardView {
      * Redraw async and only once
      */
     setNeedsRedraw() {
-        if(this.redrawTimer) {
+        if (this.redrawTimer) {
             window.clearTimeout(this.redrawTimer);
         }
         this.redrawTimer = setTimeout(() => {
@@ -92,6 +92,9 @@ export class ChessboardView {
             this.updateMetrics();
             this.mainGroup = Svg.addElement(this.svg, "g");
             this.drawBoard();
+            if (this.config.showCoordinates) {
+                this.drawCoordinates();
+            }
             this.drawFigures();
         });
     }
@@ -150,25 +153,63 @@ export class ChessboardView {
 
     drawFigures() {
         const scaling = this.squareHeight / this.config.sprite.grid;
-       for (let i=0; i<64; i++) {
-           const figureName = this.model.squares[i];
-           if (figureName) {
-               const field = SQUARE_COORDINATES[i];
-               const squareGroup = this.svg.querySelector("g[data-field='" + field + "']");
-               const figure = Svg.addElement(squareGroup, "use", {"href": "#" + figureName});
-               squareGroup.setAttribute("class", squareGroup.getAttribute("class") + " f" + figureName.substr(0, 1));
-               squareGroup.setAttribute("data-figure", figureName);
-               // figure.setAttribute("filter", "url(#dropshadow)");
-               // center on square
-               const transformTranslate = (this.svg.createSVGTransform());
-               transformTranslate.setTranslate((this.squareWidth / 2 - this.config.sprite.grid * scaling / 2), 0);
-               figure.transform.baseVal.appendItem(transformTranslate);
-               // scale
-               const transformScale = (this.svg.createSVGTransform());
-               transformScale.setScale(scaling, scaling);
-               figure.transform.baseVal.appendItem(transformScale);
-           }
-       }
+        for (let i = 0; i < 64; i++) {
+            const figureName = this.model.squares[i];
+            if (figureName) {
+                const field = SQUARE_COORDINATES[i];
+                const squareGroup = this.svg.querySelector("g[data-field='" + field + "']");
+                const figure = Svg.addElement(squareGroup, "use", {"href": "#" + figureName});
+                squareGroup.setAttribute("class", squareGroup.getAttribute("class") + " f" + figureName.substr(0, 1));
+                squareGroup.setAttribute("data-figure", figureName);
+                // figure.setAttribute("filter", "url(#dropshadow)");
+                // center on square
+                const transformTranslate = (this.svg.createSVGTransform());
+                transformTranslate.setTranslate((this.squareWidth / 2 - this.config.sprite.grid * scaling / 2), 0);
+                figure.transform.baseVal.appendItem(transformTranslate);
+                // scale
+                const transformScale = (this.svg.createSVGTransform());
+                transformScale.setScale(scaling, scaling);
+                figure.transform.baseVal.appendItem(transformScale);
+            }
+        }
+    }
+
+    drawCoordinates() {
+        console.log("drawCoordinates");
+        const scalingX = this.squareWidth / this.config.sprite.grid;
+        const scalingY = this.squareHeight / this.config.sprite.grid;
+        // console.log("scaling", this.squareWidth, scaling);
+
+        // files
+        for (let file = 0; file < 8; file++) {
+            const textElement = Svg.addElement(this.svg, "text", {
+                class: "coordinate file",
+                x: (28 + this.config.sprite.grid * file) * scalingX,
+                y: this.height - 2.5 * scalingY,
+                style: "font-size: " + scalingY * 7 + "px"
+            });
+            if (this.model.orientation === "white") {
+                textElement.textContent = String.fromCharCode(97 + file);
+            } else {
+                textElement.textContent = String.fromCharCode(104 - file);
+            }
+        }
+
+        // ranks
+        for (let rank = 0; rank < 8; rank++) {
+            const textElement = Svg.addElement(this.svg, "text", {
+                class: "coordinate rank",
+                x: 2.6 * scalingX,
+                y: 34 * scalingY + rank * this.squareHeight,
+                style: "font-size: " + scalingY * 7 + "px"
+            });
+            if (this.model.orientation === "white") {
+                textElement.textContent = 8 - rank;
+            } else {
+                textElement.textContent = 1 + rank;
+            }
+        }
+
     }
 }
 
