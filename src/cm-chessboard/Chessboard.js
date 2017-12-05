@@ -27,11 +27,11 @@ export class Chessboard {
 
     constructor(containerElement, config = {}, createCallback) {
         this._config = {
-            position: null,
+            position: null, // empty board
             orientation: COLOR.white, // white on bottom
-            showCoordinates: true,
+            showCoordinates: true, // show ranks and files
             responsive: false, // detect window resize
-            inputMode: INPUT_MODE.dragFigure, // type of interactive movement with mouse or tap
+            inputMode: INPUT_MODE.dragFigure, // type of interactive movement
             sprite: {
                 file: "../assets/sprite.svg", // figures and markers
                 grid: DEFAULT_SPRITE_GRID, // one figure every 40 px
@@ -69,7 +69,7 @@ export class Chessboard {
      * @param field
      * @param type
      */
-    removeMarker(field = null, type = MARKER_TYPE.emphasize) {
+    removeMarker(field = null, type = null) {
         this._model.removeMarker(field, type);
         this._view.setNeedsRedraw();
     }
@@ -118,18 +118,6 @@ export class Chessboard {
             this._model.inputBlackEnabled = enable;
         }
         this._view.setNeedsRedraw();
-    }
-
-    // Private
-    _enablePointerEvents() {
-        // find fields with figures
-    }
-
-    _inputCallback(name, e) {
-        console.log("_inputCallback", name, e);
-        if (name === "pointerdown") {
-
-        }
     }
 
 }
