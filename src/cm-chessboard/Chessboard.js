@@ -5,7 +5,6 @@
 import {ChessboardView} from "./ChessboardView.js";
 import {ChessboardModel} from "./ChessboardModel.js";
 
-
 export const COLOR = {
     white: "white",
     black: "black"
@@ -19,13 +18,27 @@ export const MARKER_TYPE = {
     lastMove: {slice: "marker1", opacity: 0.5},
     emphasize: {slice: "marker2", opacity: 0.5}
 };
+export const FIGURE = {
+    whitePawn: "wp",
+    whiteBishop: "wb",
+    whiteKnight: "wn",
+    whiteRook: "wr",
+    whiteQueen: "wq",
+    whiteKing: "wk",
+    blackPawn: "bp",
+    blackBishop: "bb",
+    blackKnight: "bn",
+    blackRook: "br",
+    blackQueen: "bq",
+    blackKing: "bk",
+};
 export const FEN_START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
 export const FEN_EMPTY_POSITION = "8/8/8/8/8/8/8/8";
-const DEFAULT_SPRITE_GRID = 40;
 
 export class Chessboard {
 
     constructor(containerElement, config = {}, createCallback) {
+        const DEFAULT_SPRITE_GRID = 40;
         this._config = {
             position: null, // empty board
             orientation: COLOR.white, // white on bottom
@@ -72,6 +85,10 @@ export class Chessboard {
     removeMarker(field = null, type = null) {
         this._model.removeMarker(field, type);
         this._view.setNeedsRedraw();
+    }
+
+    setSquare(square, figure) {
+        this._model.setSquare(square, figure);
     }
 
     getSquare(square) {
