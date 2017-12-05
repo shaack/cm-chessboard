@@ -15,12 +15,12 @@
 <h1>Responsive Chessboard</h1>
 <div class="board" id="board"></div>
 <pre>
-window.board = new Chessboard(document.getElementById("board"), {responsive: true});
+new Chessboard(document.getElementById("board"), {responsive: true});
 </pre>
 <script type="module">
     import {Chessboard} from "../src/cm-chessboard/Chessboard.js"
 
-    window.board = new Chessboard(document.getElementById("board"),
+    new Chessboard(document.getElementById("board"),
         {position: "start", responsive: true});
 </script>
 </body>
