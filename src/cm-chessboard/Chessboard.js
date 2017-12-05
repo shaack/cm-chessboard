@@ -12,10 +12,10 @@ export const COLOR = {
 };
 export const INPUT_MODE = {
     dragFigure: 1,
-    showMarker: 2
+    dragMarker: 2
 };
 export const MARKER_TYPE = {
-    newMove: {slice: "marker1", opacity: 0.9},
+    newMove: {slice: "marker1", opacity: 0.8},
     lastMove: {slice: "marker1", opacity: 0.5},
     emphasize: {slice: "marker2", opacity: 0.5}
 };
@@ -25,8 +25,8 @@ const DEFAULT_SPRITE_GRID = 40;
 
 export class Chessboard {
 
-    constructor(containerElement, config = {}, callback) {
-        this.config = {
+    constructor(containerElement, config = {}, createCallback) {
+        this._config = {
             position: null,
             orientation: COLOR.white, // white on bottom
             showCoordinates: true,
@@ -37,30 +37,30 @@ export class Chessboard {
                 grid: DEFAULT_SPRITE_GRID, // one figure every 40 px
             },
             events: {
-                beforeMove: null, // callback, before figure move
-                afterMove: null // callback after figure move
+                beforeInput: null, // callback, before figure move input
+                afterInput: null // callback after figure move input
             }
         };
-        Object.assign(this.config, config);
-        if (!this.config.sprite.grid) {
-            this.config.sprite.grid = DEFAULT_SPRITE_GRID;
+        Object.assign(this._config, config);
+        if (!this._config.sprite.grid) {
+            this._config.sprite.grid = DEFAULT_SPRITE_GRID;
         }
-        this.model = new ChessboardModel();
-        this.view = new ChessboardView(containerElement, this.model, this.config, () => {
-            this.setPosition(this.config.position);
-            this.setOrientation(this.config.orientation);
-            this.model.inputMode = this.config.inputMode;
-            this.view.setNeedsRedraw();
-            callback ? callback() : null;
-        });
-        this.view.setNeedsRedraw();
+        this._model = new ChessboardModel();
+        this._view = new ChessboardView(containerElement, this._model, this._config, () => {
+            this.setPosition(this._config.position);
+            this.setOrientation(this._config.orientation);
+            this._model.inputMode = this._config.inputMode;
+            this._view.setNeedsRedraw();
+            createCallback ? createCallback() : null;
+        }, this._inputCallback);
+        this._view.setNeedsRedraw();
     }
 
     // API
 
-    addMarker(field, type = MARKER_TYPE.emphasize) {
-        this.model.addMarker(field, type);
-        this.view.setNeedsRedraw();
+    addMarker(square, type = MARKER_TYPE.emphasize) {
+        this._model.addMarker(square, type);
+        this._view.setNeedsRedraw();
     }
 
     /**
@@ -70,40 +70,40 @@ export class Chessboard {
      * @param type
      */
     removeMarker(field = null, type = MARKER_TYPE.emphasize) {
-        this.model.removeMarker(field, type);
-        this.view.setNeedsRedraw();
+        this._model.removeMarker(field, type);
+        this._view.setNeedsRedraw();
     }
 
     getSquare(square) {
-        return this.model.getSquare(square);
+        return this._model.getSquare(square);
     }
 
     setPosition(fen) {
         if (fen === "start") {
-            this.model.setPosition(FEN_START_POSITION);
+            this._model.setPosition(FEN_START_POSITION);
         } else if (fen === "empty") {
-            this.model.setPosition(FEN_EMPTY_POSITION);
+            this._model.setPosition(FEN_EMPTY_POSITION);
         } else {
-            this.model.setPosition(fen);
+            this._model.setPosition(fen);
         }
-        this.view.setNeedsRedraw();
+        this._view.setNeedsRedraw();
     }
 
     getPosition() {
-        return this.model.getPosition();
+        return this._model.getPosition();
     }
 
     setOrientation(color) {
-        this.model.orientation = color;
-        this.view.setNeedsRedraw();
+        this._model.orientation = color;
+        this._view.setNeedsRedraw();
     }
 
     getOrientation() {
-        return this.model.orientation;
+        return this._model.orientation;
     }
 
     remove() {
-        this.view.remove();
+        this._view.remove();
     }
 
     /**
@@ -111,14 +111,25 @@ export class Chessboard {
      * @param color
      * @param enable
      */
-    /* TODO think about it again
-    setEnableMoveFigures(color, enable) {
+    enableInput(color, enable) {
         if (color === COLOR.white) {
-            this.model.moveInputWhiteEnabled = enable;
+            this._model.inputWhiteEnabled = enable;
         } else if (color === COLOR.black) {
-            this.model.moveInputBlackEnabled = enable;
+            this._model.inputBlackEnabled = enable;
+        }
+        this._view.setNeedsRedraw();
+    }
+
+    // Private
+    _enablePointerEvents() {
+        // find fields with figures
+    }
+
+    _inputCallback(name, e) {
+        console.log("_inputCallback", name, e);
+        if (name === "pointerdown") {
+
         }
     }
-    */
 
 }
