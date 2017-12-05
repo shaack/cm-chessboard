@@ -1,6 +1,6 @@
 {
   "name": "cm-chessboard",
-  "version": "2.2.4",
+  "version": "2.2.5",
   "description": "Chessboard for chessmail.de / chessmail.eu",
   "main": "src/cm-chessboard/Chessboard.js",
   "scripts": {
