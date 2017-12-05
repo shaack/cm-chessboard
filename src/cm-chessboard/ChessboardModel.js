@@ -19,26 +19,31 @@ export class ChessboardModel {
     constructor() {
         this.squares = new Array(64).fill("");
         this.orientation = null;
-        // this.moveInputWhiteEnabled = false;
-        // this.moveInputBlackEnabled = false;
-        // this.moveInputMode = null;
+        this.markers = [];
     }
 
-    /**
-     * Get figure on square
-     * @param square
-     * @returns figureName
-     */
     getSquare(square) {
         const file = square.substr(0, 1).charCodeAt(0) - 97;
         const rank = square.substr(1, 1) - 1;
         return this.squares[8 * rank + file];
     }
 
-    /**
-     * set squares from fen
-     * @param fen
-     */
+    addMarker(square, type) {
+        this.markers.push({square: square, type: type});
+    }
+
+    removeMarker(square = null, type = null) {
+        if (square === null && type === null) {
+            this.markers = [];
+        } else {
+            this.markers = this.markers.filter(
+                marker =>
+                    square === marker.square && type === null ||
+                    square === null && type === marker.type ||
+                    square === marker.square && type === marker.type);
+        }
+    }
+
     setPosition(fen) {
         if (fen) {
             const parts = fen.replace(/^\s*/, "").replace(/\s*$/, "").split(/\/|\s/);
@@ -76,24 +81,24 @@ export class ChessboardModel {
             for (let i = 0; i < 8; i++) {
                 let addChar = "?";
                 const figure = this.squares[part * 8 + i];
-                if(figure === "") {
+                if (figure === "") {
                     spaceCounter++;
                 } else {
-                    if(spaceCounter > 0) {
-                        parts[7-part] += spaceCounter;
+                    if (spaceCounter > 0) {
+                        parts[7 - part] += spaceCounter;
                         spaceCounter = 0;
                     }
-                    const color = figure.substr(0,1);
-                    const name = figure.substr(1,1);
-                    if(color === "w") {
-                        parts[7-part] += name.toUpperCase();
+                    const color = figure.substr(0, 1);
+                    const name = figure.substr(1, 1);
+                    if (color === "w") {
+                        parts[7 - part] += name.toUpperCase();
                     } else {
-                        parts[7-part] += name;
+                        parts[7 - part] += name;
                     }
                 }
             }
-            if(spaceCounter > 0) {
-                parts[7-part] += spaceCounter;
+            if (spaceCounter > 0) {
+                parts[7 - part] += spaceCounter;
                 spaceCounter = 0;
             }
         }
