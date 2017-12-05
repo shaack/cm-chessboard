@@ -15,9 +15,13 @@
     &.black {
       fill: #b38965;
     }
+    &.input-enabled {
+      cursor: pointer;
+    }
   }
   .coordinate {
     fill: #b38965;
     font-size: 7px;
+    cursor: default;
   }
 }
