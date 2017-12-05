@@ -35,7 +35,7 @@ this._config = {
 ## API
 
 ### addMarker(square, type = MARKER_TYPE.emphasize)
-### removeMarker(field = null, type = MARKER_TYPE.emphasize);
+### removeMarker(field = null, type = null);
 
 Set field to null to remove all marker from squares.
 Set type to null, to remove all types.
@@ -60,10 +60,10 @@ Set the board orientation. (Color at bottom).
 
 Get the board orientation. 
 
-### remove()
+### destroy()
 
 Remove the board from the DOM.
 
-### enableInput(color, enable) {
+### enableInput(color, enable)
 
 Enables moves via user input, mouse or touch

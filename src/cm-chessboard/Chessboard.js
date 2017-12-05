@@ -102,7 +102,7 @@ export class Chessboard {
         return this._model.orientation;
     }
 
-    remove() {
+    destroy() {
         this._view.remove();
     }
 
