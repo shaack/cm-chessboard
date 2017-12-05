@@ -5,7 +5,7 @@
 
 import {Svg} from "../../node_modules/svjs-svg/src/svjs/Svg.js";
 import {SQUARE_COORDINATES} from "./ChessboardModel.js";
-import {ChessboardMovingFigure} from "./ChessboardMovingFigure.js";
+import {ChessboardMoveInput} from "./ChessboardMoveInput.js";
 
 const SPRITE_LOADING_STATUS = {
     notLoaded: 1,
@@ -170,15 +170,14 @@ export class ChessboardView {
                     squareGroup.addEventListener('mousedown', (e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        this._movingFigure = new ChessboardMovingFigure(this, this._model, this._config);
-                        console.log("mousedown", e.path, e.target, e.path[1]);
-                        this._movingFigure.pointerDown(e.path[1].getAttribute("data-square"), e);
+                        this._movingFigure = new ChessboardMoveInput(this, this._model, this._config);
+                        this._movingFigure.pointerDown(e.path[1].getAttribute("data-square"), figureName, e);
                     });
                     squareGroup.addEventListener('touchstart', (e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        this._movingFigure = new ChessboardMovingFigure(this, this._model, this._config);
-                        this._movingFigure.pointerDown(e.path[1].getAttribute("data-square"), e);
+                        this._movingFigure = new ChessboardMoveInput(this, this._model, this._config);
+                        this._movingFigure.pointerDown(e.path[1].getAttribute("data-square"), figureName, e);
                     });
                     /*
                     squareGroup.addEventListener('mousedown', (e) => {
@@ -245,7 +244,6 @@ export class ChessboardView {
     }
 
     drawMarkers() {
-        console.log("drawMarkers", this._model.markers);
         this._model.markers.forEach((marker) => {
                 this.drawMarker(marker.square, marker.type);
             }
@@ -253,7 +251,6 @@ export class ChessboardView {
     }
 
     drawMarker(square, markerType) {
-        console.log("drawMarker", square, markerType);
         const squareGroup = this.svg.querySelector("g[data-square='" + square + "']");
         const marker = Svg.addElement(squareGroup, "use", {"href": "#" + markerType.slice, opacity: markerType.opacity});
         const scalingX = this.squareWidth / this._config.sprite.grid;
@@ -264,7 +261,6 @@ export class ChessboardView {
     }
 
     drawCoordinates() {
-        console.log("drawCoordinates");
         const scalingX = this.squareWidth / this._config.sprite.grid;
         const scalingY = this.squareHeight / this._config.sprite.grid;
         // console.log("scaling", this.squareWidth, scaling);

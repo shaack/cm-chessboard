@@ -22,6 +22,12 @@ export class ChessboardModel {
         this.markers = [];
     }
 
+    setSquare(square, figure) {
+        const file = square.substr(0, 1).charCodeAt(0) - 97;
+        const rank = square.substr(1, 1) - 1;
+        this.squares[8 * rank + file] = figure;
+    }
+
     getSquare(square) {
         const file = square.substr(0, 1).charCodeAt(0) - 97;
         const rank = square.substr(1, 1) - 1;
@@ -36,11 +42,20 @@ export class ChessboardModel {
         if (square === null && type === null) {
             this.markers = [];
         } else {
-            this.markers = this.markers.filter(
-                marker =>
-                    square === marker.square && type === null ||
-                    square === null && type === marker.type ||
-                    square === marker.square && type === marker.type);
+            this.markers = this.markers.filter((marker) => {
+                if(marker.type === null) {
+                    if(square === marker.square) {
+                        return false;
+                    }
+                } else if(square === null) {
+                    if(marker.type === type) {
+                        return false;
+                    }
+                } else if(marker.type === type && square === marker.square) {
+                    return false;
+                }
+                return true;
+            });
         }
     }
 
