@@ -1,27 +1,33 @@
+$dark: #c59873;
+$light: #eedab6;
+
 .cm-chessboard {
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.6);
   .board-border {
-    fill: #eedab6;
+    fill: $light;
   }
   .surrounding-line {
     stroke-width: 0.3%;
     stroke-linecap: round;
-    stroke: #b38965;
+    stroke: $dark;
   }
   .square {
     &.white {
-      fill: #eedab6;
+      fill: $light;
     }
     &.black {
-      fill: #b38965;
+      fill: $dark;
     }
     &.input-enabled {
       cursor: pointer;
     }
   }
   .coordinate {
-    fill: #b38965;
+    fill: $dark;
     font-size: 7px;
     cursor: default;
+  }
+  &.input-enabled {
+    cursor: pointer;
   }
 }

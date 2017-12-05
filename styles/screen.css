@@ -17,30 +17,33 @@ a {
 pre {
   white-space: pre-wrap; }
 
-/* line 1, _skin-base.scss */
+/* line 4, _skin-base.scss */
 .cm-chessboard {
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.6); }
-  /* line 3, _skin-base.scss */
+  /* line 6, _skin-base.scss */
   .cm-chessboard .board-border {
     fill: #eedab6; }
-  /* line 6, _skin-base.scss */
+  /* line 9, _skin-base.scss */
   .cm-chessboard .surrounding-line {
     stroke-width: 0.3%;
     stroke-linecap: round;
-    stroke: #b38965; }
-  /* line 12, _skin-base.scss */
+    stroke: #c59873; }
+  /* line 15, _skin-base.scss */
   .cm-chessboard .square.white {
     fill: #eedab6; }
-  /* line 15, _skin-base.scss */
-  .cm-chessboard .square.black {
-    fill: #b38965; }
   /* line 18, _skin-base.scss */
+  .cm-chessboard .square.black {
+    fill: #c59873; }
+  /* line 21, _skin-base.scss */
   .cm-chessboard .square.input-enabled {
     cursor: pointer; }
-  /* line 22, _skin-base.scss */
+  /* line 25, _skin-base.scss */
   .cm-chessboard .coordinate {
-    fill: #b38965;
+    fill: #c59873;
     font-size: 7px;
     cursor: default; }
+  /* line 30, _skin-base.scss */
+  .cm-chessboard.input-enabled {
+    cursor: pointer; }
 
 /*# sourceMappingURL=screen.css.map */
