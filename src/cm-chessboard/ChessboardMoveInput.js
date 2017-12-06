@@ -10,9 +10,10 @@ const STATUS = {
     waitForInputStart: 0,
     threshold: 1,
     secondClick: 2,
-    dragTo: 3,
-    moveDone: 4,
-    reset: 5
+    secondClickThreshold: 3,
+    dragTo: 4,
+    moveDone: 5,
+    reset: 6
 };
 
 const POINTER_TYPE = {
@@ -35,7 +36,7 @@ export class ChessboardMoveInput {
 
     setStatus(newStatus, params = null) {
 
-        console.log("setStatus", this._status, newStatus);
+        console.log("setStatus", this._status, "=>", newStatus);
 
         const prevStatus = this._status;
         this._status = newStatus;
@@ -73,9 +74,9 @@ export class ChessboardMoveInput {
                 this.endSquare = null;
                 this.movedFigure = params.figure;
                 this.updateStartEndMarker();
-                if (params.e.type === "mousedown" && !this._mousemoveListener && !this._mouseupListener) {
-                    this._startX = params.e.clientX;
-                    this._startY = params.e.clientY;
+                if (params.type === "mousedown" && !this._mousemoveListener && !this._mouseupListener) {
+                    this._startX = params.x;
+                    this._startY = params.y;
                     this._pointerMoveListener = this.onPointerMove.bind(this);
                     window.addEventListener("mousemove", this._pointerMoveListener);
                     this._pointerUpListener = this.onPointerUp.bind(this);
@@ -88,7 +89,9 @@ export class ChessboardMoveInput {
                     Svg.removeElement(this.dragableFigure);
                     this.dragableFigure = null;
                 }
-                if(this.movedFigure) {
+                this._startX = params.x;
+                this._startY = params.y;
+                if (this.movedFigure) {
                     this._model.setSquare(params.square, this.movedFigure);
                 } else {
                     this.movedFigure = params.figure;
@@ -96,8 +99,16 @@ export class ChessboardMoveInput {
                 this._view.setNeedsRedraw();
                 break;
 
+            case STATUS.secondClickThreshold:
+                if ([STATUS.secondClick].indexOf(prevStatus) === -1) {
+                    throw new Error("status");
+                }
+                this._startX = params.x;
+                this._startY = params.y;
+                break;
+
             case STATUS.dragTo:
-                if ([STATUS.threshold].indexOf(prevStatus) === -1) {
+                if ([STATUS.threshold, STATUS.secondClickThreshold].indexOf(prevStatus) === -1) {
                     throw new Error("status");
                 }
                 this._model.setSquare(params.square, "");
@@ -158,11 +169,17 @@ export class ChessboardMoveInput {
 
         if (square) {
             if (this._status === STATUS.waitForInputStart && figure && this._moveStartCallback(square)) {
-                this.setStatus(STATUS.threshold, {square: square, figure: figure, e: e});
+                this.setStatus(STATUS.threshold, {
+                    square: square,
+                    figure: figure,
+                    x: e.clientX,
+                    y: e.clientY,
+                    type: e.type
+                });
 
             } else if (this._status === STATUS.secondClick) {
                 if (square === this.startSquare) {
-                    this.setStatus(STATUS.waitForInputStart);
+                    this.setStatus(STATUS.secondClickThreshold, {square: square, figure: figure, x: e.clientX, y: e.clientX, type: e.type});
                 } else {
                     this.setStatus(STATUS.moveDone, {square: square})
                 }
@@ -171,7 +188,7 @@ export class ChessboardMoveInput {
     }
 
     onPointerMove(e) {
-        if (this._status === STATUS.threshold) {
+        if (this._status === STATUS.threshold || this._status === STATUS.secondClickThreshold) {
             if (Math.abs(this._startX - e.clientX) > DRAG_THRESHOLD || Math.abs(this._startY - e.clientY) > DRAG_THRESHOLD) {
                 const square = e.path[1].getAttribute("data-square");
                 const figureName = e.path[1].getAttribute("data-figure");
@@ -189,7 +206,7 @@ export class ChessboardMoveInput {
                     this.updateStartEndMarker();
                 }
             }
-            if(this._status === STATUS.dragTo) {
+            if (this._status === STATUS.dragTo) {
                 this.moveDragableFigure(e.clientX, e.clientY);
             }
         }
@@ -198,13 +215,15 @@ export class ChessboardMoveInput {
     onPointerUp(e) {
         const square = e.path[1].getAttribute("data-square");
         if (this._status === STATUS.dragTo) {
-            if(this.startSquare === square) {
+            if (this.startSquare === square) {
                 this.setStatus(STATUS.secondClick, {square: square});
             } else {
                 this.setStatus(STATUS.moveDone, {square: square});
             }
         } else if (this._status === STATUS.threshold) {
             this.setStatus(STATUS.secondClick, {square: square});
+        } else if (this._status === STATUS.secondClickThreshold) {
+            this.setStatus(STATUS.reset);
         }
     }
 
