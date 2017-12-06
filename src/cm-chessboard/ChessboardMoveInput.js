@@ -56,13 +56,13 @@ export class ChessboardMoveInput {
                     Svg.removeElement(this.dragableFigure);
                     this.dragableFigure = null;
                 }
-                if (this._mousemoveListener) {
-                    window.removeEventListener("mousemove", this._mousemoveListener);
-                    this._mousemoveListener = null;
+                if (this._pointerMoveListener) {
+                    window.removeEventListener(this._pointerMoveListener.type, this._pointerMoveListener);
+                    this._pointerMoveListener = null;
                 }
-                if (!this._mouseupListener) {
-                    window.removeEventListener("mouseup", this._mouseupListener);
-                    this._mouseupListener = null;
+                if (this._pointerUpListener) {
+                    window.removeEventListener(this._pointerUpListener.type, this._pointerUpListener);
+                    this._pointerUpListener = null;
                 }
                 this.setStatus(STATUS.waitForInputStart);
                 break;
@@ -78,13 +78,15 @@ export class ChessboardMoveInput {
                 this.endSquare = null;
                 this.movedFigure = params.figure;
                 this.updateStartEndMarker();
-                if (params.type === "mousedown" && !this._mousemoveListener && !this._mouseupListener) {
-                    this._startX = params.x;
-                    this._startY = params.y;
+                this._startX = params.x;
+                this._startY = params.y;
+                if (params.type === "mousedown" && !this._pointerMoveListener && !this._pointerUpListener) {
                     this._pointerMoveListener = this.onPointerMove.bind(this);
                     window.addEventListener("mousemove", this._pointerMoveListener);
+                    this._pointerMoveListener.type = "mousemove";
                     this._pointerUpListener = this.onPointerUp.bind(this);
                     window.addEventListener("mouseup", this._pointerUpListener);
+                    this._pointerUpListener.type = "mouseup";
                 }
                 break;
 
@@ -93,8 +95,6 @@ export class ChessboardMoveInput {
                     Svg.removeElement(this.dragableFigure);
                     this.dragableFigure = null;
                 }
-                this._startX = params.x;
-                this._startY = params.y;
                 if (this.movedFigure) {
                     this._model.setSquare(params.square, this.movedFigure);
                 } else {
@@ -173,8 +173,8 @@ export class ChessboardMoveInput {
     }
 
     onPointerDown(e) {
-        const square = e.path[1].getAttribute("data-square");
-        const figure = e.path[1].getAttribute("data-figure");
+        const square = e.target.parentElement.getAttribute("data-square");
+        const figure = e.target.parentElement.getAttribute("data-figure");
 
         if (square) {
             if (this._status === STATUS.waitForInputStart && figure && this._moveStartCallback(square)) {
@@ -192,7 +192,7 @@ export class ChessboardMoveInput {
                         square: square,
                         figure: figure,
                         x: e.clientX,
-                        y: e.clientX,
+                        y: e.clientY,
                         type: e.type
                     });
                 } else {
@@ -205,8 +205,8 @@ export class ChessboardMoveInput {
     onPointerMove(e) {
         if (this._status === STATUS.threshold || this._status === STATUS.secondClickThreshold) {
             if (Math.abs(this._startX - e.clientX) > DRAG_THRESHOLD || Math.abs(this._startY - e.clientY) > DRAG_THRESHOLD) {
-                const square = e.path[1].getAttribute("data-square");
-                const figureName = e.path[1].getAttribute("data-figure");
+                const square = e.target.parentElement.getAttribute("data-square");
+                const figureName = e.target.parentElement.getAttribute("data-figure");
                 if (this._status === STATUS.secondClickThreshold) {
                     this.setStatus(STATUS.clickDragTo, {square: square, figure: figureName});
                 } else {
@@ -215,8 +215,8 @@ export class ChessboardMoveInput {
                 this.moveDragableFigure(e.clientX, e.clientY);
             }
         } else if (this._status === STATUS.dragTo || this._status === STATUS.clickDragTo || this._status === STATUS.clickTo) {
-            if (e.path[1].getAttribute) {
-                const square = e.path[1].getAttribute("data-square");
+            if (e.target.parentElement && e.target.parentElement.getAttribute) {
+                const square = e.target.parentElement.getAttribute("data-square");
                 if (square !== this.startSquare && square !== this.endSquare) {
                     this.endSquare = square;
                     this.updateStartEndMarker();
@@ -235,8 +235,8 @@ export class ChessboardMoveInput {
     }
 
     onPointerUp(e) {
-        if(e.path[1].getAttribute) {
-            const square = e.path[1].getAttribute("data-square");
+        if(e.target.parentElement && e.target.parentElement.getAttribute) {
+            const square = e.target.parentElement.getAttribute("data-square");
             if(square) {
                 if (this._status === STATUS.dragTo || this._status === STATUS.clickDragTo) {
                     if (this.startSquare === square) {
