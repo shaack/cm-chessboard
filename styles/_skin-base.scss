@@ -1,8 +1,13 @@
-$dark: #c59873;
+$dark: #c09470;
 $light: #eedab6;
 
 .cm-chessboard {
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.6);
+  .coordinate {
+    fill: $dark;
+    font-size: 7px;
+    cursor: default;
+  }
   .main-group {
     .board-border {
       fill: $light;
@@ -19,11 +24,6 @@ $light: #eedab6;
       &.black {
         fill: $dark;
       }
-    }
-    .coordinate {
-      fill: $dark;
-      font-size: 7px;
-      cursor: default;
     }
     &.input-enabled {
       .square {
