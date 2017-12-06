@@ -9,10 +9,10 @@ import {MARKER_TYPE} from "./Chessboard.js";
 const STATUS = {
     waitForInputStart: 0,
     threshold: 1,
-    secondClick: 2,
+    clickTo: 2,
     secondClickThreshold: 3,
     dragTo: 4,
-    secondClickDragTo: 5,
+    clickDragTo: 5,
     moveDone: 6,
     reset: 7
 };
@@ -44,6 +44,10 @@ export class ChessboardMoveInput {
         switch (newStatus) {
 
             case STATUS.reset:
+                if(this.startSquare && !this.endSquare && this.movedFigure) {
+                    console.log("reset", this.startSquare, this.movedFigure);
+                    this._model.setSquare(this.startSquare, this.movedFigure);
+                }
                 this.startSquare = null;
                 this.endSquare = null;
                 this.movedFigure = null;
@@ -84,7 +88,7 @@ export class ChessboardMoveInput {
                 }
                 break;
 
-            case STATUS.secondClick:
+            case STATUS.clickTo:
                 if (this.dragableFigure) {
                     Svg.removeElement(this.dragableFigure);
                     this.dragableFigure = null;
@@ -100,7 +104,7 @@ export class ChessboardMoveInput {
                 break;
 
             case STATUS.secondClickThreshold:
-                if ([STATUS.secondClick].indexOf(prevStatus) === -1) {
+                if ([STATUS.clickTo].indexOf(prevStatus) === -1) {
                     throw new Error("status");
                 }
                 this._startX = params.x;
@@ -116,7 +120,7 @@ export class ChessboardMoveInput {
                 this._view.setNeedsRedraw();
                 break;
 
-            case STATUS.secondClickDragTo:
+            case STATUS.clickDragTo:
                 if ([STATUS.secondClickThreshold].indexOf(prevStatus) === -1) {
                     throw new Error("status");
                 }
@@ -126,16 +130,15 @@ export class ChessboardMoveInput {
                 break;
 
             case STATUS.moveDone:
-                if ([STATUS.dragTo, STATUS.secondClick, STATUS.secondClickDragTo].indexOf(prevStatus) === -1) {
+                if ([STATUS.dragTo, STATUS.clickTo, STATUS.clickDragTo].indexOf(prevStatus) === -1) {
                     throw new Error("status");
                 }
                 this.endSquare = params.square;
-                if (this._moveDoneCallback(this.startSquare, this.endSquare)) {
+                if (this.endSquare && this._moveDoneCallback(this.startSquare, this.endSquare)) {
                     this._model.setSquare(this.endSquare, this.movedFigure);
                     this._model.setSquare(this.startSquare, "");
                     this.setStatus(STATUS.reset);
                 } else {
-                    this._model.setSquare(this.startSquare, this.movedFigure);
                     this.setStatus(STATUS.reset);
                 }
                 break;
@@ -183,7 +186,7 @@ export class ChessboardMoveInput {
                     type: e.type
                 });
 
-            } else if (this._status === STATUS.secondClick) {
+            } else if (this._status === STATUS.clickTo) {
                 if (square === this.startSquare) {
                     this.setStatus(STATUS.secondClickThreshold, {
                         square: square,
@@ -205,13 +208,13 @@ export class ChessboardMoveInput {
                 const square = e.path[1].getAttribute("data-square");
                 const figureName = e.path[1].getAttribute("data-figure");
                 if (this._status === STATUS.secondClickThreshold) {
-                    this.setStatus(STATUS.secondClickDragTo, {square: square, figure: figureName});
+                    this.setStatus(STATUS.clickDragTo, {square: square, figure: figureName});
                 } else {
                     this.setStatus(STATUS.dragTo, {square: square, figure: figureName});
                 }
                 this.moveDragableFigure(e.clientX, e.clientY);
             }
-        } else if (this._status === STATUS.dragTo || this._status === STATUS.secondClickDragTo || this._status === STATUS.secondClick) {
+        } else if (this._status === STATUS.dragTo || this._status === STATUS.clickDragTo || this._status === STATUS.clickTo) {
             if (e.path[1].getAttribute) {
                 const square = e.path[1].getAttribute("data-square");
                 if (square !== this.startSquare && square !== this.endSquare) {
@@ -221,29 +224,40 @@ export class ChessboardMoveInput {
                     this.endSquare = null;
                     this.updateStartEndMarker();
                 }
+            } else {
+                this.endSquare = null;
+                this.updateStartEndMarker();
             }
-            if (this._status === STATUS.dragTo || this._status === STATUS.secondClickDragTo) {
+            if (this._status === STATUS.dragTo || this._status === STATUS.clickDragTo) {
                 this.moveDragableFigure(e.clientX, e.clientY);
             }
         }
     }
 
     onPointerUp(e) {
-        const square = e.path[1].getAttribute("data-square");
-        if (this._status === STATUS.dragTo || this._status === STATUS.secondClickDragTo ) {
-            if (this.startSquare === square) {
-                if(this._status === STATUS.secondClickDragTo) {
-                    this._model.setSquare(this.startSquare, this.movedFigure);
+        if(e.path[1].getAttribute) {
+            const square = e.path[1].getAttribute("data-square");
+            if(square) {
+                if (this._status === STATUS.dragTo || this._status === STATUS.clickDragTo) {
+                    if (this.startSquare === square) {
+                        if (this._status === STATUS.clickDragTo) {
+                            this._model.setSquare(this.startSquare, this.movedFigure);
+                            this.setStatus(STATUS.reset);
+                        } else {
+                            this.setStatus(STATUS.clickTo, {square: square});
+                        }
+                    } else {
+                        this.setStatus(STATUS.moveDone, {square: square});
+                    }
+                } else if (this._status === STATUS.threshold) {
+                    this.setStatus(STATUS.clickTo, {square: square});
+                } else if (this._status === STATUS.secondClickThreshold) {
                     this.setStatus(STATUS.reset);
-                } else {
-                    this.setStatus(STATUS.secondClick, {square: square});
                 }
             } else {
-                this.setStatus(STATUS.moveDone, {square: square});
+                this.setStatus(STATUS.reset);
             }
-        } else if (this._status === STATUS.threshold) {
-            this.setStatus(STATUS.secondClick, {square: square});
-        } else if (this._status === STATUS.secondClickThreshold) {
+        } else {
             this.setStatus(STATUS.reset);
         }
     }
