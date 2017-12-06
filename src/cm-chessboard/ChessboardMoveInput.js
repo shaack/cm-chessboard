@@ -45,7 +45,6 @@ export class ChessboardMoveInput {
 
             case STATUS.reset:
                 if(this.startSquare && !this.endSquare && this.movedFigure) {
-                    console.log("reset", this.startSquare, this.movedFigure);
                     this._model.setSquare(this.startSquare, this.movedFigure);
                 }
                 this.startSquare = null;
