@@ -40,18 +40,18 @@ export class ChessboardMoveInput {
         const prevStatus = this._status;
         this._status = newStatus;
 
-        switch(newStatus) {
+        switch (newStatus) {
 
             case STATUS.reset:
                 this.startSquare = null;
                 this.endSquare = null;
                 this.movedFigure = null;
                 this.updateStartEndMarker();
-                if(this.dragableFigure) {
+                if (this.dragableFigure) {
                     Svg.removeElement(this.dragableFigure);
                     this.dragableFigure = null;
                 }
-                if(this._mousemoveListener) {
+                if (this._mousemoveListener) {
                     window.removeEventListener("mousemove", this._mousemoveListener);
                     this._mousemoveListener = null;
                 }
@@ -66,7 +66,7 @@ export class ChessboardMoveInput {
                 break;
 
             case STATUS.threshold:
-                if([STATUS.waitForInputStart].indexOf(prevStatus) === -1) {
+                if ([STATUS.waitForInputStart].indexOf(prevStatus) === -1) {
                     throw new Error("status");
                 }
                 this.startSquare = params.square;
@@ -83,8 +83,21 @@ export class ChessboardMoveInput {
                 }
                 break;
 
+            case STATUS.secondClick:
+                if (this.dragableFigure) {
+                    Svg.removeElement(this.dragableFigure);
+                    this.dragableFigure = null;
+                }
+                if(this.movedFigure) {
+                    this._model.setSquare(params.square, this.movedFigure);
+                } else {
+                    this.movedFigure = params.figure;
+                }
+                this._view.setNeedsRedraw();
+                break;
+
             case STATUS.dragTo:
-                if([STATUS.threshold].indexOf(prevStatus) === -1) {
+                if ([STATUS.threshold].indexOf(prevStatus) === -1) {
                     throw new Error("status");
                 }
                 this._model.setSquare(params.square, "");
@@ -93,12 +106,13 @@ export class ChessboardMoveInput {
                 break;
 
             case STATUS.moveDone:
-                if([STATUS.dragTo].indexOf(prevStatus) === -1) {
+                if ([STATUS.dragTo, STATUS.secondClick].indexOf(prevStatus) === -1) {
                     throw new Error("status");
                 }
                 this.endSquare = params.square;
                 if (this._moveDoneCallback(this.startSquare, this.endSquare)) {
                     this._model.setSquare(this.endSquare, this.movedFigure);
+                    this._model.setSquare(this.startSquare, "");
                     this.setStatus(STATUS.reset);
                 } else {
                     this._model.setSquare(this.startSquare, this.movedFigure);
@@ -112,7 +126,7 @@ export class ChessboardMoveInput {
     }
 
     createDragableFigure(figureName) {
-        if(this.dragableFigure) {
+        if (this.dragableFigure) {
             throw Error("dragableFigure");
         }
         this.dragableFigure = Svg.createSvg(document.body);
@@ -164,8 +178,7 @@ export class ChessboardMoveInput {
                 this.setStatus(STATUS.dragTo, {square: square, figure: figureName});
                 this.moveDragableFigure(e.clientX, e.clientY);
             }
-        }
-        if (this._status === STATUS.dragTo) {
+        } else if (this._status === STATUS.dragTo || this._status === STATUS.secondClick) {
             if (e.path[1].getAttribute) {
                 const square = e.path[1].getAttribute("data-square");
                 if (square !== this.startSquare && square !== this.endSquare) {
@@ -176,14 +189,22 @@ export class ChessboardMoveInput {
                     this.updateStartEndMarker();
                 }
             }
-            this.moveDragableFigure(e.clientX, e.clientY);
+            if(this._status === STATUS.dragTo) {
+                this.moveDragableFigure(e.clientX, e.clientY);
+            }
         }
     }
 
     onPointerUp(e) {
         const square = e.path[1].getAttribute("data-square");
         if (this._status === STATUS.dragTo) {
-            this.setStatus(STATUS.moveDone, {square: square});
+            if(this.startSquare === square) {
+                this.setStatus(STATUS.secondClick, {square: square});
+            } else {
+                this.setStatus(STATUS.moveDone, {square: square});
+            }
+        } else if (this._status === STATUS.threshold) {
+            this.setStatus(STATUS.secondClick, {square: square});
         }
     }
 
