@@ -50,8 +50,8 @@ export class Chessboard {
                 grid: DEFAULT_SPRITE_GRID, // one figure every 40 px
             },
             events: {
-                beforeInput: null, // callback, before figure move input
-                afterInput: null // callback after figure move input
+                inputStart: null, // callback, before figure move input
+                inputDone: null // callback after figure move input
             }
         };
         Object.assign(this._config, config);
