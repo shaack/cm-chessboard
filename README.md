@@ -16,20 +16,20 @@ Lightweight, SVG, ES6-module and almost no external dependencies.
 With default values
 ```
 this._config = {
-        position: null, // empty board
-        orientation: COLOR.white, // white on bottom
-        showCoordinates: true, // show ranks and files
-        responsive: false, // detect window resize
-        inputMode: INPUT_MODE.dragFigure, // type of interactive movement
-        sprite: {
-            file: "../assets/sprite.svg", // figures and markers
-            grid: DEFAULT_SPRITE_GRID, // one figure every 40 px
-        },
-        events: {
-            beforeInput: null, // callback, before figure move input
-            afterInput: null // callback after figure move input
-        }
-    };
+    position: null, // empty board
+    orientation: COLOR.white, // white on bottom
+    showCoordinates: true, // show ranks and files
+    responsive: false, // detect window resize
+    inputMode: INPUT_MODE.dragFigure, // type of interactive movement
+    sprite: {
+        file: "../assets/sprite.svg", // figures and markers
+        grid: DEFAULT_SPRITE_GRID, // one figure every 40 px
+    },
+    events: {
+        inputStart: null, // callback, before figure move input
+        inputDone: null // callback after figure move input
+    }
+};
 ```  
 
 ## API
