@@ -23,6 +23,7 @@ export class ChessboardView {
         this._inputCallback = inputCallback;
         this.loadSprite(config, createCallback);
         this._spriteLoadWaitDelay = 0;
+        this._moveInput = new ChessboardMoveInput(this, this._model, this._config, this._moveStartCallback, this._moveDoneCallback);
         if (config.responsive) {
             window.addEventListener('resize', () => {
                 if (this._containerElement.offsetWidth !== this.width ||
@@ -93,6 +94,7 @@ export class ChessboardView {
             this.svg.setAttribute("class", "cm-chessboard");
             this.updateMetrics();
             this.mainGroup = Svg.addElement(this.svg, "g");
+            this.mainGroup.setAttribute("class", "main-group");
             this.drawBoard();
             if (this._config.showCoordinates) {
                 this.drawCoordinates();
@@ -106,6 +108,21 @@ export class ChessboardView {
      * Draw the checkered squares
      */
     drawBoard() {
+        if(this._model.inputWhiteEnabled || this._model.inputBlackEnabled) {
+            if(this._model.inputWhiteEnabled || this._model.inputBlackEnabled) {
+                this.mainGroup.setAttribute("class", this.mainGroup.getAttribute("class") + " input-enabled");
+            }
+            this.mainGroup.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                this._moveInput.onPointerDown(e);
+            });
+            this.mainGroup.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                this._moveInput.onPointerDown(e);
+            });
+        }
         let boardBorder = Svg.addElement(this.mainGroup, "rect", {width: this.width, height: this.height});
         boardBorder.setAttribute("class", "board-border");
         for (let squareY = 0; squareY < 8; squareY++) {
@@ -160,27 +177,12 @@ export class ChessboardView {
             const figureName = this._model.squares[i];
             const square = SQUARE_COORDINATES[i];
             const squareGroup = this.svg.querySelector("g[data-square='" + square + "']");
-            if(this._model.inputWhiteEnabled || this._model.inputBlackEnabled) {
-                squareGroup.setAttribute("class", squareGroup.getAttribute("class") + " input-enabled");
-            }
             if (figureName) {
                 const figure = Svg.addElement(squareGroup, "use", {"href": "#" + figureName});
                 squareGroup.setAttribute("class", squareGroup.getAttribute("class") + " f" + figureName.substr(0, 1));
                 squareGroup.setAttribute("data-figure", figureName);
                 const color = figureName.substr(0, 1);
-                if (color === "w" && this._model.inputWhiteEnabled || color === "b" && this._model.inputBlackEnabled) {
-                    squareGroup.addEventListener('mousedown', (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        this._movingFigure = new ChessboardMoveInput(this, this._model, this._config);
-                        this._movingFigure.pointerDown(e.path[1].getAttribute("data-square"), figureName, e);
-                    });
-                    squareGroup.addEventListener('touchstart', (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        this._movingFigure = new ChessboardMoveInput(this, this._model, this._config);
-                        this._movingFigure.pointerDown(e.path[1].getAttribute("data-square"), figureName, e);
-                    });
+                if (this._model.inputWhiteEnabled || this._model.inputBlackEnabled) {
                     /*
                     squareGroup.addEventListener('mousedown', (e) => {
                         this._inputCallback("pointerdown", e);
@@ -265,7 +267,6 @@ export class ChessboardView {
     drawCoordinates() {
         const scalingX = this.squareWidth / this._config.sprite.grid;
         const scalingY = this.squareHeight / this._config.sprite.grid;
-        // console.log("scaling", this.squareWidth, scaling);
 
         // files
         for (let file = 0; file < 8; file++) {
@@ -297,6 +298,22 @@ export class ChessboardView {
             }
         }
 
+    }
+
+    _moveStartCallback(square) {
+        if(this._config.events.inputStart) {
+            return this._config.events.inputStart(square);
+        } else {
+            return true;
+        }
+    }
+
+    _moveDoneCallback(fromSquare, toSquare) {
+        if(this._config.events.inputDone) {
+            return this._config.events.inputDone(fromSquare, toSquare);
+        } else {
+            return true;
+        }
     }
 }
 
