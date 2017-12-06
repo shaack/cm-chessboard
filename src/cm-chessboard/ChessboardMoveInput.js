@@ -12,8 +12,9 @@ const STATUS = {
     secondClick: 2,
     secondClickThreshold: 3,
     dragTo: 4,
-    moveDone: 5,
-    reset: 6
+    secondClickDragTo: 5,
+    moveDone: 6,
+    reset: 7
 };
 
 const POINTER_TYPE = {
@@ -36,8 +37,7 @@ export class ChessboardMoveInput {
 
     setStatus(newStatus, params = null) {
 
-        console.log("setStatus", this._status, "=>", newStatus);
-
+        // console.log("setStatus", this._status, "=>", newStatus);
         const prevStatus = this._status;
         this._status = newStatus;
 
@@ -108,7 +108,16 @@ export class ChessboardMoveInput {
                 break;
 
             case STATUS.dragTo:
-                if ([STATUS.threshold, STATUS.secondClickThreshold].indexOf(prevStatus) === -1) {
+                if ([STATUS.threshold].indexOf(prevStatus) === -1) {
+                    throw new Error("status");
+                }
+                this._model.setSquare(params.square, "");
+                this.createDragableFigure(params.figure);
+                this._view.setNeedsRedraw();
+                break;
+
+            case STATUS.secondClickDragTo:
+                if ([STATUS.secondClickThreshold].indexOf(prevStatus) === -1) {
                     throw new Error("status");
                 }
                 this._model.setSquare(params.square, "");
@@ -117,7 +126,7 @@ export class ChessboardMoveInput {
                 break;
 
             case STATUS.moveDone:
-                if ([STATUS.dragTo, STATUS.secondClick].indexOf(prevStatus) === -1) {
+                if ([STATUS.dragTo, STATUS.secondClick, STATUS.secondClickDragTo].indexOf(prevStatus) === -1) {
                     throw new Error("status");
                 }
                 this.endSquare = params.square;
@@ -179,7 +188,13 @@ export class ChessboardMoveInput {
 
             } else if (this._status === STATUS.secondClick) {
                 if (square === this.startSquare) {
-                    this.setStatus(STATUS.secondClickThreshold, {square: square, figure: figure, x: e.clientX, y: e.clientX, type: e.type});
+                    this.setStatus(STATUS.secondClickThreshold, {
+                        square: square,
+                        figure: figure,
+                        x: e.clientX,
+                        y: e.clientX,
+                        type: e.type
+                    });
                 } else {
                     this.setStatus(STATUS.moveDone, {square: square})
                 }
@@ -192,10 +207,14 @@ export class ChessboardMoveInput {
             if (Math.abs(this._startX - e.clientX) > DRAG_THRESHOLD || Math.abs(this._startY - e.clientY) > DRAG_THRESHOLD) {
                 const square = e.path[1].getAttribute("data-square");
                 const figureName = e.path[1].getAttribute("data-figure");
-                this.setStatus(STATUS.dragTo, {square: square, figure: figureName});
+                if (this._status === STATUS.secondClickThreshold) {
+                    this.setStatus(STATUS.secondClickDragTo, {square: square, figure: figureName});
+                } else {
+                    this.setStatus(STATUS.dragTo, {square: square, figure: figureName});
+                }
                 this.moveDragableFigure(e.clientX, e.clientY);
             }
-        } else if (this._status === STATUS.dragTo || this._status === STATUS.secondClick) {
+        } else if (this._status === STATUS.dragTo || this._status === STATUS.secondClickDragTo || this._status === STATUS.secondClick) {
             if (e.path[1].getAttribute) {
                 const square = e.path[1].getAttribute("data-square");
                 if (square !== this.startSquare && square !== this.endSquare) {
@@ -206,7 +225,7 @@ export class ChessboardMoveInput {
                     this.updateStartEndMarker();
                 }
             }
-            if (this._status === STATUS.dragTo) {
+            if (this._status === STATUS.dragTo || this._status === STATUS.secondClickDragTo) {
                 this.moveDragableFigure(e.clientX, e.clientY);
             }
         }
@@ -214,9 +233,14 @@ export class ChessboardMoveInput {
 
     onPointerUp(e) {
         const square = e.path[1].getAttribute("data-square");
-        if (this._status === STATUS.dragTo) {
+        if (this._status === STATUS.dragTo || this._status === STATUS.secondClickDragTo ) {
             if (this.startSquare === square) {
-                this.setStatus(STATUS.secondClick, {square: square});
+                if(this._status === STATUS.secondClickDragTo) {
+                    this._model.setSquare(this.startSquare, this.movedFigure);
+                    this.setStatus(STATUS.reset);
+                } else {
+                    this.setStatus(STATUS.secondClick, {square: square});
+                }
             } else {
                 this.setStatus(STATUS.moveDone, {square: square});
             }
