@@ -32,7 +32,6 @@ export class ChessboardView {
                 }
             });
         }
-
     }
 
     loadSprite(config, callback) {
@@ -181,49 +180,6 @@ export class ChessboardView {
                 const figure = Svg.addElement(squareGroup, "use", {"href": "#" + figureName});
                 squareGroup.setAttribute("class", squareGroup.getAttribute("class") + " f" + figureName.substr(0, 1));
                 squareGroup.setAttribute("data-figure", figureName);
-                const color = figureName.substr(0, 1);
-                if (this._model.inputWhiteEnabled || this._model.inputBlackEnabled) {
-                    /*
-                    squareGroup.addEventListener('mousedown', (e) => {
-                        this._inputCallback("pointerdown", e);
-                        this._status = "drag";
-                        let dragable = Svg.createSvg(document.body);
-                        dragable.setAttribute("width", this.squareWidth);
-                        dragable.setAttribute("height", this.squareHeight);
-                        dragable.setAttribute("style", "position: absolute; top: " + e.clientY + "; left: " + e.clientX);
-                        Svg.addElement(dragable, "rect", {
-                            width: this.squareWidth,
-                            height: this.squareHeight
-                        });
-
-                        this.moveHandler = (e) => {
-                            console.log("mousemove", e.clientX, e.clientY);
-                            dragable.setAttribute("style",
-                                "position: absolute; top: " + e.clientY + "; left: " + (e.clientX - this.squareWidth / 2));
-                        };
-
-                        this.moveListener = document.addEventListener("mousemove", this.moveHandler);
-                        document.addEventListener("mouseup", (e) => {
-                            console.log("mouseup");
-                            document.removeEventListener("mousemove", this.moveHandler);
-                            if(dragable) {
-                                Svg.removeElement(dragable);
-                                dragable = null;
-                            }
-                        });
-                    }, false);
-                    squareGroup.addEventListener('touchstart', (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        e.clientX = e.touches[0].clientX;
-                        e.clientY = e.touches[0].clientY;
-                        e.screenX = e.touches[0].screenX;
-                        e.screenY = e.touches[0].screenY;
-                        this._inputCallback("pointerdown", e);
-                    }, false);
-                    */
-                }
-                // figure.setAttribute("filter", "url(#dropshadow)");
                 // center on square
                 const transformTranslate = (this.svg.createSVGTransform());
                 transformTranslate.setTranslate((this.squareWidth / 2 - this._config.sprite.grid * scaling / 2), 0);
@@ -233,17 +189,6 @@ export class ChessboardView {
                 transformScale.setScale(scaling, scaling);
                 figure.transform.baseVal.appendItem(transformScale);
             }
-            /*
-            squareGroup.addEventListener('mouseleave', (e) => {
-                this._inputCallback("pointerleave", e);
-            });
-            squareGroup.addEventListener('mouseenter', (e) => {
-                this._inputCallback("pointerenter", e);
-            });
-            squareGroup.addEventListener('touchmove', (e) => {
-                this._inputCallback("pointermove", e);
-            });
-            */
         }
     }
 
@@ -297,7 +242,6 @@ export class ChessboardView {
                 textElement.textContent = 1 + rank;
             }
         }
-
     }
 
     _moveStartCallback(square) {

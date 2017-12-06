@@ -169,9 +169,6 @@ export class ChessboardMoveInput {
             "top: " + (y - (this._view.squareHeight / 2)) + "px");
     }
 
-    /**
-     * called from view, click on `mainGroup`
-     */
     onPointerDown(e) {
         const square = e.path[1].getAttribute("data-square");
         const figure = e.path[1].getAttribute("data-figure");
