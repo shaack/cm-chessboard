@@ -3,31 +3,32 @@ $light: #eedab6;
 
 .cm-chessboard {
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.6);
-  .board-border {
-    fill: $light;
-  }
-  .surrounding-line {
-    stroke-width: 0.3%;
-    stroke-linecap: round;
-    stroke: $dark;
-  }
-  .square {
-    &.white {
+  .main-group {
+    .board-border {
       fill: $light;
     }
-    &.black {
+    .surrounding-line {
+      stroke-width: 0.3%;
+      stroke-linecap: round;
+      stroke: $dark;
+    }
+    .square {
+      &.white {
+        fill: $light;
+      }
+      &.black {
+        fill: $dark;
+      }
+    }
+    .coordinate {
       fill: $dark;
+      font-size: 7px;
+      cursor: default;
     }
     &.input-enabled {
-      cursor: pointer;
+      .square {
+        cursor: pointer;
+      }
     }
-  }
-  .coordinate {
-    fill: $dark;
-    font-size: 7px;
-    cursor: default;
-  }
-  &.input-enabled {
-    cursor: pointer;
   }
 }
