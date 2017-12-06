@@ -160,13 +160,15 @@ export class ChessboardView {
             const figureName = this._model.squares[i];
             const square = SQUARE_COORDINATES[i];
             const squareGroup = this.svg.querySelector("g[data-square='" + square + "']");
+            if(this._model.inputWhiteEnabled || this._model.inputBlackEnabled) {
+                squareGroup.setAttribute("class", squareGroup.getAttribute("class") + " input-enabled");
+            }
             if (figureName) {
                 const figure = Svg.addElement(squareGroup, "use", {"href": "#" + figureName});
                 squareGroup.setAttribute("class", squareGroup.getAttribute("class") + " f" + figureName.substr(0, 1));
                 squareGroup.setAttribute("data-figure", figureName);
                 const color = figureName.substr(0, 1);
                 if (color === "w" && this._model.inputWhiteEnabled || color === "b" && this._model.inputBlackEnabled) {
-                    squareGroup.setAttribute("class", squareGroup.getAttribute("class") + " input-enabled");
                     squareGroup.addEventListener('mousedown', (e) => {
                         e.preventDefault();
                         e.stopPropagation();
