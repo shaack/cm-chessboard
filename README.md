@@ -35,6 +35,12 @@ this._config = {
 ## API
 
 ### addMarker(square, type = MARKER_TYPE.emphasize)
+
+Add a marker on a square. Default types are: MARKER_TYPE.newMove, MARKER_TYPE.lastMove, MARKER_TYPE.emphasize,
+exportet by `Chessboard.js`. You can create your own marker types, just create an object like {slice: "marker1", opacity: 0.6}.
+`slice` is the id in sprite.svg, `opacity` the opacity.
+ 
+
 ### removeMarker(field = null, type = null);
 
 Set field to null to remove all marker from squares.
@@ -54,7 +60,8 @@ Get the position as fen.
 
 ### setOrientation(color)
 
-Set the board orientation. (Color at bottom).
+Set the board orientation. (Color at bottom). Allowed values are `COLOR.white` or `COLOR.black` 
+or `"white"` or `"black"`.
 
 ###  getOrientation()
 
@@ -66,4 +73,5 @@ Remove the board from the DOM.
 
 ### enableInput(color, enable)
 
-Enables moves via user input, mouse or touch
+Enables moves via user input, mouse or touch. Allowed values are `COLOR.white` or `COLOR.black` 
+ or `"white"` or `"black"` and boolean.
