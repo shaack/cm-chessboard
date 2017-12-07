@@ -244,12 +244,10 @@ export class ChessboardMoveInput {
         }
         if (this._status === STATUS.figureClickedThreshold || this._status === STATUS.secondClickThreshold) {
             if (Math.abs(this._startX - x) > DRAG_THRESHOLD || Math.abs(this._startY - y) > DRAG_THRESHOLD) {
-                const square = targetGroup.getAttribute("data-square");
-                const figureName = targetGroup.getAttribute("data-figure");
                 if (this._status === STATUS.secondClickThreshold) {
-                    this.setStatus(STATUS.clickDragTo, {square: square, figure: figureName});
+                    this.setStatus(STATUS.clickDragTo, {square: this.startSquare, figure: this.movedFigure});
                 } else {
-                    this.setStatus(STATUS.dragTo, {square: square, figure: figureName});
+                    this.setStatus(STATUS.dragTo, {square: this.startSquare, figure: this.movedFigure});
                 }
                 this.moveDragableFigure(x, y);
             }
