@@ -17,11 +17,10 @@
 <body>
 <h1>Input Enabled</h1>
 <p>Input enabled on both sides, without move validation.</p>
-<div class="board" id="board1"></div>
+<div class="board" id="board"></div>
 <h2>Code</h2>
 <pre>
-const output = document.getElementById("output");
-const board1 = new Chessboard(document.getElementById("board1"), {
+const board = new Chessboard(document.getElementById("board"), {
     position: "start",
     events: {
         inputStart: (square) => {
@@ -32,16 +31,17 @@ const board1 = new Chessboard(document.getElementById("board1"), {
             log("inputDone: " + squareFrom + "-" + squareTo);
             return true;
         }
-    }});
-board1.enableInput(COLOR.white, true);
-board1.enableInput(COLOR.black, true);
+    }
+});
+board.enableInput(COLOR.white, true);
+board.enableInput(COLOR.black, true);
 </pre>
 <div id="output"></div>
 <script type="module">
     import {COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
 
     const output = document.getElementById("output");
-    const board1 = new Chessboard(document.getElementById("board1"), {
+    const board = new Chessboard(document.getElementById("board"), {
         position: "start",
         events: {
             inputStart: (square) => {
@@ -57,8 +57,8 @@ board1.enableInput(COLOR.black, true);
                 return true;
             }
         }});
-    board1.enableInput(COLOR.white, true);
-    board1.enableInput(COLOR.black, true);
+    board.enableInput(COLOR.white, true);
+    board.enableInput(COLOR.black, true);
 </script>
 </body>
 </html>
