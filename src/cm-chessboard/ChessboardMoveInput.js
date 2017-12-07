@@ -86,7 +86,7 @@ export class ChessboardMoveInput {
                     Svg.removeElement(this.dragableFigure);
                     this.dragableFigure = null;
                 }
-                if(prevStatus === STATUS.dragTo) {
+                if (prevStatus === STATUS.dragTo) {
                     this._view.setFigureVisible(params.square);
                 }
                 /*
@@ -192,18 +192,19 @@ export class ChessboardMoveInput {
     onPointerDown(e) {
         const square = e.target.parentElement.getAttribute("data-square");
         const figure = e.target.parentElement.getAttribute("data-figure");
-        const color = figure.substr(0, 1);
-        if(this._model.inputWhiteEnabled && color === "w" ||
-            this._model.inputBlackEnabled && color === "b") {
-            let x, y;
-            if (e.type === "mousedown") {
-                x = e.clientX;
-                y = e.clientY;
-            } else if (e.type === "touchstart") {
-                x = e.touches[0].clientX;
-                y = e.touches[0].clientY;
-            }
-            if (square) {
+        if (square) {
+            const color = figure ? figure.substr(0, 1) : null;
+            if (this._status !== STATUS.waitForInputStart ||
+                this._model.inputWhiteEnabled && color === "w" ||
+                this._model.inputBlackEnabled && color === "b") {
+                let x, y;
+                if (e.type === "mousedown") {
+                    x = e.clientX;
+                    y = e.clientY;
+                } else if (e.type === "touchstart") {
+                    x = e.touches[0].clientX;
+                    y = e.touches[0].clientY;
+                }
                 if (this._status === STATUS.waitForInputStart && figure && this._moveStartCallback(square)) {
                     this.setStatus(STATUS.figureClickedThreshold, {
                         square: square,
@@ -231,7 +232,7 @@ export class ChessboardMoveInput {
 
     onPointerMove(e) {
         let x, y, targetGroup;
-        if(e.type === "mousemove") {
+        if (e.type === "mousemove") {
             x = e.clientX;
             y = e.clientY;
             targetGroup = e.target.parentElement;
@@ -274,7 +275,7 @@ export class ChessboardMoveInput {
 
     onPointerUp(e) {
         let x, y, targetGroup;
-        if(e.type === "mouseup") {
+        if (e.type === "mouseup") {
             targetGroup = e.target.parentElement;
         } else if (e.type === "touchend") {
             x = e.changedTouches[0].clientX;
