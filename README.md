@@ -66,7 +66,7 @@ Remove the board from the DOM.
 ### enableInput(color, enable)
 
 Enables moves via user input (mouse or touch). Allowed values are `COLOR.white` or `COLOR.black` 
- or `"white"` or `"black"` for `color` and `boolean for `enable`.
+ or `"white"` or `"black"` for `color` and `boolean` for `enable`.
  
 ### addMarker(square, type = MARKER_TYPE.emphasize)
 
