@@ -31,6 +31,7 @@ export class ChessboardView {
                 }
             });
         }
+        // TODO create event handler on Chessboard.enableInput()
         containerElement.addEventListener('mousedown', (e) => {
             e.preventDefault();
             e.stopPropagation();

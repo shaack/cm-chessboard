@@ -192,34 +192,38 @@ export class ChessboardMoveInput {
     onPointerDown(e) {
         const square = e.target.parentElement.getAttribute("data-square");
         const figure = e.target.parentElement.getAttribute("data-figure");
-        let x, y;
-        if(e.type === "mousedown") {
-            x = e.clientX;
-            y = e.clientY;
-        } else if (e.type === "touchstart") {
-            x = e.touches[0].clientX;
-            y = e.touches[0].clientY;
-        }
-        if (square) {
-            if (this._status === STATUS.waitForInputStart && figure && this._moveStartCallback(square)) {
-                this.setStatus(STATUS.figureClickedThreshold, {
-                    square: square,
-                    figure: figure,
-                    x: x,
-                    y: y,
-                    type: e.type
-                });
-            } else if (this._status === STATUS.clickTo) {
-                if (square === this.startSquare) {
-                    this.setStatus(STATUS.secondClickThreshold, {
+        const color = figure.substr(0, 1);
+        if(this._model.inputWhiteEnabled && color === "w" ||
+            this._model.inputBlackEnabled && color === "b") {
+            let x, y;
+            if (e.type === "mousedown") {
+                x = e.clientX;
+                y = e.clientY;
+            } else if (e.type === "touchstart") {
+                x = e.touches[0].clientX;
+                y = e.touches[0].clientY;
+            }
+            if (square) {
+                if (this._status === STATUS.waitForInputStart && figure && this._moveStartCallback(square)) {
+                    this.setStatus(STATUS.figureClickedThreshold, {
                         square: square,
                         figure: figure,
                         x: x,
                         y: y,
                         type: e.type
                     });
-                } else {
-                    this.setStatus(STATUS.moveDone, {square: square})
+                } else if (this._status === STATUS.clickTo) {
+                    if (square === this.startSquare) {
+                        this.setStatus(STATUS.secondClickThreshold, {
+                            square: square,
+                            figure: figure,
+                            x: x,
+                            y: y,
+                            type: e.type
+                        });
+                    } else {
+                        this.setStatus(STATUS.moveDone, {square: square})
+                    }
                 }
             }
         }
