@@ -18,6 +18,28 @@
 <h1>Input Enabled</h1>
 <p>Input enabled on both sides, without move validation.</p>
 <div class="board" id="board1"></div>
+<h2>Code</h2>
+<pre>
+const output = document.getElementById("output");
+const board1 = new Chessboard(document.getElementById("board1"), {
+    position: "start",
+    events: {
+        inputStart: (square) => {
+            const log = document.createElement("div");
+            log.innerText = "inputStart: " + square;
+            output.appendChild(log);
+            return true;
+        },
+        inputDone: (squareFrom, squareTo) => {
+            const log = document.createElement("div");
+            log.innerText = "inputDone: " + squareFrom + "-" + squareTo;
+            output.appendChild(log);
+            return true;
+        }
+    }});
+board1.enableInput(COLOR.white, true);
+board1.enableInput(COLOR.black, true);
+</pre>
 <div id="output"></div>
 <script type="module">
     import {COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
@@ -30,13 +52,13 @@
                 const log = document.createElement("div");
                 log.innerText = "inputStart: " + square;
                 output.appendChild(log);
-                return true; // false for cancel
+                return true;
             },
             inputDone: (squareFrom, squareTo) => {
                 const log = document.createElement("div");
                 log.innerText = "inputDone: " + squareFrom + "-" + squareTo;
                 output.appendChild(log);
-                return true; // false for cancel
+                return true;
             }
         }});
     board1.enableInput(COLOR.white, true);
