@@ -17,11 +17,6 @@ const STATUS = {
     reset: 7
 };
 
-const POINTER_TYPE = { // TODO
-    mouse: 1,
-    touch: 2
-};
-
 const DRAG_THRESHOLD = 2;
 
 export class ChessboardMoveInput {

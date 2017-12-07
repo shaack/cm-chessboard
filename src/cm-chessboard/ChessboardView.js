@@ -15,12 +15,11 @@ const SPRITE_LOADING_STATUS = {
 
 export class ChessboardView {
 
-    constructor(containerElement, model, config, createCallback, inputCallback) {
+    constructor(containerElement, model, config, createCallback) {
         this._containerElement = containerElement;
         this._config = config;
         this._spriteLoadWaitingTries = 0;
         this._model = model;
-        this._inputCallback = inputCallback;
         this.loadSprite(config, createCallback);
         this._spriteLoadWaitDelay = 0;
         this._moveInput = new ChessboardMoveInput(this, this._model, this._config, this._moveStartCallback, this._moveDoneCallback);

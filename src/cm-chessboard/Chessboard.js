@@ -11,7 +11,7 @@ export const COLOR = {
 };
 export const INPUT_MODE = {
     dragFigure: 1,
-    dragMarker: 2
+    dragMarker: 2 // TODO
 };
 export const MARKER_TYPE = {
     newMove: {slice: "marker1", opacity: 0.6},
@@ -41,7 +41,7 @@ export class Chessboard {
     constructor(containerElement, config = {}, createCallback) {
         const DEFAULT_SPRITE_GRID = 40;
         this._config = {
-            position: null, // empty board
+            position: "empty", // empty board, set as fen or "start" or "empty"
             orientation: COLOR.white, // white on bottom
             showCoordinates: true, // show ranks and files
             responsive: false, // detect window resize
@@ -66,7 +66,7 @@ export class Chessboard {
             this._model.inputMode = this._config.inputMode;
             this._view.setNeedsRedraw();
             createCallback ? createCallback() : null;
-        }, this._inputCallback);
+        });
         this._view.setNeedsRedraw();
     }
 
@@ -99,7 +99,7 @@ export class Chessboard {
     setPosition(fen) {
         if (fen === "start") {
             this._model.setPosition(FEN_START_POSITION);
-        } else if (fen === "empty") {
+        } else if (fen === "empty" || fen === null) {
             this._model.setPosition(FEN_EMPTY_POSITION);
         } else {
             this._model.setPosition(fen);

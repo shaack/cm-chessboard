@@ -16,7 +16,7 @@ Lightweight, SVG, ES6-module and almost no external dependencies.
 With default values
 ```
 this._config = {
-    position: null, // empty board
+    position: "empty", // empty board, set as fen or "start" or "empty"
     orientation: COLOR.white, // white on bottom
     showCoordinates: true, // show ranks and files
     responsive: false, // detect window resize
