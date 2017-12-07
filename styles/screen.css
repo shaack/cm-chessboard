@@ -14,8 +14,15 @@ a {
     color: #333; }
 
 /* line 16, _global.scss */
+h2 {
+  margin-bottom: 15px; }
+
+/* line 20, _global.scss */
 pre {
-  white-space: pre-wrap; }
+  background-color: #555;
+  color: white;
+  padding: 5px;
+  overflow: auto; }
 
 /* line 4, _skin-base.scss */
 .cm-chessboard {

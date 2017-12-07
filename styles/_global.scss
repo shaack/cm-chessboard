@@ -13,6 +13,13 @@ a {
   }
 }
 
+h2 {
+  margin-bottom: 15px;
+}
+
 pre {
-  white-space: pre-wrap;
+  background-color: #555;
+  color: white;
+  padding: 5px;
+  overflow: auto;
 }
