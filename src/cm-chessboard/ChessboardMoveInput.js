@@ -310,6 +310,7 @@ export class ChessboardMoveInput {
         if (this.endSquare) {
             this._model.addMarker(this.endSquare, MARKER_TYPE.newMove);
         }
+        this._view.drawMarkers();
         // this._view.setNeedsRedraw();
     }
 }

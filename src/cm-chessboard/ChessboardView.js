@@ -206,6 +206,11 @@ export class ChessboardView {
     }
 
     drawMarkers() {
+        console.log("drawMarkers");
+        const existingMarkers = this.mainGroup.querySelectorAll("use.marker");
+        existingMarkers.forEach((existingMarker) => {
+           Svg.removeElement(existingMarker);
+        });
         this._model.markers.forEach((marker) => {
                 this.drawMarker(marker.square, marker.type);
             }
@@ -214,7 +219,8 @@ export class ChessboardView {
 
     drawMarker(square, markerType) {
         const squareGroup = this._getSquareGroup(square);
-        const marker = Svg.addElement(squareGroup, "use", {"href": "#" + markerType.slice, opacity: markerType.opacity});
+        const marker = Svg.addElement(squareGroup, "use",
+            {"href": "#" + markerType.slice, opacity: markerType.opacity, class: "marker"});
         const scalingX = this.squareWidth / this._config.sprite.grid;
         const scalingY = this.squareHeight / this._config.sprite.grid;
         const transformScale = (this.svg.createSVGTransform());
