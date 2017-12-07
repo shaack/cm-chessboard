@@ -32,6 +32,16 @@ export class ChessboardView {
                 }
             });
         }
+        containerElement.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            this._moveInput.onPointerDown(e);
+        });
+        containerElement.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            this._moveInput.onPointerDown(e);
+        });
     }
 
     loadSprite(config, callback) {
@@ -111,16 +121,7 @@ export class ChessboardView {
             if(this._model.inputWhiteEnabled || this._model.inputBlackEnabled) {
                 this.mainGroup.setAttribute("class", this.mainGroup.getAttribute("class") + " input-enabled");
             }
-            this.mainGroup.addEventListener('mousedown', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                this._moveInput.onPointerDown(e);
-            });
-            this.mainGroup.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                this._moveInput.onPointerDown(e);
-            });
+
         }
         let boardBorder = Svg.addElement(this.mainGroup, "rect", {width: this.width, height: this.height});
         boardBorder.setAttribute("class", "board-border");
@@ -146,6 +147,7 @@ export class ChessboardView {
                 }
             }
         }
+        // noinspection JSSuspiciousNameCombination
         Svg.addElement(this.mainGroup, "line", {
             x1: this.borderWidth, y1: this.borderWidth,
             x2: this.width - this.borderWidth, y2: this.borderWidth, class: "surrounding-line"
@@ -175,7 +177,7 @@ export class ChessboardView {
         for (let i = 0; i < 64; i++) {
             const figureName = this._model.squares[i];
             const square = SQUARE_COORDINATES[i];
-            const squareGroup = this.svg.querySelector("g[data-square='" + square + "']");
+            const squareGroup = this._getSquareGroup(square);
             if (figureName) {
                 const figure = Svg.addElement(squareGroup, "use", {"href": "#" + figureName});
                 squareGroup.setAttribute("class", squareGroup.getAttribute("class") + " f" + figureName.substr(0, 1));
@@ -192,6 +194,13 @@ export class ChessboardView {
         }
     }
 
+    hideFigure(square) {
+        console.log("hideFigure");
+        const squareGroup = this._getSquareGroup(square);
+        const use = squareGroup.getElementsByTagName("use");
+        use[0].setAttribute("style", "display: none");
+    }
+
     drawMarkers() {
         this._model.markers.forEach((marker) => {
                 this.drawMarker(marker.square, marker.type);
@@ -200,7 +209,7 @@ export class ChessboardView {
     }
 
     drawMarker(square, markerType) {
-        const squareGroup = this.svg.querySelector("g[data-square='" + square + "']");
+        const squareGroup = this._getSquareGroup(square);
         const marker = Svg.addElement(squareGroup, "use", {"href": "#" + markerType.slice, opacity: markerType.opacity});
         const scalingX = this.squareWidth / this._config.sprite.grid;
         const scalingY = this.squareHeight / this._config.sprite.grid;
@@ -242,6 +251,10 @@ export class ChessboardView {
                 textElement.textContent = 1 + rank;
             }
         }
+    }
+
+    _getSquareGroup(square) {
+        return this.svg.querySelector("g[data-square='" + square + "']");
     }
 
     _moveStartCallback(square) {

@@ -37,7 +37,8 @@ export class ChessboardMoveInput {
 
     setStatus(newStatus, params = null) {
 
-        // console.log("setStatus", this._status, "=>", newStatus);
+        console.log("setStatus", this._status, "=>", newStatus);
+
         const prevStatus = this._status;
         this._status = newStatus;
 
@@ -63,6 +64,7 @@ export class ChessboardMoveInput {
                     window.removeEventListener(this._pointerUpListener.type, this._pointerUpListener);
                     this._pointerUpListener = null;
                 }
+                this._view.setNeedsRedraw();
                 this.setStatus(STATUS.waitForInputStart);
                 break;
 
@@ -83,12 +85,12 @@ export class ChessboardMoveInput {
                     if (params.type === "mousedown") {
 
                         this._pointerMoveListener = this.onPointerMove.bind(this);
-                        window.addEventListener("mousemove", this._pointerMoveListener);
                         this._pointerMoveListener.type = "mousemove";
+                        window.addEventListener("mousemove", this._pointerMoveListener);
 
                         this._pointerUpListener = this.onPointerUp.bind(this);
-                        window.addEventListener("mouseup", this._pointerUpListener);
                         this._pointerUpListener.type = "mouseup";
+                        window.addEventListener("mouseup", this._pointerUpListener);
 
                     } else if (params.type === "touchstart") {
 
@@ -118,7 +120,7 @@ export class ChessboardMoveInput {
                 } else {
                     this.movedFigure = params.figure;
                 }
-                this._view.setNeedsRedraw();
+                // this._view.setNeedsRedraw();
                 break;
 
             case STATUS.secondClickThreshold:
@@ -133,9 +135,9 @@ export class ChessboardMoveInput {
                 if ([STATUS.threshold].indexOf(prevStatus) === -1) {
                     throw new Error("status");
                 }
-                this._model.setSquare(params.square, "");
+                this._view.hideFigure(params.square);
                 this.createDragableFigure(params.figure);
-                this._view.setNeedsRedraw();
+                // this._view.setNeedsRedraw();
                 break;
 
             case STATUS.clickDragTo:
@@ -144,7 +146,7 @@ export class ChessboardMoveInput {
                 }
                 this._model.setSquare(params.square, "");
                 this.createDragableFigure(params.figure);
-                this._view.setNeedsRedraw();
+                // this._view.setNeedsRedraw();
                 break;
 
             case STATUS.moveDone:
@@ -191,7 +193,7 @@ export class ChessboardMoveInput {
     }
 
     onPointerDown(e) {
-        console.log(e);
+        console.log("onPointerDown", e.type);
         const square = e.target.parentElement.getAttribute("data-square");
         const figure = e.target.parentElement.getAttribute("data-figure");
         let x, y;
@@ -228,6 +230,7 @@ export class ChessboardMoveInput {
     }
 
     onPointerMove(e) {
+        console.log("onPointerMove", e.type);
         let x, y;
         if(e.type === "mousemove") {
             x = e.clientX;
@@ -268,6 +271,7 @@ export class ChessboardMoveInput {
     }
 
     onPointerUp(e) {
+        console.log("onPointerUp", e.type);
         if (e.target.parentElement && e.target.parentElement.getAttribute) {
             const square = e.target.parentElement.getAttribute("data-square");
             if (square) {
@@ -303,6 +307,6 @@ export class ChessboardMoveInput {
         if (this.endSquare) {
             this._model.addMarker(this.endSquare, MARKER_TYPE.newMove);
         }
-        this._view.setNeedsRedraw();
+        // this._view.setNeedsRedraw();
     }
 }
