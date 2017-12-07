@@ -87,7 +87,7 @@ export class ChessboardMoveInput {
                     this.dragableFigure = null;
                 }
                 if (prevStatus === STATUS.dragTo) {
-                    this._view.setFigureVisible(params.square);
+                    this._view.setFigureVisibility(params.square);
                 }
                 /*
                 if (this.movedFigure) {
@@ -111,7 +111,7 @@ export class ChessboardMoveInput {
                 if ([STATUS.figureClickedThreshold].indexOf(prevStatus) === -1) {
                     throw new Error("status");
                 }
-                this._view.setFigureVisible(params.square, false);
+                this._view.setFigureVisibility(params.square, false);
                 this.createDragableFigure(params.figure);
                 break;
 
@@ -119,7 +119,7 @@ export class ChessboardMoveInput {
                 if ([STATUS.secondClickThreshold].indexOf(prevStatus) === -1) {
                     throw new Error("status");
                 }
-                this._view.setFigureVisible(params.square, false);
+                this._view.setFigureVisibility(params.square, false);
                 this.createDragableFigure(params.figure);
                 break;
 
