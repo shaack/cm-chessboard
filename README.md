@@ -73,7 +73,7 @@ Enables moves via user input (mouse or touch). Allowed values are `COLOR.white` 
 Add a marker to a square.
 
 Default types are: `MARKER_TYPE.newMove`, `MARKER_TYPE.lastMove`, `MARKER_TYPE.emphasize`,
-exportet by `Chessboard.js`. You can create your own marker types, just create an object like 
+exportet by `Chessboard.js`. You can create your own marker types: Just create an object like 
 `{slice: "marker1", opacity: 0.6}`, where `slice` is the id in sprite.svg, `opacity` the opacity.
 
 
