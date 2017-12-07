@@ -25,15 +25,11 @@ const board1 = new Chessboard(document.getElementById("board1"), {
     position: "start",
     events: {
         inputStart: (square) => {
-            const log = document.createElement("div");
-            log.innerText = "inputStart: " + square;
-            output.appendChild(log);
+            log("inputStart: " + square);
             return true;
         },
         inputDone: (squareFrom, squareTo) => {
-            const log = document.createElement("div");
-            log.innerText = "inputDone: " + squareFrom + "-" + squareTo;
-            output.appendChild(log);
+            log("inputDone: " + squareFrom + "-" + squareTo);
             return true;
         }
     }});
