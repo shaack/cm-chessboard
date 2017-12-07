@@ -194,11 +194,15 @@ export class ChessboardView {
         }
     }
 
-    hideFigure(square) {
-        console.log("hideFigure");
+    setFigureVisible(square, show = true) {
         const squareGroup = this._getSquareGroup(square);
         const use = squareGroup.getElementsByTagName("use");
-        use[0].setAttribute("style", "display: none");
+        if(show) {
+            use[0].setAttribute("visibility", "visible");
+        } else {
+            use[0].setAttribute("visibility", "hidden");
+        }
+
     }
 
     drawMarkers() {
