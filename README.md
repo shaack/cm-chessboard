@@ -1,6 +1,9 @@
 # cm-chessboard
 
-The chessboard for [chessmail.eu](https://www.chessmail.eu) / [chessmail.de](https://www.chessmail.de)
+The (upcoming) chessboard for [chessmail.eu](https://www.chessmail.eu) / [chessmail.de](https://www.chessmail.de)
+
+Current version is alpha, works on Desktop (Chrome, Firefox, Safari), Android and iOS. 
+Not testet in Edge (will work in Edge in future). Not planned to get it working in IE.
 
 Lightweight, SVG, ES6-module and almost no external dependencies.
 
