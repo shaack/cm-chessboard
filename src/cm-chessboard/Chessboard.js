@@ -15,8 +15,8 @@ export const INPUT_MODE = {
 };
 export const MARKER_TYPE = {
     newMove: {slice: "marker1", opacity: 0.6},
-    lastMove: {slice: "marker1", opacity: 0.5},
-    emphasize: {slice: "marker2", opacity: 0.5}
+    lastMove: {slice: "marker1", opacity: 0.2},
+    emphasize: {slice: "marker2", opacity: 0.6}
 };
 export const FIGURE = {
     whitePawn: "wp",
