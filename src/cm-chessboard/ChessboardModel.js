@@ -43,15 +43,15 @@ export class ChessboardModel {
             this.markers = [];
         } else {
             this.markers = this.markers.filter((marker) => {
-                if(marker.type === null) {
-                    if(square === marker.square) {
+                if (marker.type === null) {
+                    if (square === marker.square) {
                         return false;
                     }
-                } else if(square === null) {
-                    if(marker.type === type) {
+                } else if (square === null) {
+                    if (marker.type === type) {
                         return false;
                     }
-                } else if(marker.type === type && square === marker.square) {
+                } else if (marker.type === type && square === marker.square) {
                     return false;
                 }
                 return true;
@@ -116,4 +116,5 @@ export class ChessboardModel {
         }
         return parts.join("/");
     }
+
 }

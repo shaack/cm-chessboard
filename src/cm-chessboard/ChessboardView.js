@@ -170,7 +170,7 @@ export class ChessboardView {
         }
     }
 
-    drawFigures() {
+    drawFigures(animate = true) {
         const scaling = this.squareHeight / this._config.sprite.grid;
         for (let i = 0; i < 64; i++) {
             const figureName = this._model.squares[i];
@@ -279,6 +279,7 @@ export class ChessboardView {
             return true;
         }
     }
+
 }
 
 ChessboardView.spriteLoadingStatus = SPRITE_LOADING_STATUS.notLoaded; // static
