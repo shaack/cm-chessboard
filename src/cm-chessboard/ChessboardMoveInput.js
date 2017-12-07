@@ -37,7 +37,7 @@ export class ChessboardMoveInput {
 
     setStatus(newStatus, params = null) {
 
-        console.log("setStatus",  Object.keys(STATUS)[this._status], "=>",  Object.keys(STATUS)[newStatus]);
+        // console.log("setStatus",  Object.keys(STATUS)[this._status], "=>",  Object.keys(STATUS)[newStatus]);
 
         const prevStatus = this._status;
         this._status = newStatus;
@@ -196,7 +196,6 @@ export class ChessboardMoveInput {
     }
 
     onPointerDown(e) {
-        console.log("onPointerDown", e.type);
         const square = e.target.parentElement.getAttribute("data-square");
         const figure = e.target.parentElement.getAttribute("data-figure");
         let x, y;
@@ -233,19 +232,21 @@ export class ChessboardMoveInput {
     }
 
     onPointerMove(e) {
-        console.log("onPointerMove", e.type);
-        let x, y;
+        let x, y, targetGroup;
         if(e.type === "mousemove") {
             x = e.clientX;
             y = e.clientY;
+            targetGroup = e.target.parentElement;
         } else if (e.type === "touchmove") {
             x = e.touches[0].clientX;
             y = e.touches[0].clientY;
+            const touchTarget = document.elementFromPoint(x, y);
+            targetGroup = touchTarget.parentElement;
         }
         if (this._status === STATUS.figureClickedThreshold || this._status === STATUS.secondClickThreshold) {
             if (Math.abs(this._startX - x) > DRAG_THRESHOLD || Math.abs(this._startY - y) > DRAG_THRESHOLD) {
-                const square = e.target.parentElement.getAttribute("data-square");
-                const figureName = e.target.parentElement.getAttribute("data-figure");
+                const square = targetGroup.getAttribute("data-square");
+                const figureName = targetGroup.getAttribute("data-figure");
                 if (this._status === STATUS.secondClickThreshold) {
                     this.setStatus(STATUS.clickDragTo, {square: square, figure: figureName});
                 } else {
@@ -254,8 +255,8 @@ export class ChessboardMoveInput {
                 this.moveDragableFigure(x, y);
             }
         } else if (this._status === STATUS.dragTo || this._status === STATUS.clickDragTo || this._status === STATUS.clickTo) {
-            if (e.target.parentElement && e.target.parentElement.getAttribute) {
-                const square = e.target.parentElement.getAttribute("data-square");
+            if (targetGroup && targetGroup.getAttribute) {
+                const square = targetGroup.getAttribute("data-square");
                 if (square !== this.startSquare && square !== this.endSquare) {
                     this.endSquare = square;
                     this.updateStartEndMarker();
@@ -274,9 +275,18 @@ export class ChessboardMoveInput {
     }
 
     onPointerUp(e) {
-        console.log("onPointerUp", e.type);
-        if (e.target.parentElement && e.target.parentElement.getAttribute) {
-            const square = e.target.parentElement.getAttribute("data-square");
+        let x, y, targetGroup;
+        if(e.type === "mouseup") {
+            targetGroup = e.target.parentElement;
+        } else if (e.type === "touchend") {
+            x = e.changedTouches[0].clientX;
+            y = e.changedTouches[0].clientY;
+            const touchTarget = document.elementFromPoint(x, y);
+            targetGroup = touchTarget.parentElement;
+        }
+        if (targetGroup && targetGroup.getAttribute) {
+            const square = targetGroup.getAttribute("data-square");
+
             if (square) {
                 if (this._status === STATUS.dragTo || this._status === STATUS.clickDragTo) {
                     if (this.startSquare === square) {
@@ -311,6 +321,5 @@ export class ChessboardMoveInput {
             this._model.addMarker(this.endSquare, MARKER_TYPE.newMove);
         }
         this._view.drawMarkers();
-        // this._view.setNeedsRedraw();
     }
 }

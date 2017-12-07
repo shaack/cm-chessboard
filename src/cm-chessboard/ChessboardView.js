@@ -206,7 +206,6 @@ export class ChessboardView {
     }
 
     drawMarkers() {
-        console.log("drawMarkers");
         const existingMarkers = this.mainGroup.querySelectorAll("use.marker");
         existingMarkers.forEach((existingMarker) => {
            Svg.removeElement(existingMarker);
