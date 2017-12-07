@@ -52,7 +52,7 @@ Get figure on square.
 
 ### setPosition(fen)
 
-Set the position as fen. Special values: `start` sets the chess start position, `empty` sets empty board.
+Set the position as fen. Special values: `"start"` sets the chess start position, `"empty"` sets empty board.
 
 ### getPosition()
 
