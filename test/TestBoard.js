@@ -14,7 +14,7 @@ export class TestBoard extends Test {
         }, () => {
             setTimeout(() => {
                 Test.assertEquals(1, chessboard._view._containerElement.childNodes.length);
-                chessboard.remove();
+                chessboard.destroy();
                 Test.assertEquals(0, chessboard._view._containerElement.childNodes.length);
             });
 
