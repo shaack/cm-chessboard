@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>cm-chessboard</title>
+    <link rel="stylesheet" href="../styles/screen.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
+    <style type="text/css">
+        .board {
+            float: left;
+            width: 450px;
+            height: 430px;
+            margin-right: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<h1>Input Enabled</h1>
+<p>Input enabled for white. <a href="https://github.com/jhlywa/chess.js">chess.js</a> does the validation an answers with random moves.</p>
+<div class="board" id="board"></div>
+<h2>Code</h2>
+<pre>
+const board = new Chessboard(document.getElementById("board"), {
+    position: chess.fen(),
+    events: {
+        inputDone: (squareFrom, squareTo) => {
+            const result = chess.move({from: squareFrom, to: squareTo});
+            if (result) {
+                board.setPosition(chess.fen());
+                board.enableInput(COLOR.white, false);
+                setTimeout(() => {
+                    const possibleMoves = chess.moves({verbose: true});
+                    if(possibleMoves.length > 0) {
+                        const randomMove = possibleMoves[random(0, possibleMoves.length - 1)];
+                        chess.move({from: randomMove.from, to: randomMove.to});
+                        board.setPosition(chess.fen());
+                        board.enableInput(COLOR.white, true);
+                    }
+                }, 500)
+            }
+            return result;
+        }
+    }
+});
+board.enableInput(COLOR.white, true);
+</pre>
+<div id="output"></div>
+<script type="module">
+    import {COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
+
+    function random(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    const chess = new Chess();
+    const board = new Chessboard(document.getElementById("board"), {
+        position: chess.fen(),
+        events: {
+            inputDone: (squareFrom, squareTo) => {
+                const result = chess.move({from: squareFrom, to: squareTo});
+                if (result) {
+                    board.setPosition(chess.fen());
+                    board.enableInput(COLOR.white, false);
+                    setTimeout(() => {
+                        const possibleMoves = chess.moves({verbose: true});
+                        if(possibleMoves.length > 0) {
+                            const randomMove = possibleMoves[random(0, possibleMoves.length - 1)];
+                            chess.move({from: randomMove.from, to: randomMove.to});
+                            board.setPosition(chess.fen());
+                            board.enableInput(COLOR.white, true);
+                        }
+                    }, 500)
+                }
+                return result;
+            }
+        }
+    });
+    board.enableInput(COLOR.white, true);
+</script>
+</body>
+</html>
