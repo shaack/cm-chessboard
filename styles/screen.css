@@ -34,12 +34,15 @@ pre {
     stroke-linecap: round;
     stroke: #c09470; }
   /* line 21, _skin-base.scss */
+  .cm-chessboard .main-group .square use {
+    pointer-events: none; }
+  /* line 24, _skin-base.scss */
   .cm-chessboard .main-group .square.white {
     fill: #eedab6; }
-  /* line 24, _skin-base.scss */
+  /* line 27, _skin-base.scss */
   .cm-chessboard .main-group .square.black {
     fill: #c09470; }
-  /* line 29, _skin-base.scss */
+  /* line 32, _skin-base.scss */
   .cm-chessboard .main-group.input-enabled .square {
     cursor: pointer; }
 
