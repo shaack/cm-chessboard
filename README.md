@@ -80,4 +80,4 @@ exportet by `Chessboard.js`. You can create your own marker types: Just create a
 ### removeMarker(square = null, type = null);
 
 Set `square` to `null` to remove `type` from all squares.
-Set `type` to `null`, to remove all types. Set both to `null` to remove all marker.
+Set `type` to `null`, to remove all types. Set both to `null` to remove all markers.
