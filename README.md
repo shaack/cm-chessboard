@@ -5,7 +5,7 @@ The (upcoming) chessboard for [chessmail.eu](https://www.chessmail.eu) / [chessm
 Current version is "alpha", works on desktop (current versions of Chrome, Firefox, Safari, Edge), 
 and mobile (Android and iOS). Will not work in IE. Not planned to get it working in IE.
 
-Lightweight, SVG, ES6-module and almost no external dependencies.
+Lightweight, SVG, ES6 module and almost no external dependencies.
 
 - Demo: [http://shaack.com/projekte/cm-chessboard/](http://shaack.com/projekte/cm-chessboard/)
 - Repository: [https://github.com/shaack/cm-chessboard](https://github.com/shaack/cm-chessboard)
@@ -37,38 +37,27 @@ this._config = {
 
 ## API
 
-### addMarker(square, type = MARKER_TYPE.emphasize)
-
-Add a marker on a square. Default types are: MARKER_TYPE.newMove, MARKER_TYPE.lastMove, MARKER_TYPE.emphasize,
-exportet by `Chessboard.js`. You can create your own marker types, just create an object like {slice: "marker1", opacity: 0.6}.
-`slice` is the id in sprite.svg, `opacity` the opacity.
- 
-
-### removeMarker(field = null, type = null);
-
-Set field to null to remove all marker from squares.
-Set type to null, to remove all types.
-
 ### getSquare(square)
 
-Get figure on square.
+Returns the figure on a square.
 
 ### setPosition(fen)
 
-Set the position as fen. Special values: `"start"` sets the chess start position, `"empty"` sets empty board.
+Set the position as `fen`. Special values are `"start"`, sets the chess start position and 
+`"empty"`, sets an empty board.
 
 ### getPosition()
 
-Get the position as fen.
+Get the board position as `fen`.
 
 ### setOrientation(color)
 
-Set the board orientation. (Color at bottom). Allowed values are `COLOR.white` or `COLOR.black` 
+Set the board orientation (color at bottom). Allowed values are `COLOR.white` or `COLOR.black` 
 or `"white"` or `"black"`.
 
 ###  getOrientation()
 
-Get the board orientation. 
+Returns the the board orientation. 
 
 ### destroy()
 
@@ -76,5 +65,19 @@ Remove the board from the DOM.
 
 ### enableInput(color, enable)
 
-Enables moves via user input, mouse or touch. Allowed values are `COLOR.white` or `COLOR.black` 
- or `"white"` or `"black"` and boolean.
+Enables moves via user input (mouse or touch). Allowed values are `COLOR.white` or `COLOR.black` 
+ or `"white"` or `"black"` for `color` and `boolean for `enable`.
+ 
+### addMarker(square, type = MARKER_TYPE.emphasize)
+
+Add a marker to a square.
+
+Default types are: `MARKER_TYPE.newMove`, `MARKER_TYPE.lastMove`, ``,
+exportet by `Chessboard.js`. You can create your own marker types, just create an object like 
+`{slice: "marker1", opacity: 0.6}`, where `slice` is the id in sprite.svg, `opacity` the opacity.
+
+
+### removeMarker(square = null, type = null);
+
+Set `square` to `null` to remove `type` from all squares.
+Set `type` to `null`, to remove all types. Set both to `null` to remove all marker.
