@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="../styles/screen.css"/>
     <style type="text/css">
         .board {
+            position: absolute;
             width: 200px;
             height: 200px;
         }
@@ -16,9 +17,11 @@
 <script type="module">
     import {TestPosition} from "./TestPosition.js"
     import {TestBoard} from "./TestBoard.js"
+    import {TestFigureAnimation} from "./TestFigureAnimation.js";
 
     TestBoard.run();
     TestPosition.run();
+    TestFigureAnimation.run();
 </script>
 </body>
 </html>
