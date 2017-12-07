@@ -2,8 +2,8 @@
 
 The (upcoming) chessboard for [chessmail.eu](https://www.chessmail.eu) / [chessmail.de](https://www.chessmail.de)
 
-Current version is alpha, works on Desktop (Current versions of Chrome, Firefox, Safari, Edge), 
-Android and iOS. Will not work in IE, not planned to get it working in IE.
+Current version is "alpha", works on desktop (current versions of Chrome, Firefox, Safari, Edge), 
+and mobile (Android and iOS). Will not work in IE. Not planned to get it working in IE.
 
 Lightweight, SVG, ES6-module and almost no external dependencies.
 
