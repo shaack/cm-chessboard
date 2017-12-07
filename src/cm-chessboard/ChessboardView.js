@@ -192,10 +192,10 @@ export class ChessboardView {
         }
     }
 
-    setFigureVisible(square, show = true) {
+    setFigureVisibility(square, visible = true) {
         const squareGroup = this._getSquareGroup(square);
         const use = squareGroup.getElementsByTagName("use");
-        if(show) {
+        if(visible) {
             use[0].setAttribute("visibility", "visible");
         } else {
             use[0].setAttribute("visibility", "hidden");
