@@ -89,7 +89,7 @@ export class ChessboardView {
     }
 
     /**
-     * Redraw async and only once
+     * Redraw async and debounced
      */
     setNeedsRedraw() {
         if (this.redrawTimer) {
@@ -113,15 +113,11 @@ export class ChessboardView {
         });
     }
 
-    /**
-     * Draw the checkered squares
-     */
     drawBoard() {
         if(this._model.inputWhiteEnabled || this._model.inputBlackEnabled) {
             if(this._model.inputWhiteEnabled || this._model.inputBlackEnabled) {
                 this.mainGroup.setAttribute("class", this.mainGroup.getAttribute("class") + " input-enabled");
             }
-
         }
         let boardBorder = Svg.addElement(this.mainGroup, "rect", {width: this.width, height: this.height});
         boardBorder.setAttribute("class", "board-border");
@@ -156,10 +152,12 @@ export class ChessboardView {
             x1: this.borderWidth, y1: this.height - this.borderWidth,
             x2: this.width - this.borderWidth, y2: this.height - this.borderWidth, class: "surrounding-line"
         });
+        // noinspection JSSuspiciousNameCombination
         Svg.addElement(this.mainGroup, "line", {
             x1: this.borderWidth, y1: this.borderWidth,
             x2: this.borderWidth, y2: this.height - this.borderWidth, class: "surrounding-line"
         });
+        // noinspection JSSuspiciousNameCombination
         Svg.addElement(this.mainGroup, "line", {
             x1: this.width - this.borderWidth, y1: this.borderWidth,
             x2: this.width - this.borderWidth, y2: this.height - this.borderWidth, class: "surrounding-line"

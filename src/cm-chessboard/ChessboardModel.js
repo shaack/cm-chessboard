@@ -88,13 +88,10 @@ export class ChessboardModel {
     }
 
     getPosition() {
-        let fen = "";
-        let lastField = "";
         let parts = new Array(8).fill("");
         for (let part = 0; part < 8; part++) {
             let spaceCounter = 0;
             for (let i = 0; i < 8; i++) {
-                let addChar = "?";
                 const figure = this.squares[part * 8 + i];
                 if (figure === "") {
                     spaceCounter++;

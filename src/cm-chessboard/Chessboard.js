@@ -18,6 +18,7 @@ export const MARKER_TYPE = {
     lastMove: {slice: "marker1", opacity: 0.2},
     emphasize: {slice: "marker2", opacity: 0.6}
 };
+// noinspection JSUnusedGlobalSymbols
 export const FIGURE = {
     whitePawn: "wp",
     whiteBishop: "wb",
@@ -115,10 +116,12 @@ export class Chessboard {
         this._view.setNeedsRedraw();
     }
 
+    // noinspection JSUnusedGlobalSymbols
     getOrientation() {
         return this._model.orientation;
     }
 
+    // noinspection JSUnusedGlobalSymbols
     destroy() {
         this._view.remove();
     }

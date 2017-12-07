@@ -17,7 +17,7 @@ const STATUS = {
     reset: 7
 };
 
-const POINTER_TYPE = {
+const POINTER_TYPE = { // TODO
     mouse: 1,
     touch: 2
 };
@@ -179,7 +179,6 @@ export class ChessboardMoveInput {
         this.dragableFigure.setAttribute("width", this._view.squareWidth);
         this.dragableFigure.setAttribute("height", this._view.squareHeight);
         this.dragableFigure.setAttribute("style", "pointer-events: none");
-        this.figureName = figureName;
         const figure = Svg.addElement(this.dragableFigure, "use", {
             "href": "#" + figureName
         });
