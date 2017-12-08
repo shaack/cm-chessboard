@@ -16,17 +16,17 @@ const SPRITE_LOADING_STATUS = {
 export class ChessboardView {
 
     constructor(containerElement, model, config, createCallback) {
-        this._containerElement = containerElement;
-        this._config = config;
-        this._spriteLoadWaitingTries = 0;
-        this._model = model;
+        this.containerElement = containerElement;
+        this.config = config;
+        this.spriteLoadWaitingTries = 0;
+        this.model = model;
         this.loadSprite(config, createCallback);
-        this._spriteLoadWaitDelay = 0;
-        this._moveInput = new ChessboardMoveInput(this, this._model, this._config, this._moveStartCallback, this._moveDoneCallback);
+        this.spriteLoadWaitDelay = 0;
+        this.moveInput = new ChessboardMoveInput(this, this.model, this.config, this.moveStartCallback, this.moveDoneCallback);
         if (config.responsive) {
             window.addEventListener('resize', () => {
-                if (this._containerElement.offsetWidth !== this.width ||
-                    this._containerElement.offsetHeight !== this.height) {
+                if (this.containerElement.offsetWidth !== this.width ||
+                    this.containerElement.offsetHeight !== this.height) {
                     this.setNeedsRedraw();
                 }
             });
@@ -35,12 +35,12 @@ export class ChessboardView {
         containerElement.addEventListener('mousedown', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            this._moveInput.onPointerDown(e);
+            this.moveInput.onPointerDown(e);
         });
         containerElement.addEventListener('touchstart', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            this._moveInput.onPointerDown(e);
+            this.moveInput.onPointerDown(e);
         });
     }
 
@@ -56,14 +56,14 @@ export class ChessboardView {
             }, config.sprite.grid);
         } else if (ChessboardView.spriteLoadingStatus === SPRITE_LOADING_STATUS.loading) {
             setTimeout(() => {
-                this._spriteLoadWaitingTries++;
-                if (this._spriteLoadWaitingTries < 10) {
+                this.spriteLoadWaitingTries++;
+                if (this.spriteLoadWaitingTries < 10) {
                     this.loadSprite(config, callback);
                 } else {
                     console.error("timeout loading sprite", config.sprite.file);
                 }
-            }, this._spriteLoadWaitDelay);
-            this._spriteLoadWaitDelay += 10;
+            }, this.spriteLoadWaitDelay);
+            this.spriteLoadWaitDelay += 10;
         } else if (ChessboardView.spriteLoadingStatus === SPRITE_LOADING_STATUS.loaded) {
             callback();
         } else {
@@ -73,8 +73,8 @@ export class ChessboardView {
     }
 
     updateMetrics() {
-        this.width = this._containerElement.offsetWidth;
-        this.height = this._containerElement.offsetHeight;
+        this.width = this.containerElement.offsetWidth;
+        this.height = this.containerElement.offsetHeight;
         this.borderWidth = this.width / 35;
         this.innerWidth = this.width - 2 * this.borderWidth;
         this.innerHeight = this.height - 2 * this.borderWidth;
@@ -99,13 +99,13 @@ export class ChessboardView {
             if (this.svg) {
                 Svg.removeElement(this.svg);
             }
-            this.svg = Svg.createSvg(this._containerElement);
+            this.svg = Svg.createSvg(this.containerElement);
             this.svg.setAttribute("class", "cm-chessboard");
             this.updateMetrics();
             this.mainGroup = Svg.addElement(this.svg, "g");
             this.mainGroup.setAttribute("class", "main-group");
             this.drawBoard();
-            if (this._config.showCoordinates) {
+            if (this.config.showCoordinates) {
                 this.drawCoordinates();
             }
             this.drawFigures();
@@ -114,8 +114,8 @@ export class ChessboardView {
     }
 
     drawBoard() {
-        if(this._model.inputWhiteEnabled || this._model.inputBlackEnabled) {
-            if(this._model.inputWhiteEnabled || this._model.inputBlackEnabled) {
+        if(this.model.inputWhiteEnabled || this.model.inputBlackEnabled) {
+            if(this.model.inputWhiteEnabled || this.model.inputBlackEnabled) {
                 this.mainGroup.setAttribute("class", this.mainGroup.getAttribute("class") + " input-enabled");
             }
         }
@@ -136,7 +136,7 @@ export class ChessboardView {
                 });
                 squareGroup.setAttribute("class", fieldClass);
                 squareGroup.setAttribute("data-square", String.fromCharCode(97 + squareX) + (8 - squareY));
-                if (this._model.orientation === "black") {
+                if (this.model.orientation === "black") {
                     const transform = (this.svg.createSVGTransform());
                     transform.setRotate(180, this.squareWidth / 2, this.squareHeight / 2);
                     squareGroup.transform.baseVal.appendItem(transform);
@@ -163,7 +163,7 @@ export class ChessboardView {
             x2: this.width - this.borderWidth, y2: this.height - this.borderWidth, class: "surrounding-line"
         });
 
-        if (this._model.orientation === "black") {
+        if (this.model.orientation === "black") {
             const transform = (this.svg.createSVGTransform());
             transform.setRotate(180, this.width / 2, this.height / 2);
             this.mainGroup.transform.baseVal.appendItem(transform);
@@ -171,18 +171,18 @@ export class ChessboardView {
     }
 
     drawFigures(animate = true) {
-        const scaling = this.squareHeight / this._config.sprite.grid;
+        const scaling = this.squareHeight / this.config.sprite.grid;
         for (let i = 0; i < 64; i++) {
-            const figureName = this._model.squares[i];
+            const figureName = this.model.squares[i];
             const square = SQUARE_COORDINATES[i];
-            const squareGroup = this._getSquareGroup(square);
+            const squareGroup = this.getSquareGroup(square);
             if (figureName) {
                 const figure = Svg.addElement(squareGroup, "use", {"href": "#" + figureName});
                 squareGroup.setAttribute("class", squareGroup.getAttribute("class") + " f" + figureName.substr(0, 1));
                 squareGroup.setAttribute("data-figure", figureName);
                 // center on square
                 const transformTranslate = (this.svg.createSVGTransform());
-                transformTranslate.setTranslate((this.squareWidth / 2 - this._config.sprite.grid * scaling / 2), 0);
+                transformTranslate.setTranslate((this.squareWidth / 2 - this.config.sprite.grid * scaling / 2), 0);
                 figure.transform.baseVal.appendItem(transformTranslate);
                 // scale
                 const transformScale = (this.svg.createSVGTransform());
@@ -193,7 +193,7 @@ export class ChessboardView {
     }
 
     setFigureVisibility(square, visible = true) {
-        const squareGroup = this._getSquareGroup(square);
+        const squareGroup = this.getSquareGroup(square);
         const use = squareGroup.getElementsByTagName("use");
         if(visible) {
             use[0].setAttribute("visibility", "visible");
@@ -208,36 +208,36 @@ export class ChessboardView {
         existingMarkers.forEach((existingMarker) => {
            Svg.removeElement(existingMarker);
         });
-        this._model.markers.forEach((marker) => {
+        this.model.markers.forEach((marker) => {
                 this.drawMarker(marker.square, marker.type);
             }
         );
     }
 
     drawMarker(square, markerType) {
-        const squareGroup = this._getSquareGroup(square);
+        const squareGroup = this.getSquareGroup(square);
         const marker = Svg.addElement(squareGroup, "use",
             {"href": "#" + markerType.slice, opacity: markerType.opacity, class: "marker"});
-        const scalingX = this.squareWidth / this._config.sprite.grid;
-        const scalingY = this.squareHeight / this._config.sprite.grid;
+        const scalingX = this.squareWidth / this.config.sprite.grid;
+        const scalingY = this.squareHeight / this.config.sprite.grid;
         const transformScale = (this.svg.createSVGTransform());
         transformScale.setScale(scalingX, scalingY);
         marker.transform.baseVal.appendItem(transformScale);
     }
 
     drawCoordinates() {
-        const scalingX = this.squareWidth / this._config.sprite.grid;
-        const scalingY = this.squareHeight / this._config.sprite.grid;
+        const scalingX = this.squareWidth / this.config.sprite.grid;
+        const scalingY = this.squareHeight / this.config.sprite.grid;
 
         // files
         for (let file = 0; file < 8; file++) {
             const textElement = Svg.addElement(this.svg, "text", {
                 class: "coordinate file",
-                x: this.borderWidth + (18 + this._config.sprite.grid * file) * scalingX,
+                x: this.borderWidth + (18 + this.config.sprite.grid * file) * scalingX,
                 y: this.height - (this.borderWidth / 3.4),
                 style: "font-size: " + scalingY * 7 + "px"
             });
-            if (this._model.orientation === "white") {
+            if (this.model.orientation === "white") {
                 textElement.textContent = String.fromCharCode(97 + file);
             } else {
                 textElement.textContent = String.fromCharCode(104 - file);
@@ -252,7 +252,7 @@ export class ChessboardView {
                 y: this.borderWidth + 23 * scalingY + rank * this.squareHeight,
                 style: "font-size: " + scalingY * 7 + "px"
             });
-            if (this._model.orientation === "white") {
+            if (this.model.orientation === "white") {
                 textElement.textContent = 8 - rank;
             } else {
                 textElement.textContent = 1 + rank;
@@ -260,21 +260,21 @@ export class ChessboardView {
         }
     }
 
-    _getSquareGroup(square) {
+    getSquareGroup(square) {
         return this.svg.querySelector("g[data-square='" + square + "']");
     }
 
-    _moveStartCallback(square) {
-        if(this._config.events.inputStart) {
-            return this._config.events.inputStart(square);
+    moveStartCallback(square) {
+        if(this.config.events.inputStart) {
+            return this.config.events.inputStart(square);
         } else {
             return true;
         }
     }
 
-    _moveDoneCallback(fromSquare, toSquare) {
-        if(this._config.events.inputDone) {
-            return this._config.events.inputDone(fromSquare, toSquare);
+    moveDoneCallback(fromSquare, toSquare) {
+        if(this.config.events.inputDone) {
+            return this.config.events.inputDone(fromSquare, toSquare);
         } else {
             return true;
         }

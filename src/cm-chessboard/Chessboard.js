@@ -40,7 +40,7 @@ export class Chessboard {
 
     constructor(containerElement, config = {}, createCallback) {
         const DEFAULT_SPRITE_GRID = 40;
-        this._config = {
+        this.config = {
             position: "empty", // empty board, set as fen or "start" or "empty"
             orientation: COLOR.white, // white on bottom
             showCoordinates: true, // show ranks and files
@@ -55,26 +55,26 @@ export class Chessboard {
                 inputDone: null // callback after figure move input
             }
         };
-        Object.assign(this._config, config);
-        if (!this._config.sprite.grid) {
-            this._config.sprite.grid = DEFAULT_SPRITE_GRID;
+        Object.assign(this.config, config);
+        if (!this.config.sprite.grid) {
+            this.config.sprite.grid = DEFAULT_SPRITE_GRID;
         }
-        this._model = new ChessboardModel();
-        this._view = new ChessboardView(containerElement, this._model, this._config, () => {
-            this.setPosition(this._config.position);
-            this.setOrientation(this._config.orientation);
-            this._model.inputMode = this._config.inputMode;
-            this._view.setNeedsRedraw();
+        this.model = new ChessboardModel();
+        this.view = new ChessboardView(containerElement, this.model, this.config, () => {
+            this.setPosition(this.config.position);
+            this.setOrientation(this.config.orientation);
+            this.model.inputMode = this.config.inputMode;
+            this.view.setNeedsRedraw();
             createCallback ? createCallback() : null;
         });
-        this._view.setNeedsRedraw();
+        this.view.setNeedsRedraw();
     }
 
     // API
 
     addMarker(square, type = MARKER_TYPE.emphasize) {
-        this._model.addMarker(square, type);
-        this._view.setNeedsRedraw();
+        this.model.addMarker(square, type);
+        this.view.setNeedsRedraw();
     }
 
     /**
@@ -84,46 +84,46 @@ export class Chessboard {
      * @param type
      */
     removeMarker(field = null, type = null) {
-        this._model.removeMarker(field, type);
-        this._view.setNeedsRedraw();
+        this.model.removeMarker(field, type);
+        this.view.setNeedsRedraw();
     }
 
     setSquare(square, figure) {
-        this._model.setSquare(square, figure);
+        this.model.setSquare(square, figure);
     }
 
     getSquare(square) {
-        return this._model.getSquare(square);
+        return this.model.getSquare(square);
     }
 
     setPosition(fen) {
         if (fen === "start") {
-            this._model.setPosition(FEN_START_POSITION);
+            this.model.setPosition(FEN_START_POSITION);
         } else if (fen === "empty" || fen === null) {
-            this._model.setPosition(FEN_EMPTY_POSITION);
+            this.model.setPosition(FEN_EMPTY_POSITION);
         } else {
-            this._model.setPosition(fen);
+            this.model.setPosition(fen);
         }
-        this._view.setNeedsRedraw();
+        this.view.setNeedsRedraw();
     }
 
     getPosition() {
-        return this._model.getPosition();
+        return this.model.getPosition();
     }
 
     setOrientation(color) {
-        this._model.orientation = color;
-        this._view.setNeedsRedraw();
+        this.model.orientation = color;
+        this.view.setNeedsRedraw();
     }
 
     // noinspection JSUnusedGlobalSymbols
     getOrientation() {
-        return this._model.orientation;
+        return this.model.orientation;
     }
 
     // noinspection JSUnusedGlobalSymbols
     destroy() {
-        this._view.remove();
+        this.view.remove();
     }
 
     /**
@@ -133,11 +133,11 @@ export class Chessboard {
      */
     enableInput(color, enable) {
         if (color === COLOR.white) {
-            this._model.inputWhiteEnabled = enable;
+            this.model.inputWhiteEnabled = enable;
         } else if (color === COLOR.black) {
-            this._model.inputBlackEnabled = enable;
+            this.model.inputBlackEnabled = enable;
         }
-        this._view.setNeedsRedraw();
+        this.view.setNeedsRedraw();
     }
 
 }

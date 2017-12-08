@@ -13,9 +13,9 @@ export class TestBoard extends Test {
             position: "start"
         }, () => {
             setTimeout(() => {
-                Test.assertEquals(1, chessboard._view._containerElement.childNodes.length);
+                Test.assertEquals(1, chessboard.view.containerElement.childNodes.length);
                 chessboard.destroy();
-                Test.assertEquals(0, chessboard._view._containerElement.childNodes.length);
+                Test.assertEquals(0, chessboard.view.containerElement.childNodes.length);
             });
 
         });
