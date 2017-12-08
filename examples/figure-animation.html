@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>cm-chessboard</title>
+    <link rel="stylesheet" href="../styles/screen.css"/>
+    <style type="text/css">
+        .board {
+            float: left;
+            width: 450px;
+            height: 430px;
+            margin-right: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<h1>Set different positions, animated</h1>
+<div class="board" id="board"></div>
+<button onclick="window.board.setPosition('empty', true)">Set Empty Position</button>
+<button onclick="window.board.setPosition('start', true)">Set Start Position</button>
+<button onclick="window.board.setPosition('rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR', true)">Set Another
+    Position
+</button>
+<script type="module">
+    import {Chessboard} from "../src/cm-chessboard/Chessboard.js"
+
+    window.board = new Chessboard(document.getElementById("board"), {position: "start"});
+</script>
+</body>
+</html>
