@@ -3,12 +3,12 @@ $light: #eedab6;
 
 .cm-chessboard {
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.6);
-  .coordinate {
-    fill: $dark;
-    font-size: 7px;
-    cursor: default;
-  }
   .main-group {
+    &.input-enabled {
+      .square {
+        cursor: pointer;
+      }
+    }
     .board-border {
       fill: $light;
     }
@@ -28,10 +28,10 @@ $light: #eedab6;
         fill: $dark;
       }
     }
-    &.input-enabled {
-      .square {
-        cursor: pointer;
-      }
+    .coordinate {
+      fill: $dark;
+      font-size: 7px;
+      cursor: default;
     }
   }
 }
