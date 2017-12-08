@@ -17,7 +17,7 @@ export const SQUARE_COORDINATES = [
 export class ChessboardModel {
 
     constructor() {
-        this.squares = new Array(64).fill("");
+        this.squares = new Array(64).fill(null);
         this.orientation = null;
         this.markers = [];
     }
@@ -73,7 +73,7 @@ export class ChessboardModel {
                 });
                 for (let c = 0; c < 8; c++) {
                     const char = row.substr(c, 1);
-                    let figure = "";
+                    let figure = null;
                     if (char !== '-') {
                         if (char.toUpperCase() === char) {
                             figure = "w" + char.toLowerCase();
@@ -93,7 +93,7 @@ export class ChessboardModel {
             let spaceCounter = 0;
             for (let i = 0; i < 8; i++) {
                 const figure = this.squares[part * 8 + i];
-                if (figure === "") {
+                if (figure === null) {
                     spaceCounter++;
                 } else {
                     if (spaceCounter > 0) {
