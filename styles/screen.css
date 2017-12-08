@@ -27,11 +27,9 @@ pre {
 /* line 4, _skin-base.scss */
 .cm-chessboard {
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.6); }
-  /* line 6, _skin-base.scss */
-  .cm-chessboard .coordinate {
-    fill: #b38964;
-    font-size: 7px;
-    cursor: default; }
+  /* line 8, _skin-base.scss */
+  .cm-chessboard .main-group.input-enabled .square {
+    cursor: pointer; }
   /* line 12, _skin-base.scss */
   .cm-chessboard .main-group .board-border {
     fill: #eedab6; }
@@ -49,8 +47,10 @@ pre {
   /* line 27, _skin-base.scss */
   .cm-chessboard .main-group .square.black {
     fill: #b38964; }
-  /* line 32, _skin-base.scss */
-  .cm-chessboard .main-group.input-enabled .square {
-    cursor: pointer; }
+  /* line 31, _skin-base.scss */
+  .cm-chessboard .main-group .coordinate {
+    fill: #b38964;
+    font-size: 7px;
+    cursor: default; }
 
 /*# sourceMappingURL=screen.css.map */
