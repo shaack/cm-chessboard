@@ -32,22 +32,22 @@ export class TestFigureAnimation extends Test {
         const changes = cfa.seekChanges(previousBoard1, newBoard1);
         console.log(previousBoard1, newBoard1, changes);
 
-        Test.assertEquals(1, changes[0].type);
+        Test.assertEquals(0, changes[0].type);
         Test.assertEquals("wn", changes[0].figure);
-        Test.assertEquals(1, changes[0].fromIndex);
+        Test.assertEquals(1, changes[0].atIndex);
         Test.assertEquals(3, changes[0].toIndex);
 
-        Test.assertEquals(1, changes[2].type);
+        Test.assertEquals(0, changes[2].type);
         Test.assertEquals("wn", changes[2].figure);
-        Test.assertEquals(6, changes[2].fromIndex);
+        Test.assertEquals(6, changes[2].atIndex);
         Test.assertEquals(18, changes[2].toIndex);
 
-        Test.assertEquals(1, changes[4].type);
+        Test.assertEquals(0, changes[4].type);
         Test.assertEquals("wp", changes[4].figure);
-        Test.assertEquals(8, changes[4].fromIndex);
+        Test.assertEquals(8, changes[4].atIndex);
         Test.assertEquals(24, changes[4].toIndex);
 
-        Test.assertEquals(3, changes[13].type);
+        Test.assertEquals(2, changes[13].type);
         Test.assertEquals("bq", changes[13].figure);
         Test.assertEquals(59, changes[13].atIndex);
     }
