@@ -172,17 +172,18 @@ export class ChessboardView {
 
     drawFigures(animate = true) {
         const scaling = this.squareHeight / this.config.sprite.grid;
+        const figureXTranslate = this.calculateFigureXTranslateInSquare();
         for (let i = 0; i < 64; i++) {
             const figureName = this.model.squares[i];
             const square = SQUARE_COORDINATES[i];
             const squareGroup = this.getSquareGroup(square);
             if (figureName) {
-                const figure = Svg.addElement(squareGroup, "use", {"href": "#" + figureName});
+                const figure = Svg.addElement(squareGroup, "use", {"href": "#" + figureName, "class": "figure"});
                 squareGroup.setAttribute("class", squareGroup.getAttribute("class") + " f" + figureName.substr(0, 1));
                 squareGroup.setAttribute("data-figure", figureName);
                 // center on square
                 const transformTranslate = (this.svg.createSVGTransform());
-                transformTranslate.setTranslate((this.squareWidth / 2 - this.config.sprite.grid * scaling / 2), 0);
+                transformTranslate.setTranslate(figureXTranslate, 0);
                 figure.transform.baseVal.appendItem(transformTranslate);
                 // scale
                 const transformScale = (this.svg.createSVGTransform());
@@ -190,6 +191,11 @@ export class ChessboardView {
                 figure.transform.baseVal.appendItem(transformScale);
             }
         }
+    }
+
+    calculateFigureXTranslateInSquare() {
+        const scaling = this.squareHeight / this.config.sprite.grid;
+        return (this.squareWidth / 2 - this.config.sprite.grid * scaling / 2);
     }
 
     setFigureVisibility(square, visible = true) {
@@ -231,7 +237,7 @@ export class ChessboardView {
 
         // files
         for (let file = 0; file < 8; file++) {
-            const textElement = Svg.addElement(this.svg, "text", {
+            const textElement = Svg.addElement(this.mainGroup, "text", {
                 class: "coordinate file",
                 x: this.borderWidth + (18 + this.config.sprite.grid * file) * scalingX,
                 y: this.height - (this.borderWidth / 3.4),
@@ -246,7 +252,7 @@ export class ChessboardView {
 
         // ranks
         for (let rank = 0; rank < 8; rank++) {
-            const textElement = Svg.addElement(this.svg, "text", {
+            const textElement = Svg.addElement(this.mainGroup, "text", {
                 class: "coordinate rank",
                 x: (this.borderWidth / 3.6),
                 y: this.borderWidth + 23 * scalingY + rank * this.squareHeight,
