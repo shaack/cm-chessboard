@@ -19,23 +19,25 @@ function AnimationRunningException(chessboardFigureAnimation) {
 
 export class ChessboardFigureAnimation {
 
-    constructor(view, previousBoard, newBoard) {
+    constructor(view, previousBoard, newBoard, duration) {
         if (animationRunning) {
             throw new AnimationRunningException(this);
         }
         this.view = view;
         this.animatedElements = ChessboardFigureAnimation.createAnimation(previousBoard, newBoard);
+        this.duration = duration;
         animationRunning = true;
-        this.runAnimation();
+        window.requestAnimationFrame(this.animationStep.bind(this));
     }
 
-    runAnimation() {
-        const scaling = this.view.squareHeight / this.config.sprite.grid;
+    animationStep(time) {
+        if (!this.startTime) {
+            this.startTime = time;
+        }
         this.animatedElements.forEach((animatedElement) => {
-
-            switch(animatedElement.type) {
+            switch (animatedElement.type) {
                 case CHANGE_TYPE.move:
-                    animatedElement.setAttribute("x", );
+                    animatedElement.setAttribute();
                     break;
                 case CHANGE_TYPE.appear:
                     break;
@@ -50,6 +52,7 @@ export class ChessboardFigureAnimation {
     }
 
     static createAnimation(previousBoard, newBoard) {
+        const scaling = this.view.squareHeight / this.config.sprite.grid; // TODO
         const changes = this.seekChanges(previousBoard, newBoard);
         const figureXTranslate = this.view.calculateFigureXTranslateInSquare();
         const animatedElements = [];
@@ -63,7 +66,7 @@ export class ChessboardFigureAnimation {
                 element: figureElement,
                 atPoint: atPoint
             };
-            switch(change.type) {
+            switch (change.type) {
                 case CHANGE_TYPE.move:
                     const groupBox = group.getBBox();
                     animatedElement.toPoint = {x: groupBox.x + figureXTranslate, y: groupBox.y};
