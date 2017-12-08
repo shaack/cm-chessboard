@@ -42,6 +42,7 @@ export class ChessboardView {
             e.stopPropagation();
             this.moveInput.onPointerDown(e);
         });
+        this.createSvgAndMainGroup();
     }
 
     loadSprite(config, callback) {
@@ -96,29 +97,24 @@ export class ChessboardView {
             window.clearTimeout(this.redrawTimer);
         }
         this.redrawTimer = setTimeout(() => {
-            if (this.svg) {
-                Svg.removeElement(this.svg);
-            }
-            this.svg = Svg.createSvg(this.containerElement);
-            this.svg.setAttribute("class", "cm-chessboard");
-            this.updateMetrics();
-            this.mainGroup = Svg.addElement(this.svg, "g");
-            this.mainGroup.setAttribute("class", "main-group");
-            this.drawBoard();
-            if (this.config.showCoordinates) {
-                this.drawCoordinates();
-            }
-            this.drawFigures();
-            this.drawMarkers();
+            this.redrawFigures();
+            this.redrawMarkers();
         });
     }
 
-    drawBoard() {
-        if(this.model.inputWhiteEnabled || this.model.inputBlackEnabled) {
-            if(this.model.inputWhiteEnabled || this.model.inputBlackEnabled) {
-                this.mainGroup.setAttribute("class", this.mainGroup.getAttribute("class") + " input-enabled");
-            }
+    createSvgAndMainGroup() {
+        if (this.svg) {
+            Svg.removeElement(this.svg);
         }
+        this.svg = Svg.createSvg(this.containerElement);
+        this.svg.setAttribute("class", "cm-chessboard");
+        this.updateMetrics();
+        this.mainGroup = Svg.addElement(this.svg, "g");
+        this.mainGroup.setAttribute("class", "main-group");
+        this.drawBoard();
+    }
+
+    drawBoard() {
         let boardBorder = Svg.addElement(this.mainGroup, "rect", {width: this.width, height: this.height});
         boardBorder.setAttribute("class", "board-border");
         for (let squareY = 0; squareY < 8; squareY++) {
@@ -168,9 +164,25 @@ export class ChessboardView {
             transform.setRotate(180, this.width / 2, this.height / 2);
             this.mainGroup.transform.baseVal.appendItem(transform);
         }
+
+        if (this.config.showCoordinates) {
+            this.drawCoordinates();
+        }
     }
 
-    drawFigures(animate = true) {
+    redrawFigures(animate = true) {
+        const existingFigures = this.mainGroup.querySelectorAll("use.figure");
+        existingFigures.forEach((existingFigure) => {
+            const squareGroup = existingFigure.parentElement;
+            squareGroup.removeAttribute(
+                "data-figure");
+            Svg.removeElement(existingFigure);
+        });
+        if(this.model.inputWhiteEnabled || this.model.inputBlackEnabled) {
+            this.mainGroup.setAttribute("class", "main-group input-enabled");
+        } else {
+            this.mainGroup.setAttribute("class", "main-group");
+        }
         const scaling = this.squareHeight / this.config.sprite.grid;
         const figureXTranslate = this.calculateFigureXTranslateInSquare();
         for (let i = 0; i < 64; i++) {
@@ -179,7 +191,6 @@ export class ChessboardView {
             const squareGroup = this.getSquareGroup(square);
             if (figureName) {
                 const figure = Svg.addElement(squareGroup, "use", {"href": "#" + figureName, "class": "figure"});
-                squareGroup.setAttribute("class", squareGroup.getAttribute("class") + " f" + figureName.substr(0, 1));
                 squareGroup.setAttribute("data-figure", figureName);
                 // center on square
                 const transformTranslate = (this.svg.createSVGTransform());
@@ -209,7 +220,7 @@ export class ChessboardView {
 
     }
 
-    drawMarkers() {
+    redrawMarkers() {
         const existingMarkers = this.mainGroup.querySelectorAll("use.marker");
         existingMarkers.forEach((existingMarker) => {
            Svg.removeElement(existingMarker);
