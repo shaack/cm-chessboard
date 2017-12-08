@@ -2,24 +2,82 @@
  * Author: shaack
  * Date: 07.12.2017
  */
+import {SQUARE_COORDINATES} from "./ChessboardModel.js";
+
 const CHANGE_TYPE = {
-    move: 1,
-    appear: 2,
-    disappear: 3
+    move: 0,
+    appear: 1,
+    disappear: 2
 };
+
+
+let animationRunning = false;
+
+function AnimationRunningException(chessboardFigureAnimation) {
+    this.chessboardFigureAnimation = chessboardFigureAnimation;
+}
 
 export class ChessboardFigureAnimation {
 
-    /*
-    - Iterate through all squares and mark changes
-        - find pairs of appear and disappear of the same figure type, prefer nearer distance
-            - store these pairs in an array
-        - store also left over appears and disappars in the array, will fade in
-        - animate all figures in the array
-     */
+    constructor(view, previousBoard, newBoard) {
+        if (animationRunning) {
+            throw new AnimationRunningException(this);
+        }
+        this.view = view;
+        this.animatedElements = ChessboardFigureAnimation.createAnimation(previousBoard, newBoard);
+        animationRunning = true;
+        this.runAnimation();
+    }
 
-    static animate(previousBoard, newBoard) {
+    runAnimation() {
+        const scaling = this.view.squareHeight / this.config.sprite.grid;
+        this.animatedElements.forEach((animatedElement) => {
+
+            switch(animatedElement.type) {
+                case CHANGE_TYPE.move:
+                    animatedElement.setAttribute("x", );
+                    break;
+                case CHANGE_TYPE.appear:
+                    break;
+                case CHANGE_TYPE.disappear:
+                    break;
+            }
+        });
+    }
+
+    static isAnimationRunning() {
+        return animationRunning;
+    }
+
+    static createAnimation(previousBoard, newBoard) {
         const changes = this.seekChanges(previousBoard, newBoard);
+        const figureXTranslate = this.view.calculateFigureXTranslateInSquare();
+        const animatedElements = [];
+        changes.forEach((change) => {
+            const group = this.view.getSquareGroup(SQUARE_COORDINATES[change.atIndex]);
+            const figureElement = group.querySelector("use.figure");
+            const box = figureElement.getBBox();
+            const atPoint = {x: box.x, y: box.y};
+            const animatedElement = {
+                type: change.type,
+                element: figureElement,
+                atPoint: atPoint
+            };
+            switch(change.type) {
+                case CHANGE_TYPE.move:
+                    const groupBox = group.getBBox();
+                    animatedElement.toPoint = {x: groupBox.x + figureXTranslate, y: groupBox.y};
+                    break;
+                case CHANGE_TYPE.appear:
+                    animatedElement.opacity = 0;
+                    break;
+                case CHANGE_TYPE.disappear:
+                    animatedElement.opacity = 1;
+                    break;
+            }
+            animatedElements.push(animatedElement);
+        });
+        return animatedElements;
     }
 
     static seekChanges(previousBoard, newBoard) {
@@ -36,8 +94,7 @@ export class ChessboardFigureAnimation {
                 }
             }
         }
-
-        // found moved figures (appeared figures that disappeared somewhere else)
+        // find moved figures
         appearedList.forEach((appeared) => {
             // find nearest disappearence
             let shortestDistance = 7;
@@ -45,25 +102,25 @@ export class ChessboardFigureAnimation {
             disappearedList.forEach((disappeared) => {
                 if (appeared.figure === disappeared.figure) {
                     const moveDistance = this.squareDistance(appeared.index, disappeared.index);
-                    if(moveDistance < shortestDistance) {
+                    if (moveDistance < shortestDistance) {
                         foundMoved = disappeared;
                         shortestDistance = moveDistance;
                     }
                 }
             });
             if (foundMoved) {
-                disappearedList.splice(disappearedList.indexOf(foundMoved), 1); // remove from disappeared list because it is moved now
-                changes.push({ // and push as move change
+                disappearedList.splice(disappearedList.indexOf(foundMoved), 1); // remove from disappearedList, because it is moved now
+                changes.push({
                     type: CHANGE_TYPE.move,
                     figure: appeared.figure,
-                    fromIndex: foundMoved.index,
+                    atIndex: foundMoved.index,
                     toIndex: appeared.index
                 })
             } else {
                 changes.push({type: CHANGE_TYPE.appear, figure: appeared.figure, atIndex: appeared.index})
             }
         });
-        // check for let over disappearences
+        // check for left over disappearences
         disappearedList.forEach((disappeared) => {
             changes.push({type: CHANGE_TYPE.disappear, figure: disappeared.figure, atIndex: disappeared.index})
         });
@@ -75,9 +132,7 @@ export class ChessboardFigureAnimation {
         const rank1 = Math.floor(index1 / 8);
         const file2 = index2 % 8;
         const rank2 = Math.floor(index2 / 8);
-        const rankDistance = Math.abs(rank2 - rank1);
-        const fileDistance = Math.abs(file2 - file1);
-        return Math.max(rankDistance, fileDistance);
+        return Math.max(Math.abs(rank2 - rank1), Math.abs(file2 - file1));
     }
 
 }
