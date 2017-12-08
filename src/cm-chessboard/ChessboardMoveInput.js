@@ -317,6 +317,6 @@ export class ChessboardMoveInput {
         if (this.endSquare) {
             this.model.addMarker(this.endSquare, MARKER_TYPE.newMove);
         }
-        this.view.drawMarkers();
+        this.view.redrawMarkers();
     }
 }
