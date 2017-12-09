@@ -37,6 +37,11 @@ this._config = {
 
 ## API
 
+### setSquare(square, figure) {
+
+Set a figure on a square. Example: `board.setSquare("e4", FIGURE.blackKnight)` or
+`board.setSquare("e4", "bn")`.
+
 ### getSquare(square)
 
 Returns the figure on a square.
