@@ -47,8 +47,8 @@ pre {
   /* line 27, _skin-base.scss */
   .cm-chessboard .main-group .square.black {
     fill: #b38964; }
-  /* line 31, _skin-base.scss */
-  .cm-chessboard .main-group .coordinate {
+  /* line 32, _skin-base.scss */
+  .cm-chessboard .coordinate {
     fill: #b38964;
     font-size: 7px;
     cursor: default; }
