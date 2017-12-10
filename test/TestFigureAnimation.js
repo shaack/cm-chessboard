@@ -31,8 +31,8 @@ export class TestFigureAnimation extends Test {
         const model2 = new ChessboardModel();
         model2.setPosition("rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR");
 
-        const previousBoard1 = model1.board;
-        const newBoard1 = model2.board;
+        const previousBoard1 = model1.squares;
+        const newBoard1 = model2.squares;
 
         const changes = cfa.seekChanges(previousBoard1, newBoard1);
         console.log(previousBoard1, newBoard1, changes);
