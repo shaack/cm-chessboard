@@ -252,7 +252,7 @@ export class ChessboardView {
 
         // files
         for (let file = 0; file < 8; file++) {
-            const textElement = Svg.addElement(this.mainGroup, "text", {
+            const textElement = Svg.addElement(this.svg, "text", {
                 class: "coordinate file",
                 x: this.borderWidth + (18 + this.config.sprite.grid * file) * scalingX,
                 y: this.height - (this.borderWidth / 3.4),
@@ -267,7 +267,7 @@ export class ChessboardView {
 
         // ranks
         for (let rank = 0; rank < 8; rank++) {
-            const textElement = Svg.addElement(this.mainGroup, "text", {
+            const textElement = Svg.addElement(this.svg, "text", {
                 class: "coordinate rank",
                 x: (this.borderWidth / 3.6),
                 y: this.borderWidth + 23 * scalingY + rank * this.squareHeight,
