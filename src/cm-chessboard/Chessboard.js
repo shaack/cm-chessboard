@@ -4,6 +4,7 @@
  */
 import {ChessboardView} from "./ChessboardView.js";
 import {ChessboardModel} from "./ChessboardModel.js";
+import {ChessboardFigureAnimation} from "./ChessboardFigureAnimation.js";
 
 export const COLOR = {
     white: "white",
@@ -38,7 +39,7 @@ export const FEN_EMPTY_POSITION = "8/8/8/8/8/8/8/8";
 
 export class Chessboard {
 
-    constructor(containerElement, config = {}, createCallback) {
+    constructor(containerElement, config = {}, callback = null) {
         const DEFAULT_SPRITE_GRID = 40;
         this.config = {
             position: "empty", // empty board, set as fen or "start" or "empty"
@@ -65,7 +66,7 @@ export class Chessboard {
             this.setOrientation(this.config.orientation);
             this.model.inputMode = this.config.inputMode;
             this.view.setNeedsRedraw();
-            createCallback ? createCallback() : null;
+            callback ? callback() : null;
         });
         this.view.setNeedsRedraw();
     }
@@ -96,7 +97,8 @@ export class Chessboard {
         return this.model.getSquare(square);
     }
 
-    setPosition(fen) {
+    setPosition(fen, animated = false) {
+        const prevBoard = this.model.board.slice(0); // clone
         if (fen === "start") {
             this.model.setPosition(FEN_START_POSITION);
         } else if (fen === "empty" || fen === null) {
@@ -104,7 +106,13 @@ export class Chessboard {
         } else {
             this.model.setPosition(fen);
         }
-        this.view.setNeedsRedraw();
+        if(animated) {
+            new ChessboardFigureAnimation(this.view, prevBoard, this.model.board, 1000, () => {
+                this.view.setNeedsRedraw();
+            })
+        } else {
+            this.view.setNeedsRedraw();
+        }
     }
 
     getPosition() {
