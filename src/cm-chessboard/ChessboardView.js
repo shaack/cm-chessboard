@@ -190,7 +190,7 @@ export class ChessboardView {
         const scaling = this.squareHeight / this.config.sprite.grid;
         const figureXTranslate = this.calculateFigureXTranslateInSquare();
         for (let i = 0; i < 64; i++) {
-            const figureName = this.model.board[i];
+            const figureName = this.model.squares[i];
             const square = SQUARE_COORDINATES[i];
             const squareGroup = this.getSquareGroup(square);
             if (figureName) {
