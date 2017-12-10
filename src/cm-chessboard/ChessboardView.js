@@ -27,11 +27,18 @@ export class ChessboardView {
             window.addEventListener('resize', () => {
                 if (this.containerElement.offsetWidth !== this.width ||
                     this.containerElement.offsetHeight !== this.height) {
-                    this.setNeedsRedraw();
+                    if (this.redrawTimer) {
+                        window.clearTimeout(this.redrawTimer);
+                    }
+                    this.redrawTimer = setTimeout(() => {
+                        this.createSvgAndMainGroup();
+                        this.redrawFigures();
+                        this.redrawMarkers();
+                    });
                 }
             });
         }
-        // TODO create event handler on Chessboard.enableInput()
+        // Optimization: create event handler on Chessboard.enableInput()
         containerElement.addEventListener('mousedown', (e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -85,6 +92,9 @@ export class ChessboardView {
         this.innerHeight = this.height - 2 * this.borderWidth;
         this.squareWidth = this.innerWidth / 8;
         this.squareHeight = this.innerHeight / 8;
+        this.scalingX = this.squareWidth / this.config.sprite.grid;
+        this.scalingY = this.squareHeight / this.config.sprite.grid;
+        this.figureXTranslate = this.calculateFigureXTranslateInSquare();
     }
 
     remove() {
@@ -187,30 +197,32 @@ export class ChessboardView {
         } else {
             this.mainGroup.setAttribute("class", "main-group");
         }
-        const scaling = this.squareHeight / this.config.sprite.grid;
-        const figureXTranslate = this.calculateFigureXTranslateInSquare();
         for (let i = 0; i < 64; i++) {
             const figureName = this.model.squares[i];
             const square = SQUARE_COORDINATES[i];
-            const squareGroup = this.getSquareGroup(square);
             if (figureName) {
-                const figure = Svg.addElement(squareGroup, "use", {"href": "#" + figureName, "class": "figure"});
-                squareGroup.setAttribute("data-figure", figureName);
-                // center on square
-                const transformTranslate = (this.svg.createSVGTransform());
-                transformTranslate.setTranslate(figureXTranslate, 0);
-                figure.transform.baseVal.appendItem(transformTranslate);
-                // scale
-                const transformScale = (this.svg.createSVGTransform());
-                transformScale.setScale(scaling, scaling);
-                figure.transform.baseVal.appendItem(transformScale);
+                const figureElement = this.drawFigure(square, figureName);
             }
         }
     }
 
     calculateFigureXTranslateInSquare() {
-        const scaling = this.squareHeight / this.config.sprite.grid;
-        return (this.squareWidth / 2 - this.config.sprite.grid * scaling / 2);
+        return (this.squareWidth / 2 - this.config.sprite.grid * this.scalingY / 2);
+    }
+
+    drawFigure(square, figureName) {
+        const squareGroup = this.getSquareGroup(square);
+        const figureElement = Svg.addElement(squareGroup, "use", {"href": "#" + figureName, "class": "figure"});
+        squareGroup.setAttribute("data-figure", figureName);
+        // center on square
+        const transformTranslate = (this.svg.createSVGTransform());
+        transformTranslate.setTranslate(this.figureXTranslate, 0);
+        figureElement.transform.baseVal.appendItem(transformTranslate);
+        // scale
+        const transformScale = (this.svg.createSVGTransform());
+        transformScale.setScale(this.scalingY, this.scalingY);
+        figureElement.transform.baseVal.appendItem(transformScale);
+        return figureElement;
     }
 
     setFigureVisibility(square, visible = true) {
@@ -239,24 +251,20 @@ export class ChessboardView {
         const squareGroup = this.getSquareGroup(square);
         const marker = Svg.addElement(squareGroup, "use",
             {"href": "#" + markerType.slice, opacity: markerType.opacity, class: "marker"});
-        const scalingX = this.squareWidth / this.config.sprite.grid;
-        const scalingY = this.squareHeight / this.config.sprite.grid;
         const transformScale = (this.svg.createSVGTransform());
-        transformScale.setScale(scalingX, scalingY);
+        transformScale.setScale(this.scalingX, this.scalingY);
         marker.transform.baseVal.appendItem(transformScale);
     }
 
     drawCoordinates() {
-        const scalingX = this.squareWidth / this.config.sprite.grid;
-        const scalingY = this.squareHeight / this.config.sprite.grid;
 
         // files
         for (let file = 0; file < 8; file++) {
             const textElement = Svg.addElement(this.svg, "text", {
                 class: "coordinate file",
-                x: this.borderWidth + (18 + this.config.sprite.grid * file) * scalingX,
+                x: this.borderWidth + (18 + this.config.sprite.grid * file) * this.scalingX,
                 y: this.height - (this.borderWidth / 3.4),
-                style: "font-size: " + scalingY * 7 + "px"
+                style: "font-size: " + this.scalingY * 7 + "px"
             });
             if (this.model.orientation === "white") {
                 textElement.textContent = String.fromCharCode(97 + file);
@@ -270,8 +278,8 @@ export class ChessboardView {
             const textElement = Svg.addElement(this.svg, "text", {
                 class: "coordinate rank",
                 x: (this.borderWidth / 3.6),
-                y: this.borderWidth + 23 * scalingY + rank * this.squareHeight,
-                style: "font-size: " + scalingY * 7 + "px"
+                y: this.borderWidth + 23 * this.scalingY + rank * this.squareHeight,
+                style: "font-size: " + this.scalingY * 7 + "px"
             });
             if (this.model.orientation === "white") {
                 textElement.textContent = 8 - rank;
