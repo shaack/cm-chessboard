@@ -54,6 +54,7 @@ export class ChessboardFigureAnimation {
         } else {
             cancelAnimationFrame(this.frameHandle);
             animationRunning = false;
+            this.view.setNeedsRedraw();
             this.callback();
         }
         const progress = timeDiff / this.duration;
@@ -66,7 +67,7 @@ export class ChessboardFigureAnimation {
                     break;
                     */
                 case CHANGE_TYPE.appear:
-                    animatedElement.style.opacity = progress;
+                    animatedItem.element.style.opacity = progress;
                     break;
                 case CHANGE_TYPE.disappear:
                     animatedItem.element.style.opacity = 1 - progress;
@@ -81,11 +82,12 @@ export class ChessboardFigureAnimation {
     }
 
     createAnimation(previousBoard, newBoard) {
-        const scaling = this.view.squareHeight / this.view.config.sprite.grid;
         const changes = this.seekChanges(previousBoard, newBoard);
-        const figureXTranslate = this.view.calculateFigureXTranslateInSquare();
         const animatedElements = [];
         changes.forEach((change) => {
+            if(change.type === CHANGE_TYPE.appear) {
+                this.view.drawFigure(SQUARE_COORDINATES[change.atIndex], change.figure);
+            }
             const group = this.view.getSquareGroup(SQUARE_COORDINATES[change.atIndex]);
             const figureElement = group.querySelector("use.figure");
             const box = figureElement.getBBox();
@@ -98,7 +100,7 @@ export class ChessboardFigureAnimation {
             switch (change.type) {
                 case CHANGE_TYPE.move:
                     const groupBox = group.getBBox();
-                    animatedItem.toPoint = {x: groupBox.x + figureXTranslate, y: groupBox.y};
+                    animatedItem.toPoint = {x: groupBox.x + this.view.figureXTranslate, y: groupBox.y};
                     break;
                 case CHANGE_TYPE.appear:
                     animatedItem.element.opacity = 0;
