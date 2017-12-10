@@ -6,8 +6,9 @@
 import {Test} from "../node_modules/svjs-test/src/svjs/Test.js"
 import {ChessboardFigureAnimation} from "../src/cm-chessboard/ChessboardFigureAnimation.js";
 import {ChessboardModel} from "../src/cm-chessboard/ChessboardModel.js";
+import {ViewMock} from "./mocks/ViewMock.js";
 
-const cfa = ChessboardFigureAnimation;
+const cfa = new ChessboardFigureAnimation(new ViewMock());
 
 export class TestFigureAnimation extends Test {
     testSquareDistance() {
@@ -20,14 +21,18 @@ export class TestFigureAnimation extends Test {
         Test.assertEquals(2, cfa.squareDistance(8, 24));
         Test.assertEquals(6, cfa.squareDistance(14, 24));
     }
+
     testSeekChanges() {
+
+
+
         const model1 = new ChessboardModel();
         model1.setPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
         const model2 = new ChessboardModel();
         model2.setPosition("rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR");
 
-        const previousBoard1 = model1.squares;
-        const newBoard1 = model2.squares;
+        const previousBoard1 = model1.board;
+        const newBoard1 = model2.board;
 
         const changes = cfa.seekChanges(previousBoard1, newBoard1);
         console.log(previousBoard1, newBoard1, changes);
@@ -51,4 +56,5 @@ export class TestFigureAnimation extends Test {
         Test.assertEquals("bq", changes[13].figure);
         Test.assertEquals(59, changes[13].atIndex);
     }
+
 }

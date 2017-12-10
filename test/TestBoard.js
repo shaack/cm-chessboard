@@ -13,6 +13,7 @@ export class TestBoard extends Test {
             position: "start"
         }, () => {
             setTimeout(() => {
+                console.log(chessboard.view.containerElement.childNodes);
                 Test.assertEquals(1, chessboard.view.containerElement.childNodes.length);
                 chessboard.destroy();
                 Test.assertEquals(0, chessboard.view.containerElement.childNodes.length);
