@@ -35,12 +35,16 @@ export class ChessboardView {
         containerElement.addEventListener('mousedown', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            this.moveInput.onPointerDown(e);
+            setTimeout(() => {
+                this.moveInput.onPointerDown(e);
+            });
         });
         containerElement.addEventListener('touchstart', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            this.moveInput.onPointerDown(e);
+            setTimeout(() => {
+                this.moveInput.onPointerDown(e);
+            });
         });
         this.createSvgAndMainGroup();
     }
@@ -186,7 +190,7 @@ export class ChessboardView {
         const scaling = this.squareHeight / this.config.sprite.grid;
         const figureXTranslate = this.calculateFigureXTranslateInSquare();
         for (let i = 0; i < 64; i++) {
-            const figureName = this.model.squares[i];
+            const figureName = this.model.board[i];
             const square = SQUARE_COORDINATES[i];
             const squareGroup = this.getSquareGroup(square);
             if (figureName) {
