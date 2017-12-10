@@ -37,7 +37,7 @@ const board = new Chessboard(document.getElementById("board"), {
                         board.setPosition(chess.fen());
                         board.enableInput(COLOR.white, true);
                     }
-                }, 500)
+                }, 250)
             }
             return result;
         }
@@ -70,7 +70,7 @@ board.enableInput(COLOR.white, true);
                             board.setPosition(chess.fen());
                             board.enableInput(COLOR.white, true);
                         }
-                    }, 500)
+                    }, 250)
                 }
                 return result;
             }
