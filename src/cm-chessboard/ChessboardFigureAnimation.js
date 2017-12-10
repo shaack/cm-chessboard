@@ -86,10 +86,11 @@ export class ChessboardFigureAnimation {
         const animatedElements = [];
         changes.forEach((change) => {
             if(change.type === CHANGE_TYPE.appear) {
-                this.view.drawFigure(SQUARE_COORDINATES[change.atIndex], change.figure);
+                const tmpFigure = this.view.drawFigure(SQUARE_COORDINATES[change.atIndex], change.figure);
+                tmpFigure.style.opacity = 0;
             }
             const group = this.view.getSquareGroup(SQUARE_COORDINATES[change.atIndex]);
-            const figureElement = group.querySelector("use.figure");
+            const figureElement = group.querySelector("use.figure[href='#" + change.figure + "']");
             const box = figureElement.getBBox();
             const atPoint = {x: box.x, y: box.y};
             const animatedItem = {
