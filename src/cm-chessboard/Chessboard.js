@@ -121,6 +121,7 @@ export class Chessboard {
 
     setOrientation(color) {
         this.model.orientation = color;
+        this.view.createSvgAndMainGroup();
         this.view.setNeedsRedraw();
     }
 
