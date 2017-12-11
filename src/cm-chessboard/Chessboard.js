@@ -45,7 +45,7 @@ export class Chessboard {
             position: "empty", // empty board, set as fen or "start" or "empty"
             orientation: COLOR.white, // white on bottom
             showCoordinates: true, // show ranks and files
-            responsive: false, // detect window resize
+            responsive: false, // detect window resize, if true
             inputMode: INPUT_MODE.dragFigure, // type of interactive movement
             sprite: {
                 file: "../assets/sprite.svg", // figures and markers
