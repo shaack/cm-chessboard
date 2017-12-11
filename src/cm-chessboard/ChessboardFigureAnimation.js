@@ -61,7 +61,6 @@ export class ChessboardFigureAnimation {
         const t = Math.min(1, timeDiff / this.duration);
         const progress = t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t; // easeInOut
         this.animatedElements.forEach((animatedItem) => {
-            // console.log("duration", this.duration, "timeDiff", timeDiff, "progress", progress);
             switch (animatedItem.type) {
                 case CHANGE_TYPE.move:
                     animatedItem.element.transform.baseVal.removeItem(0);

@@ -34,8 +34,9 @@ const board = new Chessboard(document.getElementById("board"), {
                     if(possibleMoves.length > 0) {
                         const randomMove = possibleMoves[random(0, possibleMoves.length - 1)];
                         chess.move({from: randomMove.from, to: randomMove.to});
-                        board.setPosition(chess.fen());
-                        board.enableInput(COLOR.white, true);
+                        board.setPosition(chess.fen(), true, () => {
+                            board.enableInput(COLOR.white, true);
+                        });
                     }
                 }, 250)
             }
