@@ -82,8 +82,12 @@ Default types are: `MARKER_TYPE.newMove`, `MARKER_TYPE.lastMove`, `MARKER_TYPE.e
 exportet by `Chessboard.js`. You can create your own marker types: Just create an object like 
 `{slice: "marker1", opacity: 0.6}`, where `slice` is the `id` in `sprite.svg`, `opacity` the opacity.
 
-
 ### removeMarker(square = null, type = null);
 
 Set `square` to `null` to remove `type` from all squares.
 Set `type` to `null`, to remove all types. Set both to `null` to remove all markers.
+
+## ToDos
+
+- Switch orientation while displayed
+- INPUT_MODE.dragMarker
