@@ -98,21 +98,24 @@ export class ChessboardFigureAnimation {
             switch (change.type) {
                 case CHANGE_TYPE.move:
                     // replace moving figures with moveable dummys
-                    const atX = this.view.borderWidth + (change.atIndex % 8) * this.view.squareWidth;
-                    const atY = this.view.borderWidth + (7 - Math.floor(change.atIndex / 8)) * this.view.squareHeight;
                     const figureGroup = Svg.addElement(this.animationGroup, "g");
+                    if(this.view.model.orientation === "white") {
+                        animatedItem.atX = this.view.borderWidth + (change.atIndex % 8) * this.view.squareWidth;
+                        animatedItem.atY = this.view.borderWidth + (7 - Math.floor(change.atIndex / 8)) * this.view.squareHeight;
+                        animatedItem.toX = this.view.borderWidth + (change.toIndex % 8) * this.view.squareWidth;
+                        animatedItem.toY = this.view.borderWidth + (7 - Math.floor(change.toIndex / 8)) * this.view.squareHeight;
+                    } else {
+                        animatedItem.atX = this.view.borderWidth + (7 - change.atIndex % 8) * this.view.squareWidth;
+                        animatedItem.atY = this.view.borderWidth + (Math.floor(change.atIndex / 8)) * this.view.squareHeight;
+                        animatedItem.toX = this.view.borderWidth + (7 - change.toIndex % 8) * this.view.squareWidth;
+                        animatedItem.toY = this.view.borderWidth + (Math.floor(change.toIndex / 8)) * this.view.squareHeight;
+                    }
                     const transform = (this.view.svg.createSVGTransform());
-                    transform.setTranslate(atX, atY);
+                    transform.setTranslate(animatedItem.atX, animatedItem.atY);
                     figureGroup.transform.baseVal.appendItem(transform);
                     this.view.drawFigure(figureGroup, change.figure);
                     animatedItem.element = figureGroup;
-                    animatedItem.atX = atX;
-                    animatedItem.atY = atY;
-                    animatedItem.toX = this.view.borderWidth + (change.toIndex % 8) * this.view.squareWidth;
-                    animatedItem.toY = this.view.borderWidth + (7 - Math.floor(change.toIndex / 8)) * this.view.squareHeight;
                     this.view.setFigureVisibility(SQUARE_COORDINATES[change.atIndex], false);
-                    // debugger;
-                    // Svg.addElement(figureGroup, "use", );
                     break;
                 case CHANGE_TYPE.appear:
                     const squareGroup = this.view.getSquareGroup(SQUARE_COORDINATES[change.atIndex]);
