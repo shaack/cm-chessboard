@@ -46,10 +46,11 @@ Set a figure on a square. Example: `board.setSquare("e4", FIGURE.blackKnight)` o
 
 Returns the figure on a square.
 
-### setPosition(fen)
+### setPosition(fen, animated = false)
 
 Set the position as `fen`. Special values are `"start"`, sets the chess start position and 
-`"empty"`, sets an empty board.
+`"empty"`, sets an empty board. When `animated` is set `true`, the new position will be 
+tweened from the current position.
 
 ### getPosition()
 
