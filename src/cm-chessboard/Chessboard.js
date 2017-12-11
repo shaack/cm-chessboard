@@ -97,7 +97,7 @@ export class Chessboard {
         return this.model.getSquare(square);
     }
 
-    setPosition(fen, animated = false) {
+    setPosition(fen, animated = false, callback = null) {
         const prevBoard = this.model.squares.slice(0); // clone
         if (fen === "start") {
             this.model.setPosition(FEN_START_POSITION);
@@ -107,8 +107,11 @@ export class Chessboard {
             this.model.setPosition(fen);
         }
         if(animated) {
-            new ChessboardFigureAnimation(this.view, prevBoard, this.model.squares, 1000, () => {
-                this.view.setNeedsRedraw();
+            new ChessboardFigureAnimation(this.view, prevBoard, this.model.squares, 400, () => {
+                this.view.redrawFigures();
+                if(callback) {
+                    callback();
+                }
             })
         } else {
             this.view.setNeedsRedraw();

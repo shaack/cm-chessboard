@@ -5,27 +5,25 @@
     <title>cm-chessboard</title>
     <link rel="stylesheet" href="../styles/screen.css"/>
     <style type="text/css">
-        .board {
-            float: left;
-            width: 450px;
-            height: 430px;
-            margin-right: 20px;
-            margin-bottom: 20px;
+        #board {
+            width: calc(100vw - 40px);
+            height: calc(96vw - 40px);
         }
     </style>
 </head>
 <body>
 <h1>Set different positions, animated</h1>
 <div class="board" id="board"></div>
+<br/>
 <button onclick="window.squares.setPosition('empty', true)">Set Empty Position</button>
 <button onclick="window.squares.setPosition('start', true)">Set Start Position</button>
-<button onclick="window.squares.setPosition('rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR', true)">Set Another
-    Position
-</button>
+<button onclick="window.squares.setPosition('rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR', true)">Position 1</button>
+<button onclick="window.squares.setPosition('rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R', true)">Position 2</button>
+<button onclick="window.squares.setPosition('rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR', true)">Position 3</button>
 <script type="module">
     import {Chessboard} from "../src/cm-chessboard/Chessboard.js"
 
-    window.squares = new Chessboard(document.getElementById("board"), {position: "start"});
+    window.squares = new Chessboard(document.getElementById("board"), {position: "start", responsive: true});
 </script>
 </body>
 </html>

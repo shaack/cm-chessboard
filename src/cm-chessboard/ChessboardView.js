@@ -135,8 +135,8 @@ export class ChessboardView {
             for (let squareX = 0; squareX < 8; squareX++) {
                 const squareColor = (squareX % 2 + squareY % 2) % 2 ? 'black' : 'white';
                 const fieldClass = "square " + squareColor;
-                const x = this.borderWidth + squareX * this.innerWidth / 8;
-                const y = this.borderWidth + squareY * this.innerHeight / 8;
+                const x = this.borderWidth + squareX * this.squareWidth;
+                const y = this.borderWidth + squareY * this.squareHeight;
                 const squareGroup = Svg.addElement(this.mainGroup, "g");
                 const transform = (this.svg.createSVGTransform());
                 transform.setTranslate(x, y);
@@ -201,7 +201,8 @@ export class ChessboardView {
             const figureName = this.model.squares[i];
             const square = SQUARE_COORDINATES[i];
             if (figureName) {
-                const figureElement = this.drawFigure(square, figureName);
+                const squareGroup = this.getSquareGroup(square);
+                const figureElement = this.drawFigure(squareGroup, figureName);
             }
         }
     }
@@ -210,8 +211,7 @@ export class ChessboardView {
         return (this.squareWidth / 2 - this.config.sprite.grid * this.scalingY / 2);
     }
 
-    drawFigure(square, figureName) {
-        const squareGroup = this.getSquareGroup(square);
+    drawFigure(squareGroup, figureName) {
         const figureElement = Svg.addElement(squareGroup, "use", {"href": "#" + figureName, "class": "figure"});
         squareGroup.setAttribute("data-figure", figureName);
         // center on square
