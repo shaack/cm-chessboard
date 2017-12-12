@@ -61,7 +61,7 @@ board.enableInput(COLOR.white, true);
             inputDone: (squareFrom, squareTo) => {
                 const result = chess.move({from: squareFrom, to: squareTo});
                 if (result) {
-                    board.setPosition(chess.fen());
+                    board.setPosition(chess.fen(), false);
                     board.enableInput(COLOR.white, false);
                     setTimeout(() => {
                         const possibleMoves = chess.moves({verbose: true});
