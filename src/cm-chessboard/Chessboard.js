@@ -149,7 +149,11 @@ export class Chessboard {
         } else if (color === COLOR.black) {
             this.model.inputBlackEnabled = enable;
         }
-        this.view.setNeedsRedraw();
+        if(this.model.inputWhiteEnabled || this.model.inputBlackEnabled) {
+            this.view.boardGroup.setAttribute("class", "board-group input-enabled");
+        } else {
+            this.view.boardGroup.setAttribute("class", "board-group");
+        }
     }
 
 }
