@@ -87,9 +87,9 @@ export class ChessboardView {
     updateMetrics() {
         this.width = this.containerElement.offsetWidth;
         this.height = this.containerElement.offsetHeight;
-        this.borderWidth = this.width / 35;
-        this.innerWidth = this.width - 2 * this.borderWidth;
-        this.innerHeight = this.height - 2 * this.borderWidth;
+        this.borderSize = this.width / 35;
+        this.innerWidth = this.width - 2 * this.borderSize;
+        this.innerHeight = this.height - 2 * this.borderSize;
         this.squareWidth = this.innerWidth / 8;
         this.squareHeight = this.innerHeight / 8;
         this.scalingX = this.squareWidth / this.config.sprite.grid;
@@ -135,8 +135,8 @@ export class ChessboardView {
             for (let squareX = 0; squareX < 8; squareX++) {
                 const squareColor = (squareX % 2 + squareY % 2) % 2 ? 'black' : 'white';
                 const fieldClass = "square " + squareColor;
-                const x = this.borderWidth + squareX * this.squareWidth;
-                const y = this.borderWidth + squareY * this.squareHeight;
+                const x = this.borderSize + squareX * this.squareWidth;
+                const y = this.borderSize + squareY * this.squareHeight;
                 const squareGroup = Svg.addElement(this.mainGroup, "g");
                 const transform = (this.svg.createSVGTransform());
                 transform.setTranslate(x, y);
@@ -153,24 +153,22 @@ export class ChessboardView {
                 }
             }
         }
-        // noinspection JSSuspiciousNameCombination
+
         Svg.addElement(this.mainGroup, "line", {
-            x1: this.borderWidth, y1: this.borderWidth,
-            x2: this.width - this.borderWidth, y2: this.borderWidth, class: "surrounding-line"
+            x1: this.borderSize, y1: this.borderSize,
+            x2: this.width - this.borderSize, y2: this.borderSize, class: "surrounding-line"
         });
         Svg.addElement(this.mainGroup, "line", {
-            x1: this.borderWidth, y1: this.height - this.borderWidth,
-            x2: this.width - this.borderWidth, y2: this.height - this.borderWidth, class: "surrounding-line"
+            x1: this.borderSize, y1: this.height - this.borderSize,
+            x2: this.width - this.borderSize, y2: this.height - this.borderSize, class: "surrounding-line"
         });
-        // noinspection JSSuspiciousNameCombination
         Svg.addElement(this.mainGroup, "line", {
-            x1: this.borderWidth, y1: this.borderWidth,
-            x2: this.borderWidth, y2: this.height - this.borderWidth, class: "surrounding-line"
+            x1: this.borderSize, y1: this.borderSize,
+            x2: this.borderSize, y2: this.height - this.borderSize, class: "surrounding-line"
         });
-        // noinspection JSSuspiciousNameCombination
         Svg.addElement(this.mainGroup, "line", {
-            x1: this.width - this.borderWidth, y1: this.borderWidth,
-            x2: this.width - this.borderWidth, y2: this.height - this.borderWidth, class: "surrounding-line"
+            x1: this.width - this.borderSize, y1: this.borderSize,
+            x2: this.width - this.borderSize, y2: this.height - this.borderSize, class: "surrounding-line"
         });
 
         if (this.model.orientation === "black") {
@@ -262,8 +260,8 @@ export class ChessboardView {
         for (let file = 0; file < 8; file++) {
             const textElement = Svg.addElement(this.svg, "text", {
                 class: "coordinate file",
-                x: this.borderWidth + (18 + this.config.sprite.grid * file) * this.scalingX,
-                y: this.height - (this.borderWidth / 3.4),
+                x: this.borderSize + (18 + this.config.sprite.grid * file) * this.scalingX,
+                y: this.height - (this.borderSize / 3.4),
                 style: "font-size: " + this.scalingY * 7 + "px"
             });
             if (this.model.orientation === "white") {
@@ -277,8 +275,8 @@ export class ChessboardView {
         for (let rank = 0; rank < 8; rank++) {
             const textElement = Svg.addElement(this.svg, "text", {
                 class: "coordinate rank",
-                x: (this.borderWidth / 3.6),
-                y: this.borderWidth + 23 * this.scalingY + rank * this.squareHeight,
+                x: (this.borderSize / 3.6),
+                y: this.borderSize + 23 * this.scalingY + rank * this.squareHeight,
                 style: "font-size: " + this.scalingY * 7 + "px"
             });
             if (this.model.orientation === "white") {

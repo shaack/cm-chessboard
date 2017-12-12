@@ -55,7 +55,7 @@ export class ChessboardFigureAnimation {
         } else {
             cancelAnimationFrame(this.frameHandle);
             animationRunning = false;
-            Svg.removeElement(this.animationGroup);
+            Svg.removeElement(this.figuresGroup);
             this.callback();
         }
         const t = Math.min(1, timeDiff / this.duration);
@@ -89,7 +89,7 @@ export class ChessboardFigureAnimation {
         const changes = this.seekChanges(previousBoard, newBoard);
         const animatedElements = [];
         // create animation group in svg if not exists
-        this.animationGroup = Svg.addElement(this.view.svg, "g", {class: "animation"}); // TODO remove after animation finished
+        this.figuresGroup = Svg.addElement(this.view.svg, "g", {class: "figures"});
         changes.forEach((change) => {
             const group = this.view.getSquareGroup(SQUARE_COORDINATES[change.atIndex]);
             const animatedItem = {
@@ -98,17 +98,17 @@ export class ChessboardFigureAnimation {
             switch (change.type) {
                 case CHANGE_TYPE.move:
                     // replace moving figures with moveable dummys
-                    const figureGroup = Svg.addElement(this.animationGroup, "g");
+                    const figureGroup = Svg.addElement(this.figuresGroup, "g");
                     if(this.view.model.orientation === "white") {
-                        animatedItem.atX = this.view.borderWidth + (change.atIndex % 8) * this.view.squareWidth;
-                        animatedItem.atY = this.view.borderWidth + (7 - Math.floor(change.atIndex / 8)) * this.view.squareHeight;
-                        animatedItem.toX = this.view.borderWidth + (change.toIndex % 8) * this.view.squareWidth;
-                        animatedItem.toY = this.view.borderWidth + (7 - Math.floor(change.toIndex / 8)) * this.view.squareHeight;
+                        animatedItem.atX = this.view.borderSize + (change.atIndex % 8) * this.view.squareWidth;
+                        animatedItem.atY = this.view.borderSize + (7 - Math.floor(change.atIndex / 8)) * this.view.squareHeight;
+                        animatedItem.toX = this.view.borderSize + (change.toIndex % 8) * this.view.squareWidth;
+                        animatedItem.toY = this.view.borderSize + (7 - Math.floor(change.toIndex / 8)) * this.view.squareHeight;
                     } else {
-                        animatedItem.atX = this.view.borderWidth + (7 - change.atIndex % 8) * this.view.squareWidth;
-                        animatedItem.atY = this.view.borderWidth + (Math.floor(change.atIndex / 8)) * this.view.squareHeight;
-                        animatedItem.toX = this.view.borderWidth + (7 - change.toIndex % 8) * this.view.squareWidth;
-                        animatedItem.toY = this.view.borderWidth + (Math.floor(change.toIndex / 8)) * this.view.squareHeight;
+                        animatedItem.atX = this.view.borderSize + (7 - change.atIndex % 8) * this.view.squareWidth;
+                        animatedItem.atY = this.view.borderSize + (Math.floor(change.atIndex / 8)) * this.view.squareHeight;
+                        animatedItem.toX = this.view.borderSize + (7 - change.toIndex % 8) * this.view.squareWidth;
+                        animatedItem.toY = this.view.borderSize + (Math.floor(change.toIndex / 8)) * this.view.squareHeight;
                     }
                     const transform = (this.view.svg.createSVGTransform());
                     transform.setTranslate(animatedItem.atX, animatedItem.atY);
