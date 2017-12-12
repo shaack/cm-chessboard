@@ -111,6 +111,7 @@ export class ChessboardView {
             window.clearTimeout(this.redrawTimer);
         }
         this.redrawTimer = setTimeout(() => {
+            this.drawBoard();
             this.redrawFigures();
             this.redrawMarkers();
         });
@@ -125,7 +126,6 @@ export class ChessboardView {
         this.updateMetrics();
         this.boardGroup = Svg.addElement(this.svg, "g");
         this.boardGroup.setAttribute("class", "board-group");
-        this.drawBoard();
     }
 
     drawBoard() {
@@ -139,7 +139,7 @@ export class ChessboardView {
                 x: point.x, y: point.y, width: this.squareWidth, height: this.squareHeight
             });
             squareRect.setAttribute("class", fieldClass);
-            squareRect.setAttribute("data-square", SQUARE_COORDINATES[i]);
+            // squareRect.setAttribute("data-square", SQUARE_COORDINATES[i]);
             squareRect.setAttribute("data-index", i);
         }
 
@@ -217,13 +217,12 @@ export class ChessboardView {
     }
 
 
-    setFigureVisibility(square, visible = true) {
-        const squareGroup = this.getSquareGroup(square);
-        const use = squareGroup.getElementsByTagName("use");
+    setFigureVisibility(index, visible = true) {
+        const figure = this.getFigure(index);
         if (visible) {
-            use[0].setAttribute("visibility", "visible");
+            figure.setAttribute("visibility", "visible");
         } else {
-            use[0].setAttribute("visibility", "hidden");
+            figure.setAttribute("visibility", "hidden");
         }
 
     }
@@ -295,17 +294,17 @@ export class ChessboardView {
         return this.figuresGroup.querySelector("g[data-index='" + index + "']");
     }
 
-    moveStartCallback(square) {
+    moveStartCallback(index) {
         if (this.config.events.inputStart) {
-            return this.config.events.inputStart(square);
+            return this.config.events.inputStart(SQUARE_COORDINATES[index]);
         } else {
             return true;
         }
     }
 
-    moveDoneCallback(fromSquare, toSquare) {
+    moveDoneCallback(fromIndex, toIndex) {
         if (this.config.events.inputDone) {
-            return this.config.events.inputDone(fromSquare, toSquare);
+            return this.config.events.inputDone(SQUARE_COORDINATES[fromIndex], SQUARE_COORDINATES[toIndex]);
         } else {
             return true;
         }
