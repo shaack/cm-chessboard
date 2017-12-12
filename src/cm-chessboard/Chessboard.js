@@ -19,7 +19,6 @@ export const MARKER_TYPE = {
     lastMove: {slice: "marker1", opacity: 0.2},
     emphasize: {slice: "marker2", opacity: 0.6}
 };
-// noinspection JSUnusedGlobalSymbols
 export const FIGURE = {
     whitePawn: "wp",
     whiteBishop: "wb",
@@ -62,7 +61,7 @@ export class Chessboard {
         }
         this.model = new ChessboardModel();
         this.view = new ChessboardView(containerElement, this.model, this.config, () => {
-            this.setPosition(this.config.position);
+            this.setPosition(this.config.position, false);
             this.setOrientation(this.config.orientation);
             this.model.inputMode = this.config.inputMode;
             this.view.setNeedsRedraw();
@@ -71,19 +70,13 @@ export class Chessboard {
         this.view.setNeedsRedraw();
     }
 
-    // API
+    // API //
 
     addMarker(square, type = MARKER_TYPE.emphasize) {
         this.model.addMarker(square, type);
         this.view.setNeedsRedraw();
     }
 
-    /**
-     * Set field to null to remove all marker from squares.
-     * Set type to null, to remove all types.
-     * @param field
-     * @param type
-     */
     removeMarker(field = null, type = null) {
         this.model.removeMarker(field, type);
         this.view.setNeedsRedraw();
@@ -97,7 +90,10 @@ export class Chessboard {
         return this.model.getSquare(square);
     }
 
-    setPosition(fen, animated = false, callback = null) {
+    move(fromSquare, toSquare) { // TODO
+    }
+
+    setPosition(fen, animated = true, callback = null) {
         const prevBoard = this.model.squares.slice(0); // clone
         if (fen === "start") {
             this.model.setPosition(FEN_START_POSITION);
@@ -124,25 +120,17 @@ export class Chessboard {
 
     setOrientation(color) {
         this.model.orientation = color;
-        this.view.createSvgAndMainGroup();
         this.view.setNeedsRedraw();
     }
 
-    // noinspection JSUnusedGlobalSymbols
     getOrientation() {
         return this.model.orientation;
     }
 
-    // noinspection JSUnusedGlobalSymbols
     destroy() {
         this.view.remove();
     }
 
-    /**
-     * Enables moves via user input, mouse or touch
-     * @param color
-     * @param enable
-     */
     enableInput(color, enable) {
         if (color === COLOR.white) {
             this.model.inputWhiteEnabled = enable;
