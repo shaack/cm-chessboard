@@ -55,7 +55,7 @@ export class ChessboardFigureAnimation {
         } else {
             cancelAnimationFrame(this.frameHandle);
             animationRunning = false;
-            Svg.removeElement(this.figuresGroup);
+            Svg.removeElement(this.animationGroup);
             this.callback();
         }
         const t = Math.min(1, timeDiff / this.duration);
@@ -88,8 +88,7 @@ export class ChessboardFigureAnimation {
     createAnimation(previousBoard, newBoard) {
         const changes = this.seekChanges(previousBoard, newBoard);
         const animatedElements = [];
-        // create animation group in svg if not exists
-        this.figuresGroup = Svg.addElement(this.view.svg, "g", {class: "figures"});
+        this.animationGroup = Svg.addElement(this.view.svg, "g", {class: "figures"});
         changes.forEach((change) => {
             const group = this.view.getSquareGroup(SQUARE_COORDINATES[change.atIndex]);
             const animatedItem = {
@@ -98,7 +97,7 @@ export class ChessboardFigureAnimation {
             switch (change.type) {
                 case CHANGE_TYPE.move:
                     // replace moving figures with moveable dummys
-                    const figureGroup = Svg.addElement(this.figuresGroup, "g");
+                    const figureGroup = Svg.addElement(this.animationGroup, "g");
                     if(this.view.model.orientation === "white") {
                         animatedItem.atX = this.view.borderSize + (change.atIndex % 8) * this.view.squareWidth;
                         animatedItem.atY = this.view.borderSize + (7 - Math.floor(change.atIndex / 8)) * this.view.squareHeight;
