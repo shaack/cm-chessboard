@@ -90,6 +90,7 @@ Set `type` to `null`, to remove all types. Set both to `null` to remove all mark
 ## ToDos
 
 - Change figure painting
+- Make "animated" default
 - Switch orientation while displayed
 - Animation when using click move
 - INPUT_MODE.dragMarker
