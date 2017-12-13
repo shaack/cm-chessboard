@@ -22,34 +22,28 @@ export class ChessboardModel {
         this.markers = [];
     }
 
-    squareToIndex(square) {
-        const file = square.substr(0, 1).charCodeAt(0) - 97;
-        const rank = square.substr(1, 1) - 1;
-        return 8 * rank + file;
-    }
-
     setSquare(index, figure) {
         this.squares[index] = figure;
     }
 
-    addMarker(square, type) {
-        this.markers.push({square: square, type: type});
+    addMarker(index, type) {
+        this.markers.push({index: index, type: type});
     }
 
-    removeMarker(square = null, type = null) {
-        if (square === null && type === null) {
+    removeMarker(index = null, type = null) {
+        if (index === null && type === null) {
             this.markers = [];
         } else {
             this.markers = this.markers.filter((marker) => {
                 if (marker.type === null) {
-                    if (square === marker.square) {
+                    if (index === marker.index) {
                         return false;
                     }
-                } else if (square === null) {
+                } else if (index === null) {
                     if (marker.type === type) {
                         return false;
                     }
-                } else if (marker.type === type && square === marker.square) {
+                } else if (marker.type === type && index === marker.index) {
                     return false;
                 }
                 return true;
@@ -114,5 +108,12 @@ export class ChessboardModel {
         }
         return parts.join("/");
     }
+
+    squareToIndex(square) {
+        const file = square.substr(0, 1).charCodeAt(0) - 97;
+        const rank = square.substr(1, 1) - 1;
+        return 8 * rank + file;
+    }
+
 
 }

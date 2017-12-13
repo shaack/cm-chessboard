@@ -33,13 +33,13 @@ export class ChessboardView {
                     this.redrawTimer = setTimeout(() => {
                         this.createSvgAndMainGroup();
                         this.drawBoard();
-                        this.redrawFigures();
-                        this.redrawMarkers();
+                        this.drawFigures();
+                        this.drawMarkers();
                     });
                 }
             });
         }
-        // Optimization: create event handler on Chessboard.enableInput()
+        // Optimization: create and destroy event handlers on Chessboard.enableInput()
         containerElement.addEventListener('mousedown', (e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -55,9 +55,9 @@ export class ChessboardView {
             });
         });
         this.createSvgAndMainGroup();
-        this.redrawFigures();
-        this.redrawMarkers();
     }
+
+    // Sprite loader //
 
     loadSprite(config, callback) {
         if (ChessboardView.spriteLoadingStatus === SPRITE_LOADING_STATUS.notLoaded) {
@@ -87,6 +87,19 @@ export class ChessboardView {
 
     }
 
+    // Draw //
+
+    createSvgAndMainGroup() {
+        if (this.svg) {
+            Svg.removeElement(this.svg);
+        }
+        this.svg = Svg.createSvg(this.containerElement);
+        this.svg.setAttribute("class", "cm-chessboard");
+        this.updateMetrics();
+        this.boardGroup = Svg.addElement(this.svg, "g");
+        this.boardGroup.setAttribute("class", "board-group");
+    }
+
     updateMetrics() {
         this.width = this.containerElement.offsetWidth;
         this.height = this.containerElement.offsetHeight;
@@ -100,36 +113,18 @@ export class ChessboardView {
         this.figureXTranslate = (this.squareWidth / 2 - this.config.sprite.grid * this.scalingY / 2); // for centering in square
     }
 
-    remove() {
-        if (this.svg) {
-            Svg.removeElement(this.svg);
-        }
-    }
-
-    /**
-     * Redraw async and debounced
-     */
     setNeedsRedraw() {
         if (this.redrawTimer) {
             window.clearTimeout(this.redrawTimer);
         }
         this.redrawTimer = setTimeout(() => {
             this.drawBoard();
-            this.redrawFigures();
-            this.redrawMarkers();
+            this.drawFigures();
+            this.drawMarkers();
         });
     }
 
-    createSvgAndMainGroup() {
-        if (this.svg) {
-            Svg.removeElement(this.svg);
-        }
-        this.svg = Svg.createSvg(this.containerElement);
-        this.svg.setAttribute("class", "cm-chessboard");
-        this.updateMetrics();
-        this.boardGroup = Svg.addElement(this.svg, "g");
-        this.boardGroup.setAttribute("class", "board-group");
-    }
+    // Board //
 
     drawBoard() {
         let boardBorder = Svg.addElement(this.boardGroup, "rect", {width: this.width, height: this.height});
@@ -178,7 +173,41 @@ export class ChessboardView {
         }
     }
 
-    redrawFigures() {
+    drawCoordinates() {
+        // files
+        for (let file = 0; file < 8; file++) {
+            const textElement = Svg.addElement(this.svg, "text", {
+                class: "coordinate file",
+                x: this.borderSize + (18 + this.config.sprite.grid * file) * this.scalingX,
+                y: this.height - (this.borderSize / 3.4),
+                style: "font-size: " + this.scalingY * 7 + "px"
+            });
+            if (this.model.orientation === "white") {
+                textElement.textContent = String.fromCharCode(97 + file);
+            } else {
+                textElement.textContent = String.fromCharCode(104 - file);
+            }
+        }
+
+        // ranks
+        for (let rank = 0; rank < 8; rank++) {
+            const textElement = Svg.addElement(this.svg, "text", {
+                class: "coordinate rank",
+                x: (this.borderSize / 3.6),
+                y: this.borderSize + 23 * this.scalingY + rank * this.squareHeight,
+                style: "font-size: " + this.scalingY * 7 + "px"
+            });
+            if (this.model.orientation === "white") {
+                textElement.textContent = 8 - rank;
+            } else {
+                textElement.textContent = 1 + rank;
+            }
+        }
+    }
+
+    // Figures //
+
+    drawFigures() {
         if (this.figuresGroup) {
             Svg.removeElement(this.figuresGroup);
         }
@@ -211,6 +240,54 @@ export class ChessboardView {
         return figureGroup;
     }
 
+    setFigureVisibility(index, visible = true) {
+        const figure = this.getFigure(index);
+        if (visible) {
+            figure.setAttribute("visibility", "visible");
+        } else {
+            figure.setAttribute("visibility", "hidden");
+        }
+
+    }
+
+    getFigure(index) {
+        return this.figuresGroup.querySelector("g[data-index='" + index + "']");
+    }
+
+    // Markers //
+
+    drawMarkers() {
+        if (this.markersGroup) {
+            Svg.removeElement(this.markersGroup);
+        }
+        this.markersGroup = Svg.addElement(this.svg, "g", {class: "markers"});
+        this.model.markers.forEach((marker) => {
+                this.drawMarker(marker);
+            }
+        );
+    }
+
+    drawMarker(marker) {
+        const markerGroup = Svg.addElement(this.markersGroup, "g");
+        markerGroup.setAttribute("data-index", marker.index);
+        const point = this.squareIndexToPoint(marker.index);
+        const transform = (this.svg.createSVGTransform());
+        transform.setTranslate(point.x, point.y);
+        markerGroup.transform.baseVal.appendItem(transform);
+        const figureUse = Svg.addElement(markerGroup, "use", {"href": "#" + marker.type, "class": "figure"});
+        // center on square
+        const transformTranslate = (this.svg.createSVGTransform());
+        transformTranslate.setTranslate(this.figureXTranslate, 0);
+        figureUse.transform.baseVal.appendItem(transformTranslate);
+        // scale
+        const transformScale = (this.svg.createSVGTransform());
+        transformScale.setScale(this.scalingY, this.scalingY);
+        figureUse.transform.baseVal.appendItem(transformScale);
+        return markerGroup;
+    }
+
+    // Helper //
+
     squareIndexToPoint(index) {
         let x, y;
         if (this.model.orientation === "white") {
@@ -223,78 +300,7 @@ export class ChessboardView {
         return {x: x, y: y};
     }
 
-
-    setFigureVisibility(index, visible = true) {
-        const figure = this.getFigure(index);
-        if (visible) {
-            figure.setAttribute("visibility", "visible");
-        } else {
-            figure.setAttribute("visibility", "hidden");
-        }
-
-    }
-
-    redrawMarkers() {
-        // ToDo like figures
-        /*
-        const existingMarkers = this.mainGroup.querySelectorAll("use.marker");
-        existingMarkers.forEach((existingMarker) => {
-            Svg.removeElement(existingMarker);
-        });
-        this.model.markers.forEach((marker) => {
-                this.drawMarker(marker.square, marker.type);
-            }
-        );
-        */
-    }
-
-    drawMarker(square, markerType) {
-        /*
-        const squareGroup = this.getSquareGroup(square);
-        const marker = Svg.addElement(squareGroup, "use",
-            {"href": "#" + markerType.slice, opacity: markerType.opacity, class: "marker"});
-        const transformScale = (this.svg.createSVGTransform());
-        transformScale.setScale(this.scalingX, this.scalingY);
-        marker.transform.baseVal.appendItem(transformScale);
-        */
-    }
-
-    drawCoordinates() {
-
-        // files
-        for (let file = 0; file < 8; file++) {
-            const textElement = Svg.addElement(this.svg, "text", {
-                class: "coordinate file",
-                x: this.borderSize + (18 + this.config.sprite.grid * file) * this.scalingX,
-                y: this.height - (this.borderSize / 3.4),
-                style: "font-size: " + this.scalingY * 7 + "px"
-            });
-            if (this.model.orientation === "white") {
-                textElement.textContent = String.fromCharCode(97 + file);
-            } else {
-                textElement.textContent = String.fromCharCode(104 - file);
-            }
-        }
-
-        // ranks
-        for (let rank = 0; rank < 8; rank++) {
-            const textElement = Svg.addElement(this.svg, "text", {
-                class: "coordinate rank",
-                x: (this.borderSize / 3.6),
-                y: this.borderSize + 23 * this.scalingY + rank * this.squareHeight,
-                style: "font-size: " + this.scalingY * 7 + "px"
-            });
-            if (this.model.orientation === "white") {
-                textElement.textContent = 8 - rank;
-            } else {
-                textElement.textContent = 1 + rank;
-            }
-        }
-    }
-
-    getFigure(index) {
-        return this.figuresGroup.querySelector("g[data-index='" + index + "']");
-    }
+    // Callbacks //
 
     moveStartCallback(index) {
         if (this.config.events.inputStart) {

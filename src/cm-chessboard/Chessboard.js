@@ -5,6 +5,7 @@
 import {ChessboardView} from "./ChessboardView.js";
 import {ChessboardModel} from "./ChessboardModel.js";
 import {ChessboardFigureAnimation} from "./ChessboardFigureAnimation.js";
+import {Svg} from "../../node_modules/svjs-svg/src/svjs/Svg.js";
 
 export const COLOR = {
     white: "white",
@@ -46,7 +47,6 @@ export class Chessboard {
             showCoordinates: true, // show ranks and files
             responsive: false, // detect window resize, if true
             inputMode: INPUT_MODE.dragFigure, // type of interactive movement
-            animationDuration: 1000, //
             sprite: {
                 file: "../assets/sprite.svg", // figures and markers
                 grid: DEFAULT_SPRITE_GRID, // one figure every 40 px
@@ -74,12 +74,12 @@ export class Chessboard {
     // API //
 
     addMarker(square, type = MARKER_TYPE.emphasize) {
-        this.model.addMarker(square, type);
+        this.model.addMarker(this.model.squareToIndex(square), type);
         this.view.setNeedsRedraw();
     }
 
-    removeMarker(field = null, type = null) {
-        this.model.removeMarker(field, type);
+    removeMarker(square = null, type = null) {
+        this.model.removeMarker(this.model.squareToIndex(square), type);
         this.view.setNeedsRedraw();
     }
 
@@ -105,7 +105,7 @@ export class Chessboard {
         }
         if(animated) {
             new ChessboardFigureAnimation(this.view, prevBoard, this.model.squares, 300, () => {
-                this.view.redrawFigures();
+                this.view.drawFigures();
                 if(callback) {
                     callback();
                 }
@@ -129,7 +129,9 @@ export class Chessboard {
     }
 
     destroy() {
-        this.view.remove();
+        Svg.removeElement(this.view.svg);
+        this.view = null;
+        this.model = null;
     }
 
     enableInput(color, enable) {
