@@ -23,7 +23,7 @@ this.config = {
     orientation: COLOR.white, // white on bottom
     showCoordinates: true, // show ranks and files
     responsive: false, // detects window resize, if true
-    inputMode: INPUT_MODE.viewOnly, // set to INPUT_MODE.dragFigure (1) or INPUT_MODE.dragMarker (2) for interactive movement
+    inputMode: INPUT_MODE.viewOnly, // set to INPUT_MODE.dragFigure "1" or INPUT_MODE.dragMarker "2" for interactive movement
     sprite: {
         file: "../assets/sprite.svg", // figures and markers
         grid: DEFAULT_SPRITE_GRID, // one figure every 40px
@@ -95,4 +95,4 @@ Set `type` to `null`, to remove all types. Set both to `null` to remove all mark
 - Animation when using click move
 - Auto-animation queue
 - Create Examples for all API functions
-- Allow scrolling on touch when input is not enabled (configuration)
+- Right-Click emphasize marker
