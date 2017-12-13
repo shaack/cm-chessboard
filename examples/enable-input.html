@@ -38,11 +38,12 @@ board.enableInput(COLOR.black, true);
 </pre>
 <div id="output"></div>
 <script type="module">
-    import {COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
+    import {INPUT_MODE, COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
 
     const output = document.getElementById("output");
     const board = new Chessboard(document.getElementById("board"), {
         position: "start",
+        inputMode: INPUT_MODE.dragFigure,
         events: {
             inputStart: (square) => {
                 const log = document.createElement("div");

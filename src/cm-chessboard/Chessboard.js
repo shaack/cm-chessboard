@@ -12,6 +12,7 @@ export const COLOR = {
     black: "black"
 };
 export const INPUT_MODE = {
+    viewOnly: 0,
     dragFigure: 1,
     dragMarker: 2 // TODO
 };
@@ -46,7 +47,7 @@ export class Chessboard {
             orientation: COLOR.white, // white on bottom
             showCoordinates: true, // show ranks and files
             responsive: false, // detect window resize, if true
-            inputMode: INPUT_MODE.dragFigure, // type of interactive movement
+            inputMode: INPUT_MODE.viewOnly, // set to INPUT_MODE.dragFigure (1) or INPUT_MODE.dragMarker (2) for interactive movement
             sprite: {
                 file: "../assets/sprite.svg", // figures and markers
                 grid: DEFAULT_SPRITE_GRID, // one figure every 40 px
@@ -103,10 +104,10 @@ export class Chessboard {
         } else {
             this.model.setPosition(fen);
         }
-        if(animated) {
+        if (animated) {
             new ChessboardFigureAnimation(this.view, prevBoard, this.model.squares, 300, () => {
                 this.view.drawFigures();
-                if(callback) {
+                if (callback) {
                     callback();
                 }
             })
@@ -135,12 +136,15 @@ export class Chessboard {
     }
 
     enableInput(color, enable) {
+        if(enable === true && this.config.inputMode === INPUT_MODE.viewOnly) {
+            throw Error("consig.inputMode is INPUT_MODE.viewOnly");
+        }
         if (color === COLOR.white) {
             this.model.inputWhiteEnabled = enable;
         } else if (color === COLOR.black) {
             this.model.inputBlackEnabled = enable;
         }
-        if(this.model.inputWhiteEnabled || this.model.inputBlackEnabled) {
+        if (this.model.inputWhiteEnabled || this.model.inputBlackEnabled) {
             this.view.boardGroup.setAttribute("class", "board input-enabled");
         } else {
             this.view.boardGroup.setAttribute("class", "board");

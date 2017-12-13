@@ -6,6 +6,7 @@
 import {Svg} from "../../node_modules/svjs-svg/src/svjs/Svg.js";
 import {SQUARE_COORDINATES} from "./ChessboardModel.js";
 import {ChessboardMoveInput} from "./ChessboardMoveInput.js";
+import {INPUT_MODE} from "./Chessboard.js";
 
 const SPRITE_LOADING_STATUS = {
     notLoaded: 1,
@@ -39,21 +40,23 @@ export class ChessboardView {
                 }
             });
         }
-        // Optimization: create and destroy event handlers on Chessboard.enableInput()
-        containerElement.addEventListener('mousedown', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setTimeout(() => {
-                this.moveInput.onPointerDown(e);
+        if(this.config.inputMode !== INPUT_MODE.viewOnly) {
+            // Optimization: create and destroy event handlers on Chessboard.enableInput()
+            containerElement.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setTimeout(() => {
+                    this.moveInput.onPointerDown(e);
+                });
             });
-        });
-        containerElement.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setTimeout(() => {
-                this.moveInput.onPointerDown(e);
+            containerElement.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setTimeout(() => {
+                    this.moveInput.onPointerDown(e);
+                });
             });
-        });
+        }
         this.createSvgAndMainGroup();
     }
 
