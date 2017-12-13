@@ -14,7 +14,7 @@ export const COLOR = {
 export const INPUT_MODE = {
     viewOnly: 0,
     dragFigure: 1,
-    dragMarker: 2 // TODO
+    dragMarker: 2
 };
 export const MARKER_TYPE = {
     newMove: {slice: "marker1", opacity: 0.6},
@@ -47,14 +47,15 @@ export class Chessboard {
             orientation: COLOR.white, // white on bottom
             showCoordinates: true, // show ranks and files
             responsive: false, // detects window resize, if true
-            inputMode: INPUT_MODE.viewOnly, // set to INPUT_MODE.dragFigure (1) or INPUT_MODE.dragMarker (2) for interactive movement
+            inputMode: INPUT_MODE.viewOnly, // set to INPUT_MODE.dragFigure "1" or INPUT_MODE.dragMarker "2" for interactive movement
+            events: {
+                inputStart: null, // callback(square), before figure move input, return false to cancel move
+                inputDone: null, // callback(squareFrom, squareTo), after figure move input, return false to cancel move
+                inputContext: null // callback(square), on right click/context touch
+            },
             sprite: {
                 file: "../assets/sprite.svg", // figures and markers
                 grid: DEFAULT_SPRITE_GRID, // one figure every 40px
-            },
-            events: {
-                inputStart: null, // callback(square), before figure move input, return false to cancel move
-                inputDone: null // callback(squareFrom, squareTo), after figure move input, return false to cancel move
             }
         };
         Object.assign(this.config, config);
