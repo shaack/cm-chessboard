@@ -16,7 +16,7 @@ export class TestBoard extends Test {
                 console.log(chessboard.view.containerElement.childNodes);
                 Test.assertEquals(1, chessboard.view.containerElement.childNodes.length);
                 chessboard.destroy();
-                Test.assertEquals(0, chessboard.view.containerElement.childNodes.length);
+                Test.assertEquals(null, chessboard.view);
             });
 
         });

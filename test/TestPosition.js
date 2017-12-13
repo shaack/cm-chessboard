@@ -24,7 +24,7 @@ export class TestPosition extends Test {
 
     testSetAndGetPosition() {
         const chessboard = new Chessboard(document.getElementById("testboard3"), null, () => {
-            chessboard.setPosition("rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR w Gkq - 4 11");
+            chessboard.setPosition("rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR w Gkq - 4 11", false);
             Test.assertEquals("rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR", chessboard.getPosition());
             setTimeout(() => {
                 chessboard.destroy();
