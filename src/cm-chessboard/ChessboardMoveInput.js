@@ -4,7 +4,7 @@
  */
 
 import {Svg} from "../../node_modules/svjs-svg/src/svjs/Svg.js";
-import {MARKER_TYPE} from "./Chessboard.js";
+import {INPUT_MODE, MARKER_TYPE} from "./Chessboard.js";
 
 const STATUS = {
     waitForInputStart: 0,
@@ -101,16 +101,20 @@ export class ChessboardMoveInput {
                 if ([STATUS.figureClickedThreshold].indexOf(prevStatus) === -1) {
                     throw new Error("status");
                 }
-                this.view.setFigureVisibility(params.index, false);
-                this.createDragableFigure(params.figure);
+                if (this.config.inputMode === INPUT_MODE.dragFigure) {
+                    this.view.setFigureVisibility(params.index, false);
+                    this.createDragableFigure(params.figure);
+                }
                 break;
 
             case STATUS.clickDragTo:
                 if ([STATUS.secondClickThreshold].indexOf(prevStatus) === -1) {
                     throw new Error("status");
                 }
-                this.view.setFigureVisibility(params.index, false);
-                this.createDragableFigure(params.figure);
+                if (this.config.inputMode === INPUT_MODE.dragFigure) {
+                    this.view.setFigureVisibility(params.index, false);
+                    this.createDragableFigure(params.figure);
+                }
                 break;
 
             case STATUS.moveDone:
@@ -239,7 +243,9 @@ export class ChessboardMoveInput {
                 } else {
                     this.setStatus(STATUS.dragTo, {index: this.startIndex, figure: this.movedFigure});
                 }
-                this.moveDragableFigure(x, y);
+                if(this.config.inputMode === INPUT_MODE.dragFigure) {
+                    this.moveDragableFigure(x, y);
+                }
             }
         } else if (this.status === STATUS.dragTo || this.status === STATUS.clickDragTo || this.status === STATUS.clickTo) {
             if (target && target.getAttribute) {
@@ -255,7 +261,7 @@ export class ChessboardMoveInput {
                 this.endIndex = null;
                 this.updateStartEndMarkers();
             }
-            if (this.status === STATUS.dragTo || this.status === STATUS.clickDragTo) {
+            if (this.config.inputMode === INPUT_MODE.dragFigure && (this.status === STATUS.dragTo || this.status === STATUS.clickDragTo)) {
                 this.moveDragableFigure(x, y);
             }
         }
