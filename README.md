@@ -23,7 +23,7 @@ this._config = {
     orientation: COLOR.white, // white on bottom
     showCoordinates: true, // show ranks and files
     responsive: false, // detect window resize
-    inputMode: INPUT_MODE.dragFigure, // type of interactive movement
+    inputMode: INPUT_MODE.viewOnly, // set to INPUT_MODE.dragFigure (1) or INPUT_MODE.dragMarker (2) for interactive movement
     sprite: {
         file: "../assets/sprite.svg", // figures and markers
         grid: DEFAULT_SPRITE_GRID, // one figure every 40 px
@@ -46,11 +46,11 @@ Set a figure on a square. Example: `board.setSquare("e4", FIGURE.blackKnight)` o
 
 Returns the figure on a square.
 
-### setPosition(fen, animated = false)
+### setPosition(fen, animated = true)
 
 Set the position as `fen`. Special values are `"start"`, sets the chess start position and 
-`"empty"`, sets an empty board. When `animated` is set `true`, the new position will be 
-tweened from the current position.
+`"empty"`, sets an empty board. When `animated` is set `false`, the new position will be 
+shown instant.
 
 ### getPosition()
 
@@ -91,8 +91,8 @@ Set `type` to `null`, to remove all types. Set both to `null` to remove all mark
 
 - Switch orientation and play with black
 - Switch orientation while displayed
+- INPUT_MODE.dragMarker
 - Animation when using click move
 - Auto-animation queue
-- INPUT_MODE.dragMarker
 - Create Examples for all API functions
 - Allow scrolling on touch when input is not enabled (configuration)
