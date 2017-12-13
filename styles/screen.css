@@ -28,24 +28,24 @@ pre {
 .cm-chessboard {
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.6); }
   /* line 8, _skin-base.scss */
-  .cm-chessboard .board-group.input-enabled .square {
+  .cm-chessboard .board.input-enabled .square {
     cursor: pointer; }
   /* line 12, _skin-base.scss */
-  .cm-chessboard .board-group .board-border {
+  .cm-chessboard .board .board-border {
     fill: #eedab6; }
   /* line 15, _skin-base.scss */
-  .cm-chessboard .board-group .surrounding-line {
+  .cm-chessboard .board .surrounding-line {
     stroke-width: 0.3%;
     stroke-linecap: round;
     stroke: #b38964; }
   /* line 21, _skin-base.scss */
-  .cm-chessboard .board-group .square use {
+  .cm-chessboard .board .square use {
     pointer-events: none; }
   /* line 24, _skin-base.scss */
-  .cm-chessboard .board-group .square.white {
+  .cm-chessboard .board .square.white {
     fill: #eedab6; }
   /* line 27, _skin-base.scss */
-  .cm-chessboard .board-group .square.black {
+  .cm-chessboard .board .square.black {
     fill: #b38964; }
   /* line 32, _skin-base.scss */
   .cm-chessboard .coordinate {
