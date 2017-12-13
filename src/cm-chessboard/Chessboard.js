@@ -141,9 +141,9 @@ export class Chessboard {
             this.model.inputBlackEnabled = enable;
         }
         if(this.model.inputWhiteEnabled || this.model.inputBlackEnabled) {
-            this.view.boardGroup.setAttribute("class", "board-group input-enabled");
+            this.view.boardGroup.setAttribute("class", "board input-enabled");
         } else {
-            this.view.boardGroup.setAttribute("class", "board-group");
+            this.view.boardGroup.setAttribute("class", "board");
         }
     }
 
