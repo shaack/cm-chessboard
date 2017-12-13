@@ -24,13 +24,15 @@ this.config = {
     showCoordinates: true, // show ranks and files
     responsive: false, // detects window resize, if true
     inputMode: INPUT_MODE.viewOnly, // set to INPUT_MODE.dragFigure "1" or INPUT_MODE.dragMarker "2" for interactive movement
+    animationSpeed: 300,
+    events: {
+        inputStart: null, // callback(square), before figure move input, return false to cancel move
+        inputDone: null, // callback(squareFrom, squareTo), after figure move input, return false to cancel move
+        inputContext: null // callback(square), on right click/context touch
+    },
     sprite: {
         file: "../assets/sprite.svg", // figures and markers
         grid: DEFAULT_SPRITE_GRID, // one figure every 40px
-    },
-    events: {
-        inputStart: null, // callback(square), before figure move input, return false to cancel move
-        inputDone: null // callback(squareFrom, squareTo), after figure move input, return false to cancel move
     }
 };
 ```  
