@@ -102,7 +102,9 @@ export class Chessboard {
 
     setPosition(fen, animated = true, callback = null) {
         const currentFen = this.model.getPosition();
-        if(fen !== currentFen) { // todo normalize fen before comparison
+        const fenParts = fen.split(" ");
+        const fenNormalized = fenParts[0];
+        if(fenNormalized !== currentFen) {
             const prevSquares = this.model.squares.slice(0); // clone
             if (fen === "start") {
                 this.model.setPosition(FEN_START_POSITION);
@@ -113,13 +115,19 @@ export class Chessboard {
             }
             if (animated) {
                 this.view.animateFigures(prevSquares, this.model.squares.slice(0), () => {
-                    this.view.setNeedsRedraw();
                     if (callback) {
                         callback();
                     }
                 });
             } else {
-                this.view.setNeedsRedraw();
+                this.view.drawFigures();
+                if (callback) {
+                    callback();
+                }
+            }
+        } else {
+            if (callback) {
+                callback();
             }
         }
     }

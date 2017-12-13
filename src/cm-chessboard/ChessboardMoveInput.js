@@ -134,7 +134,7 @@ export class ChessboardMoveInput {
                             this.setStatus(STATUS.reset);
                         });
                     } else {
-                        this.view.setNeedsRedraw();
+                        this.view.drawFigures();
                         this.setStatus(STATUS.reset);
                     }
                 } else {

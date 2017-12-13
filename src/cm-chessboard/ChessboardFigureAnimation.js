@@ -95,7 +95,6 @@ export class ChessboardFigureAnimation {
     createAnimation(fromSquares, toSquares) {
         const changes = this.seekChanges(fromSquares, toSquares);
         const animatedElements = [];
-        this.animationGroup = Svg.addElement(this.view.svg, "g", {class: "figures"});
         changes.forEach((change) => {
             const animatedItem = {
                 type: change.type
@@ -116,24 +115,28 @@ export class ChessboardFigureAnimation {
             }
             animatedElements.push(animatedItem);
         });
+        console.log("animatedElements", animatedElements);
         return animatedElements;
     }
 
     animationStep(time) {
         if (!this.startTime) {
             this.startTime = time;
+            console.log("animation start", time);
         }
+
         const timeDiff = time - this.startTime;
         if (timeDiff <= this.duration) {
             this.frameHandle = requestAnimationFrame(this.animationStep.bind(this));
         } else {
             cancelAnimationFrame(this.frameHandle);
             animationRunning = false;
-            Svg.removeElement(this.animationGroup);
+            console.log("animation end", time);
             this.callback();
         }
         const t = Math.min(1, timeDiff / this.duration);
         const progress = t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t; // easeInOut
+        // console.log("progress", progress);
         this.animatedElements.forEach((animatedItem) => {
             if(animatedItem.element) {
                 switch (animatedItem.type) {

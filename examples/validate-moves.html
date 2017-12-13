@@ -66,7 +66,9 @@ const board = new Chessboard(document.getElementById("board"), {
             inputDone: (squareFrom, squareTo) => {
                 const result = chess.move({from: squareFrom, to: squareTo});
                 if (result) {
+                    board.enableInput(COLOR.white, false);
                     setTimeout(() => {
+                        board.setPosition(chess.fen());
                         const possibleMoves = chess.moves({verbose: true});
                         if (possibleMoves.length > 0) {
                             const randomMove = possibleMoves[random(0, possibleMoves.length - 1)];
@@ -75,7 +77,7 @@ const board = new Chessboard(document.getElementById("board"), {
                                 board.enableInput(COLOR.white, true);
                             });
                         }
-                    }, 100); // todo test rochade
+                    }, 0);
                 }
                 return result;
             }
