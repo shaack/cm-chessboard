@@ -89,7 +89,7 @@ Set `type` to `null`, to remove all types. Set both to `null` to remove all mark
 
 ## ToDos
 
-- Animation when using click move
 - Auto-animation queue
+- Animation when using click move
 - Create Examples for all API functions
 - Right-Click emphasize marker

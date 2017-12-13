@@ -4,7 +4,6 @@
  */
 import {ChessboardView} from "./ChessboardView.js";
 import {ChessboardModel} from "./ChessboardModel.js";
-import {ChessboardFigureAnimation} from "./ChessboardFigureAnimation.js";
 import {Svg} from "../../node_modules/svjs-svg/src/svjs/Svg.js";
 
 export const COLOR = {
@@ -48,6 +47,7 @@ export class Chessboard {
             showCoordinates: true, // show ranks and files
             responsive: false, // detects window resize, if true
             inputMode: INPUT_MODE.viewOnly, // set to INPUT_MODE.dragFigure "1" or INPUT_MODE.dragMarker "2" for interactive movement
+            animationSpeed: 300,
             events: {
                 inputStart: null, // callback(square), before figure move input, return false to cancel move
                 inputDone: null, // callback(squareFrom, squareTo), after figure move input, return false to cancel move
@@ -101,23 +101,27 @@ export class Chessboard {
     }
 
     setPosition(fen, animated = true, callback = null) {
-        const prevBoard = this.model.squares.slice(0); // clone
-        if (fen === "start") {
-            this.model.setPosition(FEN_START_POSITION);
-        } else if (fen === "empty" || fen === null) {
-            this.model.setPosition(FEN_EMPTY_POSITION);
-        } else {
-            this.model.setPosition(fen);
-        }
-        if (animated) {
-            new ChessboardFigureAnimation(this.view, prevBoard, this.model.squares, 300, () => {
-                this.view.drawFigures();
-                if (callback) {
-                    callback();
-                }
-            })
-        } else {
-            this.view.setNeedsRedraw();
+        const currentFen = this.model.getPosition();
+        console.log(currentFen, fen);
+        if(fen !== currentFen) { // todo normalize fen before
+            const prevSquares = this.model.squares.slice(0); // clone
+            if (fen === "start") {
+                this.model.setPosition(FEN_START_POSITION);
+            } else if (fen === "empty" || fen === null) {
+                this.model.setPosition(FEN_EMPTY_POSITION);
+            } else {
+                this.model.setPosition(fen);
+            }
+            if (animated) {
+                this.view.animateFigures(prevSquares, this.model.squares.slice(0), () => {
+                    this.view.setNeedsRedraw();
+                    if (callback) {
+                        callback();
+                    }
+                });
+            } else {
+                this.view.setNeedsRedraw();
+            }
         }
     }
 
@@ -149,11 +153,7 @@ export class Chessboard {
         } else if (color === COLOR.black) {
             this.model.inputBlackEnabled = enable;
         }
-        if (this.model.inputWhiteEnabled || this.model.inputBlackEnabled) {
-            this.view.boardGroup.setAttribute("class", "board input-enabled");
-        } else {
-            this.view.boardGroup.setAttribute("class", "board");
-        }
+        this.view.setCursor();
     }
 
 }

@@ -30,13 +30,14 @@ function AnimationRunningException(chessboardFigureAnimation) {
 
 export class ChessboardFigureAnimation {
 
-    constructor(view, previousBoard, newBoard, duration, callback) {
+    constructor(view, fromSquares, toSquares, duration, callback) {
         if (animationRunning) {
+            console.warn("Animation running");
             throw new AnimationRunningException(this);
         }
         this.view = view;
-        if (previousBoard && newBoard) {
-            this.animatedElements = this.createAnimation(previousBoard, newBoard);
+        if (fromSquares && toSquares) {
+            this.animatedElements = this.createAnimation(fromSquares, toSquares);
             this.duration = duration;
             this.callback = callback;
             animationRunning = true;
@@ -44,78 +45,11 @@ export class ChessboardFigureAnimation {
         }
     }
 
-    animationStep(time) {
-        if (!this.startTime) {
-            this.startTime = time;
-        }
-        const timeDiff = time - this.startTime;
-        if (timeDiff <= this.duration) {
-            this.frameHandle = requestAnimationFrame(this.animationStep.bind(this));
-        } else {
-            cancelAnimationFrame(this.frameHandle);
-            animationRunning = false;
-            Svg.removeElement(this.animationGroup);
-            this.callback();
-        }
-        const t = Math.min(1, timeDiff / this.duration);
-        const progress = t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t; // easeInOut
-        this.animatedElements.forEach((animatedItem) => {
-            switch (animatedItem.type) {
-                case CHANGE_TYPE.move:
-                    animatedItem.element.transform.baseVal.removeItem(0);
-                    const transform = (this.view.svg.createSVGTransform());
-                    transform.setTranslate(
-                        animatedItem.atPoint.x + (animatedItem.toPoint.x - animatedItem.atPoint.x) * progress,
-                        animatedItem.atPoint.y + (animatedItem.toPoint.y - animatedItem.atPoint.y) * progress);
-                    animatedItem.element.transform.baseVal.appendItem(transform);
-                    break;
-                case CHANGE_TYPE.appear:
-                    animatedItem.element.style.opacity = progress;
-                    break;
-                case CHANGE_TYPE.disappear:
-                    animatedItem.element.style.opacity = 1 - progress;
-                    break;
-            }
-        });
-
-    }
-
-    static isAnimationRunning() {
-        return animationRunning;
-    }
-
-    createAnimation(previousBoard, newBoard) {
-        const changes = this.seekChanges(previousBoard, newBoard);
-        const animatedElements = [];
-        this.animationGroup = Svg.addElement(this.view.svg, "g", {class: "figures"});
-        changes.forEach((change) => {
-            const animatedItem = {
-                type: change.type
-            };
-            switch (change.type) {
-                case CHANGE_TYPE.move:
-                    animatedItem.element = this.view.getFigure(change.atIndex);
-                    animatedItem.atPoint = this.view.squareIndexToPoint(change.atIndex)
-                    animatedItem.toPoint = this.view.squareIndexToPoint(change.toIndex);
-                    break;
-                case CHANGE_TYPE.appear:
-                    animatedItem.element = this.view.drawFigure(change.atIndex, change.figure);
-                    animatedItem.element.style.opacity = 0;
-                    break;
-                case CHANGE_TYPE.disappear:
-                    animatedItem.element = this.view.getFigure(change.atIndex);
-                    break;
-            }
-            animatedElements.push(animatedItem);
-        });
-        return animatedElements;
-    }
-
-    seekChanges(previousBoard, newBoard) {
+    seekChanges(fromSquares, toSquares) {
         const appearedList = [], disappearedList = [], changes = [];
         for (let i = 0; i < 64; i++) {
-            const previousSquare = previousBoard[i];
-            const newSquare = newBoard[i];
+            const previousSquare = fromSquares[i];
+            const newSquare = toSquares[i];
             if (newSquare !== previousSquare) {
                 if (newSquare) {
                     appearedList.push({figure: newSquare, index: i});
@@ -156,6 +90,73 @@ export class ChessboardFigureAnimation {
             changes.push({type: CHANGE_TYPE.disappear, figure: disappeared.figure, atIndex: disappeared.index})
         });
         return changes;
+    }
+
+    createAnimation(fromSquares, toSquares) {
+        const changes = this.seekChanges(fromSquares, toSquares);
+        const animatedElements = [];
+        this.animationGroup = Svg.addElement(this.view.svg, "g", {class: "figures"});
+        changes.forEach((change) => {
+            const animatedItem = {
+                type: change.type
+            };
+            switch (change.type) {
+                case CHANGE_TYPE.move:
+                    animatedItem.element = this.view.getFigure(change.atIndex);
+                    animatedItem.atPoint = this.view.squareIndexToPoint(change.atIndex);
+                    animatedItem.toPoint = this.view.squareIndexToPoint(change.toIndex);
+                    break;
+                case CHANGE_TYPE.appear:
+                    animatedItem.element = this.view.drawFigure(change.atIndex, change.figure);
+                    animatedItem.element.style.opacity = 0;
+                    break;
+                case CHANGE_TYPE.disappear:
+                    animatedItem.element = this.view.getFigure(change.atIndex);
+                    break;
+            }
+            animatedElements.push(animatedItem);
+        });
+        return animatedElements;
+    }
+
+    animationStep(time) {
+        if (!this.startTime) {
+            this.startTime = time;
+        }
+        const timeDiff = time - this.startTime;
+        if (timeDiff <= this.duration) {
+            this.frameHandle = requestAnimationFrame(this.animationStep.bind(this));
+        } else {
+            cancelAnimationFrame(this.frameHandle);
+            animationRunning = false;
+            Svg.removeElement(this.animationGroup);
+            this.callback();
+        }
+        const t = Math.min(1, timeDiff / this.duration);
+        const progress = t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t; // easeInOut
+        this.animatedElements.forEach((animatedItem) => {
+            switch (animatedItem.type) {
+                case CHANGE_TYPE.move:
+                    animatedItem.element.transform.baseVal.removeItem(0);
+                    const transform = (this.view.svg.createSVGTransform());
+                    transform.setTranslate(
+                        animatedItem.atPoint.x + (animatedItem.toPoint.x - animatedItem.atPoint.x) * progress,
+                        animatedItem.atPoint.y + (animatedItem.toPoint.y - animatedItem.atPoint.y) * progress);
+                    animatedItem.element.transform.baseVal.appendItem(transform);
+                    break;
+                case CHANGE_TYPE.appear:
+                    animatedItem.element.style.opacity = progress;
+                    break;
+                case CHANGE_TYPE.disappear:
+                    animatedItem.element.style.opacity = 1 - progress;
+                    break;
+            }
+        });
+
+    }
+
+    static isAnimationRunning() {
+        return animationRunning;
     }
 
     squareDistance(index1, index2) {

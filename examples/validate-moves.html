@@ -17,7 +17,8 @@
 </head>
 <body>
 <h1>Input Enabled with move validation</h1>
-<p>Input enabled for white. <a href="https://github.com/jhlywa/chess.js">chess.js</a> does the validation and answers with random moves.</p>
+<p>Input enabled for white. <a href="https://github.com/jhlywa/chess.js">chess.js</a> does the validation and answers
+    with random moves.</p>
 <div class="board" id="board"></div>
 <h2>Code</h2>
 <pre>
@@ -65,18 +66,16 @@ const board = new Chessboard(document.getElementById("board"), {
             inputDone: (squareFrom, squareTo) => {
                 const result = chess.move({from: squareFrom, to: squareTo});
                 if (result) {
-                    board.setPosition(chess.fen(), false);
-                    board.enableInput(COLOR.white, false);
                     setTimeout(() => {
                         const possibleMoves = chess.moves({verbose: true});
-                        if(possibleMoves.length > 0) {
+                        if (possibleMoves.length > 0) {
                             const randomMove = possibleMoves[random(0, possibleMoves.length - 1)];
                             chess.move({from: randomMove.from, to: randomMove.to});
                             board.setPosition(chess.fen(), true, () => {
                                 board.enableInput(COLOR.white, true);
                             });
                         }
-                    }, 250)
+                    }, 100);
                 }
                 return result;
             }

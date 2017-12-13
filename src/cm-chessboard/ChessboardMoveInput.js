@@ -32,7 +32,7 @@ export class ChessboardMoveInput {
 
     setStatus(newStatus, params = null) {
 
-        // console.log("setStatus", Object.keys(STATUS)[this.status], "=>", Object.keys(STATUS)[newStatus]);
+        console.log("setStatus", Object.keys(STATUS)[this.status], "=>", Object.keys(STATUS)[newStatus]);
 
         const prevStatus = this.status;
         this.status = newStatus;
@@ -123,9 +123,23 @@ export class ChessboardMoveInput {
                 }
                 this.endIndex = params.index;
                 if (this.endIndex && this.moveDoneCallback(this.startIndex, this.endIndex)) {
+                    const prevSquares = this.model.squares.slice(0);
+                    // const nextSquares = this.model.squares.slice(0);
+                    // nextSquares[this.startIndex] = null;
+                    // nextSquares[this.endIndex] = this.movedFigure;
+                    this.model.setSquare(this.startIndex, null);
                     this.model.setSquare(this.endIndex, this.movedFigure);
-                    this.model.setSquare(this.startIndex, "");
-                    this.setStatus(STATUS.reset);
+                    if (prevStatus === STATUS.clickTo) {
+                        console.log("animateFigures from MoveInput");
+                        this.view.animateFigures(prevSquares, this.model.squares.slice(0), () => {
+                            console.log("CALLBACK");
+                            this.setStatus(STATUS.reset);
+                            this.view.setNeedsRedraw();
+                        });
+                    } else {
+                        this.view.setNeedsRedraw();
+                        this.setStatus(STATUS.reset);
+                    }
                 } else {
                     this.setStatus(STATUS.reset);
                 }
@@ -151,7 +165,6 @@ export class ChessboardMoveInput {
                     window.removeEventListener(this.pointerUpListener.type, this.pointerUpListener);
                     this.pointerUpListener = null;
                 }
-                this.view.setNeedsRedraw();
                 this.setStatus(STATUS.waitForInputStart);
                 break;
 
@@ -243,7 +256,7 @@ export class ChessboardMoveInput {
                 } else {
                     this.setStatus(STATUS.dragTo, {index: this.startIndex, figure: this.movedFigure});
                 }
-                if(this.config.inputMode === INPUT_MODE.dragFigure) {
+                if (this.config.inputMode === INPUT_MODE.dragFigure) {
                     this.moveDragableFigure(x, y);
                 }
             }
@@ -305,6 +318,7 @@ export class ChessboardMoveInput {
     }
 
     updateStartEndMarkers() {
+        // console.log("updateStartEndMarkers");
         this.model.removeMarker(null, MARKER_TYPE.newMove);
         if (this.startIndex) {
             this.model.addMarker(this.startIndex, MARKER_TYPE.newMove);

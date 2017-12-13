@@ -7,6 +7,7 @@ import {Svg} from "../../node_modules/svjs-svg/src/svjs/Svg.js";
 import {SQUARE_COORDINATES} from "./ChessboardModel.js";
 import {ChessboardMoveInput} from "./ChessboardMoveInput.js";
 import {INPUT_MODE} from "./Chessboard.js";
+import {ChessboardFigureAnimation} from "./ChessboardFigureAnimation.js";
 
 const SPRITE_LOADING_STATUS = {
     notLoaded: 1,
@@ -24,6 +25,7 @@ export class ChessboardView {
         this.loadSprite(config, createCallback);
         this.spriteLoadWaitDelay = 0;
         this.moveInput = new ChessboardMoveInput(this, this.model, this.config, this.moveStartCallback, this.moveDoneCallback);
+        this.animationQueue = [];
         if (config.responsive) {
             window.addEventListener('resize', () => {
                 if (this.containerElement.offsetWidth !== this.width ||
@@ -125,6 +127,7 @@ export class ChessboardView {
             }
             this.drawFigures();
             this.drawMarkers();
+            this.setCursor();
         });
     }
 
@@ -216,13 +219,16 @@ export class ChessboardView {
 
     // Figures //
 
-    drawFigures() {
+    drawFigures(squares = null) {
+        if(!squares) {
+            squares = this.model.squares;
+        }
         if (this.figuresGroup) {
             Svg.removeElement(this.figuresGroup);
         }
         this.figuresGroup = Svg.addElement(this.svg, "g", {class: "figures"});
         for (let i = 0; i < 64; i++) {
-            const figureName = this.model.squares[i];
+            const figureName = squares[i];
             if (figureName) {
                 this.drawFigure(i, figureName);
             }
@@ -292,18 +298,28 @@ export class ChessboardView {
         return markerGroup;
     }
 
-    // Helper //
+    // animation queue //
 
-    squareIndexToPoint(index) {
-        let x, y;
-        if (this.model.orientation === "white") {
-            x = this.borderSize + (index % 8) * this.squareWidth;
-            y = this.borderSize + (7 - Math.floor(index / 8)) * this.squareHeight;
-        } else {
-            x = this.borderSize + (7 - index % 8) * this.squareWidth;
-            y = this.borderSize + (Math.floor(index / 8)) * this.squareHeight;
+    animateFigures(fromSquares, toSquares, callback) {
+        console.log("animateFigures", fromSquares, toSquares);
+        this.animationQueue.push({fromSquares: fromSquares, toSquares: toSquares});
+        if(!ChessboardFigureAnimation.isAnimationRunning()) {
+            this.nextFigureAnimationInQueue(callback);
         }
-        return {x: x, y: y};
+    }
+
+    nextFigureAnimationInQueue(callback) {
+        console.log("nextFigureAnimationInQueue", callback);
+        const nextAnimation = this.animationQueue.shift();
+        if(nextAnimation !== undefined) {
+            new ChessboardFigureAnimation(this, nextAnimation.fromSquares, nextAnimation.toSquares, this.config.animationSpeed / (this.animationQueue.length + 1), () => {
+                this.nextFigureAnimationInQueue(callback);
+            })
+        } else {
+            if(callback) {
+                callback();
+            }
+        }
     }
 
     // Callbacks //
@@ -322,6 +338,28 @@ export class ChessboardView {
         } else {
             return true;
         }
+    }
+
+    // Helpers //
+
+    setCursor() {
+        if (this.model.inputWhiteEnabled || this.model.inputBlackEnabled) {
+            this.boardGroup.setAttribute("class", "board input-enabled");
+        } else {
+            this.boardGroup.setAttribute("class", "board");
+        }
+    }
+
+    squareIndexToPoint(index) {
+        let x, y;
+        if (this.model.orientation === "white") {
+            x = this.borderSize + (index % 8) * this.squareWidth;
+            y = this.borderSize + (7 - Math.floor(index / 8)) * this.squareHeight;
+        } else {
+            x = this.borderSize + (7 - index % 8) * this.squareWidth;
+            y = this.borderSize + (Math.floor(index / 8)) * this.squareHeight;
+        }
+        return {x: x, y: y};
     }
 
 }
