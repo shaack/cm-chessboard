@@ -230,7 +230,7 @@ export class ChessboardMoveInput {
         } else if (e.type === "touchmove") {
             x = e.touches[0].pageX;
             y = e.touches[0].pageY;
-            target = document.elementFromPoint(x, y);
+            target = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY);
         }
         if (this.status === STATUS.figureClickedThreshold || this.status === STATUS.secondClickThreshold) {
             if (Math.abs(this.startPoint.x - x) > DRAG_THRESHOLD || Math.abs(this.startPoint.y - y) > DRAG_THRESHOLD) {
