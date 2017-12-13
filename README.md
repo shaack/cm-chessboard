@@ -89,9 +89,6 @@ Set `type` to `null`, to remove all types. Set both to `null` to remove all mark
 
 ## ToDos
 
-- Switch orientation and play with black
-- Switch orientation while displayed
-- INPUT_MODE.dragMarker
 - Animation when using click move
 - Auto-animation queue
 - Create Examples for all API functions
