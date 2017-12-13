@@ -57,9 +57,11 @@ board.enableInput(COLOR.black, true);
                 output.appendChild(log);
                 return true;
             }
-        }});
-    board.enableInput(COLOR.white, true);
-    board.enableInput(COLOR.black, true);
+        }
+    }, () => {
+        board.enableInput(COLOR.white, true);
+        board.enableInput(COLOR.black, true);
+    });
 </script>
 </body>
 </html>
