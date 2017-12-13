@@ -32,6 +32,7 @@ export class ChessboardView {
                     }
                     this.redrawTimer = setTimeout(() => {
                         this.createSvgAndMainGroup();
+                        this.drawBoard();
                         this.redrawFigures();
                         this.redrawMarkers();
                     });
@@ -54,6 +55,8 @@ export class ChessboardView {
             });
         });
         this.createSvgAndMainGroup();
+        this.redrawFigures();
+        this.redrawMarkers();
     }
 
     loadSprite(config, callback) {
@@ -140,7 +143,11 @@ export class ChessboardView {
             });
             squareRect.setAttribute("class", fieldClass);
             // squareRect.setAttribute("data-square", SQUARE_COORDINATES[i]);
-            squareRect.setAttribute("data-index", i);
+            if(this.model.orientation === "white") {
+                squareRect.setAttribute("data-index", i);
+            } else {
+                squareRect.setAttribute("data-index", 63 - i);
+            }
         }
 
         Svg.addElement(this.boardGroup, "line", {
@@ -285,11 +292,6 @@ export class ChessboardView {
         }
     }
 
-    /*
-    getSquareGroup(square) {
-        return this.svg.querySelector("g[data-square='" + square + "']");
-    }
-    */
     getFigure(index) {
         return this.figuresGroup.querySelector("g[data-index='" + index + "']");
     }

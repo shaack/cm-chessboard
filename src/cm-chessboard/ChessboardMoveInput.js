@@ -32,7 +32,7 @@ export class ChessboardMoveInput {
 
     setStatus(newStatus, params = null) {
 
-        // console.log("setStatus",  Object.keys(STATUS)[this._status], "=>",  Object.keys(STATUS)[newStatus]);
+        // console.log("setStatus", Object.keys(STATUS)[this.status], "=>", Object.keys(STATUS)[newStatus]);
 
         const prevStatus = this.status;
         this.status = newStatus;
@@ -183,9 +183,12 @@ export class ChessboardMoveInput {
         // console.log("onPointerDown", e);
         const index = e.target.getAttribute("data-index");
         const figureElement = this.view.getFigure(index);
-        const figureName = figureElement.getAttribute("data-figure");
         if (index !== undefined) {
-            const color = figureName ? figureName.substr(0, 1) : null;
+            let figureName, color;
+            if (figureElement) {
+                figureName = figureElement.getAttribute("data-figure");
+                color = figureName ? figureName.substr(0, 1) : null;
+            }
             if (this.status !== STATUS.waitForInputStart ||
                 this.model.inputWhiteEnabled && color === "w" ||
                 this.model.inputBlackEnabled && color === "b") {
@@ -262,7 +265,7 @@ export class ChessboardMoveInput {
     onPointerUp(e) {
         let x, y, targetGroup;
         if (e.type === "mouseup") {
-            targetGroup = e.target.parentElement;
+            targetGroup = e.target;
         } else if (e.type === "touchend") {
             x = e.changedTouches[0].clientX;
             y = e.changedTouches[0].clientY;
@@ -270,22 +273,22 @@ export class ChessboardMoveInput {
             targetGroup = touchTarget.parentElement;
         }
         if (targetGroup && targetGroup.getAttribute) {
-            const square = targetGroup.getAttribute("data-square");
+            const index = targetGroup.getAttribute("data-index");
 
-            if (square) {
+            if (index) {
                 if (this.status === STATUS.dragTo || this.status === STATUS.clickDragTo) {
-                    if (this.startIndex === square) {
+                    if (this.startIndex === index) {
                         if (this.status === STATUS.clickDragTo) {
                             this.model.setSquare(this.startIndex, this.movedFigure);
                             this.setStatus(STATUS.reset);
                         } else {
-                            this.setStatus(STATUS.clickTo, {square: square});
+                            this.setStatus(STATUS.clickTo, {index: index});
                         }
                     } else {
-                        this.setStatus(STATUS.moveDone, {square: square});
+                        this.setStatus(STATUS.moveDone, {index: index});
                     }
                 } else if (this.status === STATUS.figureClickedThreshold) {
-                    this.setStatus(STATUS.clickTo, {square: square});
+                    this.setStatus(STATUS.clickTo, {index: index});
                 } else if (this.status === STATUS.secondClickThreshold) {
                     this.setStatus(STATUS.reset);
                 }

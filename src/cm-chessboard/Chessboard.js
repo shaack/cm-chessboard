@@ -46,6 +46,7 @@ export class Chessboard {
             showCoordinates: true, // show ranks and files
             responsive: false, // detect window resize, if true
             inputMode: INPUT_MODE.dragFigure, // type of interactive movement
+            animationDuration: 1000, //
             sprite: {
                 file: "../assets/sprite.svg", // figures and markers
                 grid: DEFAULT_SPRITE_GRID, // one figure every 40 px
@@ -87,7 +88,7 @@ export class Chessboard {
     }
 
     getSquare(square) {
-        return this.model.getSquare(square);
+        return this.model.squares[this.model.squareToIndex(square)];
     }
 
     move(fromSquare, toSquare) { // TODO
@@ -103,7 +104,7 @@ export class Chessboard {
             this.model.setPosition(fen);
         }
         if(animated) {
-            new ChessboardFigureAnimation(this.view, prevBoard, this.model.squares, 400, () => {
+            new ChessboardFigureAnimation(this.view, prevBoard, this.model.squares, 300, () => {
                 this.view.redrawFigures();
                 if(callback) {
                     callback();

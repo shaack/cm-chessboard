@@ -22,16 +22,14 @@ export class ChessboardModel {
         this.markers = [];
     }
 
-    setSquare(square, figure) {
+    squareToIndex(square) {
         const file = square.substr(0, 1).charCodeAt(0) - 97;
         const rank = square.substr(1, 1) - 1;
-        this.squares[8 * rank + file] = figure;
+        return 8 * rank + file;
     }
 
-    getSquare(square) {
-        const file = square.substr(0, 1).charCodeAt(0) - 97;
-        const rank = square.substr(1, 1) - 1;
-        return this.squares[8 * rank + file];
+    setSquare(index, figure) {
+        this.squares[index] = figure;
     }
 
     addMarker(square, type) {

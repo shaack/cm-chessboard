@@ -2,7 +2,6 @@
  * Author: shaack
  * Date: 07.12.2017
  */
-import {SQUARE_COORDINATES} from "./ChessboardModel.js";
 import {Svg} from "../../node_modules/svjs-svg/src/svjs/Svg.js";
 
 const CHANGE_TYPE = {
