@@ -97,7 +97,7 @@ export class ChessboardView {
         this.svg.setAttribute("class", "cm-chessboard");
         this.updateMetrics();
         this.boardGroup = Svg.addElement(this.svg, "g");
-        this.boardGroup.setAttribute("class", "board-group");
+        this.boardGroup.setAttribute("class", "board");
     }
 
     updateMetrics() {
@@ -174,9 +174,10 @@ export class ChessboardView {
     }
 
     drawCoordinates() {
+        this.coordinatesGroup = Svg.addElement(this.svg, "g", {class: "coordinates"});
         // files
         for (let file = 0; file < 8; file++) {
-            const textElement = Svg.addElement(this.svg, "text", {
+            const textElement = Svg.addElement(this.coordinatesGroup, "text", {
                 class: "coordinate file",
                 x: this.borderSize + (18 + this.config.sprite.grid * file) * this.scalingX,
                 y: this.height - (this.borderSize / 3.4),
@@ -191,7 +192,7 @@ export class ChessboardView {
 
         // ranks
         for (let rank = 0; rank < 8; rank++) {
-            const textElement = Svg.addElement(this.svg, "text", {
+            const textElement = Svg.addElement(this.coordinatesGroup, "text", {
                 class: "coordinate rank",
                 x: (this.borderSize / 3.6),
                 y: this.borderSize + 23 * this.scalingY + rank * this.squareHeight,
@@ -274,15 +275,12 @@ export class ChessboardView {
         const transform = (this.svg.createSVGTransform());
         transform.setTranslate(point.x, point.y);
         markerGroup.transform.baseVal.appendItem(transform);
-        const figureUse = Svg.addElement(markerGroup, "use", {"href": "#" + marker.type, "class": "figure"});
-        // center on square
-        const transformTranslate = (this.svg.createSVGTransform());
-        transformTranslate.setTranslate(this.figureXTranslate, 0);
-        figureUse.transform.baseVal.appendItem(transformTranslate);
+        const markerUse = Svg.addElement(markerGroup, "use", {"href": "#" + marker.type.slice, "class": "marker"});
+        markerUse.opacity = marker.opacity;
         // scale
         const transformScale = (this.svg.createSVGTransform());
-        transformScale.setScale(this.scalingY, this.scalingY);
-        figureUse.transform.baseVal.appendItem(transformScale);
+        transformScale.setScale(this.scalingX, this.scalingY);
+        markerUse.transform.baseVal.appendItem(transformScale);
         return markerGroup;
     }
 

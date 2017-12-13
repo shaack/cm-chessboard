@@ -49,7 +49,7 @@ export class ChessboardMoveInput {
                 this.startIndex = params.index;
                 this.endIndex = null;
                 this.movedFigure = params.figure;
-                this.updateStartEndMarker();
+                this.updateStartEndMarkers();
                 this.startPoint = params.point;
                 if (!this.pointerMoveListener && !this.pointerUpListener) {
                     if (params.type === "mousedown") {
@@ -134,7 +134,7 @@ export class ChessboardMoveInput {
                 this.startIndex = null;
                 this.endIndex = null;
                 this.movedFigure = null;
-                this.updateStartEndMarker();
+                this.updateStartEndMarkers();
                 if (this.dragableFigure) {
                     Svg.removeElement(this.dragableFigure);
                     this.dragableFigure = null;
@@ -222,16 +222,15 @@ export class ChessboardMoveInput {
     }
 
     onPointerMove(e) {
-        let x, y, targetSquare;
+        let x, y, target;
         if (e.type === "mousemove") {
             x = e.pageX;
             y = e.pageY;
-            targetSquare = e.target.parentElement;
+            target = e.target;
         } else if (e.type === "touchmove") {
             x = e.touches[0].pageX;
             y = e.touches[0].pageY;
-            const touchTarget = document.elementFromPoint(x, y);
-            targetSquare = touchTarget.parentElement;
+            target = document.elementFromPoint(x, y);
         }
         if (this.status === STATUS.figureClickedThreshold || this.status === STATUS.secondClickThreshold) {
             if (Math.abs(this.startPoint.x - x) > DRAG_THRESHOLD || Math.abs(this.startPoint.y - y) > DRAG_THRESHOLD) {
@@ -243,18 +242,18 @@ export class ChessboardMoveInput {
                 this.moveDragableFigure(x, y);
             }
         } else if (this.status === STATUS.dragTo || this.status === STATUS.clickDragTo || this.status === STATUS.clickTo) {
-            if (targetSquare && targetSquare.getAttribute) {
-                const index = targetSquare.getAttribute("data-index");
+            if (target && target.getAttribute) {
+                const index = target.getAttribute("data-index");
                 if (index !== this.startIndex && index !== this.endIndex) {
                     this.endIndex = index;
-                    this.updateStartEndMarker();
+                    this.updateStartEndMarkers();
                 } else if (index === this.startIndex && this.endIndex !== null) {
                     this.endIndex = null;
-                    this.updateStartEndMarker();
+                    this.updateStartEndMarkers();
                 }
             } else {
                 this.endIndex = null;
-                this.updateStartEndMarker();
+                this.updateStartEndMarkers();
             }
             if (this.status === STATUS.dragTo || this.status === STATUS.clickDragTo) {
                 this.moveDragableFigure(x, y);
@@ -263,17 +262,16 @@ export class ChessboardMoveInput {
     }
 
     onPointerUp(e) {
-        let x, y, targetGroup;
+        let x, y, target;
         if (e.type === "mouseup") {
-            targetGroup = e.target;
+            target = e.target;
         } else if (e.type === "touchend") {
             x = e.changedTouches[0].clientX;
             y = e.changedTouches[0].clientY;
-            const touchTarget = document.elementFromPoint(x, y);
-            targetGroup = touchTarget.parentElement;
+            target = document.elementFromPoint(x, y);
         }
-        if (targetGroup && targetGroup.getAttribute) {
-            const index = targetGroup.getAttribute("data-index");
+        if (target && target.getAttribute) {
+            const index = target.getAttribute("data-index");
 
             if (index) {
                 if (this.status === STATUS.dragTo || this.status === STATUS.clickDragTo) {
@@ -300,7 +298,7 @@ export class ChessboardMoveInput {
         }
     }
 
-    updateStartEndMarker() {
+    updateStartEndMarkers() {
         this.model.removeMarker(null, MARKER_TYPE.newMove);
         if (this.startIndex) {
             this.model.addMarker(this.startIndex, MARKER_TYPE.newMove);
