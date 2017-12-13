@@ -99,8 +99,6 @@ export class ChessboardView {
         this.svg = Svg.createSvg(this.containerElement);
         this.svg.setAttribute("class", "cm-chessboard");
         this.updateMetrics();
-        this.boardGroup = Svg.addElement(this.svg, "g");
-        this.boardGroup.setAttribute("class", "board");
     }
 
     updateMetrics() {
@@ -122,6 +120,9 @@ export class ChessboardView {
         }
         this.redrawTimer = setTimeout(() => {
             this.drawBoard();
+            if (this.config.showCoordinates) {
+                this.drawCoordinates();
+            }
             this.drawFigures();
             this.drawMarkers();
         });
@@ -130,6 +131,11 @@ export class ChessboardView {
     // Board //
 
     drawBoard() {
+        if (this.boardGroup) {
+            Svg.removeElement(this.boardGroup);
+        }
+        this.boardGroup = Svg.addElement(this.svg, "g");
+        this.boardGroup.setAttribute("class", "board");
         let boardBorder = Svg.addElement(this.boardGroup, "rect", {width: this.width, height: this.height});
         boardBorder.setAttribute("class", "board-border");
         for (let i = 0; i < 64; i++) {
@@ -170,13 +176,12 @@ export class ChessboardView {
             transform.setRotate(180, this.width / 2, this.height / 2);
             this.boardGroup.transform.baseVal.appendItem(transform);
         }
-
-        if (this.config.showCoordinates) {
-            this.drawCoordinates();
-        }
     }
 
     drawCoordinates() {
+        if (this.coordinatesGroup) {
+            Svg.removeElement(this.coordinatesGroup);
+        }
         this.coordinatesGroup = Svg.addElement(this.svg, "g", {class: "coordinates"});
         // files
         for (let file = 0; file < 8; file++) {
