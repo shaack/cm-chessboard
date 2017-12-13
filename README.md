@@ -18,19 +18,19 @@ Lightweight, SVG, ES6 module and almost no external dependencies.
 
 With default values
 ```
-this._config = {
+this.config = {
     position: "empty", // empty board, set as fen or "start" or "empty"
     orientation: COLOR.white, // white on bottom
     showCoordinates: true, // show ranks and files
-    responsive: false, // detect window resize
+    responsive: false, // detects window resize, if true
     inputMode: INPUT_MODE.viewOnly, // set to INPUT_MODE.dragFigure (1) or INPUT_MODE.dragMarker (2) for interactive movement
     sprite: {
         file: "../assets/sprite.svg", // figures and markers
-        grid: DEFAULT_SPRITE_GRID, // one figure every 40 px
+        grid: DEFAULT_SPRITE_GRID, // one figure every 40px
     },
     events: {
-        inputStart: null, // callback, before figure move input
-        inputDone: null // callback after figure move input
+        inputStart: null, // callback(square), before figure move input, return false to cancel move
+        inputDone: null // callback(squareFrom, squareTo), after figure move input, return false to cancel move
     }
 };
 ```  
