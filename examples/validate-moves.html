@@ -57,7 +57,7 @@ board.enableInput(COLOR.white, true);
     const chess = new Chess();
     const board = new Chessboard(document.getElementById("board"), {
         position: chess.fen(),
-        orientation: "black",
+        orientation: COLOR.white,
         events: {
             inputDone: (squareFrom, squareTo) => {
                 const result = chess.move({from: squareFrom, to: squareTo});

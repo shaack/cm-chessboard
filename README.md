@@ -89,7 +89,8 @@ Set `type` to `null`, to remove all types. Set both to `null` to remove all mark
 
 ## ToDos
 
-- Draw marker
+- Draw markers
+- Switch orientation and play with black
 - Switch orientation while displayed
 - Animation when using click move
 - INPUT_MODE.dragMarker
