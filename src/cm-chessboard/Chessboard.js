@@ -102,8 +102,7 @@ export class Chessboard {
 
     setPosition(fen, animated = true, callback = null) {
         const currentFen = this.model.getPosition();
-        console.log(currentFen, fen);
-        if(fen !== currentFen) { // todo normalize fen before
+        if(fen !== currentFen) { // todo normalize fen before comparison
             const prevSquares = this.model.squares.slice(0); // clone
             if (fen === "start") {
                 this.model.setPosition(FEN_START_POSITION);

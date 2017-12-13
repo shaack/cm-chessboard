@@ -32,7 +32,7 @@ export class ChessboardMoveInput {
 
     setStatus(newStatus, params = null) {
 
-        console.log("setStatus", Object.keys(STATUS)[this.status], "=>", Object.keys(STATUS)[newStatus]);
+        // console.log("setStatus", Object.keys(STATUS)[this.status], "=>", Object.keys(STATUS)[newStatus]);
 
         const prevStatus = this.status;
         this.status = newStatus;
@@ -130,11 +130,8 @@ export class ChessboardMoveInput {
                     this.model.setSquare(this.startIndex, null);
                     this.model.setSquare(this.endIndex, this.movedFigure);
                     if (prevStatus === STATUS.clickTo) {
-                        console.log("animateFigures from MoveInput");
                         this.view.animateFigures(prevSquares, this.model.squares.slice(0), () => {
-                            console.log("CALLBACK");
                             this.setStatus(STATUS.reset);
-                            this.view.setNeedsRedraw();
                         });
                     } else {
                         this.view.setNeedsRedraw();
@@ -142,6 +139,7 @@ export class ChessboardMoveInput {
                     }
                 } else {
                     this.setStatus(STATUS.reset);
+                    this.view.setNeedsRedraw();
                 }
                 break;
 
@@ -197,7 +195,6 @@ export class ChessboardMoveInput {
     }
 
     onPointerDown(e) {
-        // console.log("onPointerDown", e);
         const index = e.target.getAttribute("data-index");
         const figureElement = this.view.getFigure(index);
         if (index !== undefined) {
@@ -318,7 +315,6 @@ export class ChessboardMoveInput {
     }
 
     updateStartEndMarkers() {
-        // console.log("updateStartEndMarkers");
         this.model.removeMarker(null, MARKER_TYPE.newMove);
         if (this.startIndex) {
             this.model.addMarker(this.startIndex, MARKER_TYPE.newMove);

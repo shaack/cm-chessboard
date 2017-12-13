@@ -135,21 +135,25 @@ export class ChessboardFigureAnimation {
         const t = Math.min(1, timeDiff / this.duration);
         const progress = t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t; // easeInOut
         this.animatedElements.forEach((animatedItem) => {
-            switch (animatedItem.type) {
-                case CHANGE_TYPE.move:
-                    animatedItem.element.transform.baseVal.removeItem(0);
-                    const transform = (this.view.svg.createSVGTransform());
-                    transform.setTranslate(
-                        animatedItem.atPoint.x + (animatedItem.toPoint.x - animatedItem.atPoint.x) * progress,
-                        animatedItem.atPoint.y + (animatedItem.toPoint.y - animatedItem.atPoint.y) * progress);
-                    animatedItem.element.transform.baseVal.appendItem(transform);
-                    break;
-                case CHANGE_TYPE.appear:
-                    animatedItem.element.style.opacity = progress;
-                    break;
-                case CHANGE_TYPE.disappear:
-                    animatedItem.element.style.opacity = 1 - progress;
-                    break;
+            if(animatedItem.element) {
+                switch (animatedItem.type) {
+                    case CHANGE_TYPE.move:
+                        animatedItem.element.transform.baseVal.removeItem(0);
+                        const transform = (this.view.svg.createSVGTransform());
+                        transform.setTranslate(
+                            animatedItem.atPoint.x + (animatedItem.toPoint.x - animatedItem.atPoint.x) * progress,
+                            animatedItem.atPoint.y + (animatedItem.toPoint.y - animatedItem.atPoint.y) * progress);
+                        animatedItem.element.transform.baseVal.appendItem(transform);
+                        break;
+                    case CHANGE_TYPE.appear:
+                        animatedItem.element.style.opacity = progress;
+                        break;
+                    case CHANGE_TYPE.disappear:
+                        animatedItem.element.style.opacity = 1 - progress;
+                        break;
+                }
+            } else {
+                console.warn("animatedItem has no element", animatedItem);
             }
         });
 

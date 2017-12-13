@@ -301,24 +301,23 @@ export class ChessboardView {
     // animation queue //
 
     animateFigures(fromSquares, toSquares, callback) {
-        console.log("animateFigures", fromSquares, toSquares);
-        this.animationQueue.push({fromSquares: fromSquares, toSquares: toSquares});
+        this.animationQueue.push({fromSquares: fromSquares, toSquares: toSquares, callback: callback});
         if(!ChessboardFigureAnimation.isAnimationRunning()) {
-            this.nextFigureAnimationInQueue(callback);
+            this.nextFigureAnimationInQueue(); // todo callback jedesmal speichern und direkt nach dem auflauf der animation feuern
         }
     }
 
-    nextFigureAnimationInQueue(callback) {
-        console.log("nextFigureAnimationInQueue", callback);
+    nextFigureAnimationInQueue() {
         const nextAnimation = this.animationQueue.shift();
         if(nextAnimation !== undefined) {
             new ChessboardFigureAnimation(this, nextAnimation.fromSquares, nextAnimation.toSquares, this.config.animationSpeed / (this.animationQueue.length + 1), () => {
-                this.nextFigureAnimationInQueue(callback);
+                this.nextFigureAnimationInQueue();
+                if(nextAnimation.callback) {
+                    nextAnimation.callback();
+                }
             })
         } else {
-            if(callback) {
-                callback();
-            }
+            this.setNeedsRedraw();
         }
     }
 
