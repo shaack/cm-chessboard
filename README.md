@@ -91,7 +91,5 @@ Set `type` to `null`, to remove all types. Set both to `null` to remove all mark
 
 ## ToDos
 
-- Auto-animation queue
-- Animation when using click move
+- inputContext callback and emphasize markers
 - Create Examples for all API functions
-- Right-Click emphasize marker
