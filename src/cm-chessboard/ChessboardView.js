@@ -40,7 +40,7 @@ export class ChessboardView {
                 }
             });
         }
-        if(this.config.inputMode !== INPUT_MODE.viewOnly) {
+        if (this.config.inputMode !== INPUT_MODE.viewOnly) {
             // Optimization: create and destroy event handlers on Chessboard.enableInput()
             containerElement.addEventListener('mousedown', (e) => {
                 e.preventDefault();
@@ -147,7 +147,7 @@ export class ChessboardView {
             });
             squareRect.setAttribute("class", fieldClass);
             // squareRect.setAttribute("data-square", SQUARE_COORDINATES[i]);
-            if(this.model.orientation === "white") {
+            if (this.model.orientation === "white") {
                 squareRect.setAttribute("data-index", i);
             } else {
                 squareRect.setAttribute("data-index", 63 - i);
@@ -283,8 +283,8 @@ export class ChessboardView {
         const transform = (this.svg.createSVGTransform());
         transform.setTranslate(point.x, point.y);
         markerGroup.transform.baseVal.appendItem(transform);
-        const markerUse = Svg.addElement(markerGroup, "use", {"href": "#" + marker.type.slice, "class": "marker"});
-        markerUse.opacity = marker.opacity;
+        const markerUse = Svg.addElement(markerGroup, "use",
+            {"href": "#" + marker.type.slice, "class": "marker", opacity: marker.type.opacity});
         // scale
         const transformScale = (this.svg.createSVGTransform());
         transformScale.setScale(this.scalingX, this.scalingY);
