@@ -92,6 +92,7 @@ Set `type` to `null`, to remove all types. Set both to `null` to remove all mark
 - Switch orientation and play with black
 - Switch orientation while displayed
 - Animation when using click move
+- Auto-animation queue
 - INPUT_MODE.dragMarker
 - Create Examples for all API functions
 - Allow scrolling on touch when input is not enabled (configuration)
