@@ -1,7 +1,13 @@
 {
   "name": "cm-chessboard",
-  "version": "2.8.9",
-  "keywords": ["chess", "chessboard", "ES6", "ECMAScript 6", "svjs"],
+  "version": "2.8.10",
+  "keywords": [
+    "chess",
+    "chessboard",
+    "ES6",
+    "ECMAScript 6",
+    "svjs"
+  ],
   "description": "A Lightweight ES6 module based responsive SVG chessboard with almost no external dependencies.",
   "main": "src/cm-chessboard/Chessboard.js",
   "scripts": {
