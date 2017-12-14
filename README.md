@@ -63,7 +63,7 @@ this.config = {
 
 - **containerElement:** a HTML DOM element being the container of the widget
 - **config:** The board configuration
-- **callback:** Callback after sprite loading and initialization. **Wait for the callback before using the API.** 
+- **callback:** Callback after sprite loading and initialization. Wait for the callback before using the API. 
 
 
 ### setSquare(square, figure) {
