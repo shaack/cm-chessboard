@@ -88,8 +88,3 @@ exportet by `Chessboard.js`. You can create your own marker types: Just create a
 
 Set `square` to `null` to remove `type` from all squares.
 Set `type` to `null`, to remove all types. Set both to `null` to remove all markers.
-
-## ToDos
-
-- inputContext callback and emphasize markers
-- Create Examples for all API functions
