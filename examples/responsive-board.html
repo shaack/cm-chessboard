@@ -17,13 +17,12 @@
 <h2>Example: Responsive chessboard</h2>
 <div class="board" id="board"></div>
 <pre>
-new Chessboard(document.getElementById("board"), {responsive: true});
+new Chessboard(document.getElementById("board"), {position: "start", responsive: true});
 </pre>
 <script type="module">
     import {Chessboard} from "../src/cm-chessboard/Chessboard.js"
 
-    new Chessboard(document.getElementById("board"),
-        {position: "start", responsive: true});
+    new Chessboard(document.getElementById("board"), {position: "start", responsive: true});
 </script>
 </body>
 </html>
