@@ -13,20 +13,17 @@
     stroke-linecap: round;
     stroke: #b38964; }
   /* line 21, _skin-base.scss */
-  .cm-chessboard .board .square use {
-    pointer-events: none; }
-  /* line 24, _skin-base.scss */
   .cm-chessboard .board .square.white {
     fill: #eedab6; }
-  /* line 27, _skin-base.scss */
+  /* line 24, _skin-base.scss */
   .cm-chessboard .board .square.black {
     fill: #b38964; }
-  /* line 32, _skin-base.scss */
+  /* line 29, _skin-base.scss */
   .cm-chessboard .coordinate {
     fill: #b38964;
     font-size: 7px;
     cursor: default; }
-  /* line 37, _skin-base.scss */
+  /* line 34, _skin-base.scss */
   .cm-chessboard .figures, .cm-chessboard .markers {
     pointer-events: none; }
 

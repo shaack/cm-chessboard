@@ -18,9 +18,6 @@ $light: #eedab6;
       stroke: $dark;
     }
     .square {
-      use {
-        pointer-events: none;
-      }
       &.white {
         fill: $light;
       }
