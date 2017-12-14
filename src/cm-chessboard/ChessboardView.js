@@ -148,7 +148,6 @@ export class ChessboardView {
                 x: point.x, y: point.y, width: this.squareWidth, height: this.squareHeight
             });
             squareRect.setAttribute("class", fieldClass);
-            // squareRect.setAttribute("data-square", SQUARE_COORDINATES[i]);
             if (this.model.orientation === "white") {
                 squareRect.setAttribute("data-index", i);
             } else {
