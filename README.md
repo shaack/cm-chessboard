@@ -18,6 +18,20 @@ Also available as npm package: [https://www.npmjs.com/package/cm-chessboard](htt
 
 Install the npm with `npm install --save cm-chessboard`
 
+## Example Usage
+
+Preconditions:
+
+- include css `styles/screen.css`
+- `import {Chessboard} from "../src/cm-chessboard/Chessboard.js"`
+
+Showing a FEN:
+```
+new Chessboard(document.getElementById("containerId"), 
+        { position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR" });
+```
+Take a look at the `/examples` folder for some more simple examples.
+
 ## Configuration
 
 With default values
@@ -42,6 +56,15 @@ this.config = {
 ```  
 
 ## API
+
+### constructor
+
+`new Chessboard(containerElement, config = {}, callback = null)`
+
+- **containerElement:** a HTML DOM element being the container of the widget
+- **config:** The board configuration
+- **callback:** Callback after sprite loading and initialization. Wait for the callback before using the API. 
+
 
 ### setSquare(square, figure) {
 
