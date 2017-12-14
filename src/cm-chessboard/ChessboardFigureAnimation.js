@@ -46,7 +46,7 @@ export class ChessboardFigureAnimation {
             }
         }
         appearedList.forEach((appeared) => {
-            let shortestDistance = 7;
+            let shortestDistance = 8;
             let foundMoved = null;
             disappearedList.forEach((disappeared) => {
                 if (appeared.figure === disappeared.figure) {
