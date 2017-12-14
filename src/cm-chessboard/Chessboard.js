@@ -42,16 +42,16 @@ export class Chessboard {
     constructor(containerElement, config = {}, callback = null) {
         const DEFAULT_SPRITE_GRID = 40;
         this.config = {
-            position: "empty", // empty board, set as fen or "start" or "empty"
+            position: "empty", // set as fen or "start" or "empty"
             orientation: COLOR.white, // white on bottom
             showCoordinates: true, // show ranks and files
             responsive: false, // detects window resize, if true
-            inputMode: INPUT_MODE.viewOnly, // set to INPUT_MODE.dragFigure "1" or INPUT_MODE.dragMarker "2" for interactive movement
+            inputMode: INPUT_MODE.viewOnly, // set to INPUT_MODE.dragFigure '1' or INPUT_MODE.dragMarker '2' for interactive movement
             animationDuration: 300, // in milliseconds
             events: {
                 inputStart: null, // callback(square), before figure move input, return false to cancel move
                 inputDone: null, // callback(squareFrom, squareTo), after figure move input, return false to cancel move
-                inputContext: null // callback(square), on right click/context touch
+                // inputContext: null // todo callback(square), on right click/context touch
             },
             sprite: {
                 file: "../assets/sprite.svg", // figures and markers
@@ -81,23 +81,21 @@ export class Chessboard {
 
     addMarker(square, type = MARKER_TYPE.emphasize) {
         this.model.addMarker(this.model.squareToIndex(square), type);
-        this.view.setNeedsRedraw();
+        this.view.drawMarkers();
     }
 
     removeMarker(square = null, type = null) {
         this.model.removeMarker(this.model.squareToIndex(square), type);
-        this.view.setNeedsRedraw();
+        this.view.drawMarkers();
     }
 
     setSquare(square, figure) {
         this.model.setSquare(square, figure);
+        // todo ? this.view.drawFigures();
     }
 
     getSquare(square) {
         return this.model.squares[this.model.squareToIndex(square)];
-    }
-
-    move(fromSquare, toSquare) { // TODO
     }
 
     setPosition(fen, animated = true, callback = null) {

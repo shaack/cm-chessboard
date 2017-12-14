@@ -2,7 +2,6 @@
  * Author: shaack
  * Date: 07.12.2017
  */
-import {Svg} from "../../node_modules/svjs-svg/src/svjs/Svg.js";
 
 const CHANGE_TYPE = {
     move: 0,
@@ -10,22 +9,9 @@ const CHANGE_TYPE = {
     disappear: 2
 };
 
-// noinspection JSUnresolvedVariable
-const requestAnimationFrame =
-    window.requestAnimationFrame ||
-    window.mozRequestAnimationFrame ||
-    window.webkitRequestAnimationFrame ||
-    window.msRequestAnimationFrame;
-
-// noinspection JSUnresolvedVariable
-const cancelAnimationFrame =
-    window.cancelAnimationFrame ||
-    window.mozCancelAnimationFrame;
-
 let animationRunning = false;
 
-function AnimationRunningException(chessboardFigureAnimation) {
-    this.chessboardFigureAnimation = chessboardFigureAnimation;
+function AnimationRunningException() {
 }
 
 export class ChessboardFigureAnimation {
@@ -33,7 +19,7 @@ export class ChessboardFigureAnimation {
     constructor(view, fromSquares, toSquares, duration, callback) {
         if (animationRunning) {
             console.warn("Animation running");
-            throw new AnimationRunningException(this);
+            throw new AnimationRunningException();
         }
         this.view = view;
         if (fromSquares && toSquares) {
@@ -59,9 +45,7 @@ export class ChessboardFigureAnimation {
                 }
             }
         }
-        // find moved figures
         appearedList.forEach((appeared) => {
-            // find nearest disappearence
             let shortestDistance = 7;
             let foundMoved = null;
             disappearedList.forEach((disappeared) => {
@@ -85,7 +69,6 @@ export class ChessboardFigureAnimation {
                 changes.push({type: CHANGE_TYPE.appear, figure: appeared.figure, atIndex: appeared.index})
             }
         });
-        // check for left over disappearences
         disappearedList.forEach((disappeared) => {
             changes.push({type: CHANGE_TYPE.disappear, figure: disappeared.figure, atIndex: disappeared.index})
         });
@@ -115,30 +98,25 @@ export class ChessboardFigureAnimation {
             }
             animatedElements.push(animatedItem);
         });
-        console.log("animatedElements", animatedElements);
         return animatedElements;
     }
 
     animationStep(time) {
         if (!this.startTime) {
             this.startTime = time;
-            console.log("animation start", time);
         }
-
         const timeDiff = time - this.startTime;
         if (timeDiff <= this.duration) {
             this.frameHandle = requestAnimationFrame(this.animationStep.bind(this));
         } else {
             cancelAnimationFrame(this.frameHandle);
             animationRunning = false;
-            console.log("animation end", time);
             this.callback();
         }
         const t = Math.min(1, timeDiff / this.duration);
         const progress = t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t; // easeInOut
-        // console.log("progress", progress);
         this.animatedElements.forEach((animatedItem) => {
-            if(animatedItem.element) {
+            if (animatedItem.element) {
                 switch (animatedItem.type) {
                     case CHANGE_TYPE.move:
                         animatedItem.element.transform.baseVal.removeItem(0);
@@ -159,7 +137,6 @@ export class ChessboardFigureAnimation {
                 console.warn("animatedItem has no element", animatedItem);
             }
         });
-
     }
 
     static isAnimationRunning() {

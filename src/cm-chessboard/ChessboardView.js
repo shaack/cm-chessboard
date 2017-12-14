@@ -43,7 +43,6 @@ export class ChessboardView {
             });
         }
         if (this.config.inputMode !== INPUT_MODE.viewOnly) {
-            // Optimization: create and destroy event handlers on Chessboard.enableInput()
             containerElement.addEventListener('mousedown', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -62,7 +61,7 @@ export class ChessboardView {
         this.createSvgAndMainGroup();
     }
 
-    // Sprite loader //
+    // Sprite //
 
     loadSprite(config, callback) {
         if (ChessboardView.spriteLoadingStatus === SPRITE_LOADING_STATUS.notLoaded) {
@@ -156,7 +155,6 @@ export class ChessboardView {
                 squareRect.setAttribute("data-index", 63 - i);
             }
         }
-
         Svg.addElement(this.boardGroup, "line", {
             x1: this.borderSize, y1: this.borderSize,
             x2: this.width - this.borderSize, y2: this.borderSize, class: "surrounding-line"
@@ -173,7 +171,6 @@ export class ChessboardView {
             x1: this.width - this.borderSize, y1: this.borderSize,
             x2: this.width - this.borderSize, y2: this.height - this.borderSize, class: "surrounding-line"
         });
-
         if (this.model.orientation === "black") {
             const transform = (this.svg.createSVGTransform());
             transform.setRotate(180, this.width / 2, this.height / 2);
@@ -186,7 +183,6 @@ export class ChessboardView {
             Svg.removeElement(this.coordinatesGroup);
         }
         this.coordinatesGroup = Svg.addElement(this.svg, "g", {class: "coordinates"});
-        // files
         for (let file = 0; file < 8; file++) {
             const textElement = Svg.addElement(this.coordinatesGroup, "text", {
                 class: "coordinate file",
@@ -200,8 +196,6 @@ export class ChessboardView {
                 textElement.textContent = String.fromCharCode(104 - file);
             }
         }
-
-        // ranks
         for (let rank = 0; rank < 8; rank++) {
             const textElement = Svg.addElement(this.coordinatesGroup, "text", {
                 class: "coordinate rank",
@@ -291,7 +285,6 @@ export class ChessboardView {
         markerGroup.transform.baseVal.appendItem(transform);
         const markerUse = Svg.addElement(markerGroup, "use",
             {"href": "#" + marker.type.slice, "class": "marker", opacity: marker.type.opacity});
-        // scale
         const transformScale = (this.svg.createSVGTransform());
         transformScale.setScale(this.scalingX, this.scalingY);
         markerUse.transform.baseVal.appendItem(transformScale);
@@ -301,7 +294,6 @@ export class ChessboardView {
     // animation queue //
 
     animateFigures(fromSquares, toSquares, callback) {
-        console.log("animateFigures, running animation:", ChessboardFigureAnimation.isAnimationRunning());
         this.animationQueue.push({fromSquares: fromSquares, toSquares: toSquares, callback: callback});
         if(!ChessboardFigureAnimation.isAnimationRunning()) {
             this.nextFigureAnimationInQueue();
@@ -311,10 +303,7 @@ export class ChessboardView {
     nextFigureAnimationInQueue() {
         const nextAnimation = this.animationQueue.shift();
         if(nextAnimation !== undefined) {
-            console.log("new ChessboardFigureAnimation", nextAnimation.fromSquares, nextAnimation.toSquares);
-            console.log("running animation:", ChessboardFigureAnimation.isAnimationRunning());
             new ChessboardFigureAnimation(this, nextAnimation.fromSquares, nextAnimation.toSquares, this.config.animationDuration / (this.animationQueue.length + 1), () => {
-                console.log("callback");
                 this.drawFigures(nextAnimation.toSquares);
                 this.nextFigureAnimationInQueue();
                 if(nextAnimation.callback) {
@@ -366,4 +355,4 @@ export class ChessboardView {
 
 }
 
-ChessboardView.spriteLoadingStatus = SPRITE_LOADING_STATUS.notLoaded; // static
+ChessboardView.spriteLoadingStatus = SPRITE_LOADING_STATUS.notLoaded;
