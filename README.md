@@ -14,7 +14,7 @@ If you use this board, it would be nice, if you put a link to chessmail ([chessm
 
 ## Install
 
-**Option1:** Download from [GitHub](https://github.com/shaack/cm-chessboard) and do `npm install` without parameters
+**Option 1:** Download from [GitHub](https://github.com/shaack/cm-chessboard) and do `npm install` without parameters
 
 **Option 2:** Install the [npm package](https://www.npmjs.com/package/cm-chessboard) with `npm install --save cm-chessboard`
 
