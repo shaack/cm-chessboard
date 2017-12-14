@@ -1,0 +1,27 @@
+/* line 1, _global.scss */
+body {
+  color: #333;
+  background-color: #f2f2f2;
+  padding: 20px;
+  margin: 0;
+  font-family: "Helvetica Neue", sans-serif; }
+
+/* line 9, _global.scss */
+a {
+  color: #00e; }
+  /* line 11, _global.scss */
+  a:visited {
+    color: #333; }
+
+/* line 16, _global.scss */
+h2 {
+  margin-bottom: 15px; }
+
+/* line 20, _global.scss */
+pre {
+  background-color: #555;
+  color: white;
+  padding: 5px;
+  overflow: auto; }
+
+/*# sourceMappingURL=page.css.map */

@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>cm-chessboard</title>
-    <link rel="stylesheet" href="../styles/screen.css"/>
+    <link rel="stylesheet" href="../styles/page.css"/>
+    <link rel="stylesheet" href="../styles/cm-chessboard.css"/>
     <style type="text/css">
         #board {
             width: calc(50vw - 40px);
@@ -15,6 +16,7 @@
 </head>
 <body>
 <h1>Set different positions, animated</h1>
+<p>Animations are queued automatically.</p>
 <div class="board" id="board"></div>
 <br/>
 <button onclick="window.board.setPosition('empty')">Empty Position</button>

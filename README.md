@@ -22,7 +22,7 @@ Install the npm with `npm install --save cm-chessboard`
 
 Preconditions:
 
-- include css `styles/screen.css`
+- include css `styles/cm-chessboard.css`
 - `import {Chessboard} from "../src/cm-chessboard/Chessboard.js"`
 
 Showing a FEN:
