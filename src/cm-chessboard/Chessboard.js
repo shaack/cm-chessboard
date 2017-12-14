@@ -46,8 +46,8 @@ export class Chessboard {
             orientation: COLOR.white, // white on bottom
             showCoordinates: true, // show ranks and files
             responsive: false, // detects window resize, if true
-            inputMode: INPUT_MODE.viewOnly, // set to INPUT_MODE.dragFigure '1' or INPUT_MODE.dragMarker '2' for interactive movement
             animationDuration: 300, // in milliseconds
+            inputMode: INPUT_MODE.viewOnly, // set to INPUT_MODE.dragFigure '1' or INPUT_MODE.dragMarker '2' for interactive movement
             events: {
                 inputStart: null, // callback(square), before figure move input, return false to cancel move
                 inputDone: null, // callback(squareFrom, squareTo), after figure move input, return false to cancel move
