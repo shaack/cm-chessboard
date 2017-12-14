@@ -24,6 +24,7 @@
 <pre>
 const board = new Chessboard(document.getElementById("board"), {
     position: "start",
+    inputMode: INPUT_MODE.dragFigure,
     events: {
         inputStart: (square) => {
             log("inputStart: " + square);
@@ -34,29 +35,25 @@ const board = new Chessboard(document.getElementById("board"), {
             return true;
         }
     }
+}, () => {
+    board.enableInput(COLOR.white, true);
+    board.enableInput(COLOR.black, true);
 });
-board.enableInput(COLOR.white, true);
-board.enableInput(COLOR.black, true);
 </pre>
 <div id="output"></div>
 <script type="module">
     import {INPUT_MODE, COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
 
-    const output = document.getElementById("output");
     const board = new Chessboard(document.getElementById("board"), {
         position: "start",
         inputMode: INPUT_MODE.dragFigure,
         events: {
             inputStart: (square) => {
-                const log = document.createElement("div");
-                log.innerText = "inputStart: " + square;
-                output.appendChild(log);
+                log("inputStart: " + square);
                 return true;
             },
             inputDone: (squareFrom, squareTo) => {
-                const log = document.createElement("div");
-                log.innerText = "inputDone: " + squareFrom + "-" + squareTo;
-                output.appendChild(log);
+                log("inputDone: " + squareFrom + "-" + squareTo);
                 return true;
             }
         }
@@ -64,6 +61,14 @@ board.enableInput(COLOR.black, true);
         board.enableInput(COLOR.white, true);
         board.enableInput(COLOR.black, true);
     });
+
+    const output = document.getElementById("output");
+
+    function log(text) {
+        const log = document.createElement("div");
+        log.innerText = text;
+        output.appendChild(log);
+    }
 </script>
 </body>
 </html>
