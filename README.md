@@ -30,7 +30,7 @@ Example, showing a FEN:
 new Chessboard(document.getElementById("containerId"), 
         { position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR" });
 ```
-Take a look at the `/examples` folder for more simple examples.
+Take a look at the [/examples](https://github.com/shaack/cm-chessboard/tree/master/examples) folder for more simple examples.
 
 ## Configuration
 
