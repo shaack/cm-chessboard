@@ -2,17 +2,21 @@
 
 The (upcoming) chessboard for [chessmail.eu](https://www.chessmail.eu) / [chessmail.de](https://www.chessmail.de)
 
-Current version is "alpha", works on desktop (current versions of Chrome, Firefox, Safari, Edge), 
-and mobile (Android and iOS). Will not work in IE. Not planned to get it working in IE.
+A Lightweight ES6 module based responsive SVG chessboard with almost no external dependencies.
 
-Lightweight, SVG, ES6 module and almost no external dependencies.
+Current version is "beta". It works on desktop (current versions of Chrome, Firefox, Safari, Edge), 
+and mobile (Android and iOS).
 
 - Demo: [http://shaack.com/projekte/cm-chessboard/](http://shaack.com/projekte/cm-chessboard/)
 - Repository: [https://github.com/shaack/cm-chessboard](https://github.com/shaack/cm-chessboard)
 
 ## Install
 
-`npm install`
+Download and `npm install`
+
+Also available as npm package: [https://www.npmjs.com/package/cm-chessboard](https://www.npmjs.com/package/cm-chessboard)
+
+Install the npm with `npm install --save cm-chessboard`
 
 ## Configuration
 
