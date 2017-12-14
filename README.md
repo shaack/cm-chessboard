@@ -22,15 +22,15 @@ Install the npm with `npm install --save cm-chessboard`
 
 Preconditions:
 
-- include css `styles/cm-chessboard.css`
-- `import {Chessboard} from "../src/cm-chessboard/Chessboard.js"`
+- **include css:** `styles/cm-chessboard.css`
+- **import ES6 module:** `import {Chessboard} from "../src/cm-chessboard/Chessboard.js"`
 
-Showing a FEN:
+Example, showing a FEN:
 ```
 new Chessboard(document.getElementById("containerId"), 
         { position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR" });
 ```
-Take a look at the `/examples` folder for some more simple examples.
+Take a look at the `/examples` folder for more simple examples.
 
 ## Configuration
 
