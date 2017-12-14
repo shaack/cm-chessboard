@@ -142,7 +142,7 @@ export class ChessboardView {
         boardBorder.setAttribute("class", "board-border");
         for (let i = 0; i < 64; i++) {
             const squareColor = ((9 * i) & 8) === 0 ? 'black' : 'white';
-            const fieldClass = "square " + squareColor;
+            const fieldClass = `square ${squareColor}`;
             const point = this.squareIndexToPoint(i);
             const squareRect = Svg.addElement(this.boardGroup, "rect", {
                 x: point.x, y: point.y, width: this.squareWidth, height: this.squareHeight
@@ -188,7 +188,7 @@ export class ChessboardView {
                 class: "coordinate file",
                 x: this.borderSize + (18 + this.config.sprite.grid * file) * this.scalingX,
                 y: this.height - (this.borderSize / 3.4),
-                style: "font-size: " + this.scalingY * 7 + "px"
+                style: `font-size: ${this.scalingY * 7}px`
             });
             if (this.model.orientation === "white") {
                 textElement.textContent = String.fromCharCode(97 + file);
@@ -201,7 +201,7 @@ export class ChessboardView {
                 class: "coordinate rank",
                 x: (this.borderSize / 3.6),
                 y: this.borderSize + 23 * this.scalingY + rank * this.squareHeight,
-                style: "font-size: " + this.scalingY * 7 + "px"
+                style: `font-size: ${this.scalingY * 7}px`
             });
             if (this.model.orientation === "white") {
                 textElement.textContent = 8 - rank;
@@ -237,7 +237,7 @@ export class ChessboardView {
         const transform = (this.svg.createSVGTransform());
         transform.setTranslate(point.x, point.y);
         figureGroup.transform.baseVal.appendItem(transform);
-        const figureUse = Svg.addElement(figureGroup, "use", {"href": "#" + figureName, "class": "figure"});
+        const figureUse = Svg.addElement(figureGroup, "use", {"href": `#${figureName}`, "class": "figure"});
         // center on square
         const transformTranslate = (this.svg.createSVGTransform());
         transformTranslate.setTranslate(this.figureXTranslate, 0);
@@ -260,7 +260,7 @@ export class ChessboardView {
     }
 
     getFigure(index) {
-        return this.figuresGroup.querySelector("g[data-index='" + index + "']");
+        return this.figuresGroup.querySelector(`g[data-index='${index}']`);
     }
 
     // Markers //
@@ -284,7 +284,7 @@ export class ChessboardView {
         transform.setTranslate(point.x, point.y);
         markerGroup.transform.baseVal.appendItem(transform);
         const markerUse = Svg.addElement(markerGroup, "use",
-            {"href": "#" + marker.type.slice, "class": "marker", opacity: marker.type.opacity});
+            {href: `#${marker.type.slice}`, class: "marker", opacity: marker.type.opacity});
         const transformScale = (this.svg.createSVGTransform());
         transformScale.setScale(this.scalingX, this.scalingY);
         markerUse.transform.baseVal.appendItem(transformScale);

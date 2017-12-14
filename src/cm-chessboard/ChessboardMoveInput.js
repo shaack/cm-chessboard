@@ -164,7 +164,7 @@ export class ChessboardMoveInput {
                 break;
 
             default:
-                throw Error("status " + newStatus);
+                throw Error(`status ${newStatus}`);
         }
     }
 
@@ -177,7 +177,7 @@ export class ChessboardMoveInput {
         this.dragableFigure.setAttribute("height", this.view.squareHeight);
         this.dragableFigure.setAttribute("style", "pointer-events: none");
         const figure = Svg.addElement(this.dragableFigure, "use", {
-            "href": "#" + figureName
+            href: `#${figureName}`
         });
         const scaling = this.view.squareHeight / this.config.sprite.grid;
         const transformScale = (this.dragableFigure.createSVGTransform());
@@ -186,9 +186,8 @@ export class ChessboardMoveInput {
     }
 
     moveDragableFigure(x, y) {
-        this.dragableFigure.setAttribute("style", "pointer-events: none; position: absolute; " +
-            "left: " + (x - (this.view.squareHeight / 2)) + "px; " +
-            "top: " + (y - (this.view.squareHeight / 2)) + "px");
+        this.dragableFigure.setAttribute("style",
+            `pointer-events: none; position: absolute; left: ${x - (this.view.squareHeight / 2)}px; top: ${y - (this.view.squareHeight / 2)}px`);
     }
 
     onPointerDown(e) {

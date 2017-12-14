@@ -68,9 +68,9 @@ export class ChessboardModel {
                     let figure = null;
                     if (char !== '-') {
                         if (char.toUpperCase() === char) {
-                            figure = "w" + char.toLowerCase();
+                            figure = `w${char.toLowerCase()}`;
                         } else {
-                            figure = "b" + char;
+                            figure = `b${char}`;
                         }
                     }
                     this.squares[part * 8 + c] = figure;

@@ -26,11 +26,11 @@ const board = new Chessboard(document.getElementById("board"), {
     inputMode: INPUT_MODE.dragFigure,
     events: {
         inputStart: (square) => {
-            log("inputStart: " + square);
+            log(`inputStart: ${square}`);
             return true;
         },
         inputDone: (squareFrom, squareTo) => {
-            log("inputDone: " + squareFrom + "-" + squareTo);
+            log(`inputDone: ${squareFrom}-${squareTo}`);
             return true;
         }
     }
@@ -48,11 +48,11 @@ const board = new Chessboard(document.getElementById("board"), {
         inputMode: INPUT_MODE.dragFigure,
         events: {
             inputStart: (square) => {
-                log("inputStart: " + square);
+                log(`inputStart: ${square}`);
                 return true;
             },
             inputDone: (squareFrom, squareTo) => {
-                log("inputDone: " + squareFrom + "-" + squareTo);
+                log(`inputDone: ${squareFrom}-${squareTo}`);
                 return true;
             }
         }

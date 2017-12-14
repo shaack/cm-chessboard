@@ -8,7 +8,7 @@
     "ECMAScript 6",
     "svjs"
   ],
-  "description": "A Lightweight ES6 module based responsive SVG chessboard with almost no external dependencies.",
+  "description": "A lightweight ES6 module based responsive SVG chessboard with almost no external dependencies.",
   "main": "src/cm-chessboard/Chessboard.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
