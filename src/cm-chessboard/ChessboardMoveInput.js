@@ -124,9 +124,6 @@ export class ChessboardMoveInput {
                 this.endIndex = params.index;
                 if (this.endIndex && this.moveDoneCallback(this.startIndex, this.endIndex)) {
                     const prevSquares = this.model.squares.slice(0);
-                    // const nextSquares = this.model.squares.slice(0);
-                    // nextSquares[this.startIndex] = null;
-                    // nextSquares[this.endIndex] = this.movedFigure;
                     this.model.setSquare(this.startIndex, null);
                     this.model.setSquare(this.endIndex, this.movedFigure);
                     if (prevStatus === STATUS.clickTo) {
@@ -307,9 +304,11 @@ export class ChessboardMoveInput {
                     this.setStatus(STATUS.reset);
                 }
             } else {
+                this.view.drawFigures();
                 this.setStatus(STATUS.reset);
             }
         } else {
+            this.view.drawFigures();
             this.setStatus(STATUS.reset);
         }
     }
