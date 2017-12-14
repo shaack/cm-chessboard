@@ -37,16 +37,15 @@ Take a look at the `/examples` folder for more simple examples.
 With default values
 ```
 this.config = {
-    position: "empty", // empty board, set as fen or "start" or "empty"
+    position: "empty", // set as fen or "start" or "empty"
     orientation: COLOR.white, // white on bottom
     showCoordinates: true, // show ranks and files
     responsive: false, // detects window resize, if true
-    inputMode: INPUT_MODE.viewOnly, // set to INPUT_MODE.dragFigure "1" or INPUT_MODE.dragMarker "2" for interactive movement
+    inputMode: INPUT_MODE.viewOnly, // set to INPUT_MODE.dragFigure '1' or INPUT_MODE.dragMarker '2' for interactive movement
     animationDuration: 300, // in milliseconds
     events: {
         inputStart: null, // callback(square), before figure move input, return false to cancel move
         inputDone: null, // callback(squareFrom, squareTo), after figure move input, return false to cancel move
-        inputContext: null // callback(square), on right click/context touch
     },
     sprite: {
         file: "../assets/sprite.svg", // figures and markers
