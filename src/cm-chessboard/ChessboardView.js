@@ -313,7 +313,7 @@ export class ChessboardView {
         if(nextAnimation !== undefined) {
             console.log("new ChessboardFigureAnimation", nextAnimation.fromSquares, nextAnimation.toSquares);
             console.log("running animation:", ChessboardFigureAnimation.isAnimationRunning());
-            new ChessboardFigureAnimation(this, nextAnimation.fromSquares, nextAnimation.toSquares, this.config.animationSpeed / (this.animationQueue.length + 1), () => {
+            new ChessboardFigureAnimation(this, nextAnimation.fromSquares, nextAnimation.toSquares, this.config.animationDuration / (this.animationQueue.length + 1), () => {
                 console.log("callback");
                 this.drawFigures(nextAnimation.toSquares);
                 this.nextFigureAnimationInQueue();

@@ -10,6 +10,8 @@ and mobile (Android and iOS).
 - Demo: [http://shaack.com/projekte/cm-chessboard/](http://shaack.com/projekte/cm-chessboard/)
 - Repository: [https://github.com/shaack/cm-chessboard](https://github.com/shaack/cm-chessboard)
 
+If you use this board, it would be nice, if you put a link to chessmail ([chessmail.eu](https://www.chessmail.eu) or [chessmail.de](https://www.chessmail.de)) on your site. Thanks. :)
+
 ## Install
 
 **Option1:** Download from [GitHub](https://github.com/shaack/cm-chessboard) and do `npm install` without parameters
@@ -40,7 +42,7 @@ this.config = {
     showCoordinates: true, // show ranks and files
     responsive: false, // detects window resize, if true
     inputMode: INPUT_MODE.viewOnly, // set to INPUT_MODE.dragFigure "1" or INPUT_MODE.dragMarker "2" for interactive movement
-    animationSpeed: 300,
+    animationDuration: 300, // in milliseconds
     events: {
         inputStart: null, // callback(square), before figure move input, return false to cancel move
         inputDone: null, // callback(squareFrom, squareTo), after figure move input, return false to cancel move
@@ -62,7 +64,6 @@ this.config = {
 - **containerElement:** a HTML DOM element being the container of the widget
 - **config:** The board configuration
 - **callback:** Callback after sprite loading and initialization. Wait for the callback before using the API. 
-
 
 ### setSquare(square, figure) {
 
