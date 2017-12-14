@@ -12,11 +12,9 @@ and mobile (Android and iOS).
 
 ## Install
 
-**Option1:** Download this and `npm install`
+**Option1:** Download from [GitHub](https://github.com/shaack/cm-chessboard) and do `npm install` without parameters
 
-Also available as npm package: [https://www.npmjs.com/package/cm-chessboard](https://www.npmjs.com/package/cm-chessboard)
-
-**Option 2:** Install the npm package with `npm install --save cm-chessboard`
+**Option 2:** Install the [npm package](https://www.npmjs.com/package/cm-chessboard) with `npm install --save cm-chessboard`
 
 ## Example Usage
 
