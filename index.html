@@ -6,11 +6,7 @@
     <link rel="stylesheet" href="./styles/page.css"/>
     <link rel="stylesheet" href="./styles/cm-chessboard.css"/>
     <style type="text/css">
-        .board {
-            float: left;
-        }
-
-        #board1 {
+        #board {
             width: 400px;
             height: 380px;
             margin-right: 20px;
@@ -22,7 +18,7 @@
 <h1>cm-chessboard</h1>
 <p>The (upcoming) chessboard for <a href="https://www.chessmail.de">chessmail.de</a> / <a href="https://www.chessmail.eu">chessmail.eu</a>
 </p>
-<p>A Lightweight ES6 module based responsive SVG chessboard with almost no external dependencies.</p>
+<p>A lightweight, ES6 module based, responsive, SVG chessboard with almost no external dependencies.</p>
 <p><a href="https://github.com/shaack/cm-chessboard">Repository and documentation on GitHub</a>.</p>
 <h2>Examples</h2>
 <ul>
@@ -33,13 +29,18 @@
     <li><a href="examples/figure-animation.html">Set different positions, with animation</a></li>
 </ul>
 <h2>Chessboard</h2>
-<div class="board" id="board1"></div>
+<pre>const board = new Chessboard(document.getElementById("board"), {position: "start"});</pre>
+<div class="board" id="board"></div>
 <script type="module">
     import {Chessboard} from "./src/cm-chessboard/Chessboard.js"
 
-    window.board1 = new Chessboard(document.getElementById("board1"), {
+    const board = new Chessboard(document.getElementById("board"), {
         sprite: {file: "./assets/sprite.svg"}, position: "start"
     });
 </script>
+<h2>Test</h2>
+<ul>
+    <li><a href="test/">Run the unit tests</a></li>
+</ul>
 </body>
 </html>
