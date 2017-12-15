@@ -4,17 +4,14 @@
  */
 
 import {Test} from "../node_modules/svjs-test/src/svjs/Test.js"
-import {Chessboard} from "../src/cm-chessboard/Chessboard.js";
+import {FIGURE, Chessboard} from "../src/cm-chessboard/Chessboard.js";
 
 export class TestPosition extends Test {
 
-    testSetAndGetStartPosition() {
+    testStartPosition() {
         const chessboard = new Chessboard(document.getElementById("testboard2"), {
             position: "start"
         }, () => {
-            Test.assertEquals("wq", chessboard.getSquare("d1"));
-            Test.assertEquals("bq", chessboard.getSquare("d8"));
-            Test.assertEquals("wp", chessboard.getSquare("a2"));
             Test.assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", chessboard.getPosition());
             setTimeout(() => {
                 chessboard.destroy();
@@ -30,7 +27,33 @@ export class TestPosition extends Test {
                 chessboard.destroy();
             });
         });
+    }
 
+    testGetSquare() {
+        const chessboard = new Chessboard(document.getElementById("testboard2"), {
+            position: "start"
+        }, () => {
+            Test.assertEquals("wq", chessboard.getSquare("d1"));
+            Test.assertEquals("bq", chessboard.getSquare("d8"));
+            Test.assertEquals("wp", chessboard.getSquare("a2"));
+            setTimeout(() => {
+                chessboard.destroy();
+            });
+        });
+    }
+
+    testSetSquare() {
+        const chessboard = new Chessboard(document.getElementById("testboard2"), {
+            position: "empty"
+        }, () => {
+            chessboard.setSquare("a1", FIGURE.blackKing);
+            chessboard.setSquare("e5", FIGURE.whiteKing);
+            Test.assertEquals("bk", chessboard.getSquare("a1"));
+            Test.assertEquals("wk", chessboard.getSquare("e5"));
+            setTimeout(() => {
+                chessboard.destroy();
+            });
+        });
     }
 
 }

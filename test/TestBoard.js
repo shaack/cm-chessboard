@@ -8,12 +8,11 @@ import {Chessboard} from "../src/cm-chessboard/Chessboard.js";
 
 export class TestBoard extends Test {
 
-    testCreateAndRemove() {
+    testCreateAndDestroy() {
         const chessboard = new Chessboard(document.getElementById("testboard1"), {
             position: "start"
         }, () => {
             setTimeout(() => {
-                console.log(chessboard.view.containerElement.childNodes);
                 Test.assertEquals(1, chessboard.view.containerElement.childNodes.length);
                 chessboard.destroy();
                 Test.assertEquals(null, chessboard.view);
