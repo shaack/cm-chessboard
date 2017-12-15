@@ -2,7 +2,7 @@
 
 The (upcoming) chessboard for [chessmail.eu](https://www.chessmail.eu) / [chessmail.de](https://www.chessmail.de)
 
-A Lightweight ES6 module based responsive SVG chessboard with almost no external dependencies.
+A Lightweight, ES6 module based, responsive, SVG chessboard with almost no external dependencies.
 
 Current version is "beta". It works on desktop (current versions of Chrome, Firefox, Safari, Edge), 
 and mobile (Android and iOS).
