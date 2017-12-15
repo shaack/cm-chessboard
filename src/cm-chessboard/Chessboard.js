@@ -90,8 +90,8 @@ export class Chessboard {
     }
 
     setSquare(square, figure) {
-        this.model.setSquare(square, figure);
-        // todo ? this.view.drawFigures();
+        this.model.setSquare(this.model.squareToIndex(square), figure);
+        this.view.drawFigures();
     }
 
     getSquare(square) {
