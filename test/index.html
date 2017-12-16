@@ -8,6 +8,7 @@
     <style type="text/css">
         .board {
             position: absolute;
+            right: 20px;
             width: 200px;
             height: 200px;
         }
@@ -16,17 +17,19 @@
 <body>
 <h1><a href="../">cm-chessboard</a></h1>
 <p><i>Unit testing with <a href="https://github.com/shaack/svjs-test">svjs-test</a></i></p>
-<div class="board" id="testboard1"></div>
-<div class="board" id="testboard2"></div>
-<div class="board" id="testboard3"></div>
+<div class="board" id="TestBoard"></div>
+<div class="board" id="TestPosition"></div>
+<div class="board" id="TestMarkers"></div>
 <script type="module">
     import {TestPosition} from "./TestPosition.js"
     import {TestBoard} from "./TestBoard.js"
     import {TestPiecesAnimation} from "./TestPiecesAnimation.js";
+    import {TestMarkers} from "./TestMarkers.js";
 
     TestBoard.run();
     TestPosition.run();
     TestPiecesAnimation.run();
+    TestMarkers.run();
 </script>
 </body>
 </html>

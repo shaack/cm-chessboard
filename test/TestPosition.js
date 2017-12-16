@@ -9,7 +9,7 @@ import {PIECE, Chessboard} from "../src/cm-chessboard/Chessboard.js";
 export class TestPosition extends Test {
 
     testStartPosition() {
-        const chessboard = new Chessboard(document.getElementById("testboard2"), {
+        const chessboard = new Chessboard(document.getElementById("TestPosition"), {
             position: "start"
         }, () => {
             Test.assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", chessboard.getPosition());
@@ -20,7 +20,7 @@ export class TestPosition extends Test {
     }
 
     testSetAndGetPosition() {
-        const chessboard = new Chessboard(document.getElementById("testboard3"), null, () => {
+        const chessboard = new Chessboard(document.getElementById("TestPosition"), null, () => {
             chessboard.setPosition("rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR w Gkq - 4 11", false);
             Test.assertEquals("rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR", chessboard.getPosition());
             setTimeout(() => {
@@ -30,7 +30,7 @@ export class TestPosition extends Test {
     }
 
     testGetSquare() {
-        const chessboard = new Chessboard(document.getElementById("testboard2"), {
+        const chessboard = new Chessboard(document.getElementById("TestPosition"), {
             position: "start"
         }, () => {
             Test.assertEquals("wq", chessboard.getPiece("d1"));
@@ -43,7 +43,7 @@ export class TestPosition extends Test {
     }
 
     testSetSquare() {
-        const chessboard = new Chessboard(document.getElementById("testboard2"), {
+        const chessboard = new Chessboard(document.getElementById("TestPosition"), {
             position: "empty"
         }, () => {
             chessboard.setPiece("a1", PIECE.blackKing);

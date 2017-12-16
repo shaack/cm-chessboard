@@ -5,6 +5,7 @@
 import {ChessboardView} from "./ChessboardView.js";
 import {ChessboardModel} from "./ChessboardModel.js";
 import {Svg} from "../../node_modules/svjs-svg/src/svjs/Svg.js";
+import {SQUARE_COORDINATES} from "./ChessboardModel.js";
 
 export const COLOR = {
     white: "white",
@@ -18,7 +19,7 @@ export const MOVE_INPUT_MODE = {
 export const MARKER_TYPE = {
     newMove: {slice: "marker1", opacity: 0.8},
     lastMove: {slice: "marker1", opacity: 0.5},
-    emphasize: {slice: "marker2", opacity: 0.6}
+    emphasize: {slice: "marker2", opacity: 0.4}
 };
 export const PIECE = {
     whitePawn: "wp",
@@ -47,12 +48,11 @@ export class Chessboard {
             showCoordinates: true, // show ranks and files
             responsive: false, // detects window resize, if true
             animationDuration: 300, // in milliseconds
-            // contextInputEnabled: false, // allow context input on a square via right click or context touch
             moveInputMode: MOVE_INPUT_MODE.viewOnly, // set to MOVE_INPUT_MODE.dragPiece '1' or MOVE_INPUT_MODE.dragMarker '2' for interactive movement
             events: {
                 moveInputStart: null, // callback(square), before piece move input, return false to cancel move
                 moveInputDone: null, // callback(squareFrom, squareTo), after piece move input, return false to cancel move
-                // contextInput: null // callback(square), on right click/context touch
+                contextInput: null // callback(square), on right click/context touch
             },
             sprite: {
                 file: "../assets/sprite.svg", // pieces and markers
@@ -69,7 +69,7 @@ export class Chessboard {
             this.setOrientation(this.config.orientation);
             this.model.moveInputMode = this.config.moveInputMode;
             this.view.setNeedsRedraw();
-            if(callback) {
+            if (callback) {
                 setTimeout(() => {
                     callback(this);
                 });
@@ -93,7 +93,7 @@ export class Chessboard {
         const currentFen = this.model.getPosition();
         const fenParts = fen.split(" ");
         const fenNormalized = fenParts[0];
-        if(fenNormalized !== currentFen) {
+        if (fenNormalized !== currentFen) {
             const prevSquares = this.model.squares.slice(0); // clone
             if (fen === "start") {
                 this.model.setPosition(FEN_START_POSITION);
@@ -130,6 +130,19 @@ export class Chessboard {
         this.view.drawMarkers();
     }
 
+    getMarkers(square = null, type = null) {
+        const markersFound = [];
+        this.model.markers.forEach((marker) => {
+            const markerSquare = SQUARE_COORDINATES[marker.index];
+            if (square === null && (type === null || type === marker.type) ||
+                type === null && square === markerSquare ||
+                type === marker.type && square === markerSquare) {
+                markersFound.push({square: SQUARE_COORDINATES[marker.index], type: marker.type});
+            }
+        });
+        return markersFound;
+    }
+
     removeMarkers(square = null, type = null) {
         const index = square !== null ? this.model.squareToIndex(square) : null;
         this.model.removeMarkers(index, type);
@@ -152,7 +165,7 @@ export class Chessboard {
     }
 
     enableMoveInput(color, enable) {
-        if(enable === true && this.config.moveInputMode === MOVE_INPUT_MODE.viewOnly) {
+        if (enable === true && this.config.moveInputMode === MOVE_INPUT_MODE.viewOnly) {
             throw Error("config.moveInputMode is MOVE_INPUT_MODE.viewOnly");
         }
         if (color === COLOR.white) {

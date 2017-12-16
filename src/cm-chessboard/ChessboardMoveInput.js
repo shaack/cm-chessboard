@@ -191,40 +191,42 @@ export class ChessboardMoveInput {
     }
 
     onPointerDown(e) {
-        const index = e.target.getAttribute("data-index");
-        const pieceElement = this.view.getPiece(index);
-        if (index !== undefined) {
-            let pieceName, color;
-            if (pieceElement) {
-                pieceName = pieceElement.getAttribute("data-piece");
-                color = pieceName ? pieceName.substr(0, 1) : null;
-            }
-            if (this.status !== STATUS.waitForInputStart ||
-                this.model.inputWhiteEnabled && color === "w" ||
-                this.model.inputBlackEnabled && color === "b") {
-                let point;
-                if (e.type === "mousedown") {
-                    point = {x: e.clientX, y: e.clientY};
-                } else if (e.type === "touchstart") {
-                    point = {x: e.touches[0].clientX, y: e.touches[0].clientY};
+        if(e.type === "mousedown" && e.button === 0 || e.type === "touchstart") {
+            const index = e.target.getAttribute("data-index");
+            const pieceElement = this.view.getPiece(index);
+            if (index !== undefined) {
+                let pieceName, color;
+                if (pieceElement) {
+                    pieceName = pieceElement.getAttribute("data-piece");
+                    color = pieceName ? pieceName.substr(0, 1) : null;
                 }
-                if (this.status === STATUS.waitForInputStart && pieceName && this.moveStartCallback(index)) {
-                    this.setStatus(STATUS.pieceClickedThreshold, {
-                        index: index,
-                        piece: pieceName,
-                        point: point,
-                        type: e.type
-                    });
-                } else if (this.status === STATUS.clickTo) {
-                    if (index === this.startIndex) {
-                        this.setStatus(STATUS.secondClickThreshold, {
+                if (this.status !== STATUS.waitForInputStart ||
+                    this.model.inputWhiteEnabled && color === "w" ||
+                    this.model.inputBlackEnabled && color === "b") {
+                    let point;
+                    if (e.type === "mousedown") {
+                        point = {x: e.clientX, y: e.clientY};
+                    } else if (e.type === "touchstart") {
+                        point = {x: e.touches[0].clientX, y: e.touches[0].clientY};
+                    }
+                    if (this.status === STATUS.waitForInputStart && pieceName && this.moveStartCallback(index)) {
+                        this.setStatus(STATUS.pieceClickedThreshold, {
                             index: index,
                             piece: pieceName,
                             point: point,
                             type: e.type
                         });
-                    } else {
-                        this.setStatus(STATUS.moveDone, {index: index})
+                    } else if (this.status === STATUS.clickTo) {
+                        if (index === this.startIndex) {
+                            this.setStatus(STATUS.secondClickThreshold, {
+                                index: index,
+                                piece: pieceName,
+                                point: point,
+                                type: e.type
+                            });
+                        } else {
+                            this.setStatus(STATUS.moveDone, {index: index})
+                        }
                     }
                 }
             }

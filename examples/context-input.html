@@ -17,39 +17,73 @@
 </head>
 <body>
 <h1><a href="../">cm-chessboard</a></h1>
-<h2>Example: Context input, setting markers</h2>
+<h2>Example: Context input, mark squares</h2>
 <p>Toggle marker on context input. First board, context input only. Second board, move input and context input
     enabled.</p>
 <div class="board" id="board1"></div>
 <div class="board" id="board2"></div>
 <br style="clear: both"/>
 <pre>
+const board1 = new Chessboard(document.getElementById("board1"), {
+    position: "start",
+    events: {
+        contextInput: (square) => {
+            const markersOnSquare = board1.getMarkers(square, MARKER_TYPE.emphasize);
+            if(markersOnSquare.length > 0) {
+                board1.removeMarkers(square, MARKER_TYPE.emphasize);
+            } else {
+                board1.addMarker(square);
+            }
+        }
+    }
+});
+const board2 = new Chessboard(document.getElementById("board2"), {
+    position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR",
+    orientation: COLOR.black,
+    moveInputMode: MOVE_INPUT_MODE.dragPiece,
+    events: {
+        contextInput: function(square) {
+            const markersOnSquare = board2.getMarkers(square, MARKER_TYPE.emphasize);
+            if(markersOnSquare.length > 0) {
+                board2.removeMarkers(square, MARKER_TYPE.emphasize);
+            } else {
+                board2.addMarker(square);
+            }
+        }
+    }
+}, (board) => {
+    board.enableMoveInput(COLOR.white, true);
+    board.enableMoveInput(COLOR.black, true);
+});
 </pre>
 <script type="module">
-    import {MOVE_INPUT_MODE, COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
+    import {MARKER_TYPE, MOVE_INPUT_MODE, COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
 
-    new Chessboard(document.getElementById("board1"), {
+    const board1 = new Chessboard(document.getElementById("board1"), {
         position: "start",
-        contextInputEnabled: true,
         events: {
             contextInput: (square) => {
-                console.log("context input " + square)
+                const markersOnSquare = board1.getMarkers(square, MARKER_TYPE.emphasize);
+                if(markersOnSquare.length > 0) {
+                    board1.removeMarkers(square, MARKER_TYPE.emphasize);
+                } else {
+                    board1.addMarker(square);
+                }
             }
         }
     });
-    new Chessboard(document.getElementById("board2"), {
+    const board2 = new Chessboard(document.getElementById("board2"), {
         position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR",
         orientation: COLOR.black,
-        contextInputEnabled: true,
         moveInputMode: MOVE_INPUT_MODE.dragPiece,
         events: {
-            moveInputDone: (fromSquare, toSquare) => {
-                console.log("moveInputDone " + fromSquare + "-" + toSquare);
-                return true;
-            },
-            contextInput: (square) => {
-                console.log("contextInput " + square);
-                return true;
+            contextInput: function(square) {
+                const markersOnSquare = board2.getMarkers(square, MARKER_TYPE.emphasize);
+                if(markersOnSquare.length > 0) {
+                    board2.removeMarkers(square, MARKER_TYPE.emphasize);
+                } else {
+                    board2.addMarker(square);
+                }
             }
         }
     }, (board) => {

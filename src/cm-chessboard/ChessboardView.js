@@ -36,11 +36,20 @@ export class ChessboardView {
                     this.redrawTimer = setTimeout(() => {
                         this.createSvgAndMainGroup();
                         this.drawBoard();
-                        this.drawPieces();
                         this.drawMarkers();
+                        this.drawPieces();
                     });
                 }
             });
+        }
+        if(this.config.events.contextInput) {
+            containerElement.addEventListener("contextmenu", (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setTimeout(() => {
+                    this.onContextInput(e);
+                });
+            })
         }
         if (this.config.moveInputMode !== MOVE_INPUT_MODE.viewOnly) {
             containerElement.addEventListener('mousedown', (e) => {
@@ -58,6 +67,7 @@ export class ChessboardView {
                 });
             });
         }
+
         this.createSvgAndMainGroup();
     }
 
@@ -124,8 +134,8 @@ export class ChessboardView {
             if (this.config.showCoordinates) {
                 this.drawCoordinates();
             }
-            this.drawPieces();
             this.drawMarkers();
+            this.drawPieces();
             this.setCursor();
         });
     }
@@ -265,10 +275,12 @@ export class ChessboardView {
     // Markers //
 
     drawMarkers() {
-        if (this.markersGroup) {
-            Svg.removeElement(this.markersGroup);
+        if (!this.markersGroup) {
+            this.markersGroup = Svg.addElement(this.svg, "g", {class: "markers"});
         }
-        this.markersGroup = Svg.addElement(this.svg, "g", {class: "markers"});
+        while (this.markersGroup.firstChild) {
+            this.markersGroup.removeChild(this.markersGroup.firstChild);
+        }
         this.model.markers.forEach((marker) => {
                 this.drawMarker(marker);
             }
@@ -310,6 +322,13 @@ export class ChessboardView {
                 }
             })
         }
+    }
+
+    // Context input //
+
+    onContextInput(e) {
+        const index = e.target.getAttribute("data-index");
+        this.config.events.contextInput(SQUARE_COORDINATES[index]);
     }
 
     // Callbacks //

@@ -91,6 +91,11 @@ Default types are: `MARKER_TYPE.newMove`, `MARKER_TYPE.lastMove`, `MARKER_TYPE.e
 exportet by `Chessboard.js`. You can create your own marker types: Just create an object like 
 `{slice: "marker1", opacity: 0.6}`, where `slice` is the `id` in `sprite.svg`, `opacity` the opacity.
 
+### getMarkers(square = null, type = null)
+
+Set square to `null`, to get all markers of a type on the board. Set type to `null`, to get all types.
+Set `both` to null to get all markers on the board.
+
 ### removeMarkers(square = null, type = null);
 
 Set `square` to `null` to remove markers of `type` from all squares.

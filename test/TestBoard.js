@@ -9,7 +9,7 @@ import {Chessboard} from "../src/cm-chessboard/Chessboard.js";
 export class TestBoard extends Test {
 
     testCreateAndDestroy() {
-        const chessboard = new Chessboard(document.getElementById("testboard1"), {
+        const chessboard = new Chessboard(document.getElementById("TestBoard"), {
             position: "start"
         }, () => {
             setTimeout(() => {
