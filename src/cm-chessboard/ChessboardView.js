@@ -89,7 +89,7 @@ export class ChessboardView {
         } else if (ChessboardView.spriteLoadingStatus === SPRITE_LOADING_STATUS.loading) {
             setTimeout(() => {
                 this.spriteLoadWaitingTries++;
-                if (this.spriteLoadWaitingTries < 20) {
+                if (this.spriteLoadWaitingTries < 50) {
                     this.loadSprite(config, callback);
                 } else {
                     console.error("timeout loading sprite", config.sprite.file);
