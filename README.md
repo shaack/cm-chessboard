@@ -12,6 +12,8 @@ and mobile (Android and iOS).
 
 If you use this board, it would be nice, if you put a link to chessmail ([chessmail.eu](https://www.chessmail.eu) or [chessmail.de](https://www.chessmail.de)) on your site. Thanks. :)
 
+![Example chessboards](http://shaack.com/projekte/assets/img/example_chessboards.png)
+
 ## Install
 
 **Option 1:** Download from [GitHub](https://github.com/shaack/cm-chessboard) and run `npm install` without parameters
