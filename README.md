@@ -36,7 +36,7 @@ Take a look at the [/examples](https://github.com/shaack/cm-chessboard/tree/mast
 
 With default values
 ```
-config = {
+this.config = {
     position: "empty", // set as fen or "start" or "empty"
     orientation: COLOR.white, // white on bottom
     showCoordinates: true, // show ranks and files
@@ -46,12 +46,13 @@ config = {
     events: {
         moveInputStart: null, // callback(square), before piece move input, return false to cancel move
         moveInputDone: null, // callback(squareFrom, squareTo), after piece move input, return false to cancel move
+        contextInput: null // callback(square), on right click/context touch
     },
     sprite: {
         file: "../assets/sprite.svg", // pieces and markers
         grid: DEFAULT_SPRITE_GRID // one piece every 40px
     }
-}
+};
 ```  
 
 ## API
