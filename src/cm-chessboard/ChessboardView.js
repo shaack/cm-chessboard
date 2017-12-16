@@ -30,19 +30,11 @@ export class ChessboardView {
             window.addEventListener('resize', () => {
                 if (this.containerElement.offsetWidth !== this.width ||
                     this.containerElement.offsetHeight !== this.height) {
-                    if (this.redrawTimer) {
-                        window.clearTimeout(this.redrawTimer);
-                    }
-                    this.redrawTimer = setTimeout(() => {
-                        this.createSvgAndMainGroup();
-                        this.drawBoard();
-                        this.drawMarkers();
-                        this.drawPieces();
-                    });
+                    this.redraw();
                 }
             });
         }
-        if(this.config.events.contextInput) {
+        if (this.config.events.contextInput) {
             containerElement.addEventListener("contextmenu", (e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -67,11 +59,8 @@ export class ChessboardView {
                 });
             });
         }
-
-        this.createSvgAndMainGroup();
-        this.drawBoard();
-        this.drawMarkers();
-        this.drawPieces();
+        this.createSvgAndGroups();
+        this.redraw();
     }
 
     // Sprite //
@@ -101,18 +90,21 @@ export class ChessboardView {
         } else {
             console.error("error ChessboardView.spriteLoadingStatus", ChessboardView.spriteLoadingStatus);
         }
-
     }
 
     // Draw //
 
-    createSvgAndMainGroup() {
+    createSvgAndGroups() {
         if (this.svg) {
             Svg.removeElement(this.svg);
         }
         this.svg = Svg.createSvg(this.containerElement);
         this.svg.setAttribute("class", "cm-chessboard");
         this.updateMetrics();
+        this.boardGroup = Svg.addElement(this.svg, "g", {class: "board"});
+        this.coordinatesGroup = Svg.addElement(this.svg, "g", {class: "coordinates"});
+        this.markersGroup = Svg.addElement(this.svg, "g", {class: "markers"});
+        this.piecesGroup = Svg.addElement(this.svg, "g", {class: "pieces"});
     }
 
     updateMetrics() {
@@ -128,117 +120,113 @@ export class ChessboardView {
         this.pieceXTranslate = (this.squareWidth / 2 - this.config.sprite.grid * this.scalingY / 2); // for centering in square
     }
 
-    setNeedsRedraw() {
-        if (this.redrawTimer) {
-            window.clearTimeout(this.redrawTimer);
+    redraw() {
+        this.updateMetrics();
+        // this.createSvgAndGroups();
+        this.drawBoard();
+        if (this.config.showCoordinates) {
+            this.drawCoordinates();
         }
-        this.redrawTimer = setTimeout(() => {
-            this.drawBoard();
-            if (this.config.showCoordinates) {
-                this.drawCoordinates();
-            }
-            this.drawMarkers();
-            this.drawPieces();
-            this.setCursor();
-        });
+        this.drawMarkers();
+        this.drawPieces();
+        this.setCursor();
     }
 
     // Board //
 
     drawBoard() {
-        // console.log("drawBoard");
-        if (!this.boardGroup) {
-            this.boardGroup = Svg.addElement(this.svg, "g", {class: "board"});
-        }
-        while (this.boardGroup.firstChild) {
-            this.boardGroup.removeChild(this.boardGroup.firstChild);
-        }
-        let boardBorder = Svg.addElement(this.boardGroup, "rect", {width: this.width, height: this.height});
-        boardBorder.setAttribute("class", "board-border");
-        for (let i = 0; i < 64; i++) {
-            const squareColor = ((9 * i) & 8) === 0 ? 'black' : 'white';
-            const fieldClass = `square ${squareColor}`;
-            const point = this.squareIndexToPoint(i);
-            const squareRect = Svg.addElement(this.boardGroup, "rect", {
-                x: point.x, y: point.y, width: this.squareWidth, height: this.squareHeight
-            });
-            squareRect.setAttribute("class", fieldClass);
-            if (this.model.orientation === "white") {
-                squareRect.setAttribute("data-index", i);
-            } else {
-                squareRect.setAttribute("data-index", 63 - i);
+        window.clearTimeout(this.drawBoardDebounce);
+        this.drawBoardDebounce = setTimeout(() => {
+            while (this.boardGroup.firstChild) {
+                this.boardGroup.removeChild(this.boardGroup.lastChild);
             }
-        }
-        Svg.addElement(this.boardGroup, "line", {
-            x1: this.borderSize, y1: this.borderSize,
-            x2: this.width - this.borderSize, y2: this.borderSize, class: "surrounding-line"
+            let boardBorder = Svg.addElement(this.boardGroup, "rect", {width: this.width, height: this.height});
+            boardBorder.setAttribute("class", "board-border");
+            for (let i = 0; i < 64; i++) {
+                const squareColor = ((9 * i) & 8) === 0 ? 'black' : 'white';
+                const fieldClass = `square ${squareColor}`;
+                const point = this.squareIndexToPoint(i);
+                const squareRect = Svg.addElement(this.boardGroup, "rect", {
+                    x: point.x, y: point.y, width: this.squareWidth, height: this.squareHeight
+                });
+                squareRect.setAttribute("class", fieldClass);
+                if (this.model.orientation === "white") {
+                    squareRect.setAttribute("data-index", i);
+                } else {
+                    squareRect.setAttribute("data-index", 63 - i);
+                }
+            }
+            Svg.addElement(this.boardGroup, "line", {
+                x1: this.borderSize, y1: this.borderSize,
+                x2: this.width - this.borderSize, y2: this.borderSize, class: "surrounding-line"
+            });
+            Svg.addElement(this.boardGroup, "line", {
+                x1: this.borderSize, y1: this.height - this.borderSize,
+                x2: this.width - this.borderSize, y2: this.height - this.borderSize, class: "surrounding-line"
+            });
+            Svg.addElement(this.boardGroup, "line", {
+                x1: this.borderSize, y1: this.borderSize,
+                x2: this.borderSize, y2: this.height - this.borderSize, class: "surrounding-line"
+            });
+            Svg.addElement(this.boardGroup, "line", {
+                x1: this.width - this.borderSize, y1: this.borderSize,
+                x2: this.width - this.borderSize, y2: this.height - this.borderSize, class: "surrounding-line"
+            });
+            if (this.model.orientation === "black") {
+                const transform = (this.svg.createSVGTransform());
+                transform.setRotate(180, this.width / 2, this.height / 2);
+                this.boardGroup.transform.baseVal.appendItem(transform);
+            }
         });
-        Svg.addElement(this.boardGroup, "line", {
-            x1: this.borderSize, y1: this.height - this.borderSize,
-            x2: this.width - this.borderSize, y2: this.height - this.borderSize, class: "surrounding-line"
-        });
-        Svg.addElement(this.boardGroup, "line", {
-            x1: this.borderSize, y1: this.borderSize,
-            x2: this.borderSize, y2: this.height - this.borderSize, class: "surrounding-line"
-        });
-        Svg.addElement(this.boardGroup, "line", {
-            x1: this.width - this.borderSize, y1: this.borderSize,
-            x2: this.width - this.borderSize, y2: this.height - this.borderSize, class: "surrounding-line"
-        });
-        if (this.model.orientation === "black") {
-            const transform = (this.svg.createSVGTransform());
-            transform.setRotate(180, this.width / 2, this.height / 2);
-            this.boardGroup.transform.baseVal.appendItem(transform);
-        }
     }
 
     drawCoordinates() {
-        // console.log("drawCoordinates");
-        if (this.coordinatesGroup) {
-            Svg.removeElement(this.coordinatesGroup);
-        }
-        this.coordinatesGroup = Svg.addElement(this.svg, "g", {class: "coordinates"});
-        for (let file = 0; file < 8; file++) {
-            const textElement = Svg.addElement(this.coordinatesGroup, "text", {
-                class: "coordinate file",
-                x: this.borderSize + (18 + this.config.sprite.grid * file) * this.scalingX,
-                y: this.height - (this.borderSize / 3.4),
-                style: `font-size: ${this.scalingY * 7}px`
-            });
-            if (this.model.orientation === "white") {
-                textElement.textContent = String.fromCharCode(97 + file);
-            } else {
-                textElement.textContent = String.fromCharCode(104 - file);
+        window.clearTimeout(this.drawCoordinatesDebounce);
+        this.drawCoordinatesDebounce = setTimeout(() => {
+            while (this.coordinatesGroup.firstChild) {
+                this.coordinatesGroup.removeChild(this.coordinatesGroup.lastChild);
             }
-        }
-        for (let rank = 0; rank < 8; rank++) {
-            const textElement = Svg.addElement(this.coordinatesGroup, "text", {
-                class: "coordinate rank",
-                x: (this.borderSize / 3.6),
-                y: this.borderSize + 23 * this.scalingY + rank * this.squareHeight,
-                style: `font-size: ${this.scalingY * 7}px`
-            });
-            if (this.model.orientation === "white") {
-                textElement.textContent = 8 - rank;
-            } else {
-                textElement.textContent = 1 + rank;
+            for (let file = 0; file < 8; file++) {
+                const textElement = Svg.addElement(this.coordinatesGroup, "text", {
+                    class: "coordinate file",
+                    x: this.borderSize + (18 + this.config.sprite.grid * file) * this.scalingX,
+                    y: this.height - (this.borderSize / 3.4),
+                    style: `font-size: ${this.scalingY * 7}px`
+                });
+                if (this.model.orientation === "white") {
+                    textElement.textContent = String.fromCharCode(97 + file);
+                } else {
+                    textElement.textContent = String.fromCharCode(104 - file);
+                }
             }
-        }
+            for (let rank = 0; rank < 8; rank++) {
+                const textElement = Svg.addElement(this.coordinatesGroup, "text", {
+                    class: "coordinate rank",
+                    x: (this.borderSize / 3.6),
+                    y: this.borderSize + 23 * this.scalingY + rank * this.squareHeight,
+                    style: `font-size: ${this.scalingY * 7}px`
+                });
+                if (this.model.orientation === "white") {
+                    textElement.textContent = 8 - rank;
+                } else {
+                    textElement.textContent = 1 + rank;
+                }
+            }
+        });
     }
 
     // Pieces //
 
-    drawPieces(squares = null) {
-        // console.log("drawPieces");
-        // console.trace();
-        if(!squares) {
-            squares = this.model.squares;
-        }
-        if (!this.piecesGroup) {
-            this.piecesGroup = Svg.addElement(this.svg, "g", {class: "pieces"});
-        }
+    drawPieces(squares = this.model.squares) {
+        window.clearTimeout(this.drawPiecesDebounce);
+        this.drawPiecesDebounce = setTimeout(() => {
+            this.drawPiecesNow(squares);
+        });
+    }
+
+    drawPiecesNow(squares) {
         while (this.piecesGroup.firstChild) {
-            this.piecesGroup.removeChild(this.piecesGroup.firstChild);
+            this.piecesGroup.removeChild(this.piecesGroup.lastChild);
         }
         for (let i = 0; i < 64; i++) {
             const pieceName = squares[i];
@@ -285,17 +273,16 @@ export class ChessboardView {
     // Markers //
 
     drawMarkers() {
-        // console.log("drawMarkers");
-        if (!this.markersGroup) {
-            this.markersGroup = Svg.addElement(this.svg, "g", {class: "markers"});
-        }
-        while (this.markersGroup.firstChild) {
-            this.markersGroup.removeChild(this.markersGroup.firstChild);
-        }
-        this.model.markers.forEach((marker) => {
-                this.drawMarker(marker);
+        window.clearTimeout(this.drawMarkersDebounce);
+        this.drawMarkersDebounce = setTimeout(() => {
+            while (this.markersGroup.firstChild) {
+                this.markersGroup.removeChild(this.markersGroup.firstChild);
             }
-        );
+            this.model.markers.forEach((marker) => {
+                    this.drawMarker(marker);
+                }
+            );
+        });
     }
 
     drawMarker(marker) {
@@ -317,18 +304,18 @@ export class ChessboardView {
 
     animatePieces(fromSquares, toSquares, callback) {
         this.animationQueue.push({fromSquares: fromSquares, toSquares: toSquares, callback: callback});
-        if(!ChessboardPiecesAnimation.isAnimationRunning()) {
+        if (!ChessboardPiecesAnimation.isAnimationRunning()) {
             this.nextPieceAnimationInQueue();
         }
     }
 
     nextPieceAnimationInQueue() {
         const nextAnimation = this.animationQueue.shift();
-        if(nextAnimation !== undefined) {
+        if (nextAnimation !== undefined) {
             new ChessboardPiecesAnimation(this, nextAnimation.fromSquares, nextAnimation.toSquares, this.config.animationDuration / (this.animationQueue.length + 1), () => {
-                this.drawPieces(nextAnimation.toSquares);
+                this.drawPiecesNow(nextAnimation.toSquares);
                 this.nextPieceAnimationInQueue();
-                if(nextAnimation.callback) {
+                if (nextAnimation.callback) {
                     nextAnimation.callback();
                 }
             })

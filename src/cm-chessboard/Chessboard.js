@@ -68,14 +68,14 @@ export class Chessboard {
             this.setPosition(this.config.position, false);
             this.setOrientation(this.config.orientation);
             this.model.moveInputMode = this.config.moveInputMode;
-            this.view.setNeedsRedraw();
+            this.view.redraw();
             if (callback) {
                 setTimeout(() => {
                     callback(this);
                 });
             }
         });
-        this.view.setNeedsRedraw();
+        this.view.redraw();
     }
 
     // API //
@@ -151,7 +151,7 @@ export class Chessboard {
 
     setOrientation(color) {
         this.model.orientation = color;
-        this.view.setNeedsRedraw();
+        this.view.redraw();
     }
 
     getOrientation() {

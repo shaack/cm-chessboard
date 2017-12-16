@@ -32,7 +32,7 @@ export class ChessboardMoveInput {
 
     setStatus(newStatus, params = null) {
 
-        // console.log("setStatus", Object.keys(STATUS)[this.status], "=>", Object.keys(STATUS)[newStatus]);
+        //console.log("setStatus", Object.keys(STATUS)[this.status], "=>", Object.keys(STATUS)[newStatus]);
 
         const prevStatus = this.status;
         this.status = newStatus;
@@ -136,7 +136,7 @@ export class ChessboardMoveInput {
                     }
                 } else {
                     this.setStatus(STATUS.reset);
-                    this.view.setNeedsRedraw();
+                    this.view.drawPieces();
                 }
                 break;
 
