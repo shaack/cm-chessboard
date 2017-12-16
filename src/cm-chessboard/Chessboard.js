@@ -12,7 +12,7 @@ export const COLOR = {
 };
 export const MOVE_INPUT_MODE = {
     viewOnly: 0,
-    dragFigure: 1,
+    dragPiece: 1,
     dragMarker: 2
 };
 export const MARKER_TYPE = {
@@ -20,7 +20,7 @@ export const MARKER_TYPE = {
     lastMove: {slice: "marker1", opacity: 0.5},
     emphasize: {slice: "marker2", opacity: 0.6}
 };
-export const FIGURE = {
+export const PIECE = {
     whitePawn: "wp",
     whiteBishop: "wb",
     whiteKnight: "wn",
@@ -48,15 +48,15 @@ export class Chessboard {
             responsive: false, // detects window resize, if true
             animationDuration: 300, // in milliseconds
             // contextInputEnabled: false, // allow context input on a square via right click or context touch
-            moveInputMode: MOVE_INPUT_MODE.viewOnly, // set to MOVE_INPUT_MODE.dragFigure '1' or MOVE_INPUT_MODE.dragMarker '2' for interactive movement
+            moveInputMode: MOVE_INPUT_MODE.viewOnly, // set to MOVE_INPUT_MODE.dragPiece '1' or MOVE_INPUT_MODE.dragMarker '2' for interactive movement
             events: {
-                moveInputStart: null, // callback(square), before figure move input, return false to cancel move
-                moveInputDone: null, // callback(squareFrom, squareTo), after figure move input, return false to cancel move
+                moveInputStart: null, // callback(square), before piece move input, return false to cancel move
+                moveInputDone: null, // callback(squareFrom, squareTo), after piece move input, return false to cancel move
                 // contextInput: null // callback(square), on right click/context touch
             },
             sprite: {
-                file: "../assets/sprite.svg", // figures and markers
-                grid: DEFAULT_SPRITE_GRID // one figure every 40px
+                file: "../assets/sprite.svg", // pieces and markers
+                grid: DEFAULT_SPRITE_GRID // one piece every 40px
             }
         };
         Object.assign(this.config, config);
@@ -80,12 +80,12 @@ export class Chessboard {
 
     // API //
 
-    setFigure(square, figure) {
-        this.model.setFigure(this.model.squareToIndex(square), figure);
-        this.view.drawFigures();
+    setPiece(square, piece) {
+        this.model.setPiece(this.model.squareToIndex(square), piece);
+        this.view.drawPieces();
     }
 
-    getFigure(square) {
+    getPiece(square) {
         return this.model.squares[this.model.squareToIndex(square)];
     }
 
@@ -103,13 +103,13 @@ export class Chessboard {
                 this.model.setPosition(fen);
             }
             if (animated) {
-                this.view.animateFigures(prevSquares, this.model.squares.slice(0), () => {
+                this.view.animatePieces(prevSquares, this.model.squares.slice(0), () => {
                     if (callback) {
                         callback();
                     }
                 });
             } else {
-                this.view.drawFigures();
+                this.view.drawPieces();
                 if (callback) {
                     callback();
                 }

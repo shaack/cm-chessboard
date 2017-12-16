@@ -4,7 +4,7 @@
  */
 
 import {Test} from "../node_modules/svjs-test/src/svjs/Test.js"
-import {FIGURE, Chessboard} from "../src/cm-chessboard/Chessboard.js";
+import {PIECE, Chessboard} from "../src/cm-chessboard/Chessboard.js";
 
 export class TestPosition extends Test {
 
@@ -33,9 +33,9 @@ export class TestPosition extends Test {
         const chessboard = new Chessboard(document.getElementById("testboard2"), {
             position: "start"
         }, () => {
-            Test.assertEquals("wq", chessboard.getFigure("d1"));
-            Test.assertEquals("bq", chessboard.getFigure("d8"));
-            Test.assertEquals("wp", chessboard.getFigure("a2"));
+            Test.assertEquals("wq", chessboard.getPiece("d1"));
+            Test.assertEquals("bq", chessboard.getPiece("d8"));
+            Test.assertEquals("wp", chessboard.getPiece("a2"));
             setTimeout(() => {
                 chessboard.destroy();
             });
@@ -46,10 +46,10 @@ export class TestPosition extends Test {
         const chessboard = new Chessboard(document.getElementById("testboard2"), {
             position: "empty"
         }, () => {
-            chessboard.setFigure("a1", FIGURE.blackKing);
-            chessboard.setFigure("e5", FIGURE.whiteKing);
-            Test.assertEquals("bk", chessboard.getFigure("a1"));
-            Test.assertEquals("wk", chessboard.getFigure("e5"));
+            chessboard.setPiece("a1", PIECE.blackKing);
+            chessboard.setPiece("e5", PIECE.whiteKing);
+            Test.assertEquals("bk", chessboard.getPiece("a1"));
+            Test.assertEquals("wk", chessboard.getPiece("e5"));
             setTimeout(() => {
                 chessboard.destroy();
             });

@@ -8,7 +8,7 @@ import {MOVE_INPUT_MODE, MARKER_TYPE} from "./Chessboard.js";
 
 const STATUS = {
     waitForInputStart: 0,
-    figureClickedThreshold: 1,
+    pieceClickedThreshold: 1,
     clickTo: 2,
     secondClickThreshold: 3,
     dragTo: 4,
@@ -42,13 +42,13 @@ export class ChessboardMoveInput {
             case STATUS.waitForInputStart:
                 break;
 
-            case STATUS.figureClickedThreshold:
+            case STATUS.pieceClickedThreshold:
                 if ([STATUS.waitForInputStart].indexOf(prevStatus) === -1) {
                     throw new Error("status");
                 }
                 this.startIndex = params.index;
                 this.endIndex = null;
-                this.movedFigure = params.figure;
+                this.movedPiece = params.piece;
                 this.updateStartEndMarkers();
                 this.startPoint = params.point;
                 if (!this.pointerMoveListener && !this.pointerUpListener) {
@@ -81,12 +81,12 @@ export class ChessboardMoveInput {
                 break;
 
             case STATUS.clickTo:
-                if (this.dragableFigure) {
-                    Svg.removeElement(this.dragableFigure);
-                    this.dragableFigure = null;
+                if (this.dragablePiece) {
+                    Svg.removeElement(this.dragablePiece);
+                    this.dragablePiece = null;
                 }
                 if (prevStatus === STATUS.dragTo) {
-                    this.view.setFigureVisibility(params.index);
+                    this.view.setPieceVisibility(params.index);
                 }
                 break;
 
@@ -98,12 +98,12 @@ export class ChessboardMoveInput {
                 break;
 
             case STATUS.dragTo:
-                if ([STATUS.figureClickedThreshold].indexOf(prevStatus) === -1) {
+                if ([STATUS.pieceClickedThreshold].indexOf(prevStatus) === -1) {
                     throw new Error("status");
                 }
-                if (this.config.moveInputMode === MOVE_INPUT_MODE.dragFigure) {
-                    this.view.setFigureVisibility(params.index, false);
-                    this.createDragableFigure(params.figure);
+                if (this.config.moveInputMode === MOVE_INPUT_MODE.dragPiece) {
+                    this.view.setPieceVisibility(params.index, false);
+                    this.createDragablePiece(params.piece);
                 }
                 break;
 
@@ -111,9 +111,9 @@ export class ChessboardMoveInput {
                 if ([STATUS.secondClickThreshold].indexOf(prevStatus) === -1) {
                     throw new Error("status");
                 }
-                if (this.config.moveInputMode === MOVE_INPUT_MODE.dragFigure) {
-                    this.view.setFigureVisibility(params.index, false);
-                    this.createDragableFigure(params.figure);
+                if (this.config.moveInputMode === MOVE_INPUT_MODE.dragPiece) {
+                    this.view.setPieceVisibility(params.index, false);
+                    this.createDragablePiece(params.piece);
                 }
                 break;
 
@@ -124,14 +124,14 @@ export class ChessboardMoveInput {
                 this.endIndex = params.index;
                 if (this.endIndex && this.moveDoneCallback(this.startIndex, this.endIndex)) {
                     const prevSquares = this.model.squares.slice(0);
-                    this.model.setFigure(this.startIndex, null);
-                    this.model.setFigure(this.endIndex, this.movedFigure);
+                    this.model.setPiece(this.startIndex, null);
+                    this.model.setPiece(this.endIndex, this.movedPiece);
                     if (prevStatus === STATUS.clickTo) {
-                        this.view.animateFigures(prevSquares, this.model.squares.slice(0), () => {
+                        this.view.animatePieces(prevSquares, this.model.squares.slice(0), () => {
                             this.setStatus(STATUS.reset);
                         });
                     } else {
-                        this.view.drawFigures();
+                        this.view.drawPieces();
                         this.setStatus(STATUS.reset);
                     }
                 } else {
@@ -141,16 +141,16 @@ export class ChessboardMoveInput {
                 break;
 
             case STATUS.reset:
-                if (this.startIndex && !this.endIndex && this.movedFigure) {
-                    this.model.setFigure(this.startIndex, this.movedFigure);
+                if (this.startIndex && !this.endIndex && this.movedPiece) {
+                    this.model.setPiece(this.startIndex, this.movedPiece);
                 }
                 this.startIndex = null;
                 this.endIndex = null;
-                this.movedFigure = null;
+                this.movedPiece = null;
                 this.updateStartEndMarkers();
-                if (this.dragableFigure) {
-                    Svg.removeElement(this.dragableFigure);
-                    this.dragableFigure = null;
+                if (this.dragablePiece) {
+                    Svg.removeElement(this.dragablePiece);
+                    this.dragablePiece = null;
                 }
                 if (this.pointerMoveListener) {
                     window.removeEventListener(this.pointerMoveListener.type, this.pointerMoveListener);
@@ -168,36 +168,36 @@ export class ChessboardMoveInput {
         }
     }
 
-    createDragableFigure(figureName) {
-        if (this.dragableFigure) {
-            throw Error("dragableFigure exists");
+    createDragablePiece(pieceName) {
+        if (this.dragablePiece) {
+            throw Error("dragablePiece exists");
         }
-        this.dragableFigure = Svg.createSvg(document.body);
-        this.dragableFigure.setAttribute("width", this.view.squareWidth);
-        this.dragableFigure.setAttribute("height", this.view.squareHeight);
-        this.dragableFigure.setAttribute("style", "pointer-events: none");
-        const figure = Svg.addElement(this.dragableFigure, "use", {
-            href: `#${figureName}`
+        this.dragablePiece = Svg.createSvg(document.body);
+        this.dragablePiece.setAttribute("width", this.view.squareWidth);
+        this.dragablePiece.setAttribute("height", this.view.squareHeight);
+        this.dragablePiece.setAttribute("style", "pointer-events: none");
+        const piece = Svg.addElement(this.dragablePiece, "use", {
+            href: `#${pieceName}`
         });
         const scaling = this.view.squareHeight / this.config.sprite.grid;
-        const transformScale = (this.dragableFigure.createSVGTransform());
+        const transformScale = (this.dragablePiece.createSVGTransform());
         transformScale.setScale(scaling, scaling);
-        figure.transform.baseVal.appendItem(transformScale);
+        piece.transform.baseVal.appendItem(transformScale);
     }
 
-    moveDragableFigure(x, y) {
-        this.dragableFigure.setAttribute("style",
+    moveDragablePiece(x, y) {
+        this.dragablePiece.setAttribute("style",
             `pointer-events: none; position: absolute; left: ${x - (this.view.squareHeight / 2)}px; top: ${y - (this.view.squareHeight / 2)}px`);
     }
 
     onPointerDown(e) {
         const index = e.target.getAttribute("data-index");
-        const figureElement = this.view.getFigure(index);
+        const pieceElement = this.view.getPiece(index);
         if (index !== undefined) {
-            let figureName, color;
-            if (figureElement) {
-                figureName = figureElement.getAttribute("data-figure");
-                color = figureName ? figureName.substr(0, 1) : null;
+            let pieceName, color;
+            if (pieceElement) {
+                pieceName = pieceElement.getAttribute("data-piece");
+                color = pieceName ? pieceName.substr(0, 1) : null;
             }
             if (this.status !== STATUS.waitForInputStart ||
                 this.model.inputWhiteEnabled && color === "w" ||
@@ -208,10 +208,10 @@ export class ChessboardMoveInput {
                 } else if (e.type === "touchstart") {
                     point = {x: e.touches[0].clientX, y: e.touches[0].clientY};
                 }
-                if (this.status === STATUS.waitForInputStart && figureName && this.moveStartCallback(index)) {
-                    this.setStatus(STATUS.figureClickedThreshold, {
+                if (this.status === STATUS.waitForInputStart && pieceName && this.moveStartCallback(index)) {
+                    this.setStatus(STATUS.pieceClickedThreshold, {
                         index: index,
-                        figure: figureName,
+                        piece: pieceName,
                         point: point,
                         type: e.type
                     });
@@ -219,7 +219,7 @@ export class ChessboardMoveInput {
                     if (index === this.startIndex) {
                         this.setStatus(STATUS.secondClickThreshold, {
                             index: index,
-                            figure: figureName,
+                            piece: pieceName,
                             point: point,
                             type: e.type
                         });
@@ -242,15 +242,15 @@ export class ChessboardMoveInput {
             y = e.touches[0].pageY;
             target = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY);
         }
-        if (this.status === STATUS.figureClickedThreshold || this.status === STATUS.secondClickThreshold) {
+        if (this.status === STATUS.pieceClickedThreshold || this.status === STATUS.secondClickThreshold) {
             if (Math.abs(this.startPoint.x - x) > DRAG_THRESHOLD || Math.abs(this.startPoint.y - y) > DRAG_THRESHOLD) {
                 if (this.status === STATUS.secondClickThreshold) {
-                    this.setStatus(STATUS.clickDragTo, {index: this.startIndex, figure: this.movedFigure});
+                    this.setStatus(STATUS.clickDragTo, {index: this.startIndex, piece: this.movedPiece});
                 } else {
-                    this.setStatus(STATUS.dragTo, {index: this.startIndex, figure: this.movedFigure});
+                    this.setStatus(STATUS.dragTo, {index: this.startIndex, piece: this.movedPiece});
                 }
-                if (this.config.moveInputMode === MOVE_INPUT_MODE.dragFigure) {
-                    this.moveDragableFigure(x, y);
+                if (this.config.moveInputMode === MOVE_INPUT_MODE.dragPiece) {
+                    this.moveDragablePiece(x, y);
                 }
             }
         } else if (this.status === STATUS.dragTo || this.status === STATUS.clickDragTo || this.status === STATUS.clickTo) {
@@ -267,8 +267,8 @@ export class ChessboardMoveInput {
                 this.endIndex = null;
                 this.updateStartEndMarkers();
             }
-            if (this.config.moveInputMode === MOVE_INPUT_MODE.dragFigure && (this.status === STATUS.dragTo || this.status === STATUS.clickDragTo)) {
-                this.moveDragableFigure(x, y);
+            if (this.config.moveInputMode === MOVE_INPUT_MODE.dragPiece && (this.status === STATUS.dragTo || this.status === STATUS.clickDragTo)) {
+                this.moveDragablePiece(x, y);
             }
         }
     }
@@ -289,7 +289,7 @@ export class ChessboardMoveInput {
                 if (this.status === STATUS.dragTo || this.status === STATUS.clickDragTo) {
                     if (this.startIndex === index) {
                         if (this.status === STATUS.clickDragTo) {
-                            this.model.setFigure(this.startIndex, this.movedFigure);
+                            this.model.setPiece(this.startIndex, this.movedPiece);
                             this.setStatus(STATUS.reset);
                         } else {
                             this.setStatus(STATUS.clickTo, {index: index});
@@ -297,17 +297,17 @@ export class ChessboardMoveInput {
                     } else {
                         this.setStatus(STATUS.moveDone, {index: index});
                     }
-                } else if (this.status === STATUS.figureClickedThreshold) {
+                } else if (this.status === STATUS.pieceClickedThreshold) {
                     this.setStatus(STATUS.clickTo, {index: index});
                 } else if (this.status === STATUS.secondClickThreshold) {
                     this.setStatus(STATUS.reset);
                 }
             } else {
-                this.view.drawFigures();
+                this.view.drawPieces();
                 this.setStatus(STATUS.reset);
             }
         } else {
-            this.view.drawFigures();
+            this.view.drawPieces();
             this.setStatus(STATUS.reset);
         }
     }

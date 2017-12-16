@@ -24,7 +24,7 @@
     font-size: 7px;
     cursor: default; }
   /* line 34, _skin-base.scss */
-  .cm-chessboard .figures, .cm-chessboard .markers {
+  .cm-chessboard .pieces, .cm-chessboard .markers {
     pointer-events: none; }
 
 /*# sourceMappingURL=cm-chessboard.css.map */

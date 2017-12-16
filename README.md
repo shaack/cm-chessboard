@@ -42,14 +42,14 @@ config = {
     showCoordinates: true, // show ranks and files
     responsive: false, // detects window resize, if true
     animationDuration: 300, // in milliseconds
-    moveInputMode: MOVE_INPUT_MODE.viewOnly, // set to MOVE_INPUT_MODE.dragFigure '1' or MOVE_INPUT_MODE.dragMarker '2' for interactive movement
+    moveInputMode: MOVE_INPUT_MODE.viewOnly, // set to MOVE_INPUT_MODE.dragPiece '1' or MOVE_INPUT_MODE.dragMarker '2' for interactive movement
     events: {
-        moveInputStart: null, // callback(square), before figure move input, return false to cancel move
-        moveInputDone: null, // callback(squareFrom, squareTo), after figure move input, return false to cancel move
+        moveInputStart: null, // callback(square), before piece move input, return false to cancel move
+        moveInputDone: null, // callback(squareFrom, squareTo), after piece move input, return false to cancel move
     },
     sprite: {
-        file: "../assets/sprite.svg", // figures and markers
-        grid: DEFAULT_SPRITE_GRID // one figure every 40px
+        file: "../assets/sprite.svg", // pieces and markers
+        grid: DEFAULT_SPRITE_GRID // one piece every 40px
     }
 }
 ```  
@@ -64,14 +64,14 @@ config = {
 - **config:** The board configuration
 - **callback:** Callback after sprite loading and initialization. Wait for the callback before using the API. 
 
-### setFigure(square, figure)
+### setPiece(square, piece)
 
-Set a figure on a square. Example: `board.setSquare("e4", FIGURE.blackKnight)` or
-`board.setSquare("e4", "bn")`.
+Set a piece on a square. Example: `board.setPiece("e4", PIECE.blackKnight)` or
+`board.setPiece("e4", "bn")`.
 
-### getFigure(square)
+### getPiece(square)
 
-Returns the figure on a square.
+Returns the piece on a square.
 
 ### setPosition(fen, animated = true)
 

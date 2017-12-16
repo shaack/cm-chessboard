@@ -23,7 +23,7 @@
 <pre>
 const board = new Chessboard(document.getElementById("board"), {
     position: "start",
-    moveInputMode: MOVE_INPUT_MODE.dragFigure,
+    moveInputMode: MOVE_INPUT_MODE.dragPiece,
     events: {
         moveInputStart: (square) => {
             log(`moveInputStart: ${square}`);
@@ -45,7 +45,7 @@ const board = new Chessboard(document.getElementById("board"), {
 
     const board = new Chessboard(document.getElementById("board"), {
         position: "start",
-        moveInputMode: MOVE_INPUT_MODE.dragFigure,
+        moveInputMode: MOVE_INPUT_MODE.dragPiece,
         events: {
             moveInputStart: (square) => {
                 log(`moveInputStart: ${square}`);

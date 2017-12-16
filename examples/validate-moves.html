@@ -26,7 +26,7 @@
 const board = new Chessboard(document.getElementById("board"), {
     position: chess.fen(),
     orientation: COLOR.white,
-    moveInputMode: MOVE_INPUT_MODE.dragFigure,
+    moveInputMode: MOVE_INPUT_MODE.dragPiece,
     events: {
         moveInputDone: (squareFrom, squareTo) => {
             const result = chess.move({from: squareFrom, to: squareTo});
@@ -62,7 +62,7 @@ const board = new Chessboard(document.getElementById("board"), {
     const board = new Chessboard(document.getElementById("board"), {
         position: chess.fen(),
         orientation: COLOR.white,
-        moveInputMode: MOVE_INPUT_MODE.dragFigure,
+        moveInputMode: MOVE_INPUT_MODE.dragPiece,
         events: {
             moveInputDone: (squareFrom, squareTo) => {
                 const result = chess.move({from: squareFrom, to: squareTo});

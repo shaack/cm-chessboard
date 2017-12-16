@@ -7,7 +7,7 @@ import {Svg} from "../../node_modules/svjs-svg/src/svjs/Svg.js";
 import {SQUARE_COORDINATES} from "./ChessboardModel.js";
 import {ChessboardMoveInput} from "./ChessboardMoveInput.js";
 import {MOVE_INPUT_MODE} from "./Chessboard.js";
-import {ChessboardFigureAnimation} from "./ChessboardFigureAnimation.js";
+import {ChessboardPiecesAnimation} from "./ChessboardPiecesAnimation.js";
 
 const SPRITE_LOADING_STATUS = {
     notLoaded: 1,
@@ -36,7 +36,7 @@ export class ChessboardView {
                     this.redrawTimer = setTimeout(() => {
                         this.createSvgAndMainGroup();
                         this.drawBoard();
-                        this.drawFigures();
+                        this.drawPieces();
                         this.drawMarkers();
                     });
                 }
@@ -112,7 +112,7 @@ export class ChessboardView {
         this.squareHeight = this.innerHeight / 8;
         this.scalingX = this.squareWidth / this.config.sprite.grid;
         this.scalingY = this.squareHeight / this.config.sprite.grid;
-        this.figureXTranslate = (this.squareWidth / 2 - this.config.sprite.grid * this.scalingY / 2); // for centering in square
+        this.pieceXTranslate = (this.squareWidth / 2 - this.config.sprite.grid * this.scalingY / 2); // for centering in square
     }
 
     setNeedsRedraw() {
@@ -124,7 +124,7 @@ export class ChessboardView {
             if (this.config.showCoordinates) {
                 this.drawCoordinates();
             }
-            this.drawFigures();
+            this.drawPieces();
             this.drawMarkers();
             this.setCursor();
         });
@@ -210,56 +210,56 @@ export class ChessboardView {
         }
     }
 
-    // Figures //
+    // Pieces //
 
-    drawFigures(squares = null) {
+    drawPieces(squares = null) {
         if(!squares) {
             squares = this.model.squares;
         }
-        if (this.figuresGroup) {
-            Svg.removeElement(this.figuresGroup);
+        if (this.piecesGroup) {
+            Svg.removeElement(this.piecesGroup);
         }
-        this.figuresGroup = Svg.addElement(this.svg, "g", {class: "figures"});
+        this.piecesGroup = Svg.addElement(this.svg, "g", {class: "pieces"});
         for (let i = 0; i < 64; i++) {
-            const figureName = squares[i];
-            if (figureName) {
-                this.drawFigure(i, figureName);
+            const pieceName = squares[i];
+            if (pieceName) {
+                this.drawPiece(i, pieceName);
             }
         }
     }
 
-    drawFigure(index, figureName) {
-        const figureGroup = Svg.addElement(this.figuresGroup, "g");
-        figureGroup.setAttribute("data-figure", figureName);
-        figureGroup.setAttribute("data-index", index);
+    drawPiece(index, pieceName) {
+        const pieceGroup = Svg.addElement(this.piecesGroup, "g");
+        pieceGroup.setAttribute("data-piece", pieceName);
+        pieceGroup.setAttribute("data-index", index);
         const point = this.squareIndexToPoint(index);
         const transform = (this.svg.createSVGTransform());
         transform.setTranslate(point.x, point.y);
-        figureGroup.transform.baseVal.appendItem(transform);
-        const figureUse = Svg.addElement(figureGroup, "use", {"href": `#${figureName}`, "class": "figure"});
+        pieceGroup.transform.baseVal.appendItem(transform);
+        const pieceUse = Svg.addElement(pieceGroup, "use", {"href": `#${pieceName}`, "class": "piece"});
         // center on square
         const transformTranslate = (this.svg.createSVGTransform());
-        transformTranslate.setTranslate(this.figureXTranslate, 0);
-        figureUse.transform.baseVal.appendItem(transformTranslate);
+        transformTranslate.setTranslate(this.pieceXTranslate, 0);
+        pieceUse.transform.baseVal.appendItem(transformTranslate);
         // scale
         const transformScale = (this.svg.createSVGTransform());
         transformScale.setScale(this.scalingY, this.scalingY);
-        figureUse.transform.baseVal.appendItem(transformScale);
-        return figureGroup;
+        pieceUse.transform.baseVal.appendItem(transformScale);
+        return pieceGroup;
     }
 
-    setFigureVisibility(index, visible = true) {
-        const figure = this.getFigure(index);
+    setPieceVisibility(index, visible = true) {
+        const piece = this.getPiece(index);
         if (visible) {
-            figure.setAttribute("visibility", "visible");
+            piece.setAttribute("visibility", "visible");
         } else {
-            figure.setAttribute("visibility", "hidden");
+            piece.setAttribute("visibility", "hidden");
         }
 
     }
 
-    getFigure(index) {
-        return this.figuresGroup.querySelector(`g[data-index='${index}']`);
+    getPiece(index) {
+        return this.piecesGroup.querySelector(`g[data-index='${index}']`);
     }
 
     // Markers //
@@ -292,19 +292,19 @@ export class ChessboardView {
 
     // animation queue //
 
-    animateFigures(fromSquares, toSquares, callback) {
+    animatePieces(fromSquares, toSquares, callback) {
         this.animationQueue.push({fromSquares: fromSquares, toSquares: toSquares, callback: callback});
-        if(!ChessboardFigureAnimation.isAnimationRunning()) {
-            this.nextFigureAnimationInQueue();
+        if(!ChessboardPiecesAnimation.isAnimationRunning()) {
+            this.nextPieceAnimationInQueue();
         }
     }
 
-    nextFigureAnimationInQueue() {
+    nextPieceAnimationInQueue() {
         const nextAnimation = this.animationQueue.shift();
         if(nextAnimation !== undefined) {
-            new ChessboardFigureAnimation(this, nextAnimation.fromSquares, nextAnimation.toSquares, this.config.animationDuration / (this.animationQueue.length + 1), () => {
-                this.drawFigures(nextAnimation.toSquares);
-                this.nextFigureAnimationInQueue();
+            new ChessboardPiecesAnimation(this, nextAnimation.fromSquares, nextAnimation.toSquares, this.config.animationDuration / (this.animationQueue.length + 1), () => {
+                this.drawPieces(nextAnimation.toSquares);
+                this.nextPieceAnimationInQueue();
                 if(nextAnimation.callback) {
                     nextAnimation.callback();
                 }

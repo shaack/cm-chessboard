@@ -14,7 +14,7 @@ let animationRunning = false;
 function AnimationRunningException() {
 }
 
-export class ChessboardFigureAnimation {
+export class ChessboardPiecesAnimation {
 
     constructor(view, fromSquares, toSquares, duration, callback) {
         if (animationRunning) {
@@ -38,10 +38,10 @@ export class ChessboardFigureAnimation {
             const newSquare = toSquares[i];
             if (newSquare !== previousSquare) {
                 if (newSquare) {
-                    appearedList.push({figure: newSquare, index: i});
+                    appearedList.push({piece: newSquare, index: i});
                 }
                 if (previousSquare) {
-                    disappearedList.push({figure: previousSquare, index: i});
+                    disappearedList.push({piece: previousSquare, index: i});
                 }
             }
         }
@@ -49,7 +49,7 @@ export class ChessboardFigureAnimation {
             let shortestDistance = 8;
             let foundMoved = null;
             disappearedList.forEach((disappeared) => {
-                if (appeared.figure === disappeared.figure) {
+                if (appeared.piece === disappeared.piece) {
                     const moveDistance = this.squareDistance(appeared.index, disappeared.index);
                     if (moveDistance < shortestDistance) {
                         foundMoved = disappeared;
@@ -61,16 +61,16 @@ export class ChessboardFigureAnimation {
                 disappearedList.splice(disappearedList.indexOf(foundMoved), 1); // remove from disappearedList, because it is moved now
                 changes.push({
                     type: CHANGE_TYPE.move,
-                    figure: appeared.figure,
+                    piece: appeared.piece,
                     atIndex: foundMoved.index,
                     toIndex: appeared.index
                 })
             } else {
-                changes.push({type: CHANGE_TYPE.appear, figure: appeared.figure, atIndex: appeared.index})
+                changes.push({type: CHANGE_TYPE.appear, piece: appeared.piece, atIndex: appeared.index})
             }
         });
         disappearedList.forEach((disappeared) => {
-            changes.push({type: CHANGE_TYPE.disappear, figure: disappeared.figure, atIndex: disappeared.index})
+            changes.push({type: CHANGE_TYPE.disappear, piece: disappeared.piece, atIndex: disappeared.index})
         });
         return changes;
     }
@@ -84,16 +84,16 @@ export class ChessboardFigureAnimation {
             };
             switch (change.type) {
                 case CHANGE_TYPE.move:
-                    animatedItem.element = this.view.getFigure(change.atIndex);
+                    animatedItem.element = this.view.getPiece(change.atIndex);
                     animatedItem.atPoint = this.view.squareIndexToPoint(change.atIndex);
                     animatedItem.toPoint = this.view.squareIndexToPoint(change.toIndex);
                     break;
                 case CHANGE_TYPE.appear:
-                    animatedItem.element = this.view.drawFigure(change.atIndex, change.figure);
+                    animatedItem.element = this.view.drawPiece(change.atIndex, change.piece);
                     animatedItem.element.style.opacity = 0;
                     break;
                 case CHANGE_TYPE.disappear:
-                    animatedItem.element = this.view.getFigure(change.atIndex);
+                    animatedItem.element = this.view.getPiece(change.atIndex);
                     break;
             }
             animatedElements.push(animatedItem);

@@ -22,8 +22,8 @@ export class ChessboardModel {
         this.markers = [];
     }
 
-    setFigure(index, figure) {
-        this.squares[index] = figure;
+    setPiece(index, piece) {
+        this.squares[index] = piece;
     }
 
     addMarker(index, type) {
@@ -65,15 +65,15 @@ export class ChessboardModel {
                 });
                 for (let c = 0; c < 8; c++) {
                     const char = row.substr(c, 1);
-                    let figure = null;
+                    let piece = null;
                     if (char !== '-') {
                         if (char.toUpperCase() === char) {
-                            figure = `w${char.toLowerCase()}`;
+                            piece = `w${char.toLowerCase()}`;
                         } else {
-                            figure = `b${char}`;
+                            piece = `b${char}`;
                         }
                     }
-                    this.squares[part * 8 + c] = figure;
+                    this.squares[part * 8 + c] = piece;
                 }
             }
         }
@@ -84,16 +84,16 @@ export class ChessboardModel {
         for (let part = 0; part < 8; part++) {
             let spaceCounter = 0;
             for (let i = 0; i < 8; i++) {
-                const figure = this.squares[part * 8 + i];
-                if (figure === null) {
+                const piece = this.squares[part * 8 + i];
+                if (piece === null) {
                     spaceCounter++;
                 } else {
                     if (spaceCounter > 0) {
                         parts[7 - part] += spaceCounter;
                         spaceCounter = 0;
                     }
-                    const color = figure.substr(0, 1);
-                    const name = figure.substr(1, 1);
+                    const color = piece.substr(0, 1);
+                    const name = piece.substr(1, 1);
                     if (color === "w") {
                         parts[7 - part] += name.toUpperCase();
                     } else {
