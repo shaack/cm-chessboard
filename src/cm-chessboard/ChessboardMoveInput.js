@@ -254,7 +254,7 @@ export class ChessboardMoveInput {
                 }
             }
         } else if (this.status === STATUS.dragTo || this.status === STATUS.clickDragTo || this.status === STATUS.clickTo) {
-            if (target && target.getAttribute) {
+            if (target && target.getAttribute && target.parentElement === this.view.boardGroup) {
                 const index = target.getAttribute("data-index");
                 if (index !== this.startIndex && index !== this.endIndex) {
                     this.endIndex = index;
