@@ -26,12 +26,16 @@ $light: #eedab6;
       }
     }
   }
-  .coordinate {
-    fill: $dark;
-    font-size: 7px;
-    cursor: default;
+  .coordinates {
+    pointer-events: none;
+    user-select: none;
+    .coordinate {
+      fill: $dark;
+      font-size: 7px;
+      cursor: default;
+    }
   }
   .pieces, .markers {
-    pointer-events:none;
+    pointer-events: none;
   }
 }

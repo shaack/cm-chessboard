@@ -19,11 +19,15 @@
   .cm-chessboard .board .square.black {
     fill: #b38964; }
   /* line 29, _skin-base.scss */
-  .cm-chessboard .coordinate {
-    fill: #b38964;
-    font-size: 7px;
-    cursor: default; }
-  /* line 34, _skin-base.scss */
+  .cm-chessboard .coordinates {
+    pointer-events: none;
+    user-select: none; }
+    /* line 32, _skin-base.scss */
+    .cm-chessboard .coordinates .coordinate {
+      fill: #b38964;
+      font-size: 7px;
+      cursor: default; }
+  /* line 38, _skin-base.scss */
   .cm-chessboard .pieces, .cm-chessboard .markers {
     pointer-events: none; }
 
