@@ -72,7 +72,7 @@ Set a piece on a square. Example: `board.setPiece("e4", PIECE.blackKnight)` or
 
 ### getPiece(square)
 
-Returns the piece on a square.
+Returns the piece on a square or `null` if the square is empty.
 
 ### setPosition(fen, animated = true)
 
