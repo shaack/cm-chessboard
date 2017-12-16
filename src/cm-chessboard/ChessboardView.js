@@ -69,6 +69,9 @@ export class ChessboardView {
         }
 
         this.createSvgAndMainGroup();
+        this.drawBoard();
+        this.drawMarkers();
+        this.drawPieces();
     }
 
     // Sprite //
@@ -86,7 +89,7 @@ export class ChessboardView {
         } else if (ChessboardView.spriteLoadingStatus === SPRITE_LOADING_STATUS.loading) {
             setTimeout(() => {
                 this.spriteLoadWaitingTries++;
-                if (this.spriteLoadWaitingTries < 10) {
+                if (this.spriteLoadWaitingTries < 20) {
                     this.loadSprite(config, callback);
                 } else {
                     console.error("timeout loading sprite", config.sprite.file);
@@ -143,11 +146,13 @@ export class ChessboardView {
     // Board //
 
     drawBoard() {
-        if (this.boardGroup) {
-            Svg.removeElement(this.boardGroup);
+        // console.log("drawBoard");
+        if (!this.boardGroup) {
+            this.boardGroup = Svg.addElement(this.svg, "g", {class: "board"});
         }
-        this.boardGroup = Svg.addElement(this.svg, "g");
-        this.boardGroup.setAttribute("class", "board");
+        while (this.boardGroup.firstChild) {
+            this.boardGroup.removeChild(this.boardGroup.firstChild);
+        }
         let boardBorder = Svg.addElement(this.boardGroup, "rect", {width: this.width, height: this.height});
         boardBorder.setAttribute("class", "board-border");
         for (let i = 0; i < 64; i++) {
@@ -188,6 +193,7 @@ export class ChessboardView {
     }
 
     drawCoordinates() {
+        // console.log("drawCoordinates");
         if (this.coordinatesGroup) {
             Svg.removeElement(this.coordinatesGroup);
         }
@@ -223,13 +229,17 @@ export class ChessboardView {
     // Pieces //
 
     drawPieces(squares = null) {
+        // console.log("drawPieces");
+        // console.trace();
         if(!squares) {
             squares = this.model.squares;
         }
-        if (this.piecesGroup) {
-            Svg.removeElement(this.piecesGroup);
+        if (!this.piecesGroup) {
+            this.piecesGroup = Svg.addElement(this.svg, "g", {class: "pieces"});
         }
-        this.piecesGroup = Svg.addElement(this.svg, "g", {class: "pieces"});
+        while (this.piecesGroup.firstChild) {
+            this.piecesGroup.removeChild(this.piecesGroup.firstChild);
+        }
         for (let i = 0; i < 64; i++) {
             const pieceName = squares[i];
             if (pieceName) {
@@ -275,6 +285,7 @@ export class ChessboardView {
     // Markers //
 
     drawMarkers() {
+        // console.log("drawMarkers");
         if (!this.markersGroup) {
             this.markersGroup = Svg.addElement(this.svg, "g", {class: "markers"});
         }
