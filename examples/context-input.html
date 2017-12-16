@@ -37,24 +37,6 @@ const board1 = new Chessboard(document.getElementById("board1"), {
         }
     }
 });
-const board2 = new Chessboard(document.getElementById("board2"), {
-    position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR",
-    orientation: COLOR.black,
-    moveInputMode: MOVE_INPUT_MODE.dragPiece,
-    events: {
-        contextInput: function(square) {
-            const markersOnSquare = board2.getMarkers(square, MARKER_TYPE.emphasize);
-            if(markersOnSquare.length > 0) {
-                board2.removeMarkers(square, MARKER_TYPE.emphasize);
-            } else {
-                board2.addMarker(square);
-            }
-        }
-    }
-}, (board) => {
-    board.enableMoveInput(COLOR.white, true);
-    board.enableMoveInput(COLOR.black, true);
-});
 </pre>
 <script type="module">
     import {MARKER_TYPE, MOVE_INPUT_MODE, COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
