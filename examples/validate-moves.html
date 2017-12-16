@@ -26,21 +26,20 @@
 const board = new Chessboard(document.getElementById("board"), {
     position: chess.fen(),
     orientation: COLOR.white,
-    inputMode: INPUT_MODE.dragFigure,
+    moveInputMode: MOVE_INPUT_MODE.dragFigure,
     events: {
-        inputDone: (squareFrom, squareTo) => {
+        moveInputDone: (squareFrom, squareTo) => {
             const result = chess.move({from: squareFrom, to: squareTo});
             if (result) {
-                board.enableInput(COLOR.white, false);
+                board.enableMoveInput(COLOR.white, false);
                 setTimeout(() => {
                     board.setPosition(chess.fen());
                     const possibleMoves = chess.moves({verbose: true});
                     if (possibleMoves.length > 0) {
                         const randomMove = possibleMoves[random(0, possibleMoves.length - 1)];
                         chess.move({from: randomMove.from, to: randomMove.to});
-                        board.setPosition(chess.fen(), true, () => {
-                            board.enableInput(COLOR.white, true);
-                        });
+                        board.enableMoveInput(COLOR.white, true);
+                        board.setPosition(chess.fen(), true);
                     }
                 });
             }
@@ -48,12 +47,12 @@ const board = new Chessboard(document.getElementById("board"), {
         }
     }
 }, () => {
-    board.enableInput(COLOR.white, true);
+    board.enableMoveInput(COLOR.white, true);
 });
 </pre>
 <div id="output"></div>
 <script type="module">
-    import {INPUT_MODE, COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
+    import {MOVE_INPUT_MODE, COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
 
     function random(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -63,21 +62,20 @@ const board = new Chessboard(document.getElementById("board"), {
     const board = new Chessboard(document.getElementById("board"), {
         position: chess.fen(),
         orientation: COLOR.white,
-        inputMode: INPUT_MODE.dragFigure,
+        moveInputMode: MOVE_INPUT_MODE.dragFigure,
         events: {
-            inputDone: (squareFrom, squareTo) => {
+            moveInputDone: (squareFrom, squareTo) => {
                 const result = chess.move({from: squareFrom, to: squareTo});
                 if (result) {
-                    board.enableInput(COLOR.white, false);
+                    board.enableMoveInput(COLOR.white, false);
                     setTimeout(() => {
                         board.setPosition(chess.fen());
                         const possibleMoves = chess.moves({verbose: true});
                         if (possibleMoves.length > 0) {
                             const randomMove = possibleMoves[random(0, possibleMoves.length - 1)];
                             chess.move({from: randomMove.from, to: randomMove.to});
-                            board.setPosition(chess.fen(), true, () => {
-                                board.enableInput(COLOR.white, true);
-                            });
+                            board.enableMoveInput(COLOR.white, true);
+                            board.setPosition(chess.fen(), true);
                         }
                     });
                 }
@@ -85,7 +83,7 @@ const board = new Chessboard(document.getElementById("board"), {
             }
         }
     }, () => {
-        board.enableInput(COLOR.white, true);
+        board.enableMoveInput(COLOR.white, true);
     });
 </script>
 </body>

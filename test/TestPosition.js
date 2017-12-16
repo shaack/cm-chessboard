@@ -33,9 +33,9 @@ export class TestPosition extends Test {
         const chessboard = new Chessboard(document.getElementById("testboard2"), {
             position: "start"
         }, () => {
-            Test.assertEquals("wq", chessboard.getSquare("d1"));
-            Test.assertEquals("bq", chessboard.getSquare("d8"));
-            Test.assertEquals("wp", chessboard.getSquare("a2"));
+            Test.assertEquals("wq", chessboard.getFigure("d1"));
+            Test.assertEquals("bq", chessboard.getFigure("d8"));
+            Test.assertEquals("wp", chessboard.getFigure("a2"));
             setTimeout(() => {
                 chessboard.destroy();
             });
@@ -46,10 +46,10 @@ export class TestPosition extends Test {
         const chessboard = new Chessboard(document.getElementById("testboard2"), {
             position: "empty"
         }, () => {
-            chessboard.setSquare("a1", FIGURE.blackKing);
-            chessboard.setSquare("e5", FIGURE.whiteKing);
-            Test.assertEquals("bk", chessboard.getSquare("a1"));
-            Test.assertEquals("wk", chessboard.getSquare("e5"));
+            chessboard.setFigure("a1", FIGURE.blackKing);
+            chessboard.setFigure("e5", FIGURE.whiteKing);
+            Test.assertEquals("bk", chessboard.getFigure("a1"));
+            Test.assertEquals("wk", chessboard.getFigure("e5"));
             setTimeout(() => {
                 chessboard.destroy();
             });

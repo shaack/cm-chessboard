@@ -10,7 +10,7 @@ export const COLOR = {
     white: "white",
     black: "black"
 };
-export const INPUT_MODE = {
+export const MOVE_INPUT_MODE = {
     viewOnly: 0,
     dragFigure: 1,
     dragMarker: 2
@@ -47,11 +47,12 @@ export class Chessboard {
             showCoordinates: true, // show ranks and files
             responsive: false, // detects window resize, if true
             animationDuration: 300, // in milliseconds
-            inputMode: INPUT_MODE.viewOnly, // set to INPUT_MODE.dragFigure '1' or INPUT_MODE.dragMarker '2' for interactive movement
+            // contextInputEnabled: false, // allow context input on a square via right click or context touch
+            moveInputMode: MOVE_INPUT_MODE.viewOnly, // set to MOVE_INPUT_MODE.dragFigure '1' or MOVE_INPUT_MODE.dragMarker '2' for interactive movement
             events: {
-                inputStart: null, // callback(square), before figure move input, return false to cancel move
-                inputDone: null // callback(squareFrom, squareTo), after figure move input, return false to cancel move
-                // inputContext: null // todo callback(square), on right click/context touch
+                moveInputStart: null, // callback(square), before figure move input, return false to cancel move
+                moveInputDone: null, // callback(squareFrom, squareTo), after figure move input, return false to cancel move
+                // contextInput: null // callback(square), on right click/context touch
             },
             sprite: {
                 file: "../assets/sprite.svg", // figures and markers
@@ -66,11 +67,11 @@ export class Chessboard {
         this.view = new ChessboardView(containerElement, this.model, this.config, () => {
             this.setPosition(this.config.position, false);
             this.setOrientation(this.config.orientation);
-            this.model.inputMode = this.config.inputMode;
+            this.model.moveInputMode = this.config.moveInputMode;
             this.view.setNeedsRedraw();
             if(callback) {
                 setTimeout(() => {
-                    callback();
+                    callback(this);
                 });
             }
         });
@@ -79,22 +80,12 @@ export class Chessboard {
 
     // API //
 
-    addMarker(square, type = MARKER_TYPE.emphasize) {
-        this.model.addMarker(this.model.squareToIndex(square), type);
-        this.view.drawMarkers();
-    }
-
-    removeMarker(square = null, type = null) {
-        this.model.removeMarker(this.model.squareToIndex(square), type);
-        this.view.drawMarkers();
-    }
-
-    setSquare(square, figure) {
-        this.model.setSquare(this.model.squareToIndex(square), figure);
+    setFigure(square, figure) {
+        this.model.setFigure(this.model.squareToIndex(square), figure);
         this.view.drawFigures();
     }
 
-    getSquare(square) {
+    getFigure(square) {
         return this.model.squares[this.model.squareToIndex(square)];
     }
 
@@ -134,6 +125,17 @@ export class Chessboard {
         return this.model.getPosition();
     }
 
+    addMarker(square, type = MARKER_TYPE.emphasize) {
+        this.model.addMarker(this.model.squareToIndex(square), type);
+        this.view.drawMarkers();
+    }
+
+    removeMarkers(square = null, type = null) {
+        const index = square !== null ? this.model.squareToIndex(square) : null;
+        this.model.removeMarkers(index, type);
+        this.view.drawMarkers();
+    }
+
     setOrientation(color) {
         this.model.orientation = color;
         this.view.setNeedsRedraw();
@@ -149,9 +151,9 @@ export class Chessboard {
         this.model = null;
     }
 
-    enableInput(color, enable) {
-        if(enable === true && this.config.inputMode === INPUT_MODE.viewOnly) {
-            throw Error("consig.inputMode is INPUT_MODE.viewOnly");
+    enableMoveInput(color, enable) {
+        if(enable === true && this.config.moveInputMode === MOVE_INPUT_MODE.viewOnly) {
+            throw Error("config.moveInputMode is MOVE_INPUT_MODE.viewOnly");
         }
         if (color === COLOR.white) {
             this.model.inputWhiteEnabled = enable;

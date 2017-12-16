@@ -4,7 +4,7 @@
  */
 
 import {Svg} from "../../node_modules/svjs-svg/src/svjs/Svg.js";
-import {INPUT_MODE, MARKER_TYPE} from "./Chessboard.js";
+import {MOVE_INPUT_MODE, MARKER_TYPE} from "./Chessboard.js";
 
 const STATUS = {
     waitForInputStart: 0,
@@ -101,7 +101,7 @@ export class ChessboardMoveInput {
                 if ([STATUS.figureClickedThreshold].indexOf(prevStatus) === -1) {
                     throw new Error("status");
                 }
-                if (this.config.inputMode === INPUT_MODE.dragFigure) {
+                if (this.config.moveInputMode === MOVE_INPUT_MODE.dragFigure) {
                     this.view.setFigureVisibility(params.index, false);
                     this.createDragableFigure(params.figure);
                 }
@@ -111,7 +111,7 @@ export class ChessboardMoveInput {
                 if ([STATUS.secondClickThreshold].indexOf(prevStatus) === -1) {
                     throw new Error("status");
                 }
-                if (this.config.inputMode === INPUT_MODE.dragFigure) {
+                if (this.config.moveInputMode === MOVE_INPUT_MODE.dragFigure) {
                     this.view.setFigureVisibility(params.index, false);
                     this.createDragableFigure(params.figure);
                 }
@@ -124,8 +124,8 @@ export class ChessboardMoveInput {
                 this.endIndex = params.index;
                 if (this.endIndex && this.moveDoneCallback(this.startIndex, this.endIndex)) {
                     const prevSquares = this.model.squares.slice(0);
-                    this.model.setSquare(this.startIndex, null);
-                    this.model.setSquare(this.endIndex, this.movedFigure);
+                    this.model.setFigure(this.startIndex, null);
+                    this.model.setFigure(this.endIndex, this.movedFigure);
                     if (prevStatus === STATUS.clickTo) {
                         this.view.animateFigures(prevSquares, this.model.squares.slice(0), () => {
                             this.setStatus(STATUS.reset);
@@ -142,7 +142,7 @@ export class ChessboardMoveInput {
 
             case STATUS.reset:
                 if (this.startIndex && !this.endIndex && this.movedFigure) {
-                    this.model.setSquare(this.startIndex, this.movedFigure);
+                    this.model.setFigure(this.startIndex, this.movedFigure);
                 }
                 this.startIndex = null;
                 this.endIndex = null;
@@ -249,7 +249,7 @@ export class ChessboardMoveInput {
                 } else {
                     this.setStatus(STATUS.dragTo, {index: this.startIndex, figure: this.movedFigure});
                 }
-                if (this.config.inputMode === INPUT_MODE.dragFigure) {
+                if (this.config.moveInputMode === MOVE_INPUT_MODE.dragFigure) {
                     this.moveDragableFigure(x, y);
                 }
             }
@@ -267,7 +267,7 @@ export class ChessboardMoveInput {
                 this.endIndex = null;
                 this.updateStartEndMarkers();
             }
-            if (this.config.inputMode === INPUT_MODE.dragFigure && (this.status === STATUS.dragTo || this.status === STATUS.clickDragTo)) {
+            if (this.config.moveInputMode === MOVE_INPUT_MODE.dragFigure && (this.status === STATUS.dragTo || this.status === STATUS.clickDragTo)) {
                 this.moveDragableFigure(x, y);
             }
         }
@@ -289,7 +289,7 @@ export class ChessboardMoveInput {
                 if (this.status === STATUS.dragTo || this.status === STATUS.clickDragTo) {
                     if (this.startIndex === index) {
                         if (this.status === STATUS.clickDragTo) {
-                            this.model.setSquare(this.startIndex, this.movedFigure);
+                            this.model.setFigure(this.startIndex, this.movedFigure);
                             this.setStatus(STATUS.reset);
                         } else {
                             this.setStatus(STATUS.clickTo, {index: index});
@@ -313,7 +313,7 @@ export class ChessboardMoveInput {
     }
 
     updateStartEndMarkers() {
-        this.model.removeMarker(null, MARKER_TYPE.newMove);
+        this.model.removeMarkers(null, MARKER_TYPE.newMove);
         if (this.startIndex) {
             this.model.addMarker(this.startIndex, MARKER_TYPE.newMove);
         }

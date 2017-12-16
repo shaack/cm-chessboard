@@ -36,22 +36,22 @@ Take a look at the [/examples](https://github.com/shaack/cm-chessboard/tree/mast
 
 With default values
 ```
-this.config = {
+config = {
     position: "empty", // set as fen or "start" or "empty"
     orientation: COLOR.white, // white on bottom
     showCoordinates: true, // show ranks and files
     responsive: false, // detects window resize, if true
     animationDuration: 300, // in milliseconds
-    inputMode: INPUT_MODE.viewOnly, // set to INPUT_MODE.dragFigure '1' or INPUT_MODE.dragMarker '2' for interactive movement
+    moveInputMode: MOVE_INPUT_MODE.viewOnly, // set to MOVE_INPUT_MODE.dragFigure '1' or MOVE_INPUT_MODE.dragMarker '2' for interactive movement
     events: {
-        inputStart: null, // callback(square), before figure move input, return false to cancel move
-        inputDone: null // callback(squareFrom, squareTo), after figure move input, return false to cancel move
+        moveInputStart: null, // callback(square), before figure move input, return false to cancel move
+        moveInputDone: null, // callback(squareFrom, squareTo), after figure move input, return false to cancel move
     },
     sprite: {
         file: "../assets/sprite.svg", // figures and markers
         grid: DEFAULT_SPRITE_GRID // one figure every 40px
     }
-};
+}
 ```  
 
 ## API
@@ -64,12 +64,12 @@ this.config = {
 - **config:** The board configuration
 - **callback:** Callback after sprite loading and initialization. Wait for the callback before using the API. 
 
-### setSquare(square, figure) {
+### setFigure(square, figure)
 
 Set a figure on a square. Example: `board.setSquare("e4", FIGURE.blackKnight)` or
 `board.setSquare("e4", "bn")`.
 
-### getSquare(square)
+### getFigure(square)
 
 Returns the figure on a square.
 
@@ -83,12 +83,26 @@ shown instant.
 
 Get the board position as `fen`.
 
+### addMarker(square, type = MARKER_TYPE.emphasize)
+
+Add a marker on a square.
+
+Default types are: `MARKER_TYPE.newMove`, `MARKER_TYPE.lastMove`, `MARKER_TYPE.emphasize`,
+exportet by `Chessboard.js`. You can create your own marker types: Just create an object like 
+`{slice: "marker1", opacity: 0.6}`, where `slice` is the `id` in `sprite.svg`, `opacity` the opacity.
+
+### removeMarkers(square = null, type = null);
+
+Set `square` to `null` to remove markers of `type` from all squares.
+Set `type` to `null`, to remove all types from a square. 
+Set both to `null` to remove all markers from the board.
+
 ### setOrientation(color)
 
 Set the board orientation (color at bottom). Allowed values are `COLOR.white` or `COLOR.black` 
 or `"white"` or `"black"`.
 
-###  getOrientation()
+### getOrientation()
 
 Returns the the board orientation. 
 
@@ -96,20 +110,7 @@ Returns the the board orientation.
 
 Remove the board from the DOM.
 
-### enableInput(color, enable)
+### enableMoveInput(color, enable)
 
 Enable and disable moves via user input (mouse or touch). Allowed values are `COLOR.white` or `COLOR.black` 
  or `"white"` or `"black"` for `color` and `boolean` for `enable`.
- 
-### addMarker(square, type = MARKER_TYPE.emphasize)
-
-Add a marker to a square.
-
-Default types are: `MARKER_TYPE.newMove`, `MARKER_TYPE.lastMove`, `MARKER_TYPE.emphasize`,
-exportet by `Chessboard.js`. You can create your own marker types: Just create an object like 
-`{slice: "marker1", opacity: 0.6}`, where `slice` is the `id` in `sprite.svg`, `opacity` the opacity.
-
-### removeMarker(square = null, type = null);
-
-Set `square` to `null` to remove `type` from all squares.
-Set `type` to `null`, to remove all types. Set both to `null` to remove all markers.

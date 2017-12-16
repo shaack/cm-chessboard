@@ -6,7 +6,7 @@
 import {Svg} from "../../node_modules/svjs-svg/src/svjs/Svg.js";
 import {SQUARE_COORDINATES} from "./ChessboardModel.js";
 import {ChessboardMoveInput} from "./ChessboardMoveInput.js";
-import {INPUT_MODE} from "./Chessboard.js";
+import {MOVE_INPUT_MODE} from "./Chessboard.js";
 import {ChessboardFigureAnimation} from "./ChessboardFigureAnimation.js";
 
 const SPRITE_LOADING_STATUS = {
@@ -42,7 +42,7 @@ export class ChessboardView {
                 }
             });
         }
-        if (this.config.inputMode !== INPUT_MODE.viewOnly) {
+        if (this.config.moveInputMode !== MOVE_INPUT_MODE.viewOnly) {
             containerElement.addEventListener('mousedown', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -315,16 +315,16 @@ export class ChessboardView {
     // Callbacks //
 
     moveStartCallback(index) {
-        if (this.config.events.inputStart) {
-            return this.config.events.inputStart(SQUARE_COORDINATES[index]);
+        if (this.config.events.moveInputStart) {
+            return this.config.events.moveInputStart(SQUARE_COORDINATES[index]);
         } else {
             return true;
         }
     }
 
     moveDoneCallback(fromIndex, toIndex) {
-        if (this.config.events.inputDone) {
-            return this.config.events.inputDone(SQUARE_COORDINATES[fromIndex], SQUARE_COORDINATES[toIndex]);
+        if (this.config.events.moveInputDone) {
+            return this.config.events.moveInputDone(SQUARE_COORDINATES[fromIndex], SQUARE_COORDINATES[toIndex]);
         } else {
             return true;
         }

@@ -22,7 +22,7 @@ export class ChessboardModel {
         this.markers = [];
     }
 
-    setSquare(index, figure) {
+    setFigure(index, figure) {
         this.squares[index] = figure;
     }
 
@@ -30,7 +30,7 @@ export class ChessboardModel {
         this.markers.push({index: index, type: type});
     }
 
-    removeMarker(index = null, type = null) {
+    removeMarkers(index = null, type = null) {
         if (index === null && type === null) {
             this.markers = [];
         } else {
