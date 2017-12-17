@@ -108,12 +108,11 @@ export class ChessboardView {
         this.squareHeight = this.innerHeight / 8;
         this.scalingX = this.squareWidth / this.config.sprite.grid;
         this.scalingY = this.squareHeight / this.config.sprite.grid;
-        this.pieceXTranslate = (this.squareWidth / 2 - this.config.sprite.grid * this.scalingY / 2); // for centering in square
+        this.pieceXTranslate = (this.squareWidth / 2 - this.config.sprite.grid * this.scalingY / 2);
     }
 
     redraw() {
         this.updateMetrics();
-        // this.createSvgAndGroups();
         this.drawBoard();
         if (this.config.showCoordinates) {
             this.drawCoordinates();
