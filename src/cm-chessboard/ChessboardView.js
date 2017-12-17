@@ -42,6 +42,7 @@ export class ChessboardView {
         }
         if (this.config.moveInputMode !== MOVE_INPUT_MODE.viewOnly) {
             containerElement.addEventListener("mousedown", (e) => {
+                e.preventDefault();
                 this.moveInput.onPointerDown(e);
             });
             containerElement.addEventListener("touchstart", (e) => {
