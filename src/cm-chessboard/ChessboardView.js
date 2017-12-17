@@ -27,7 +27,7 @@ export class ChessboardView {
         this.moveInput = new ChessboardMoveInput(this, this.model, this.config, this.moveStartCallback, this.moveDoneCallback);
         this.animationQueue = [];
         if (config.responsive) {
-            window.addEventListener('resize', () => {
+            window.addEventListener("resize", () => {
                 if (this.containerElement.offsetWidth !== this.width ||
                     this.containerElement.offsetHeight !== this.height) {
                     this.redraw();
@@ -37,26 +37,16 @@ export class ChessboardView {
         if (this.config.events.contextInput) {
             containerElement.addEventListener("contextmenu", (e) => {
                 e.preventDefault();
-                e.stopPropagation();
-                setTimeout(() => {
-                    this.onContextInput(e);
-                });
+                this.onContextInput(e);
             })
         }
         if (this.config.moveInputMode !== MOVE_INPUT_MODE.viewOnly) {
-            containerElement.addEventListener('mousedown', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setTimeout(() => {
-                    this.moveInput.onPointerDown(e);
-                });
+            containerElement.addEventListener("mousedown", (e) => {
+                this.moveInput.onPointerDown(e);
             });
-            containerElement.addEventListener('touchstart', (e) => {
+            containerElement.addEventListener("touchstart", (e) => {
                 e.preventDefault();
-                e.stopPropagation();
-                setTimeout(() => {
-                    this.moveInput.onPointerDown(e);
-                });
+                this.moveInput.onPointerDown(e);
             });
         }
         this.createSvgAndGroups();
