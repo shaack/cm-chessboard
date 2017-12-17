@@ -39,7 +39,7 @@ const board = new Chessboard(document.getElementById("board"), {
                         const randomMove = possibleMoves[random(0, possibleMoves.length - 1)];
                         chess.move({from: randomMove.from, to: randomMove.to});
                         board.enableMoveInput(COLOR.white, true);
-                        board.setPosition(chess.fen(), true);
+                        board.setPosition(chess.fen());
                     }
                 });
             }
@@ -75,7 +75,7 @@ const board = new Chessboard(document.getElementById("board"), {
                             const randomMove = possibleMoves[random(0, possibleMoves.length - 1)];
                             chess.move({from: randomMove.from, to: randomMove.to});
                             board.enableMoveInput(COLOR.white, true);
-                            board.setPosition(chess.fen(), true);
+                            board.setPosition(chess.fen());
                         }
                     });
                 }
