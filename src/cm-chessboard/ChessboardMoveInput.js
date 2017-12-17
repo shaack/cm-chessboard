@@ -131,10 +131,7 @@ export class ChessboardMoveInput {
                             this.setStatus(STATUS.reset);
                         });
                     } else {
-                        // piece was dragged
-                        const pieceFrom = this.view.getPiece(this.startIndex);
-                        Svg.removeElement(pieceFrom);
-                        this.view.drawPiece(this.endIndex, this.dragablePiece.name);
+                        this.view.drawPiecesNow(this.model.squares);
                         this.setStatus(STATUS.reset);
                     }
                 } else {
