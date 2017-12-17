@@ -131,12 +131,15 @@ export class ChessboardMoveInput {
                             this.setStatus(STATUS.reset);
                         });
                     } else {
-                        this.view.drawPieces();
+                        // piece was dragged
+                        const pieceFrom = this.view.getPiece(this.startIndex);
+                        Svg.removeElement(pieceFrom);
+                        this.view.drawPiece(this.endIndex, this.dragablePiece.name);
                         this.setStatus(STATUS.reset);
                     }
                 } else {
-                    this.setStatus(STATUS.reset);
                     this.view.drawPieces();
+                    this.setStatus(STATUS.reset);
                 }
                 break;
 
@@ -176,6 +179,7 @@ export class ChessboardMoveInput {
         this.dragablePiece.setAttribute("width", this.view.squareWidth);
         this.dragablePiece.setAttribute("height", this.view.squareHeight);
         this.dragablePiece.setAttribute("style", "pointer-events: none");
+        this.dragablePiece.name = pieceName;
         const piece = Svg.addElement(this.dragablePiece, "use", {
             href: `#${pieceName}`
         });
