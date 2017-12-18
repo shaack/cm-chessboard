@@ -1,4 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+LICENSE
+=======
+
+Chess pieces
+~~~~~~~~~~~~
+
+The chess pieces in this sprite are copies from Wikimedia Commons
+https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces/Standard
+
+License: Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)
+https://creativecommons.org/licenses/by-sa/3.0/
+
+Authors:
+- https://en.wikipedia.org/wiki/User:Cburnett
+- https://en.wikipedia.org/wiki/User:Rfc1394
+
+Markers
+~~~~~~~
+
+The markers are licensed along with the other components of this software under MIT License
+as described in the file "LICENSE".
+
+Author: Stefan Haack (http://shaack.com)
+
+-->
 <svg width="240px" height="120px" viewBox="0 0 240 120" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 48.1 (47250) - http://www.bohemiancoding.com/sketch -->
     <title>sprite</title>
