@@ -3,9 +3,8 @@
  * Date: 21.11.2017
  */
 import {ChessboardView} from "./ChessboardView.js";
-import {ChessboardModel} from "./ChessboardModel.js";
+import {SQUARE_COORDINATES, ChessboardModel} from "./ChessboardModel.js";
 import {Svg} from "../../node_modules/svjs-svg/src/svjs/Svg.js";
-import {SQUARE_COORDINATES} from "./ChessboardModel.js";
 
 export const COLOR = {
     white: "white",
