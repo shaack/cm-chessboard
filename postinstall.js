@@ -1,5 +1,14 @@
 const fs = require("fs");
-const process = require('process');
+const process = require("process");
 process.chdir('./src');
-fs.symlink("../node_modules/svjs-test/", "svjs-test", "dir", () => {});
-fs.symlink("../node_modules/svjs-svg/", "svjs-svg", "dir", () => {});
+
+symlinkModule("svjs-test");
+symlinkModule("svjs-svg");
+
+function symlinkModule(moduleName) {
+    fs.symlink(resolveModulePath(moduleName), moduleName, "dir", () => {});
+}
+function resolveModulePath(moduleName) {
+    const pathToMainJs = require.resolve(moduleName);
+    return pathToMainJs.substr(0, pathToMainJs.lastIndexOf(moduleName) + moduleName.length);
+}
