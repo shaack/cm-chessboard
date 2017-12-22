@@ -1,5 +1,8 @@
 const fs = require("fs");
 const process = require("process");
+const path = require("path");
+
+const projectRoot = path.dirname(require.main.filename);
 
 // link dependencies
 process.chdir('./src');
@@ -7,10 +10,18 @@ symlinkModule("svjs-svg");
 
 // copy assets
 if (resolveModulePath("cm-chessboard") !== null) {
-    process.chdir('/');
-    fs.mkdirSync("assets");
-    fs.mkdirSync("assets/images");
-    fs.copyFileSync(resolveModulePath("cm-chessboard") + "/assets/images/chessboard-sprite.svg", "./assets/images/");
+    try {
+        fs.mkdir("assets");
+    } catch (e) {
+        console.log(e.mesaage);
+    }
+    try {
+        fs.mkdirSync("assets/images");
+    } catch (e) {
+        console.log(e.mesaage);
+    }
+    fs.copyFileSync(resolveModulePath("cm-chessboard") + "/assets/images/chessboard-sprite.svg",
+        projectRoot + "/assets/images/");
 }
 
 function symlinkModule(moduleName) {
