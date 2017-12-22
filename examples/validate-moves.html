@@ -61,6 +61,7 @@ const board = new Chessboard(document.getElementById("board"), {
     const chess = new Chess();
     const board = new Chessboard(document.getElementById("board"), {
         position: chess.fen(),
+        sprite: {file: "../assets/images/chessboard-sprite.svg"},
         orientation: COLOR.white,
         moveInputMode: MOVE_INPUT_MODE.dragPiece,
         events: {

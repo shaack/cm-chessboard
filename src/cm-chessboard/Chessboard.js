@@ -54,11 +54,12 @@ export class Chessboard {
                 contextInput: null // callback(square), on right click/context touch
             },
             sprite: {
-                file: "../assets/sprite.svg", // pieces and markers
+                file: "./assets/images/chessboard-sprite.svg", // pieces and markers
                 grid: DEFAULT_SPRITE_GRID // one piece every 40px
             }
         };
         Object.assign(this.config, config);
+        console.log(this.config);
         if (!this.config.sprite.grid) {
             this.config.sprite.grid = DEFAULT_SPRITE_GRID;
         }

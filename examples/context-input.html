@@ -43,10 +43,11 @@ const board1 = new Chessboard(document.getElementById("board1"), {
 
     const board1 = new Chessboard(document.getElementById("board1"), {
         position: "start",
+        sprite: {file: "../assets/images/chessboard-sprite.svg"},
         events: {
             contextInput: (square) => {
                 const markersOnSquare = board1.getMarkers(square, MARKER_TYPE.emphasize);
-                if(markersOnSquare.length > 0) {
+                if (markersOnSquare.length > 0) {
                     board1.removeMarkers(square, MARKER_TYPE.emphasize);
                 } else {
                     board1.addMarker(square);
@@ -56,12 +57,13 @@ const board1 = new Chessboard(document.getElementById("board1"), {
     });
     const board2 = new Chessboard(document.getElementById("board2"), {
         position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR",
+        sprite: {file: "../assets/images/chessboard-sprite.svg"},
         orientation: COLOR.black,
         moveInputMode: MOVE_INPUT_MODE.dragPiece,
         events: {
-            contextInput: function(square) {
+            contextInput: function (square) {
                 const markersOnSquare = board2.getMarkers(square, MARKER_TYPE.emphasize);
-                if(markersOnSquare.length > 0) {
+                if (markersOnSquare.length > 0) {
                     board2.removeMarkers(square, MARKER_TYPE.emphasize);
                 } else {
                     board2.addMarker(square);

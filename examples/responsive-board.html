@@ -22,7 +22,11 @@ new Chessboard(document.getElementById("board"), {position: "start", responsive:
 <script type="module">
     import {Chessboard} from "../src/cm-chessboard/Chessboard.js"
 
-    new Chessboard(document.getElementById("board"), {position: "start", responsive: true});
+    new Chessboard(document.getElementById("board"), {
+        position: "start",
+        sprite: {file: "../assets/images/chessboard-sprite.svg"},
+        responsive: true
+    });
 </script>
 </body>
 </html>

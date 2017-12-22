@@ -46,6 +46,7 @@ new Chessboard(document.getElementById("board"), {
     new Chessboard(document.getElementById("board"), {
         position: "start",
         moveInputMode: MOVE_INPUT_MODE.dragPiece,
+        sprite: {file: "../assets/images/chessboard-sprite.svg"},
         events: {
             moveInputStart: (square) => {
                 log(`moveInputStart: ${square}`);

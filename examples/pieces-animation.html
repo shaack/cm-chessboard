@@ -30,7 +30,12 @@
     import {Chessboard} from "../src/cm-chessboard/Chessboard.js"
 
     window.board = new Chessboard(document.getElementById("board"),
-        {position: "start", responsive: true, animationDuration: 700});
+        {
+            position: "start",
+            sprite: {file: "../assets/images/chessboard-sprite.svg"},
+            responsive: true,
+            animationDuration: 700
+        });
 </script>
 </body>
 </html>
