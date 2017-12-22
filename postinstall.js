@@ -9,6 +9,7 @@ process.chdir('./src');
 symlinkModule("svjs-svg");
 
 // copy assets
+/*
 if (resolveModulePath("cm-chessboard") !== null) {
     try {
         fs.mkdir(projectRoot + "/assets");
@@ -20,12 +21,10 @@ if (resolveModulePath("cm-chessboard") !== null) {
     } catch (e) {
         console.log(e.mesaage);
     }
-    /*
-    fs.copyFileSync(resolveModulePath("cm-chessboard") + "/assets/images/chessboard-sprite.svg",
-        projectRoot + "/assets/images/");
-        */
+    // fs.copyFileSync(resolveModulePath("cm-chessboard") + "/assets/images/chessboard-sprite.svg",
+    //    projectRoot + "/assets/images/");
 }
-
+*/
 function symlinkModule(moduleName) {
     try {
         fs.symlinkSync(resolveModulePath(moduleName), moduleName, "dir");
