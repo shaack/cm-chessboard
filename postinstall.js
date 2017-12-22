@@ -7,7 +7,7 @@ symlinkModule("svjs-svg");
 
 // copy assets
 if (resolveModulePath("cm-chessboard") !== null) {
-    process.chdir('..');
+    process.chdir('/');
     fs.mkdirSync("assets");
     fs.mkdirSync("assets/images");
     fs.copyFileSync(resolveModulePath("cm-chessboard") + "/assets/images/chessboard-sprite.svg", "./assets/images/");
