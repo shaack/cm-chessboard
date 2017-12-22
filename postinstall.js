@@ -20,8 +20,10 @@ if (resolveModulePath("cm-chessboard") !== null) {
     } catch (e) {
         console.log(e.mesaage);
     }
+    /*
     fs.copyFileSync(resolveModulePath("cm-chessboard") + "/assets/images/chessboard-sprite.svg",
         projectRoot + "/assets/images/");
+        */
 }
 
 function symlinkModule(moduleName) {
