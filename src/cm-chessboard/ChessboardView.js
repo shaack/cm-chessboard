@@ -59,7 +59,7 @@ export class ChessboardView {
     loadSprite(config, callback) {
         if (ChessboardView.spriteLoadingStatus === SPRITE_LOADING_STATUS.notLoaded) {
             ChessboardView.spriteLoadingStatus = SPRITE_LOADING_STATUS.loading;
-            Svg.loadSprite(config.sprite.file, [
+            Svg.loadSprite(config.sprite.url, [
                 "wk", "wq", "wr", "wb", "wn", "wp",
                 "bk", "bq", "br", "bb", "bn", "bp",
                 "marker1", "marker2"], () => {
@@ -72,7 +72,7 @@ export class ChessboardView {
                 if (this.spriteLoadWaitingTries < 50) {
                     this.loadSprite(config, callback);
                 } else {
-                    console.error("timeout loading sprite", config.sprite.file);
+                    console.error("timeout loading sprite", config.sprite.url);
                 }
             }, this.spriteLoadWaitDelay);
             this.spriteLoadWaitDelay += 10;

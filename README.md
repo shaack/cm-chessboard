@@ -21,6 +21,9 @@ If you use this board, it would be nice, if you put a link to chessmail ([chessm
 
 **Option 2:** Install the [npm package](https://www.npmjs.com/package/cm-chessboard) with `npm install --save cm-chessboard`
 
+After installation copy the `cm-chessboard/assets/images/chessboard-sprite.svg` to your projects `assets/images` folder.
+If you put the sprite somewhere else you have to configure the location in `config.sprite.file`.
+
 ## Example Usage
 
 Preconditions:
