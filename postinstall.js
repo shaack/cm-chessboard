@@ -11,12 +11,12 @@ symlinkModule("svjs-svg");
 // copy assets
 if (resolveModulePath("cm-chessboard") !== null) {
     try {
-        fs.mkdir("assets");
+        fs.mkdir(projectRoot + "/assets");
     } catch (e) {
         console.log(e.mesaage);
     }
     try {
-        fs.mkdirSync("assets/images");
+        fs.mkdir(projectRoot + "/assets/images");
     } catch (e) {
         console.log(e.mesaage);
     }
