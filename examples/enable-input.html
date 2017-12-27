@@ -21,45 +21,46 @@
 <p>Input enabled on both sides, without move validation.</p>
 <div class="board" id="board"></div>
 <pre>
+function moveCallback(event) {
+    switch (event.type) {
+        case INPUT_EVENT_TYPE.moveStart:
+            log(`moveStart: ${event.square}`);
+            return true;
+        case INPUT_EVENT_TYPE.moveDone:
+            log(`moveDone: ${event.squareFrom}-${event.squareTo}`);
+            return true;
+    }
+}
+
 new Chessboard(document.getElementById("board"), {
     position: "start",
     moveInputMode: MOVE_INPUT_MODE.dragPiece,
-    events: {
-        moveInputStart: (square) => {
-            log(`moveInputStart: ${square}`);
-            return true;
-        },
-        moveInputDone: (squareFrom, squareTo) => {
-            log(`moveInputDone: ${squareFrom}-${squareTo}`);
-            return true;
-        }
-    }
+    sprite: {url: "../assets/images/chessboard-sprite.svg"}
 }, (board) => {
-    board.enableInput(COLOR.white, true);
-    board.enableInput(COLOR.black, true);
+    board.enableMoveInput(moveCallback);
 });
 </pre>
 <div id="output"></div>
 <script type="module">
-    import {MOVE_INPUT_MODE, COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
+    import {INPUT_EVENT_TYPE, MOVE_INPUT_MODE, Chessboard} from "../src/cm-chessboard/Chessboard.js"
+
+    function moveCallback(event) {
+        switch (event.type) {
+            case INPUT_EVENT_TYPE.moveStart:
+                log(`moveStart: ${event.square}`);
+                return true;
+            case INPUT_EVENT_TYPE.moveDone:
+                log(`moveDone: ${event.squareFrom}-${event.squareTo}`);
+                return true;
+        }
+    }
 
     new Chessboard(document.getElementById("board"), {
         position: "start",
         moveInputMode: MOVE_INPUT_MODE.dragPiece,
-        sprite: {url: "../assets/images/chessboard-sprite.svg"},
-        events: {
-            moveInputStart: (square) => {
-                log(`moveInputStart: ${square}`);
-                return true;
-            },
-            moveInputDone: (squareFrom, squareTo) => {
-                log(`moveInputDone: ${squareFrom}-${squareTo}`);
-                return true;
-            }
-        }
+        sprite: {url: "../assets/images/chessboard-sprite.svg"}
     }, (board) => {
-        board.enableMoveInput(COLOR.white, true);
-        board.enableMoveInput(COLOR.black, true);
+        board.enableMoveInput(moveCallback);
     });
 
     const output = document.getElementById("output");

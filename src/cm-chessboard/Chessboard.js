@@ -15,6 +15,11 @@ export const MOVE_INPUT_MODE = {
     dragPiece: 1,
     dragMarker: 2
 };
+export const INPUT_EVENT_TYPE = {
+    moveStart: "moveStart",
+    moveDone: "moveDone",
+    context: "context"
+};
 export const MARKER_TYPE = {
     newMove: {slice: "marker1", opacity: 0.8},
     lastMove: {slice: "marker1", opacity: 0.5},
@@ -37,10 +42,12 @@ export const PIECE = {
 export const FEN_START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
 export const FEN_EMPTY_POSITION = "8/8/8/8/8/8/8/8";
 
+const DEFAULT_SPRITE_GRID = 40;
+
 export class Chessboard {
 
-    constructor(containerElement, config = {}, callback = null) {
-        const DEFAULT_SPRITE_GRID = 40;
+    constructor(element, config = {}, callback = null) {
+        this.element = element;
         this.config = {
             position: "empty", // set as fen or "start" or "empty"
             orientation: COLOR.white, // white on bottom
@@ -48,11 +55,6 @@ export class Chessboard {
             responsive: false, // detects window resize, if true
             animationDuration: 300, // in milliseconds
             moveInputMode: MOVE_INPUT_MODE.viewOnly, // set to MOVE_INPUT_MODE.dragPiece '1' or MOVE_INPUT_MODE.dragMarker '2' for interactive movement
-            events: {
-                moveInputStart: null, // callback(square), before piece move input, return false to cancel move
-                moveInputDone: null, // callback(squareFrom, squareTo), after piece move input, return false to cancel move
-                contextInput: null // callback(square), on right click/context touch
-            },
             sprite: {
                 url: "./assets/images/chessboard-sprite.svg", // pieces and markers
                 grid: DEFAULT_SPRITE_GRID // one piece every 40px
@@ -63,7 +65,7 @@ export class Chessboard {
             this.config.sprite.grid = DEFAULT_SPRITE_GRID;
         }
         this.model = new ChessboardModel();
-        this.view = new ChessboardView(containerElement, this.model, this.config, () => {
+        this.view = new ChessboardView(this, () => {
             this.setPosition(this.config.position, false);
             this.setOrientation(this.config.orientation);
             this.model.moveInputMode = this.config.moveInputMode;
@@ -163,16 +165,43 @@ export class Chessboard {
         this.model = null;
     }
 
-    enableMoveInput(color, enable) {
-        if (enable === true && this.config.moveInputMode === MOVE_INPUT_MODE.viewOnly) {
+    enableMoveInput(callback, color = null) {
+        if (this.config.moveInputMode === MOVE_INPUT_MODE.viewOnly) {
             throw Error("config.moveInputMode is MOVE_INPUT_MODE.viewOnly");
         }
         if (color === COLOR.white) {
-            this.model.inputWhiteEnabled = enable;
+            this.model.inputWhiteEnabled = true;
         } else if (color === COLOR.black) {
-            this.model.inputBlackEnabled = enable;
+            this.model.inputBlackEnabled = true;
+        } else {
+            this.model.inputWhiteEnabled = true;
+            this.model.inputBlackEnabled = true;
         }
+        this.moveInputCallback = callback;
         this.view.setCursor();
     }
 
+    disableMoveInput() {
+        this.model.inputWhiteEnabled = false;
+        this.model.inputBlackEnabled = false;
+        this.moveInputCallback = null;
+        this.view.setCursor();
+    }
+
+    enableContextInput(callback) {
+        this.contextInputCallback = callback;
+        this.element.addEventListener("contextmenu", (e) => {
+            e.preventDefault();
+            const index = e.target.getAttribute("data-index");
+            callback({
+                chessboard: this,
+                type: INPUT_EVENT_TYPE.context,
+                square: SQUARE_COORDINATES[index]
+            });
+        })
+    }
+
+    disableContextInput() {
+        this.element.removeEventListener("contextmenu", this.contextInputCallback);
+    }
 }

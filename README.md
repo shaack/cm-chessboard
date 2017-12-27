@@ -49,11 +49,6 @@ this.config = {
     responsive: false, // detects window resize, if true
     animationDuration: 300, // in milliseconds
     moveInputMode: MOVE_INPUT_MODE.viewOnly, // set to MOVE_INPUT_MODE.dragPiece '1' or MOVE_INPUT_MODE.dragMarker '2' for interactive movement
-    events: {
-        moveInputStart: null, // callback(square), before piece move input, return false to cancel move
-        moveInputDone: null, // callback(squareFrom, squareTo), after piece move input, return false to cancel move
-        contextInput: null // callback(square), on right click/context touch
-    },
     sprite: {
         file: "../assets/sprite.svg", // pieces and markers
         grid: DEFAULT_SPRITE_GRID // one piece every 40px
@@ -122,7 +117,18 @@ Returns the the board orientation.
 
 Remove the board from the DOM.
 
-### enableMoveInput(color, enable)
+### enableMoveInput(callback, color = null)
 
-Enable and disable moves via user input (mouse or touch). Allowed values are `COLOR.white` or `COLOR.black` 
- or `"white"` or `"black"` for `color` and `boolean` for `enable`.
+Enable moves via user input (mouse or touch). Set color, if you just want to enable move input for one specific color. 
+
+### disableMoveInput()
+
+Disable moves via user input.
+
+### enableContextInput(callback)
+
+Enable context input (right click).
+
+### disableContextInput()
+
+Disable context input.

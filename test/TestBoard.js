@@ -10,10 +10,11 @@ export class TestBoard extends Test {
 
     testCreateAndDestroy() {
         const chessboard = new Chessboard(document.getElementById("TestBoard"), {
+            sprite: {url: "../assets/images/chessboard-sprite.svg"},
             position: "start"
         }, () => {
             setTimeout(() => {
-                Test.assertEquals(1, chessboard.view.containerElement.childNodes.length);
+                Test.assertEquals(1, chessboard.element.childNodes.length);
                 chessboard.destroy();
                 Test.assertEquals(null, chessboard.view);
             });

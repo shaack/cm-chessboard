@@ -23,68 +23,75 @@
     with random moves.</p>
 <div class="board" id="board"></div>
 <pre>
-const board = new Chessboard(document.getElementById("board"), {
-    position: chess.fen(),
-    orientation: COLOR.white,
-    moveInputMode: MOVE_INPUT_MODE.dragPiece,
-    events: {
-        moveInputDone: (squareFrom, squareTo) => {
-            const result = chess.move({from: squareFrom, to: squareTo});
-            if (result) {
-                board.enableMoveInput(COLOR.white, false);
-                setTimeout(() => {
-                    board.setPosition(chess.fen());
-                    const possibleMoves = chess.moves({verbose: true});
-                    if (possibleMoves.length > 0) {
-                        const randomMove = possibleMoves[random(0, possibleMoves.length - 1)];
-                        chess.move({from: randomMove.from, to: randomMove.to});
-                        board.enableMoveInput(COLOR.white, true);
-                        board.setPosition(chess.fen());
-                    }
-                });
-            }
-            return result;
+function inputCallback(event) {
+    if(event.type === INPUT_EVENT_TYPE.moveDone) {
+        const result = chess.move({from: event.squareFrom, to: event.squareTo});
+        if (result) {
+            event.chessboard.disableMoveInput();
+            setTimeout(() => {
+                event.chessboard.setPosition(chess.fen());
+                const possibleMoves = chess.moves({verbose: true});
+                if (possibleMoves.length > 0) {
+                    const randomMove = possibleMoves[random(0, possibleMoves.length - 1)];
+                    chess.move({from: randomMove.from, to: randomMove.to});
+                    event.chessboard.enableMoveInput(inputCallback, COLOR.white);
+                    event.chessboard.setPosition(chess.fen());
+                }
+            });
         }
+        return result;
+    } else {
+        return true;
     }
-}, () => {
-    board.enableMoveInput(COLOR.white, true);
+}
+
+new Chessboard(document.getElementById("board"), {
+    position: chess.fen(),
+    sprite: {url: "../assets/images/chessboard-sprite.svg"},
+    orientation: COLOR.white,
+    moveInputMode: MOVE_INPUT_MODE.dragPiece
+}, (board) => {
+    board.enableMoveInput(inputCallback, COLOR.white);
 });
 </pre>
 <div id="output"></div>
 <script type="module">
-    import {MOVE_INPUT_MODE, COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
+    import {INPUT_EVENT_TYPE, MOVE_INPUT_MODE, COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
 
     function random(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
     const chess = new Chess();
-    const board = new Chessboard(document.getElementById("board"), {
+    function inputCallback(event) {
+        if(event.type === INPUT_EVENT_TYPE.moveDone) {
+            const result = chess.move({from: event.squareFrom, to: event.squareTo});
+            if (result) {
+                event.chessboard.disableMoveInput();
+                setTimeout(() => {
+                    event.chessboard.setPosition(chess.fen());
+                    const possibleMoves = chess.moves({verbose: true});
+                    if (possibleMoves.length > 0) {
+                        const randomMove = possibleMoves[random(0, possibleMoves.length - 1)];
+                        chess.move({from: randomMove.from, to: randomMove.to});
+                        event.chessboard.enableMoveInput(inputCallback, COLOR.white);
+                        event.chessboard.setPosition(chess.fen());
+                    }
+                });
+            }
+            return result;
+        } else {
+            return true;
+        }
+    }
+
+    new Chessboard(document.getElementById("board"), {
         position: chess.fen(),
         sprite: {url: "../assets/images/chessboard-sprite.svg"},
         orientation: COLOR.white,
-        moveInputMode: MOVE_INPUT_MODE.dragPiece,
-        events: {
-            moveInputDone: (squareFrom, squareTo) => {
-                const result = chess.move({from: squareFrom, to: squareTo});
-                if (result) {
-                    board.enableMoveInput(COLOR.white, false);
-                    setTimeout(() => {
-                        board.setPosition(chess.fen());
-                        const possibleMoves = chess.moves({verbose: true});
-                        if (possibleMoves.length > 0) {
-                            const randomMove = possibleMoves[random(0, possibleMoves.length - 1)];
-                            chess.move({from: randomMove.from, to: randomMove.to});
-                            board.enableMoveInput(COLOR.white, true);
-                            board.setPosition(chess.fen());
-                        }
-                    });
-                }
-                return result;
-            }
-        }
-    }, () => {
-        board.enableMoveInput(COLOR.white, true);
+        moveInputMode: MOVE_INPUT_MODE.dragPiece
+    }, (board) => {
+        board.enableMoveInput(inputCallback, COLOR.white);
     });
 </script>
 </body>

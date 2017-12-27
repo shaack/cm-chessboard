@@ -9,6 +9,7 @@ import {Chessboard, MARKER_TYPE} from "../src/cm-chessboard/Chessboard.js";
 export class TestMarkers extends Test {
     testSetMarker() {
         const chessboard = new Chessboard(document.getElementById("TestMarkers"), {
+            sprite: {url: "../assets/images/chessboard-sprite.svg"},
             position: "empty"
         }, () => {
             chessboard.addMarker("e5");
