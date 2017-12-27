@@ -8,10 +8,10 @@ import {Chessboard, MARKER_TYPE} from "../src/cm-chessboard/Chessboard.js";
 
 export class TestMarkers extends Test {
     testSetMarker() {
-        const chessboard = new Chessboard(document.getElementById("TestMarkers"), {
+        new Chessboard(document.getElementById("TestMarkers"), {
             sprite: {url: "../assets/images/chessboard-sprite.svg"},
             position: "empty"
-        }, () => {
+        }, (chessboard) => {
             chessboard.addMarker("e5");
             chessboard.addMarker("b6");
             chessboard.addMarker("h6", MARKER_TYPE.lastMove);
@@ -24,7 +24,9 @@ export class TestMarkers extends Test {
             Test.assertEquals(0, chessboard.getMarkers("a4").length);
             Test.assertEquals(1, chessboard.getMarkers(null, MARKER_TYPE.lastMove).length);
             Test.assertEquals(0, chessboard.getMarkers("b6", MARKER_TYPE.newMove).length);
-            chessboard.destroy();
+            setTimeout(() => {
+                chessboard.destroy();
+            });
         });
     }
 }
