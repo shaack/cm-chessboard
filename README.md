@@ -106,8 +106,7 @@ Set both to `null` to remove all markers from the board.
 
 ### setOrientation(color)
 
-Set the board orientation (color at bottom). Allowed values are `COLOR.white` or `COLOR.black` 
-or `"white"` or `"black"`.
+Set the board orientation (color at bottom). Allowed values are `COLOR.white` or `COLOR.black`.
 
 ### getOrientation()
 

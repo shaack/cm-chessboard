@@ -6,7 +6,7 @@
 import {Svg} from "../svjs-svg/src/svjs/Svg.js";
 import {SQUARE_COORDINATES} from "./ChessboardModel.js";
 import {ChessboardMoveInput} from "./ChessboardMoveInput.js";
-import {MOVE_INPUT_MODE, INPUT_EVENT_TYPE} from "./Chessboard.js";
+import {COLOR, MOVE_INPUT_MODE, INPUT_EVENT_TYPE} from "./Chessboard.js";
 import {ChessboardPiecesAnimation} from "./ChessboardPiecesAnimation.js";
 
 const SPRITE_LOADING_STATUS = {
@@ -132,7 +132,7 @@ export class ChessboardView {
                     x: point.x, y: point.y, width: this.squareWidth, height: this.squareHeight
                 });
                 squareRect.setAttribute("class", fieldClass);
-                if (this.chessboard.model.orientation === "white") {
+                if (this.chessboard.model.orientation === COLOR.white) {
                     squareRect.setAttribute("data-index", i);
                 } else {
                     squareRect.setAttribute("data-index", 63 - i);
@@ -175,7 +175,7 @@ export class ChessboardView {
                     y: this.height - (this.borderSize / 3.4),
                     style: `font-size: ${this.scalingY * 7}px`
                 });
-                if (this.chessboard.model.orientation === "white") {
+                if (this.chessboard.model.orientation === COLOR.white) {
                     textElement.textContent = String.fromCharCode(97 + file);
                 } else {
                     textElement.textContent = String.fromCharCode(104 - file);
@@ -188,7 +188,7 @@ export class ChessboardView {
                     y: this.borderSize + 23 * this.scalingY + rank * this.squareHeight,
                     style: `font-size: ${this.scalingY * 7}px`
                 });
-                if (this.chessboard.model.orientation === "white") {
+                if (this.chessboard.model.orientation === COLOR.white) {
                     textElement.textContent = 8 - rank;
                 } else {
                     textElement.textContent = 1 + rank;
@@ -343,7 +343,7 @@ export class ChessboardView {
 
     squareIndexToPoint(index) {
         let x, y;
-        if (this.chessboard.model.orientation === "white") {
+        if (this.chessboard.model.orientation === COLOR.white) {
             x = this.borderSize + (index % 8) * this.squareWidth;
             y = this.borderSize + (7 - Math.floor(index / 8)) * this.squareHeight;
         } else {

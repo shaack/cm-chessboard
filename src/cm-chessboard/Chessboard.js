@@ -7,8 +7,8 @@ import {SQUARE_COORDINATES, ChessboardModel} from "./ChessboardModel.js";
 import {Svg} from "../svjs-svg/src/svjs/Svg.js";
 
 export const COLOR = {
-    white: "white",
-    black: "black"
+    white: "w",
+    black: "b"
 };
 export const MOVE_INPUT_MODE = {
     viewOnly: 0,
