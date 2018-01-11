@@ -26,10 +26,13 @@ export class ChessboardView {
         this.animationQueue = [];
         if (chessboard.config.responsive) {
             window.addEventListener("resize", () => {
-                if (chessboard.element.offsetWidth !== this.width ||
-                    chessboard.element.offsetHeight !== this.height) {
-                    this.redraw();
-                }
+                window.clearTimeout(this.resizeDebounce);
+                this.resizeDebounce = setTimeout(() => {
+                    if (chessboard.element.offsetWidth !== this.width ||
+                        chessboard.element.offsetHeight !== this.height) {
+                        this.redraw();
+                    }
+                });
             });
         }
         if (chessboard.config.moveInputMode !== MOVE_INPUT_MODE.viewOnly) {
