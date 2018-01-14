@@ -136,7 +136,6 @@ export class ChessboardView {
                     x: point.x, y: point.y, width: this.squareWidth, height: this.squareHeight
                 });
                 squareRect.setAttribute("class", fieldClass);
-                console.log(this.chessboard.model.orientation);
                 squareRect.setAttribute("data-index", index);
             }
             Svg.addElement(this.boardGroup, "line", {
