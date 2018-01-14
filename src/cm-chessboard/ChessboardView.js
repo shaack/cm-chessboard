@@ -155,11 +155,6 @@ export class ChessboardView {
                 x1: this.width - this.borderSize, y1: this.borderSize,
                 x2: this.width - this.borderSize, y2: this.height - this.borderSize, class: "surrounding-line"
             });
-            if (this.chessboard.model.orientation === "black") {
-                const transform = (this.svg.createSVGTransform());
-                transform.setRotate(180, this.width / 2, this.height / 2);
-                this.boardGroup.transform.baseVal.appendItem(transform);
-            }
         });
     }
 
