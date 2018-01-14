@@ -40,6 +40,7 @@ new Chessboard(document.getElementById("board"), {
     board.enableMoveInput(moveCallback);
 });
 </pre>
+<button style="margin-bottom: 10px" onclick="window.board.setOrientation(window.board.getOrientation() === 'w' ? 'b' : 'w')">Switch Orientation</button>
 <div id="output"></div>
 <script type="module">
     import {INPUT_EVENT_TYPE, MOVE_INPUT_MODE, Chessboard} from "../src/cm-chessboard/Chessboard.js"
@@ -55,7 +56,7 @@ new Chessboard(document.getElementById("board"), {
         }
     }
 
-    new Chessboard(document.getElementById("board"), {
+    window.board = new Chessboard(document.getElementById("board"), {
         position: "start",
         moveInputMode: MOVE_INPUT_MODE.dragPiece,
         sprite: {url: "../assets/images/chessboard-sprite.svg"}
