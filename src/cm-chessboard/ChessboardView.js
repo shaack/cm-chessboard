@@ -128,18 +128,16 @@ export class ChessboardView {
             let boardBorder = Svg.addElement(this.boardGroup, "rect", {width: this.width, height: this.height});
             boardBorder.setAttribute("class", "board-border");
             for (let i = 0; i < 64; i++) {
-                const squareColor = ((9 * i) & 8) === 0 ? 'black' : 'white';
+                const index = this.chessboard.model.orientation === COLOR.white ? i : 63 - i;
+                const squareColor = ((9 * index) & 8) === 0 ? 'black' : 'white';
                 const fieldClass = `square ${squareColor}`;
-                const point = this.squareIndexToPoint(i);
+                const point = this.squareIndexToPoint(index);
                 const squareRect = Svg.addElement(this.boardGroup, "rect", {
                     x: point.x, y: point.y, width: this.squareWidth, height: this.squareHeight
                 });
                 squareRect.setAttribute("class", fieldClass);
-                if (this.chessboard.model.orientation === COLOR.white) {
-                    squareRect.setAttribute("data-index", i);
-                } else {
-                    squareRect.setAttribute("data-index", 63 - i);
-                }
+                console.log(this.chessboard.model.orientation);
+                squareRect.setAttribute("data-index", index);
             }
             Svg.addElement(this.boardGroup, "line", {
                 x1: this.borderSize, y1: this.borderSize,
