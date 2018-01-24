@@ -96,7 +96,11 @@ export class ChessboardView {
     updateMetrics() {
         this.width = this.chessboard.element.offsetWidth;
         this.height = this.chessboard.element.offsetHeight;
-        this.borderSize = this.width / 35;
+        if(this.chessboard.config.showBorder) {
+            this.borderSize = this.width / 32;
+        } else {
+            this.borderSize = 0;
+        }
         this.innerWidth = this.width - 2 * this.borderSize;
         this.innerHeight = this.height - 2 * this.borderSize;
         this.squareWidth = this.innerWidth / 8;
@@ -109,9 +113,7 @@ export class ChessboardView {
     redraw() {
         this.updateMetrics();
         this.drawBoard();
-        if (this.chessboard.config.showCoordinates) {
-            this.drawCoordinates();
-        }
+        this.drawCoordinates();
         this.drawMarkers();
         this.drawPieces();
         this.setCursor();
@@ -158,17 +160,31 @@ export class ChessboardView {
     }
 
     drawCoordinates() {
+        if (!this.chessboard.config.showCoordinates) {
+            return;
+        }
         window.clearTimeout(this.drawCoordinatesDebounce);
         this.drawCoordinatesDebounce = setTimeout(() => {
             while (this.coordinatesGroup.firstChild) {
                 this.coordinatesGroup.removeChild(this.coordinatesGroup.lastChild);
             }
+            const inline = !this.chessboard.config.showBorder;
             for (let file = 0; file < 8; file++) {
+                let x = this.borderSize + (18 + this.chessboard.config.sprite.grid * file) * this.scalingX;
+                let y = this.height - this.scalingY * 2.6;
+                let cssClass = "coordinate file";
+                if(inline) {
+                    x = x + this.scalingX * 15.5;
+                    if(this.chessboard.config.showBorder) {
+                        y = y - this.scalingY * 11;
+                    }
+                    cssClass += file % 2 ? " dark" : " light";
+                }
                 const textElement = Svg.addElement(this.coordinatesGroup, "text", {
-                    class: "coordinate file",
-                    x: this.borderSize + (18 + this.chessboard.config.sprite.grid * file) * this.scalingX,
-                    y: this.height - (this.borderSize / 3.4),
-                    style: `font-size: ${this.scalingY * 7}px`
+                    class: cssClass,
+                    x: x,
+                    y: y,
+                    style: `font-size: ${this.scalingY * 8}px`
                 });
                 if (this.chessboard.model.orientation === COLOR.white) {
                     textElement.textContent = String.fromCharCode(97 + file);
@@ -177,11 +193,24 @@ export class ChessboardView {
                 }
             }
             for (let rank = 0; rank < 8; rank++) {
+                let x = (this.borderSize / 3.7);
+                let y = this.borderSize + 24 * this.scalingY + rank * this.squareHeight;
+                let cssClass = "coordinate rank";
+                if(inline) {
+                    cssClass += rank % 2 ? " light" : " dark";
+                    if(this.chessboard.config.showBorder) {
+                        x = x + this.scalingX * 10;
+                        y = y - this.scalingY * 15;
+                    } else {
+                        x = x + this.scalingX * 2;
+                        y = y - this.scalingY * 15;
+                    }
+                }
                 const textElement = Svg.addElement(this.coordinatesGroup, "text", {
-                    class: "coordinate rank",
-                    x: (this.borderSize / 3.6),
-                    y: this.borderSize + 23 * this.scalingY + rank * this.squareHeight,
-                    style: `font-size: ${this.scalingY * 7}px`
+                    class: cssClass,
+                    x: x,
+                    y: y,
+                    style: `font-size: ${this.scalingY * 8}px`
                 });
                 if (this.chessboard.model.orientation === COLOR.white) {
                     textElement.textContent = 8 - rank;

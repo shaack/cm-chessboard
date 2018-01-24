@@ -27,7 +27,13 @@
       fill: #b38964;
       font-size: 7px;
       cursor: default; }
-  /* line 38, _skin-base.scss */
+      /* line 36, _skin-base.scss */
+      .cm-chessboard .coordinates .coordinate.dark {
+        fill: #b38964; }
+      /* line 39, _skin-base.scss */
+      .cm-chessboard .coordinates .coordinate.light {
+        fill: #eedab6; }
+  /* line 44, _skin-base.scss */
   .cm-chessboard .pieces, .cm-chessboard .markers {
     pointer-events: none; }
 

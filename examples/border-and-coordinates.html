@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>cm-chessboard</title>
+    <link rel="stylesheet" href="../styles/page.css"/>
+    <link rel="stylesheet" href="../styles/cm-chessboard.css"/>
+    <style type="text/css">
+        div.board {
+            float: left;
+            width: 450px;
+            height: 430px;
+            margin-right: 20px;
+            margin-bottom: 20px;
+        }
+        #board5 {
+            width: 245px;
+            height: 235px;
+        }
+    </style>
+</head>
+<body>
+<h1><a href="../">cm-chessboard</a></h1>
+<h2>Example: Modify border and coordinates display</h2>
+<div class="board" id="board1"></div>
+<div class="board" id="board2"></div>
+<div class="board" id="board3"></div>
+<div class="board" id="board4"></div>
+<div class="board" id="board5"></div>
+<br style="clear: both"/>
+<script type="module">
+    import {COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
+
+    new Chessboard(document.getElementById("board1"), {
+        position: "start",
+        sprite: {url: "../assets/images/chessboard-sprite.svg"}
+    });
+    new Chessboard(document.getElementById("board2"), {
+        position: "start",
+        showCoordinates: false,
+        orientation: COLOR.black,
+        sprite: {url: "../assets/images/chessboard-sprite.svg"}
+    });
+    new Chessboard(document.getElementById("board3"), {
+        position: "start",
+        showBorder: false,
+        sprite: {url: "../assets/images/chessboard-sprite.svg"},
+    });
+    new Chessboard(document.getElementById("board4"), {
+        position: "start",
+        showBorder: false,
+        showCoordinates: false,
+        sprite: {url: "../assets/images/chessboard-sprite.svg"}
+    });
+    new Chessboard(document.getElementById("board5"), {
+        position: "start",
+        showBorder: false,
+        showCoordinates: true,
+        sprite: {url: "../assets/images/chessboard-sprite.svg"},
+    });
+</script>
+</body>
+</html>

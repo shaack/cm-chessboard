@@ -33,6 +33,12 @@ $light: #eedab6;
       fill: $dark;
       font-size: 7px;
       cursor: default;
+      &.dark {
+        fill: $dark;
+      }
+      &.light {
+        fill: $light;
+      }
     }
   }
   .pieces, .markers {
