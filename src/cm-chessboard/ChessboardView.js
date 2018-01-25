@@ -20,33 +20,35 @@ export class ChessboardView {
     constructor(chessboard, callbackAfterCreation) {
         this.chessboard = chessboard;
         this.spriteLoadWaitingTries = 0;
-        this.loadSprite(chessboard.config, callbackAfterCreation);
-        this.spriteLoadWaitDelay = 0;
-        this.moveInput = new ChessboardMoveInput(this, chessboard.model, chessboard.config, this.moveStartCallback.bind(this), this.moveDoneCallback.bind(this));
-        this.animationQueue = [];
-        if (chessboard.config.responsive) {
-            window.addEventListener("resize", () => {
-                window.clearTimeout(this.resizeDebounce);
-                this.resizeDebounce = setTimeout(() => {
-                    if (chessboard.element.offsetWidth !== this.width ||
-                        chessboard.element.offsetHeight !== this.height) {
-                        this.redraw();
-                    }
+        this.loadSprite(chessboard.config, () => {
+            this.spriteLoadWaitDelay = 0;
+            this.moveInput = new ChessboardMoveInput(this, chessboard.model, chessboard.config, this.moveStartCallback.bind(this), this.moveDoneCallback.bind(this));
+            this.animationQueue = [];
+            if (chessboard.config.responsive) {
+                window.addEventListener("resize", () => {
+                    window.clearTimeout(this.resizeDebounce);
+                    this.resizeDebounce = setTimeout(() => {
+                        if (chessboard.element.offsetWidth !== this.width ||
+                            chessboard.element.offsetHeight !== this.height) {
+                            this.redraw();
+                        }
+                    });
                 });
-            });
-        }
-        if (chessboard.config.moveInputMode !== MOVE_INPUT_MODE.viewOnly) {
-            chessboard.element.addEventListener("mousedown", (e) => {
-                e.preventDefault();
-                this.moveInput.onPointerDown(e);
-            });
-            chessboard.element.addEventListener("touchstart", (e) => {
-                e.preventDefault();
-                this.moveInput.onPointerDown(e);
-            });
-        }
-        this.createSvgAndGroups();
-        this.redraw();
+            }
+            if (chessboard.config.moveInputMode !== MOVE_INPUT_MODE.viewOnly) {
+                chessboard.element.addEventListener("mousedown", (e) => {
+                    e.preventDefault();
+                    this.moveInput.onPointerDown(e);
+                });
+                chessboard.element.addEventListener("touchstart", (e) => {
+                    e.preventDefault();
+                    this.moveInput.onPointerDown(e);
+                });
+            }
+            this.createSvgAndGroups();
+            this.redraw();
+            callbackAfterCreation();
+        });
     }
 
     // Sprite //

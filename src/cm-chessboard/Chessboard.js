@@ -67,17 +67,17 @@ export class Chessboard {
         }
         this.model = new ChessboardModel();
         this.view = new ChessboardView(this, () => {
-            this.setPosition(this.config.position, false);
-            this.setOrientation(this.config.orientation);
-            this.model.moveInputMode = this.config.moveInputMode;
-            this.view.redraw();
-            if (callback) {
-                setTimeout(() => {
+            setTimeout(() => {
+                this.setPosition(this.config.position, false);
+                this.setOrientation(this.config.orientation);
+                this.model.moveInputMode = this.config.moveInputMode;
+                this.view.redraw();
+                if (callback) {
                     callback(this);
-                });
-            }
+                }
+            });
+
         });
-        this.view.redraw();
     }
 
     // API //
@@ -111,6 +111,9 @@ export class Chessboard {
                     }
                 });
             } else {
+                if (!this.view) {
+                    console.trace();
+                }
                 this.view.drawPieces();
                 if (callback) {
                     callback();

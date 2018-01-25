@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>cm-chessboard</title>
+    <link rel="stylesheet" href="../styles/page.css"/>
+    <link rel="stylesheet" href="../styles/cm-chessboard.css"/>
+    <style type="text/css">
+        div.board {
+            float: left;
+            width: 160px;
+            height: 160px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<h1><a href="../">cm-chessboard</a></h1>
+<h2>Example: Many boards in one page</h2>
+<div id="boards"></div>
+<script type="module">
+    import {COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
+
+    const boardsDiv = document.getElementById("boards");
+    for(let i=0; i<100; i++) {
+        const boardDiv = document.createElement("div");
+        boardDiv.setAttribute("class", "board");
+        boardsDiv.appendChild(boardDiv);
+        new Chessboard(boardDiv, {
+            position: "start",
+            sprite: {url: "../assets/images/chessboard-sprite.svg"},
+        });
+    }
+</script>
+</body>
+</html>
