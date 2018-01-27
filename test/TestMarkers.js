@@ -14,7 +14,7 @@ export class TestMarkers extends Test {
         }, (chessboard) => {
             chessboard.addMarker("e5");
             chessboard.addMarker("b6");
-            chessboard.addMarker("h6", MARKER_TYPE.lastMove);
+            chessboard.addMarker("h6", MARKER_TYPE.move);
             Test.assertEquals(3, chessboard.getMarkers().length);
             Test.assertEquals(1, chessboard.getMarkers("e5").length);
             Test.assertEquals("e5", chessboard.getMarkers("e5")[0].square);
@@ -22,7 +22,7 @@ export class TestMarkers extends Test {
             Test.assertEquals(2, chessboard.getMarkers(null, MARKER_TYPE.emphasize).length);
             Test.assertEquals(1, chessboard.getMarkers("e5", MARKER_TYPE.emphasize).length);
             Test.assertEquals(0, chessboard.getMarkers("a4").length);
-            Test.assertEquals(1, chessboard.getMarkers(null, MARKER_TYPE.lastMove).length);
+            Test.assertEquals(1, chessboard.getMarkers(null, MARKER_TYPE.move).length);
             Test.assertEquals(0, chessboard.getMarkers("b6", MARKER_TYPE.newMove).length);
             setTimeout(() => {
                 chessboard.destroy();
