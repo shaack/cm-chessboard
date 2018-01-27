@@ -33,11 +33,13 @@
 
     new Chessboard(document.getElementById("board1"), {
         position: "start",
+        showBorder: true,
         sprite: {url: "../assets/images/chessboard-sprite.svg"}
     });
     new Chessboard(document.getElementById("board2"), {
         position: "start",
         showCoordinates: false,
+        showBorder: true,
         orientation: COLOR.black,
         sprite: {url: "../assets/images/chessboard-sprite.svg"}
     });

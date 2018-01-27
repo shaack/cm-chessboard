@@ -87,7 +87,11 @@ export class ChessboardView {
             Svg.removeElement(this.svg);
         }
         this.svg = Svg.createSvg(this.chessboard.element);
-        this.svg.setAttribute("class", "cm-chessboard");
+        if(this.chessboard.config.showBorder) {
+            this.svg.setAttribute("class", "cm-chessboard border");
+        } else {
+            this.svg.setAttribute("class", "cm-chessboard");
+        }
         this.updateMetrics();
         this.boardGroup = Svg.addElement(this.svg, "g", {class: "board"});
         this.coordinatesGroup = Svg.addElement(this.svg, "g", {class: "coordinates"});

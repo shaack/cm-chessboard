@@ -1,42 +1,42 @@
-/* line 8, _skin-base.scss */
+/* line 7, _skin-base.scss */
 .cm-chessboard .board.input-enabled .square {
   cursor: pointer; }
 
-/* line 12, _skin-base.scss */
-.cm-chessboard .board .board-border {
-  fill: #eedab6; }
-
-/* line 15, _skin-base.scss */
+/* line 11, _skin-base.scss */
 .cm-chessboard .board .surrounding-line {
   stroke-width: 0.3%;
   stroke-linecap: round;
-  stroke: #b38964; }
+  stroke: rgba(0, 0, 0, 0.5); }
 
-/* line 21, _skin-base.scss */
+/* line 17, _skin-base.scss */
 .cm-chessboard .board .square.white {
   fill: #eedab6; }
 
-/* line 24, _skin-base.scss */
+/* line 20, _skin-base.scss */
 .cm-chessboard .board .square.black {
-  fill: #b38964; }
+  fill: #c7a47b; }
 
-/* line 29, _skin-base.scss */
+/* line 27, _skin-base.scss */
+.cm-chessboard.border .board .board-border {
+  fill: #eedab6; }
+
+/* line 30, _skin-base.scss */
+.cm-chessboard.border .board .surrounding-line {
+  stroke-width: 0.3%;
+  stroke-linecap: round;
+  stroke: #bf9869; }
+
+/* line 37, _skin-base.scss */
 .cm-chessboard .coordinates {
   pointer-events: none;
   user-select: none; }
-  /* line 32, _skin-base.scss */
+  /* line 40, _skin-base.scss */
   .cm-chessboard .coordinates .coordinate {
-    fill: #b38964;
+    fill: rgba(0, 0, 0, 0.7);
     font-size: 7px;
     cursor: default; }
-    /* line 36, _skin-base.scss */
-    .cm-chessboard .coordinates .coordinate.dark {
-      fill: #b38964; }
-    /* line 39, _skin-base.scss */
-    .cm-chessboard .coordinates .coordinate.light {
-      fill: #eedab6; }
 
-/* line 44, _skin-base.scss */
+/* line 46, _skin-base.scss */
 .cm-chessboard .pieces, .cm-chessboard .markers {
   pointer-events: none; }
 

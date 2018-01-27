@@ -1,21 +1,17 @@
-$dark: #b38964;
+$dark: #c7a47b;
 $light: #eedab6;
 
 .cm-chessboard {
-  // box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.6);
   .board {
     &.input-enabled {
       .square {
         cursor: pointer;
       }
     }
-    .board-border {
-      fill: $light;
-    }
     .surrounding-line {
       stroke-width: 0.3%;
       stroke-linecap: round;
-      stroke: $dark;
+      stroke: rgba(0, 0, 0, 0.5);
     }
     .square {
       &.white {
@@ -26,19 +22,25 @@ $light: #eedab6;
       }
     }
   }
+  &.border {
+    .board {
+      .board-border {
+        fill: $light;
+      }
+      .surrounding-line {
+        stroke-width: 0.3%;
+        stroke-linecap: round;
+        stroke: darken($dark, 5%);
+      }
+    }
+  }
   .coordinates {
     pointer-events: none;
     user-select: none;
     .coordinate {
-      fill: $dark;
+      fill: rgba(0, 0, 0, 0.7);
       font-size: 7px;
       cursor: default;
-      &.dark {
-        fill: $dark;
-      }
-      &.light {
-        fill: $light;
-      }
     }
   }
   .pieces, .markers {
