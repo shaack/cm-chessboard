@@ -29,6 +29,8 @@ function moveCallback(event) {
         case INPUT_EVENT_TYPE.moveDone:
             log(`moveDone: ${event.squareFrom}-${event.squareTo}`);
             return true;
+        case INPUT_EVENT_TYPE.moveCanceled:
+            log(`moveCanceled`);
     }
 }
 
@@ -53,6 +55,8 @@ new Chessboard(document.getElementById("board"), {
             case INPUT_EVENT_TYPE.moveDone:
                 log(`moveDone: ${event.squareFrom}-${event.squareTo}`);
                 return true;
+            case INPUT_EVENT_TYPE.moveCanceled:
+                log(`moveCanceled`);
         }
     }
 
