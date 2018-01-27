@@ -302,7 +302,6 @@ export class ChessboardView {
     }
 
     drawMarker(marker) {
-        console.log("drawMarker", marker);
         const markerGroup = Svg.addElement(this.markersGroup, "g");
         markerGroup.setAttribute("data-index", marker.index);
         const point = this.squareIndexToPoint(marker.index);
