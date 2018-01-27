@@ -22,7 +22,11 @@ export class ChessboardView {
         this.spriteLoadWaitingTries = 0;
         this.loadSprite(chessboard.config, () => {
             this.spriteLoadWaitDelay = 0;
-            this.moveInput = new ChessboardMoveInput(this, chessboard.model, chessboard.config, this.moveStartCallback.bind(this), this.moveDoneCallback.bind(this));
+            this.moveInput = new ChessboardMoveInput(this, chessboard.model, chessboard.config,
+                this.moveStartCallback.bind(this),
+                this.moveDoneCallback.bind(this),
+                this.moveCanceledCallback.bind(this)
+            );
             this.animationQueue = [];
             if (chessboard.config.responsive) {
                 window.addEventListener("resize", () => {
@@ -358,6 +362,15 @@ export class ChessboardView {
             });
         } else {
             return true;
+        }
+    }
+
+    moveCanceledCallback() {
+        if (this.chessboard.moveInputCallback) {
+            this.chessboard.moveInputCallback({
+                chessboard: this.chessboard,
+                type: INPUT_EVENT_TYPE.moveCanceled
+            });
         }
     }
 

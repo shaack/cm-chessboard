@@ -64,6 +64,7 @@ new Chessboard(document.getElementById("board"), {
 
     const chess = new Chess();
     function inputCallback(event) {
+        console.log(event);
         if(event.type === INPUT_EVENT_TYPE.moveDone) {
             const result = chess.move({from: event.squareFrom, to: event.squareTo});
             if (result) {

@@ -18,6 +18,7 @@ export const MOVE_INPUT_MODE = {
 export const INPUT_EVENT_TYPE = {
     moveStart: "moveStart",
     moveDone: "moveDone",
+    moveCanceled: "moveCanceled",
     context: "context"
 };
 export const MARKER_TYPE = {

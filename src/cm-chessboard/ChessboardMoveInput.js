@@ -21,12 +21,13 @@ const DRAG_THRESHOLD = 2;
 
 export class ChessboardMoveInput {
 
-    constructor(view, model, config, moveStartCallback, moveDoneCallback) {
+    constructor(view, model, config, moveStartCallback, moveDoneCallback, moveCanceledCallback) {
         this.view = view;
         this.model = model;
         this.config = config;
         this.moveStartCallback = moveStartCallback;
         this.moveDoneCallback = moveDoneCallback;
+        this.moveCanceledCallback = moveCanceledCallback;
         this.setStatus(STATUS.waitForInputStart);
     }
 
@@ -304,10 +305,12 @@ export class ChessboardMoveInput {
                     this.setStatus(STATUS.clickTo, {index: index});
                 } else if (this.status === STATUS.secondClickThreshold) {
                     this.setStatus(STATUS.reset);
+                    this.moveCanceledCallback();
                 }
             } else {
                 this.view.drawPieces();
                 this.setStatus(STATUS.reset);
+                this.moveCanceledCallback();
             }
         } else {
             this.view.drawPieces();
@@ -316,12 +319,12 @@ export class ChessboardMoveInput {
     }
 
     updateStartEndMarkers() {
-        this.model.removeMarkers(null, MARKER_TYPE.newMove);
+        this.model.removeMarkers(null, MARKER_TYPE.move);
         if (this.startIndex) {
-            this.model.addMarker(this.startIndex, MARKER_TYPE.newMove);
+            this.model.addMarker(this.startIndex, MARKER_TYPE.move);
         }
         if (this.endIndex) {
-            this.model.addMarker(this.endIndex, MARKER_TYPE.newMove);
+            this.model.addMarker(this.endIndex, MARKER_TYPE.move);
         }
         this.view.drawMarkers();
     }
