@@ -302,6 +302,7 @@ export class ChessboardView {
     }
 
     drawMarker(marker) {
+        console.log("drawMarker", marker);
         const markerGroup = Svg.addElement(this.markersGroup, "g");
         markerGroup.setAttribute("data-index", marker.index);
         const point = this.squareIndexToPoint(marker.index);
@@ -309,7 +310,7 @@ export class ChessboardView {
         transform.setTranslate(point.x, point.y);
         markerGroup.transform.baseVal.appendItem(transform);
         const markerUse = Svg.addElement(markerGroup, "use",
-            {href: `#${marker.type.slice}`, class: "marker", opacity: marker.type.opacity});
+            {href: `#${marker.type.slice}`, class: "marker " + marker.type.class});
         const transformScale = (this.svg.createSVGTransform());
         transformScale.setScale(this.scalingX, this.scalingY);
         markerUse.transform.baseVal.appendItem(transformScale);

@@ -22,8 +22,8 @@ export const INPUT_EVENT_TYPE = {
     context: "context"
 };
 export const MARKER_TYPE = {
-    move: {slice: "marker1", opacity: 0.5},
-    emphasize: {slice: "marker2", opacity: 0.4}
+    move: {class: "move", slice: "marker1"},
+    emphasize: {class: "emphasize", slice: "marker2"}
 };
 export const PIECE = {
     whitePawn: "wp",
