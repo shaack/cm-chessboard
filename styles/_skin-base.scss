@@ -9,7 +9,7 @@ $light: #eedab6;
       }
     }
     .surrounding-line {
-      stroke-width: 0.3%;
+      stroke-width: 0.5%;
       stroke-linecap: round;
       stroke: rgba(0, 0, 0, 0.5);
     }
@@ -28,9 +28,9 @@ $light: #eedab6;
         fill: $light;
       }
       .surrounding-line {
-        stroke-width: 0.3%;
+        stroke-width: 0.4%;
         stroke-linecap: round;
-        stroke: darken($dark, 5%);
+        stroke: $dark;
       }
     }
   }

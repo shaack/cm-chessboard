@@ -4,7 +4,7 @@
 
 /* line 11, _skin-base.scss */
 .cm-chessboard .board .surrounding-line {
-  stroke-width: 0.3%;
+  stroke-width: 0.5%;
   stroke-linecap: round;
   stroke: rgba(0, 0, 0, 0.5); }
 
@@ -22,9 +22,9 @@
 
 /* line 30, _skin-base.scss */
 .cm-chessboard.border .board .surrounding-line {
-  stroke-width: 0.3%;
+  stroke-width: 0.4%;
   stroke-linecap: round;
-  stroke: #bf9869; }
+  stroke: #c7a47b; }
 
 /* line 37, _skin-base.scss */
 .cm-chessboard .coordinates {
