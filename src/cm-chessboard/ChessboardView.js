@@ -92,7 +92,7 @@ export class ChessboardView {
         }
         this.svg = Svg.createSvg(this.chessboard.element);
         if(this.chessboard.config.showBorder) {
-            this.svg.setAttribute("class", "cm-chessboard border");
+            this.svg.setAttribute("class", "cm-chessboard has-border");
         } else {
             this.svg.setAttribute("class", "cm-chessboard");
         }
@@ -109,7 +109,7 @@ export class ChessboardView {
         if(this.chessboard.config.showBorder) {
             this.borderSize = this.width / 32;
         } else {
-            this.borderSize = 0;
+            this.borderSize = this.width / 320;
         }
         this.innerWidth = this.width - 2 * this.borderSize;
         this.innerHeight = this.height - 2 * this.borderSize;
@@ -138,7 +138,12 @@ export class ChessboardView {
                 this.boardGroup.removeChild(this.boardGroup.lastChild);
             }
             let boardBorder = Svg.addElement(this.boardGroup, "rect", {width: this.width, height: this.height});
-            boardBorder.setAttribute("class", "board-border");
+            boardBorder.setAttribute("class", "border");
+            if(this.chessboard.config.showBorder) {
+                const innerPos = this.borderSize - this.borderSize / 9;
+                let borderInner = Svg.addElement(this.boardGroup, "rect", {x: innerPos, y: innerPos, width: this.width - innerPos * 2, height: this.height - innerPos * 2});
+                borderInner.setAttribute("class", "border-inner");
+            }
             for (let i = 0; i < 64; i++) {
                 const index = this.chessboard.model.orientation === COLOR.white ? i : 63 - i;
                 const squareColor = ((9 * index) & 8) === 0 ? 'black' : 'white';
@@ -150,22 +155,6 @@ export class ChessboardView {
                 squareRect.setAttribute("class", fieldClass);
                 squareRect.setAttribute("data-index", index);
             }
-            Svg.addElement(this.boardGroup, "line", {
-                x1: this.borderSize, y1: this.borderSize,
-                x2: this.width - this.borderSize, y2: this.borderSize, class: "surrounding-line"
-            });
-            Svg.addElement(this.boardGroup, "line", {
-                x1: this.borderSize, y1: this.height - this.borderSize,
-                x2: this.width - this.borderSize, y2: this.height - this.borderSize, class: "surrounding-line"
-            });
-            Svg.addElement(this.boardGroup, "line", {
-                x1: this.borderSize, y1: this.borderSize,
-                x2: this.borderSize, y2: this.height - this.borderSize, class: "surrounding-line"
-            });
-            Svg.addElement(this.boardGroup, "line", {
-                x1: this.width - this.borderSize, y1: this.borderSize,
-                x2: this.width - this.borderSize, y2: this.height - this.borderSize, class: "surrounding-line"
-            });
         });
     }
 

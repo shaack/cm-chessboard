@@ -29,12 +29,15 @@
 <div class="board" id="board5"></div>
 <br style="clear: both"/>
 <script type="module">
-    import {COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
+    import {COLOR, MARKER_TYPE, Chessboard} from "../src/cm-chessboard/Chessboard.js"
 
     new Chessboard(document.getElementById("board1"), {
         position: "start",
         showBorder: true,
         sprite: {url: "../assets/images/chessboard-sprite.svg"}
+    }, (board) => {
+        board.addMarker("g8", MARKER_TYPE.move);
+        board.addMarker("h6", MARKER_TYPE.move);
     });
     new Chessboard(document.getElementById("board2"), {
         position: "start",
@@ -47,6 +50,9 @@
         position: "start",
         showBorder: false,
         sprite: {url: "../assets/images/chessboard-sprite.svg"},
+    }, (board) => {
+        board.addMarker("g8", MARKER_TYPE.move);
+        board.addMarker("h6", MARKER_TYPE.move);
     });
     new Chessboard(document.getElementById("board4"), {
         position: "start",

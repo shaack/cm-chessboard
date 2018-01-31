@@ -3,50 +3,46 @@
   cursor: pointer; }
 
 /* line 11, _skin-base.scss */
-.cm-chessboard .board .surrounding-line {
-  stroke-width: 0.5%;
-  stroke-linecap: round;
-  stroke: rgba(0, 0, 0, 0.5); }
+.cm-chessboard .board .border {
+  fill: rgba(0, 0, 0, 0.7); }
 
-/* line 17, _skin-base.scss */
+/* line 15, _skin-base.scss */
 .cm-chessboard .board .square.white {
   fill: #eedab6; }
 
-/* line 20, _skin-base.scss */
+/* line 18, _skin-base.scss */
 .cm-chessboard .board .square.black {
   fill: #c7a47b; }
 
-/* line 27, _skin-base.scss */
-.cm-chessboard.border .board .board-border {
+/* line 25, _skin-base.scss */
+.cm-chessboard.has-border .board .border {
   fill: #eedab6; }
 
-/* line 30, _skin-base.scss */
-.cm-chessboard.border .board .surrounding-line {
-  stroke-width: 0.4%;
-  stroke-linecap: round;
-  stroke: #c7a47b; }
+/* line 28, _skin-base.scss */
+.cm-chessboard.has-border .board .border-inner {
+  fill: #c7a47b; }
 
-/* line 37, _skin-base.scss */
+/* line 33, _skin-base.scss */
 .cm-chessboard .coordinates {
   pointer-events: none;
   user-select: none; }
-  /* line 40, _skin-base.scss */
+  /* line 36, _skin-base.scss */
   .cm-chessboard .coordinates .coordinate {
     fill: rgba(0, 0, 0, 0.7);
     font-size: 7px;
     cursor: default; }
 
-/* line 48, _skin-base.scss */
+/* line 44, _skin-base.scss */
 .cm-chessboard .markers .marker.move {
   stroke: black;
   opacity: 0.7; }
 
-/* line 52, _skin-base.scss */
+/* line 48, _skin-base.scss */
 .cm-chessboard .markers .marker.emphasize {
   stroke: blue;
   opacity: 0.5; }
 
-/* line 58, _skin-base.scss */
+/* line 54, _skin-base.scss */
 .cm-chessboard .pieces, .cm-chessboard .markers {
   pointer-events: none; }
 
