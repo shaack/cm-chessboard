@@ -45,8 +45,11 @@ With default values
 this.config = {
     position: "empty", // set as fen or "start" or "empty"
     orientation: COLOR.white, // white on bottom
-    showCoordinates: true, // show ranks and files
-    showBorder: true, // display a border around the board
+    style: {
+        cssClass: "default",
+        showCoordinates: true, // show ranks and files
+        showBorder: false, // display a border around the board
+    },
     responsive: false, // detects window resize, if true
     animationDuration: 300, // in milliseconds
     moveInputMode: MOVE_INPUT_MODE.viewOnly, // set to MOVE_INPUT_MODE.dragPiece '1' or MOVE_INPUT_MODE.dragMarker '2' for interactive movement

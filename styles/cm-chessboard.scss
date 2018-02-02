@@ -1,1 +1,107 @@
-@import "skin-base";
+$dark-default: #c7a47b;
+$light-default: #eedab6;
+
+$dark-green: #8ebd9b;
+$light-green: #bddac4;
+
+$dark-blue: #aec0e9;
+$light-blue: #d7e3fc;
+
+.cm-chessboard {
+  .board {
+    &.input-enabled {
+      .square {
+        cursor: pointer;
+      }
+    }
+    .border {
+      fill: rgba(0,0,0,0.7);
+    }
+    .square {
+      &.white {
+        fill: $light-default;
+      }
+      &.black {
+        fill: $dark-default;
+      }
+    }
+  }
+  &.has-border {
+    .board {
+      .border {
+        fill: $light-default;
+      }
+      .border-inner {
+        fill: $dark-default;
+      }
+    }
+  }
+  .coordinates {
+    pointer-events: none;
+    user-select: none;
+    .coordinate {
+      fill: rgba(0, 0, 0, 0.7);
+      font-size: 7px;
+      cursor: default;
+    }
+  }
+  &.green {
+    .board {
+      .square {
+        &.white {
+          fill: $light-green;
+        }
+        &.black {
+          fill: $dark-green;
+        }
+      }
+    }
+    &.has-border {
+      .board {
+        .border {
+          fill: $light-green;
+        }
+        .border-inner {
+          fill: $dark-green;
+        }
+      }
+    }
+  }
+  &.blue {
+    .board {
+      .square {
+        &.white {
+          fill: $light-blue;
+        }
+        &.black {
+          fill: $dark-blue;
+        }
+      }
+    }
+    &.has-border {
+      .board {
+        .border {
+          fill: $light-blue;
+        }
+        .border-inner {
+          fill: $dark-blue;
+        }
+      }
+    }
+  }
+  .markers {
+    .marker {
+      &.move {
+        stroke: black;
+        opacity: 0.7;
+      }
+      &.emphasize {
+        stroke: blue;
+        opacity: 0.5;
+      }
+    }
+  }
+  .pieces, .markers {
+    pointer-events: none;
+  }
+}

@@ -91,10 +91,11 @@ export class ChessboardView {
             Svg.removeElement(this.svg);
         }
         this.svg = Svg.createSvg(this.chessboard.element);
-        if(this.chessboard.config.showBorder) {
-            this.svg.setAttribute("class", "cm-chessboard has-border");
+        let cssClass = this.chessboard.config.style.cssClass ? this.chessboard.config.style.cssClass : "default";
+        if(this.chessboard.config.style.showBorder) {
+            this.svg.setAttribute("class", "cm-chessboard has-border " + cssClass);
         } else {
-            this.svg.setAttribute("class", "cm-chessboard");
+            this.svg.setAttribute("class", "cm-chessboard " + cssClass);
         }
         this.updateMetrics();
         this.boardGroup = Svg.addElement(this.svg, "g", {class: "board"});
@@ -106,7 +107,7 @@ export class ChessboardView {
     updateMetrics() {
         this.width = this.chessboard.element.offsetWidth;
         this.height = this.chessboard.element.offsetHeight;
-        if(this.chessboard.config.showBorder) {
+        if(this.chessboard.config.style.showBorder) {
             this.borderSize = this.width / 32;
         } else {
             this.borderSize = this.width / 320;
@@ -139,7 +140,7 @@ export class ChessboardView {
             }
             let boardBorder = Svg.addElement(this.boardGroup, "rect", {width: this.width, height: this.height});
             boardBorder.setAttribute("class", "border");
-            if(this.chessboard.config.showBorder) {
+            if(this.chessboard.config.style.showBorder) {
                 const innerPos = this.borderSize - this.borderSize / 9;
                 let borderInner = Svg.addElement(this.boardGroup, "rect", {x: innerPos, y: innerPos, width: this.width - innerPos * 2, height: this.height - innerPos * 2});
                 borderInner.setAttribute("class", "border-inner");
@@ -159,7 +160,7 @@ export class ChessboardView {
     }
 
     drawCoordinates() {
-        if (!this.chessboard.config.showCoordinates) {
+        if (!this.chessboard.config.style.showCoordinates) {
             return;
         }
         window.clearTimeout(this.drawCoordinatesDebounce);
@@ -167,14 +168,14 @@ export class ChessboardView {
             while (this.coordinatesGroup.firstChild) {
                 this.coordinatesGroup.removeChild(this.coordinatesGroup.lastChild);
             }
-            const inline = !this.chessboard.config.showBorder;
+            const inline = !this.chessboard.config.style.showBorder;
             for (let file = 0; file < 8; file++) {
                 let x = this.borderSize + (18 + this.chessboard.config.sprite.grid * file) * this.scalingX;
                 let y = this.height - this.scalingY * 2.6;
                 let cssClass = "coordinate file";
                 if(inline) {
                     x = x + this.scalingX * 15.5;
-                    if(this.chessboard.config.showBorder) {
+                    if(this.chessboard.config.style.showBorder) {
                         y = y - this.scalingY * 11;
                     }
                     cssClass += file % 2 ? " dark" : " light";
@@ -197,7 +198,7 @@ export class ChessboardView {
                 let cssClass = "coordinate rank";
                 if(inline) {
                     cssClass += rank % 2 ? " light" : " dark";
-                    if(this.chessboard.config.showBorder) {
+                    if(this.chessboard.config.style.showBorder) {
                         x = x + this.scalingX * 10;
                         y = y - this.scalingY * 15;
                     } else {
