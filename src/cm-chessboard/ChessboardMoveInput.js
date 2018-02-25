@@ -33,7 +33,7 @@ export class ChessboardMoveInput {
 
     setStatus(newStatus, params = null) {
 
-        //console.log("setStatus", Object.keys(STATUS)[this.status], "=>", Object.keys(STATUS)[newStatus]);
+        console.log("setStatus", Object.keys(STATUS)[this.status], "=>", Object.keys(STATUS)[newStatus]);
 
         const prevStatus = this.status;
         this.status = newStatus;
@@ -294,6 +294,7 @@ export class ChessboardMoveInput {
                     if (this.startIndex === index) {
                         if (this.status === STATUS.clickDragTo) {
                             this.model.setPiece(this.startIndex, this.movedPiece);
+                            this.view.setPieceVisibility(this.startIndex);
                             this.setStatus(STATUS.reset);
                         } else {
                             this.setStatus(STATUS.clickTo, {index: index});
