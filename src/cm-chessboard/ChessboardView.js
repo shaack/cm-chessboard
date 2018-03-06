@@ -3,7 +3,7 @@
  * Date: 21.11.2017
  */
 
-import {Svg} from "../svjs-svg/src/svjs/Svg.js";
+import {Svg} from "../svjs-svg/Svg.js";
 import {SQUARE_COORDINATES} from "./ChessboardModel.js";
 import {ChessboardMoveInput} from "./ChessboardMoveInput.js";
 import {COLOR, MOVE_INPUT_MODE, INPUT_EVENT_TYPE} from "./Chessboard.js";

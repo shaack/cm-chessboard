@@ -3,7 +3,7 @@
  * Date: 07.12.2017
  */
 
-import {Test} from "../node_modules/svjs-test/src/svjs/Test.js"
+import {Test} from "../node_modules/svjs-test/src/svjs-test/Test.js"
 import {ChessboardPiecesAnimation} from "../src/cm-chessboard/ChessboardPiecesAnimation.js";
 import {ChessboardModel} from "../src/cm-chessboard/ChessboardModel.js";
 import {ViewMock} from "./mocks/ViewMock.js";

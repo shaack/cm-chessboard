@@ -26,9 +26,9 @@
   },
   "homepage": "https://github.com/shaack/cm-chessboard#readme",
   "dependencies": {
-    "svjs-svg": "^1.1.6"
+    "svjs-svg": "^1.1.9"
   },
   "devDependencies": {
-    "svjs-test": "^1.3.2"
+    "svjs-test": "^1.3.3"
   }
 }

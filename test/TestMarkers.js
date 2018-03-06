@@ -3,7 +3,7 @@
  * Date: 16.12.2017
  */
 
-import {Test} from "../node_modules/svjs-test/src/svjs/Test.js"
+import {Test} from "../node_modules/svjs-test/src/svjs-test/Test.js"
 import {Chessboard, MARKER_TYPE} from "../src/cm-chessboard/Chessboard.js";
 
 export class TestMarkers extends Test {

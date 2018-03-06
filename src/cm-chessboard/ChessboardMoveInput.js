@@ -3,7 +3,7 @@
  * Date: 06.12.2017
  */
 
-import {Svg} from "../svjs-svg/src/svjs/Svg.js";
+import {Svg} from "../svjs-svg/Svg.js";
 import {MOVE_INPUT_MODE, MARKER_TYPE} from "./Chessboard.js";
 
 const STATUS = {

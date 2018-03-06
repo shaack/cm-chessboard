@@ -4,7 +4,7 @@
  */
 import {ChessboardView} from "./ChessboardView.js";
 import {SQUARE_COORDINATES, ChessboardModel} from "./ChessboardModel.js";
-import {Svg} from "../svjs-svg/src/svjs/Svg.js";
+import {Svg} from "../svjs-svg/Svg.js";
 
 export const COLOR = {
     white: "w",

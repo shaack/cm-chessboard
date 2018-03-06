@@ -3,7 +3,7 @@
  * Date: 01.12.2017
  */
 
-import {Test} from "../node_modules/svjs-test/src/svjs/Test.js"
+import {Test} from "../node_modules/svjs-test/src/svjs-test/Test.js"
 import {PIECE, Chessboard} from "../src/cm-chessboard/Chessboard.js";
 
 export class TestPosition extends Test {
