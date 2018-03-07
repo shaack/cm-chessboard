@@ -12,8 +12,6 @@ polyfill is used.
 - Demo: [http://shaack.com/projekte/cm-chessboard/](http://shaack.com/projekte/cm-chessboard/)
 - Repository: [https://github.com/shaack/cm-chessboard](https://github.com/shaack/cm-chessboard)
 
-If you use this board, it would be nice, if you put a link to chessmail ([chessmail.eu](https://www.chessmail.eu) or [chessmail.de](https://www.chessmail.de)) on your site. Thanks. :)
-
 ![Example chessboards](http://shaack.com/projekte/assets/img/example_chessboards.png)
 
 ## Install
