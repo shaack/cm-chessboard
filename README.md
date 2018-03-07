@@ -33,6 +33,7 @@ Preconditions for using cm-chessboard in a web page:
 Example, showing a FEN:
 ```html
 <script type="module">
+    import {Chessboard} from "./src/cm-chessboard/Chessboard.js"
     new Chessboard(document.getElementById("containerId"),
             { position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR" });
 </script>
