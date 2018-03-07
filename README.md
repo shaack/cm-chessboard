@@ -31,7 +31,7 @@ Preconditions for using cm-chessboard in a web page:
 - **import the ES6 module:** `import {Chessboard} from "../src/cm-chessboard/Chessboard.js"`
 
 Example, showing a FEN:
-```
+```html
 <script type="module">
     new Chessboard(document.getElementById("containerId"),
             { position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR" });
@@ -43,23 +43,23 @@ Take a look at the [/examples](https://github.com/shaack/cm-chessboard/tree/mast
 
 Below is the configuration with default values
 
-```
-    this.config = {
-        position: "empty", // set as fen, "start" or "empty"
-        orientation: COLOR.white, // white on bottom
-        style: {
-            cssClass: "default",
-            showCoordinates: true, // show ranks and files
-            showBorder: false, // display a border around the board
-        },
-        responsive: false, // resizes the board on window resize, if true
-        animationDuration: 300, // pieces animation duration in milliseconds
-        moveInputMode: MOVE_INPUT_MODE.viewOnly, // set to MOVE_INPUT_MODE.dragPiece or MOVE_INPUT_MODE.dragMarker for interactive movement
-        sprite: {
-            url: "./assets/images/chessboard-sprite.svg", // pieces and markers are stored es svg in the sprite
-            grid: 40 // the sprite is tiled with one piece every 40px
-        }
-    };
+```javascript
+this.config = {
+    position: "empty", // set as fen, "start" or "empty"
+    orientation: COLOR.white, // white on bottom
+    style: {
+        cssClass: "default",
+        showCoordinates: true, // show ranks and files
+        showBorder: false, // display a border around the board
+    },
+    responsive: false, // resizes the board on window resize, if true
+    animationDuration: 300, // pieces animation duration in milliseconds
+    moveInputMode: MOVE_INPUT_MODE.viewOnly, // set to MOVE_INPUT_MODE.dragPiece or MOVE_INPUT_MODE.dragMarker for interactive movement
+    sprite: {
+        url: "./assets/images/chessboard-sprite.svg", // pieces and markers are stored es svg in the sprite
+        grid: 40 // the sprite is tiled with one piece every 40px
+    }
+};
 ```  
 
 ## API
