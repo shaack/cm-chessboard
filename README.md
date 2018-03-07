@@ -16,47 +16,50 @@ polyfill is used.
 
 ## Install
 
-**Option 1:** Download from [GitHub](https://github.com/shaack/cm-chessboard) and run `npm install` without parameters
+**Option 1:** Download from [GitHub](https://github.com/shaack/cm-chessboard) and run `npm install` without parameters, or
 
 **Option 2:** Install the [npm package](https://www.npmjs.com/package/cm-chessboard) with `npm install --save cm-chessboard`
 
-After installation copy the `cm-chessboard/assets/images/chessboard-sprite.svg` to your projects `assets/images` folder.
+After installation, copy the `cm-chessboard/assets/images/chessboard-sprite.svg` to your projects `assets/images` folder.
 If you put the sprite somewhere else you have to configure the location in `config.sprite.url`.
 
 ## Example Usage
 
-Preconditions:
+Preconditions for using cm-chessboard in a web page:
 
-- **include css:** `styles/cm-chessboard.css`
-- **import ES6 module:** `import {Chessboard} from "../src/cm-chessboard/Chessboard.js"`
+- **include the css:** `styles/cm-chessboard.css`
+- **import the ES6 module:** `import {Chessboard} from "../src/cm-chessboard/Chessboard.js"`
 
 Example, showing a FEN:
 ```
-new Chessboard(document.getElementById("containerId"), 
-        { position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR" });
+<script type="module">
+    new Chessboard(document.getElementById("containerId"),
+            { position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR" });
+</script>
 ```
 Take a look at the [/examples](https://github.com/shaack/cm-chessboard/tree/master/examples) folder for more simple examples.
 
 ## Configuration
 
-With default values
+Below is the configuration with default values
+
 ```
-this.config = {
-    position: "empty", // set as fen or "start" or "empty"
-    orientation: COLOR.white, // white on bottom
-    style: {
-        cssClass: "default",
-        showCoordinates: true, // show ranks and files
-        showBorder: false, // display a border around the board
-    },
-    responsive: false, // detects window resize, if true
-    animationDuration: 300, // in milliseconds
-    moveInputMode: MOVE_INPUT_MODE.viewOnly, // set to MOVE_INPUT_MODE.dragPiece '1' or MOVE_INPUT_MODE.dragMarker '2' for interactive movement
-    sprite: {
-        url: "./assets/images/chessboard-sprite.svg", // pieces and markers
-        grid: DEFAULT_SPRITE_GRID // one piece every 40px
-    }
-};
+    this.config = {
+        position: "empty", // set as fen, "start" or "empty"
+        orientation: COLOR.white, // white on bottom
+        style: {
+            cssClass: "default",
+            showCoordinates: true, // show ranks and files
+            showBorder: false, // display a border around the board
+        },
+        responsive: false, // resizes the board on window resize, if true
+        animationDuration: 300, // pieces animation duration in milliseconds
+        moveInputMode: MOVE_INPUT_MODE.viewOnly, // set to MOVE_INPUT_MODE.dragPiece or MOVE_INPUT_MODE.dragMarker for interactive movement
+        sprite: {
+            url: "./assets/images/chessboard-sprite.svg", // pieces and markers are stored es svg in the sprite
+            grid: 40 // the sprite is tiled with one piece every 40px
+        }
+    };
 ```  
 
 ## API

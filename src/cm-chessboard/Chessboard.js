@@ -49,19 +49,19 @@ export class Chessboard {
     constructor(element, config = {}, callback = null) {
         this.element = element;
         this.config = {
-            position: "empty", // set as fen or "start" or "empty"
+            position: "empty", // set as fen, "start" or "empty"
             orientation: COLOR.white, // white on bottom
             style: {
                 cssClass: "default",
                 showCoordinates: true, // show ranks and files
                 showBorder: false, // display a border around the board
             },
-            responsive: false, // detects window resize, if true
-            animationDuration: 300, // in milliseconds
-            moveInputMode: MOVE_INPUT_MODE.viewOnly, // set to MOVE_INPUT_MODE.dragPiece '1' or MOVE_INPUT_MODE.dragMarker '2' for interactive movement
+            responsive: false, // resizes the board on window resize, if true
+            animationDuration: 300, // pieces animation duration in milliseconds
+            moveInputMode: MOVE_INPUT_MODE.viewOnly, // set to MOVE_INPUT_MODE.dragPiece or MOVE_INPUT_MODE.dragMarker for interactive movement
             sprite: {
-                url: "./assets/images/chessboard-sprite.svg", // pieces and markers
-                grid: DEFAULT_SPRITE_GRID // one piece every 40px
+                url: "./assets/images/chessboard-sprite.svg", // pieces and markers are stored es svg in the sprite
+                grid: DEFAULT_SPRITE_GRID // the sprite is tiled with one piece every 40px
             }
         };
         Object.assign(this.config, config);
