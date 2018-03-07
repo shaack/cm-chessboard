@@ -5,9 +5,16 @@ The (upcoming) chessboard for [chessmail.eu](https://www.chessmail.eu) / [chessm
 A Lightweight, ES6 module based, responsive, SVG chessboard with almost no external dependencies.
 
 Current version is "beta". It works on desktop (current versions of Chrome, Firefox, Safari, Edge), 
-and mobile (Android and iOS). Firefox will support ES6 Modules from release 60 (coming in May 2018) in
-current versions of Firefox the [browser-es-module-loader](https://github.com/ModuleLoader/browser-es-module-loader)
-polyfill is used.
+and mobile (Android and iOS).
+
+## Firefox doesn't support ES6 Modules
+
+[Firefox will support JS Modules in future](https://bugzilla.mozilla.org/show_bug.cgi?id=1438139),
+from release 60 (coming in May 2018). For now, in current versions of Firefox,
+the [browser-es-module-loader](https://github.com/ModuleLoader/browser-es-module-loader) polyfill is used.
+Its works, but not very fast. This problem will vanish in May.
+
+## Demo and Repository
 
 - Demo: [http://shaack.com/projekte/cm-chessboard/](http://shaack.com/projekte/cm-chessboard/)
 - Repository: [https://github.com/shaack/cm-chessboard](https://github.com/shaack/cm-chessboard)
