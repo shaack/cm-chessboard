@@ -7,7 +7,7 @@ A Lightweight, ES6 module based, responsive, SVG chessboard with almost no exter
 Current version is "beta". It works on desktop (current versions of Chrome, Firefox, Safari, Edge), 
 and mobile (Android and iOS).
 
-## Firefox doesn't support ES6 Modules
+## Firefox doesn't support ES6 Modules (for now)
 
 [Firefox will support JS Modules in future](https://bugzilla.mozilla.org/show_bug.cgi?id=1438139),
 from release 60 (coming in May 2018). For now, in current versions of Firefox,
