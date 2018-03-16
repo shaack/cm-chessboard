@@ -116,7 +116,7 @@ marker for styling and `slice` is the `id` in `sprite.svg`.
 
 ### getMarkers(square = null, type = null)
 
-Returns the the boards markers as an array.
+Returns the the board's markers as an array.
 
 Set square to `null`, to get all markers of a type on the board. Set type to `null`, to get all types.
 Set `both` to null to get all markers on the board.
