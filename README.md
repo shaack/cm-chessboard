@@ -16,7 +16,7 @@ cm-chessboard is the new chessboard for the upcoming version 3 of
 - Uses SVG for rendering
 - No jQuery needed, just vanilla JavaScript in ECMAScript 6 syntax
 
-> [Firefox will support JS Modules in future](https://bugzilla.mozilla.org/show_bug.cgi?id=1438139), from release 60 (coming in May 2018). For now, in current versions of Firefox, the [browser-es-module-loader](https://github.com/ModuleLoader/browser-es-module-loader) polyfill is used. Its works, but not very fast. This problem will vanish in May.
+> A note on ES6 support in Firefox: [Firefox will support JS Modules in future](https://bugzilla.mozilla.org/show_bug.cgi?id=1438139), from release 60 (coming in May 2018). For now, in current versions of Firefox, the [browser-es-module-loader](https://github.com/ModuleLoader/browser-es-module-loader) polyfill is used. Its works, but not very fast. This problem will vanish in May.
 
 ## Demo and Repository
 
