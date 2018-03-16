@@ -1,5 +1,6 @@
 /**
- * Author: shaack
+ * Author and copyright: Stefan Haack <shaack@gmail.com> (http://shaack.com)
+ * License: MIT, see file 'LICENSE'
  * Date: 22.11.2017
  */
 

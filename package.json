@@ -19,7 +19,7 @@
     "type": "git",
     "url": "git+https://github.com/shaack/cm-chessboard.git"
   },
-  "author": "Stefan Haack (http://shaack.com)",
+  "author": "Stefan Haack <shaack@gmail.com> (http://www.shaack.com)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/shaack/cm-chessboard/issues"
