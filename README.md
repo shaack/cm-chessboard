@@ -4,7 +4,7 @@ A Lightweight, ES6 module based, responsive, SVG chessboard with almost no exter
 Current version is "beta". It works on desktop (current versions of Chrome, Firefox, Safari, Edge),
 and mobile (Android and iOS).
 
-cm-chessboard is the new chessboard for the upcoming version 3 of
+cm-chessboard is the new chessboard for the upcoming 'version 3' of
 [chessmail.eu](https://www.chessmail.eu) / [chessmail.de](https://www.chessmail.de), which is currently in development.
 
 ## Features
