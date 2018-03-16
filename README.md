@@ -80,13 +80,13 @@ this.config = {
 
 `new Chessboard(containerElement, config = {}, callback = null)`
 
-- **containerElement:** a HTML DOM element being the container of the widget
-- **config:** The board configuration
-- **callback:** Callback after sprite loading and initialization. Wait for the callback before using the API. 
+- `containerElement`: a HTML DOM element being the container of the widget
+- `config`: The board configuration
+- `callback`: The callback after sprite loading and initialization; wait for the callback before using the API
 
 ### setPiece(square, piece)
 
-Set a piece on a square. Example: `board.setPiece("e4", PIECE.blackKnight)` or
+Sets a piece on a square. Example: `board.setPiece("e4", PIECE.blackKnight)` or
 `board.setPiece("e4", "bn")`.
 
 ### getPiece(square)
@@ -95,28 +95,33 @@ Returns the piece on a square or `null` if the square is empty.
 
 ### setPosition(fen, animated = true)
 
-Set the position as `fen`. Special values are `"start"`, sets the chess start position and 
+Sets the position as `fen`. Special values are `"start"`, sets the chess start position and
 `"empty"`, sets an empty board. When `animated` is set `false`, the new position will be 
 shown instant.
 
 ### getPosition()
 
-Get the board position as `fen`.
+Returns the board position as `fen`.
 
 ### addMarker(square, type = MARKER_TYPE.emphasize)
 
-Add a marker on a square.
+Adds a marker on a square.
 
 Default types are: `MARKER_TYPE.move`, `MARKER_TYPE.emphasize`,
 exportet by `Chessboard.js`. You can create your own marker types: Just create an object like 
-`{slice: "marker1", opacity: 0.6}`, where `slice` is the `id` in `sprite.svg`, `opacity` the opacity.
+`const myMarker = {class: "my-marker", slice: "marker1"};`, where `class` is the css class of the
+marker for styling and `slice` is the `id` in `sprite.svg`.
 
 ### getMarkers(square = null, type = null)
+
+Returns the the boards markers as an array.
 
 Set square to `null`, to get all markers of a type on the board. Set type to `null`, to get all types.
 Set `both` to null to get all markers on the board.
 
 ### removeMarkers(square = null, type = null);
+
+Removes markers from the board.
 
 Set `square` to `null` to remove markers of `type` from all squares.
 Set `type` to `null`, to remove all types from a square. 
@@ -124,7 +129,7 @@ Set both to `null` to remove all markers from the board.
 
 ### setOrientation(color)
 
-Set the board orientation (color at bottom). Allowed values are `COLOR.white` or `COLOR.black`.
+Sets the board orientation (color at bottom). Allowed values are `COLOR.white` or `COLOR.black`.
 
 ### getOrientation()
 
@@ -132,11 +137,11 @@ Returns the the board orientation.
 
 ### destroy()
 
-Remove the board from the DOM.
+Removes the board from the DOM.
 
 ### enableMoveInput(callback, color = null)
 
-Enable moves via user input (mouse or touch).
+Enables moves via user input (mouse or touch).
 Set optional `color`, if you want to enable the move input for a specific side, `COLOR.white` or `COLOR.black`.
 
 [Example page for move input](http://shaack.com/projekte/cm-chessboard/examples/enable-input.html)
@@ -178,7 +183,7 @@ Disables the moves via user input.
 
 ### enableContextInput(callback)
 
-Enable context input (right click on squares).
+Enables context input (right click on squares).
 
 [Example page for context input](http://shaack.com/projekte/cm-chessboard/examples/context-input.html)
 
