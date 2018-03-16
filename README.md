@@ -14,9 +14,9 @@ cm-chessboard is the new chessboard for the upcoming version 3 of
 - [Can handle moves input via click or drag](http://shaack.com/projekte/cm-chessboard/examples/validate-moves.html)
 - [Styleable via css](http://shaack.com/projekte/cm-chessboard/examples/styles.html)
 - Uses SVG for rendering
-- No jQuery needed, just vanilla JavaScript in ECMAScript 6 syntax
+- No jQuery needed, just vanilla JavaScript modules in ECMAScript 6 syntax
 
-> A note on ES6 support in Firefox: [Firefox will support JS Modules in future](https://bugzilla.mozilla.org/show_bug.cgi?id=1438139), from release 60 (coming in May 2018). For now, in current versions of Firefox, the [browser-es-module-loader](https://github.com/ModuleLoader/browser-es-module-loader) polyfill is used. Its works, but not very fast. This problem will vanish in May.
+> A note on ES6 support in Firefox: [Firefox will support JS Modules in future](https://bugzilla.mozilla.org/show_bug.cgi?id=1438139), from release 60 (coming in May 2018). For now, in current versions of Firefox, the [browser-es-module-loader](https://github.com/ModuleLoader/browser-es-module-loader) polyfill is used. Its works, but not very fast. This problem will vanish in May. Why I don't use Babel? Because, I think in 2018 the time is right to [stop using complex build tasks for JavaScript distribution](https://www.contentful.com/blog/2017/04/04/es6-modules-support-lands-in-browsers-is-it-time-to-rethink-bundling/).
 
 ## Demo and Repository
 
