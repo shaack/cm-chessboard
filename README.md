@@ -39,6 +39,7 @@ Preconditions for using cm-chessboard in a web page:
 - **import the ES6 module:** `import {Chessboard} from "../src/cm-chessboard/Chessboard.js"`
 
 Example, showing a FEN:
+
 ```html
 <script type="module">
     import {Chessboard} from "./src/cm-chessboard/Chessboard.js"
@@ -47,6 +48,7 @@ Example, showing a FEN:
             { position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR" });
 </script>
 ```
+
 Take a look at the [/examples](https://github.com/shaack/cm-chessboard/tree/master/examples) folder for more simple examples.
 
 ## Configuration
@@ -134,16 +136,60 @@ Remove the board from the DOM.
 
 ### enableMoveInput(callback, color = null)
 
-Enable moves via user input (mouse or touch). Set color, if you just want to enable move input for one specific color. 
+Enable moves via user input (mouse or touch).
+Set optional `color`, if you want to enable the move input for a specific side, `COLOR.white` or `COLOR.black`.
+
+[Example page for move input](http://shaack.com/projekte/cm-chessboard/examples/enable-input.html)
+
+`callback` is called on specific events of the user interaction. Receives the parameter `event`.
+
+```javascript
+board.enableMoveInput((event) => {
+    // handle user input
+}, COLOR.white);
+```
+
+These events can have the following `event.type`:
+
+- `INPUT_EVENT_TYPE.moveStart`: User starts move input, `event.square` contains the coordinates
+- `INPUT_EVENT_TYPE.moveDone`: User starts move input, `event.squareFrom` and `event.squareTo` contain the coordinates
+- `INPUT_EVENT_TYPE.moveCanceled`: User cancels move with clicking start square again or outside of the board
+
+```javascript
+chessboard.enableMoveInput((event) => {
+    switch (event.type) {
+        case INPUT_EVENT_TYPE.moveStart:
+            console.log(`moveStart: ${event.square}`);
+            // return `true`, if input is accepted/valid, `false` aborts the interaction, nothing will happen
+            return true;
+        case INPUT_EVENT_TYPE.moveDone:
+            console.log(`moveDone: ${event.squareFrom}-${event.squareTo}`);
+            // return true, if input is accepted/valid, `false` takes the move back
+            return true;
+        case INPUT_EVENT_TYPE.moveCanceled:
+            console.log(`moveCanceled`);
+    }
+}, COLOR.white);
+```
 
 ### disableMoveInput()
 
-Disable moves via user input.
+Disables the moves via user input.
 
 ### enableContextInput(callback)
 
-Enable context input (right click).
+Enable context input (right click on squares).
+
+[Example page for context input](http://shaack.com/projekte/cm-chessboard/examples/context-input.html)
+
+```javascript
+board.enableContextInput((event) => {
+    // handle user context input
+});
+```
+
+The `event` contains in `event.square` the coordinates of the user input.
 
 ### disableContextInput()
 
-Disable context input.
+Disables the context input.
