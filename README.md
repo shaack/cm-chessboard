@@ -8,12 +8,15 @@ and mobile (Android and iOS).
 cm-chessboard is the new chessboard for the upcoming version 3 of
 [chessmail.eu](https://www.chessmail.eu) / [chessmail.de](https://www.chessmail.de), which is currently in development.
 
-## Firefox doesn't support ES6 Modules (for now)
+## Features
 
-[Firefox will support JS Modules in future](https://bugzilla.mozilla.org/show_bug.cgi?id=1438139),
-from release 60 (coming in May 2018). For now, in current versions of Firefox,
-the [browser-es-module-loader](https://github.com/ModuleLoader/browser-es-module-loader) polyfill is used.
-Its works, but not very fast. This problem will vanish in May.
+- [Mobile friendly and responsive](http://shaack.com/projekte/cm-chessboard/examples/responsive-board.html)
+- [Can handle moves input via click or drag](http://shaack.com/projekte/cm-chessboard/examples/validate-moves.html)
+- [Styleable via css](http://shaack.com/projekte/cm-chessboard/examples/styles.html)
+- Uses SVG for rendering
+- No jQuery needed, just vanilla JavaScript in ECMAScript 6 syntax
+
+> [Firefox will support JS Modules in future](https://bugzilla.mozilla.org/show_bug.cgi?id=1438139), from release 60 (coming in May 2018). For now, in current versions of Firefox, the [browser-es-module-loader](https://github.com/ModuleLoader/browser-es-module-loader) polyfill is used. Its works, but not very fast. This problem will vanish in May.
 
 ## Demo and Repository
 
@@ -72,7 +75,7 @@ this.config = {
         grid: 40 // the sprite is tiled with one piece every 40px
     }
 };
-```  
+```
 
 ## API
 
@@ -198,3 +201,5 @@ The `event` contains in `event.square` the coordinates of the user input.
 ### disableContextInput()
 
 Disables the context input.
+
+
