@@ -1,7 +1,6 @@
 /**
  * Author and copyright: Stefan Haack <shaack@gmail.com> (http://shaack.com)
  * License: MIT, see file 'LICENSE'
- * Date: 06.12.2017
  */
 
 import {Svg} from "../svjs-svg/Svg.js";

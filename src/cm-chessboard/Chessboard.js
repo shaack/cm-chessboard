@@ -1,7 +1,6 @@
 /**
  * Author and copyright: Stefan Haack <shaack@gmail.com> (http://shaack.com)
  * License: MIT, see file 'LICENSE'
- * Date: 21.11.2017
  */
 import {ChessboardView} from "./ChessboardView.js";
 import {SQUARE_COORDINATES, ChessboardModel} from "./ChessboardModel.js";
