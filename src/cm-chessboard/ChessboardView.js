@@ -29,15 +29,8 @@ export class ChessboardView {
             )
             this.animationQueue = []
             if (chessboard.config.responsive) {
-                window.addEventListener("resize", () => {
-                    window.clearTimeout(this.resizeDebounce)
-                    this.resizeDebounce = setTimeout(() => {
-                        if (chessboard.element.offsetWidth !== this.width ||
-                            chessboard.element.offsetHeight !== this.height) {
-                            this.redraw()
-                        }
-                    })
-                })
+                this.resizeListener = this.handleResize.bind(this)
+                window.addEventListener("resize", this.resizeListener)
             }
             if (chessboard.config.moveInputMode !== MOVE_INPUT_MODE.viewOnly) {
                 chessboard.element.addEventListener("mousedown", (e) => {
@@ -53,6 +46,16 @@ export class ChessboardView {
             this.redraw()
             callbackAfterCreation()
         })
+    }
+
+    destroy() {
+        window.removeEventListener('resize', this.resizeListener)
+        window.clearTimeout(this.resizeDebounce)
+        window.clearTimeout(this.drawBoardDebounce)
+        window.clearTimeout(this.drawCoordinatesDebounce)
+        window.clearTimeout(this.drawMarkersDebounce)
+        window.clearTimeout(this.drawPiecesDebounce)
+        Svg.removeElement(this.svg)
     }
 
     // Sprite //
@@ -119,6 +122,16 @@ export class ChessboardView {
         this.scalingX = this.squareWidth / this.chessboard.config.sprite.grid
         this.scalingY = this.squareHeight / this.chessboard.config.sprite.grid
         this.pieceXTranslate = (this.squareWidth / 2 - this.chessboard.config.sprite.grid * this.scalingY / 2)
+    }
+
+    handleResize() {
+        window.clearTimeout(this.resizeDebounce)
+        this.resizeDebounce = setTimeout(() => {
+            if (this.chessboard.element.offsetWidth !== this.width ||
+                this.chessboard.element.offsetHeight !== this.height) {
+                this.redraw()
+            }
+        })
     }
 
     redraw() {

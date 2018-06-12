@@ -76,7 +76,9 @@ export class Chessboard {
                 this.model.moveInputMode = this.config.moveInputMode
                 this.view.redraw()
                 if (callback) {
-                    callback(this)
+                    setTimeout(() => {
+                        callback(this)
+                    })
                 }
             })
 
@@ -167,7 +169,7 @@ export class Chessboard {
     }
 
     destroy() {
-        Svg.removeElement(this.view.svg)
+        this.view.destroy()
         this.view = null
         this.model = null
     }
