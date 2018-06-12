@@ -31,14 +31,14 @@ new Chessboard(document.getElementById("board1"), {
     sprite: {url: "../assets/images/chessboard-sprite.svg"}
 }, (board) => {
     board.enableContextInput((event) => {
-        const markersOnSquare = board.getMarkers(event.square, MARKER_TYPE.emphasize);
+        const markersOnSquare = board.getMarkers(event.square, MARKER_TYPE.emphasize)
         if (markersOnSquare.length > 0) {
-            board.removeMarkers(event.square, MARKER_TYPE.emphasize);
+            board.removeMarkers(event.square, MARKER_TYPE.emphasize)
         } else {
-            board.addMarker(event.square);
+            board.addMarker(event.square)
         }
-    });
-});
+    })
+})
 </pre>
 <script type="module">
     import {MARKER_TYPE, MOVE_INPUT_MODE, COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
@@ -48,14 +48,14 @@ new Chessboard(document.getElementById("board1"), {
         sprite: {url: "../assets/images/chessboard-sprite.svg"}
     }, (board) => {
         board.enableContextInput((event) => {
-            const markersOnSquare = board.getMarkers(event.square, MARKER_TYPE.emphasize);
+            const markersOnSquare = board.getMarkers(event.square, MARKER_TYPE.emphasize)
             if (markersOnSquare.length > 0) {
-                board.removeMarkers(event.square, MARKER_TYPE.emphasize);
+                board.removeMarkers(event.square, MARKER_TYPE.emphasize)
             } else {
-                board.addMarker(event.square);
+                board.addMarker(event.square)
             }
-        });
-    });
+        })
+    })
 
     new Chessboard(document.getElementById("board2"), {
         position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR",
@@ -64,17 +64,17 @@ new Chessboard(document.getElementById("board1"), {
         moveInputMode: MOVE_INPUT_MODE.dragPiece
     }, (board) => {
         board.enableMoveInput(() => {
-            return true;
-        });
+            return true
+        })
         board.enableContextInput((event) => {
-            const markersOnSquare = board.getMarkers(event.square, MARKER_TYPE.emphasize);
+            const markersOnSquare = board.getMarkers(event.square, MARKER_TYPE.emphasize)
             if (markersOnSquare.length > 0) {
-                board.removeMarkers(event.square, MARKER_TYPE.emphasize);
+                board.removeMarkers(event.square, MARKER_TYPE.emphasize)
             } else {
-                board.addMarker(event.square);
+                board.addMarker(event.square)
             }
-        });
-    });
+        })
+    })
 
 </script>
 </body>
