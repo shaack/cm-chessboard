@@ -77,9 +77,7 @@ export class Chessboard {
                 this.model.moveInputMode = this.config.moveInputMode
                 this.view.redraw()
                 if (callback) {
-                    setTimeout(() => {
-                        callback(this)
-                    })
+                    callback(this)
                 }
             })
 
