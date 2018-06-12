@@ -16,7 +16,7 @@
 
         div.board1 {
             float: left;
-            width: 43vw;
+            width: 43.1vw;
             height: 43vw;
             margin-right: 0.9vw;
             margin-bottom: 0.5vw;
@@ -27,7 +27,7 @@
 </head>
 <body>
 <h1><a href="../">cm-chessboard</a></h1>
-<h2>Stress Test: Create and destroy 1000 responsive boards</h2>
+<h2>Stress Test: Create and destroy 5000 responsive boards</h2>
 <div id="boards"></div>
 <script type="module">
     import {COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
@@ -41,7 +41,7 @@
         sprite: {url: "../assets/images/chessboard-sprite.svg"},
     })
 
-    for (let i = 0; i < 1000; i++) {
+    for (let i = 0; i < 5000; i++) {
         setTimeout(() => {
             const boardDiv = document.createElement("div")
             boardDiv.setAttribute("class", "board")
