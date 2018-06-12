@@ -1,81 +1,60 @@
-/* line 13, cm-chessboard.scss */
 .cm-chessboard .board.input-enabled .square {
   cursor: pointer; }
 
-/* line 17, cm-chessboard.scss */
 .cm-chessboard .board .border {
   fill: rgba(0, 0, 0, 0.7); }
 
-/* line 21, cm-chessboard.scss */
 .cm-chessboard .board .square.white {
   fill: #eedab6; }
 
-/* line 24, cm-chessboard.scss */
 .cm-chessboard .board .square.black {
   fill: #c7a47b; }
 
-/* line 31, cm-chessboard.scss */
 .cm-chessboard.has-border .board .border {
   fill: #eedab6; }
 
-/* line 34, cm-chessboard.scss */
 .cm-chessboard.has-border .board .border-inner {
   fill: #c7a47b; }
 
-/* line 39, cm-chessboard.scss */
 .cm-chessboard .coordinates {
   pointer-events: none;
   user-select: none; }
-  /* line 42, cm-chessboard.scss */
   .cm-chessboard .coordinates .coordinate {
     fill: rgba(0, 0, 0, 0.7);
     font-size: 7px;
     cursor: default; }
 
-/* line 51, cm-chessboard.scss */
 .cm-chessboard.green .board .square.white {
   fill: #bddac4; }
 
-/* line 54, cm-chessboard.scss */
 .cm-chessboard.green .board .square.black {
   fill: #8ebd9b; }
 
-/* line 61, cm-chessboard.scss */
 .cm-chessboard.green.has-border .board .border {
   fill: #bddac4; }
 
-/* line 64, cm-chessboard.scss */
 .cm-chessboard.green.has-border .board .border-inner {
   fill: #8ebd9b; }
 
-/* line 73, cm-chessboard.scss */
 .cm-chessboard.blue .board .square.white {
   fill: #d7e3fc; }
 
-/* line 76, cm-chessboard.scss */
 .cm-chessboard.blue .board .square.black {
   fill: #aec0e9; }
 
-/* line 83, cm-chessboard.scss */
 .cm-chessboard.blue.has-border .board .border {
   fill: #d7e3fc; }
 
-/* line 86, cm-chessboard.scss */
 .cm-chessboard.blue.has-border .board .border-inner {
   fill: #aec0e9; }
 
-/* line 94, cm-chessboard.scss */
 .cm-chessboard .markers .marker.move {
   stroke: black;
   opacity: 0.7; }
 
-/* line 98, cm-chessboard.scss */
 .cm-chessboard .markers .marker.emphasize {
   stroke: blue;
   opacity: 0.5; }
 
-/* line 104, cm-chessboard.scss */
 .cm-chessboard .pieces, .cm-chessboard .markers {
   pointer-events: none; }
-
-/*# sourceMappingURL=cm-chessboard.css.map */
