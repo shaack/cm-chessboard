@@ -31,7 +31,6 @@
 <div id="boards"></div>
 <script type="module">
     import {COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
-
     const boardsDiv = document.getElementById("boards")
     const boardDiv = document.createElement("div")
     boardDiv.setAttribute("class", "board1")
@@ -48,15 +47,17 @@
             boardDiv.setAttribute("class", "board")
             boardsDiv.appendChild(boardDiv)
             new Chessboard(boardDiv, {
-                position: "start",
+                position: Math.round(Math.random()) ? "start" : "empty",
+                orientation: Math.round(Math.random()) ? COLOR.white : COLOR.black,
                 responsive: true,
                 sprite: {url: "../assets/images/chessboard-sprite.svg"},
             }, (chessboard) => {
                 setTimeout(() => {
                     chessboard.destroy()
-                }, 1000)
+                    boardsDiv.removeChild(boardDiv)
+                }, 10000)
             })
-        }, i * 10)
+        }, i * 100)
     }
 
 </script>
