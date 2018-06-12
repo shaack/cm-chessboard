@@ -19,8 +19,8 @@ rendering helper [svjs-svg](https://shaack.com/projekte/svjs-svg/)
 
 ## Demo and Repository
 
-- Demo: [http://shaack.com/projekte/cm-chessboard/](http://shaack.com/projekte/cm-chessboard/)
-- Repository: [https://github.com/shaack/cm-chessboard](https://github.com/shaack/cm-chessboard)
+- **Demo: [http://shaack.com/projekte/cm-chessboard/](http://shaack.com/projekte/cm-chessboard/)**
+- **Repository: [https://github.com/shaack/cm-chessboard](https://github.com/shaack/cm-chessboard)**
 
 ![Example chessboards](http://shaack.com/projekte/assets/img/example_chessboards.png)
 
@@ -55,10 +55,10 @@ Take a look at the [/examples](https://github.com/shaack/cm-chessboard/tree/mast
 
 ## Configuration
 
-Below is the configuration with default values
+Below is the default configuration
 
 ```javascript
-this.config = {
+config = {
     position: "empty", // set as fen, "start" or "empty"
     orientation: COLOR.white, // white on bottom
     style: {
@@ -70,7 +70,7 @@ this.config = {
     animationDuration: 300, // pieces animation duration in milliseconds
     moveInputMode: MOVE_INPUT_MODE.viewOnly, // set to MOVE_INPUT_MODE.dragPiece or MOVE_INPUT_MODE.dragMarker for interactive movement
     sprite: {
-        url: "./assets/images/chessboard-sprite.svg", // pieces and markers are stored es svg in the sprite
+        url: "./assets/images/chessboard-sprite.svg", // pieces and markers are stored as svg in the sprite
         grid: 40 // the sprite is tiled with one piece every 40px
     }
 }
@@ -82,9 +82,9 @@ this.config = {
 
 `new Chessboard(containerElement, config = {}, callback = null)`
 
-- `containerElement`: a HTML DOM element being the container of the widget
-- `config`: The board configuration
-- `callback`: The callback after sprite loading and initialization; wait for the callback before using the API
+- **`containerElement`** - a HTML DOM element being the container of the widget
+- **`config`** - The board configuration
+- **`callback`** - The callback after sprite loading and initialization, **wait for the callback before using the API**
 
 ### setPiece(square, piece)
 
@@ -101,6 +101,8 @@ Sets the position as `fen`. Special values are `"start"`, sets the chess start p
 `"empty"`, sets an empty board. When `animated` is set `false`, the new position will be 
 shown instant.
 
+[Example for **setPosition**](https://shaack.com/projekte/cm-chessboard/examples/pieces-animation.html)
+
 ### getPosition()
 
 Returns the board position as `fen`.
@@ -113,6 +115,8 @@ Default types are: `MARKER_TYPE.move`, `MARKER_TYPE.emphasize`,
 exportet by `Chessboard.js`. You can create your own marker types: Just create an object like 
 `const myMarker = {class: "my-marker", slice: "marker1"}`, where `class` is the css class of the
 marker for styling and `slice` is the `id` in `sprite.svg`.
+
+[Example for **addMarker**, **getMarkers** and **removeMarkers**](https://shaack.com/projekte/cm-chessboard/examples/context-input.html)
 
 ### getMarkers(square = null, type = null)
 
@@ -133,6 +137,8 @@ Set both to `null` to remove all markers from the board.
 
 Sets the board orientation (color at bottom). Allowed values are `COLOR.white` or `COLOR.black`.
 
+[Example for **setOrientation**](https://shaack.com/projekte/cm-chessboard/examples/enable-input.html)
+
 ### getOrientation()
 
 Returns the the board orientation. 
@@ -146,28 +152,28 @@ Removes the board from the DOM.
 Enables moves via user input (mouse or touch).
 Set optional `color`, if you want to enable the move input for a specific side, `COLOR.white` or `COLOR.black`.
 
-[Example page for move input](http://shaack.com/projekte/cm-chessboard/examples/enable-input.html)
-
 `callback` is called on specific events of the user interaction. Receives the parameter `event`.
 
 ```javascript
 board.enableMoveInput((event) => {
-    // handle user input
+    // handle user input here
 }, COLOR.white)
 ```
+[Example for **enableMoveInput**](http://shaack.com/projekte/cm-chessboard/examples/enable-input.html)
 
-These events can have the following `event.type`:
 
-- `INPUT_EVENT_TYPE.moveStart`: User starts move input, `event.square` contains the coordinates
-- `INPUT_EVENT_TYPE.moveDone`: User starts move input, `event.squareFrom` and `event.squareTo` contain the coordinates
-- `INPUT_EVENT_TYPE.moveCanceled`: User cancels move with clicking start square again or outside of the board
+The event has the following **`event.type`**:
+
+- **`INPUT_EVENT_TYPE.moveStart`** - User started the move input, `event.square` contains the coordinates
+- **`INPUT_EVENT_TYPE.moveDone`** - User finished the move input, `event.squareFrom` and `event.squareTo` contain the coordinates
+- **`INPUT_EVENT_TYPE.moveCanceled`** - User canceled the move with clicking again ob the start square or clicking outside of the board
 
 ```javascript
 chessboard.enableMoveInput((event) => {
     switch (event.type) {
         case INPUT_EVENT_TYPE.moveStart:
             console.log(`moveStart: ${event.square}`)
-            // return `true`, if input is accepted/valid, `false` aborts the interaction, nothing will happen
+            // return `true`, if input is accepted/valid, `false` aborts the interaction, the piece will not move
             return true
         case INPUT_EVENT_TYPE.moveDone:
             console.log(`moveDone: ${event.squareFrom}-${event.squareTo}`)
@@ -181,21 +187,22 @@ chessboard.enableMoveInput((event) => {
 
 ### disableMoveInput()
 
-Disables the moves via user input.
+Disables moves via user input.
 
 ### enableContextInput(callback)
 
 Enables context input (right click on squares).
 
-[Example page for context input](http://shaack.com/projekte/cm-chessboard/examples/context-input.html)
-
 ```javascript
 board.enableContextInput((event) => {
-    // handle user context input
+    // handle user context input here    
 })
 ```
 
-The `event` contains in `event.square` the coordinates of the user input.
+[Example for **enableContextInput**](http://shaack.com/projekte/cm-chessboard/examples/context-input.html)
+
+
+**`event.square`** contains the coordinates of the user input.
 
 ### disableContextInput()
 
