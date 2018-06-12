@@ -5,6 +5,7 @@
     <title>cm-chessboard</title>
     <link rel="stylesheet" href="../styles/page.css"/>
     <link rel="stylesheet" href="../styles/cm-chessboard.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
     <style type="text/css">
         div.board {
             float: left;
@@ -22,17 +23,25 @@
 <h2>Example: 100 boards in one page</h2>
 <div id="boards"></div>
 <script type="module">
-    import {COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
+    import {Chessboard} from "../src/cm-chessboard/Chessboard.js"
 
     const boardsDiv = document.getElementById("boards")
+    const game = new Chess()
     for (let i = 0; i < 100; i++) {
         const boardDiv = document.createElement("div")
         boardDiv.setAttribute("class", "board")
         boardsDiv.appendChild(boardDiv)
         new Chessboard(boardDiv, {
-            position: "start",
+            position: game.fen(),
             sprite: {url: "../assets/images/chessboard-sprite.svg"},
         })
+        makeRandomMove()
+    }
+    function makeRandomMove() {
+        const possibleMoves = game.moves();
+        if (possibleMoves.length === 0) return;
+        const randomIndex = Math.floor(Math.random() * possibleMoves.length);
+        game.move(possibleMoves[randomIndex]);
     }
 </script>
 </body>
