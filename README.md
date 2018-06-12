@@ -1,6 +1,6 @@
 # cm-chessboard
 
-A Lightweight, ES6 module based, responsive, SVG chessboard with almost no external dependencies.
+A Lightweight, ES6 module based, responsive, SVG chessboard with almost no dependencies.
 Current version is "beta". It works on desktop (current versions of Chrome, Firefox, Safari, Edge),
 and mobile (Android and iOS).
 
@@ -9,13 +9,13 @@ cm-chessboard is the new chessboard for the upcoming 'version 3' of
 
 ## Features
 
-- [Mobile friendly and responsive](http://shaack.com/projekte/cm-chessboard/examples/responsive-board.html)
-- [Can handle moves input via click or drag](http://shaack.com/projekte/cm-chessboard/examples/validate-moves.html)
-- [Styleable via css](http://shaack.com/projekte/cm-chessboard/examples/styles.html)
-- Uses SVG for rendering
-- No jQuery needed, cm-chessboard consists of vanilla JavaScript modules in ECMAScript 6 syntax
-
-> A note on ES6 support in Firefox: [Firefox will support JavaScript modules in near future](https://bugzilla.mozilla.org/show_bug.cgi?id=1438139), from release 60 (coming in May 2018). To enable JS modules in the current version of Firefox, the [browser-es-module-loader](https://github.com/ModuleLoader/browser-es-module-loader) polyfill is used. This problem will vanish in May.
+- **[Mobile friendly and responsive](http://shaack.com/projekte/cm-chessboard/examples/responsive-board.html)**
+- **[Can handle moves input via click or drag](http://shaack.com/projekte/cm-chessboard/examples/validate-moves.html)**
+- **[Styleable via css](http://shaack.com/projekte/cm-chessboard/examples/styles.html)**
+- Uses **SVG for rendering**
+- **Vanilla JavaScript modules** in **ECMAScript 6** syntax
+- **No dependencies**, exept the very lightweight SVG 
+rendering helper [svjs-svg](https://shaack.com/projekte/svjs-svg/)
 
 ## Demo and Repository
 
@@ -47,7 +47,7 @@ Example, showing a FEN:
     import {Chessboard} from "./src/cm-chessboard/Chessboard.js"
 
     new Chessboard(document.getElementById("containerId"),
-            { position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR" });
+            { position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR" })
 </script>
 ```
 
@@ -73,7 +73,7 @@ this.config = {
         url: "./assets/images/chessboard-sprite.svg", // pieces and markers are stored es svg in the sprite
         grid: 40 // the sprite is tiled with one piece every 40px
     }
-};
+}
 ```
 
 ## API
@@ -111,7 +111,7 @@ Adds a marker on a square.
 
 Default types are: `MARKER_TYPE.move`, `MARKER_TYPE.emphasize`,
 exportet by `Chessboard.js`. You can create your own marker types: Just create an object like 
-`const myMarker = {class: "my-marker", slice: "marker1"};`, where `class` is the css class of the
+`const myMarker = {class: "my-marker", slice: "marker1"}`, where `class` is the css class of the
 marker for styling and `slice` is the `id` in `sprite.svg`.
 
 ### getMarkers(square = null, type = null)
@@ -121,7 +121,7 @@ Returns the the board's markers as an array.
 Set square to `null`, to get all markers of a type on the board. Set type to `null`, to get all types.
 Set `both` to null to get all markers on the board.
 
-### removeMarkers(square = null, type = null);
+### removeMarkers(square = null, type = null)
 
 Removes markers from the board.
 
@@ -153,7 +153,7 @@ Set optional `color`, if you want to enable the move input for a specific side, 
 ```javascript
 board.enableMoveInput((event) => {
     // handle user input
-}, COLOR.white);
+}, COLOR.white)
 ```
 
 These events can have the following `event.type`:
@@ -166,17 +166,17 @@ These events can have the following `event.type`:
 chessboard.enableMoveInput((event) => {
     switch (event.type) {
         case INPUT_EVENT_TYPE.moveStart:
-            console.log(`moveStart: ${event.square}`);
+            console.log(`moveStart: ${event.square}`)
             // return `true`, if input is accepted/valid, `false` aborts the interaction, nothing will happen
-            return true;
+            return true
         case INPUT_EVENT_TYPE.moveDone:
-            console.log(`moveDone: ${event.squareFrom}-${event.squareTo}`);
+            console.log(`moveDone: ${event.squareFrom}-${event.squareTo}`)
             // return true, if input is accepted/valid, `false` takes the move back
-            return true;
+            return true
         case INPUT_EVENT_TYPE.moveCanceled:
-            console.log(`moveCanceled`);
+            console.log(`moveCanceled`)
     }
-}, COLOR.white);
+}, COLOR.white)
 ```
 
 ### disableMoveInput()
@@ -192,7 +192,7 @@ Enables context input (right click on squares).
 ```javascript
 board.enableContextInput((event) => {
     // handle user context input
-});
+})
 ```
 
 The `event` contains in `event.square` the coordinates of the user input.
