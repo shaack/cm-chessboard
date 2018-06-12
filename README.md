@@ -1,6 +1,6 @@
 # cm-chessboard
 
-A Lightweight, ES6 module based, responsive, SVG chessboard with almost no dependencies.
+A Lightweight, ES6 module based, responsive, mobile friendly SVG chessboard with almost no dependencies.
 Current version is "beta". It works on desktop (current versions of Chrome, Firefox, Safari, Edge),
 and mobile (Android and iOS).
 
