@@ -23,13 +23,12 @@ Markers
 The markers are licensed along with the other components of this software under MIT License
 as described in the file "LICENSE".
 
-Author: Stefan Haack (http://shaack.com)
+Author: Stefan Haack (https://shaack.com)
 
 -->
 <svg width="240px" height="120px" viewBox="0 0 240 120" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 48.1 (47250) - http://www.bohemiancoding.com/sketch -->
-    <title>sprite</title>
-    <desc>Created with Sketch.</desc>
+    <title>cm-chessbord pieces and markers sprite</title>
+    <desc>Chess pieces and markers for the cm-chessboard (https://shaack.com/projekte/cm-chessboard/).</desc>
     <defs></defs>
     <g id="Sprite" stroke="none" stroke-width="1" fill="none">
         <g id="wk" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(5.000000, 5.000000)" stroke="#000000" stroke-width="1.5">
