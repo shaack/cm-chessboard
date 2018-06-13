@@ -44,7 +44,7 @@ export class ChessboardView {
                 })
             }
             this.createSvgAndGroups()
-            this.redraw()
+            this.updateMetrics()
             callbackAfterCreation()
         })
     }
@@ -52,9 +52,7 @@ export class ChessboardView {
     destroy() {
         window.removeEventListener('resize', this.resizeListener)
         window.clearTimeout(this.resizeDebounce)
-        window.clearTimeout(this.drawBoardDebounce)
-        window.clearTimeout(this.drawCoordinatesDebounce)
-        window.clearTimeout(this.drawMarkersDebounce)
+        window.clearTimeout(this.redrawDebounce)
         window.clearTimeout(this.drawPiecesDebounce)
         Svg.removeElement(this.svg)
     }
@@ -130,126 +128,123 @@ export class ChessboardView {
         this.resizeDebounce = setTimeout(() => {
             if (this.chessboard.element.offsetWidth !== this.width ||
                 this.chessboard.element.offsetHeight !== this.height) {
+                this.updateMetrics()
                 this.redraw()
             }
         })
     }
 
     redraw() {
-        this.updateMetrics()
-        this.drawBoard()
-        this.drawCoordinates()
-        this.drawMarkers()
-        this.drawPieces()
-        this.setCursor()
+        window.clearTimeout(this.redrawDebounce)
+        this.redrawDebounce = setTimeout(() => {
+            this.drawBoard()
+            this.drawCoordinates()
+            this.drawMarkers()
+            this.setCursor()
+        })
+        this.drawPiecesDebounced()
     }
 
     // Board //
 
     drawBoard() {
-        window.clearTimeout(this.drawBoardDebounce)
-        this.drawBoardDebounce = setTimeout(() => {
-            while (this.boardGroup.firstChild) {
-                this.boardGroup.removeChild(this.boardGroup.lastChild)
-            }
-            let boardBorder = Svg.addElement(this.boardGroup, "rect", {width: this.width, height: this.height})
-            boardBorder.setAttribute("class", "border")
-            if (this.chessboard.config.style.showBorder) {
-                const innerPos = this.borderSize - this.borderSize / 9
-                let borderInner = Svg.addElement(this.boardGroup, "rect", {
-                    x: innerPos,
-                    y: innerPos,
-                    width: this.width - innerPos * 2,
-                    height: this.height - innerPos * 2
-                })
-                borderInner.setAttribute("class", "border-inner")
-            }
-            for (let i = 0; i < 64; i++) {
-                const index = this.chessboard.model.orientation === COLOR.white ? i : 63 - i
-                const squareColor = ((9 * index) & 8) === 0 ? 'black' : 'white'
-                const fieldClass = `square ${squareColor}`
-                const point = this.squareIndexToPoint(index)
-                const squareRect = Svg.addElement(this.boardGroup, "rect", {
-                    x: point.x, y: point.y, width: this.squareWidth, height: this.squareHeight
-                })
-                squareRect.setAttribute("class", fieldClass)
-                squareRect.setAttribute("data-index", "" + index)
-            }
-        })
+        while (this.boardGroup.firstChild) {
+            this.boardGroup.removeChild(this.boardGroup.lastChild)
+        }
+        let boardBorder = Svg.addElement(this.boardGroup, "rect", {width: this.width, height: this.height})
+        boardBorder.setAttribute("class", "border")
+        if (this.chessboard.config.style.showBorder) {
+            const innerPos = this.borderSize - this.borderSize / 9
+            let borderInner = Svg.addElement(this.boardGroup, "rect", {
+                x: innerPos,
+                y: innerPos,
+                width: this.width - innerPos * 2,
+                height: this.height - innerPos * 2
+            })
+            borderInner.setAttribute("class", "border-inner")
+        }
+        for (let i = 0; i < 64; i++) {
+            const index = this.chessboard.model.orientation === COLOR.white ? i : 63 - i
+            const squareColor = ((9 * index) & 8) === 0 ? 'black' : 'white'
+            const fieldClass = `square ${squareColor}`
+            const point = this.squareIndexToPoint(index)
+            const squareRect = Svg.addElement(this.boardGroup, "rect", {
+                x: point.x, y: point.y, width: this.squareWidth, height: this.squareHeight
+            })
+            squareRect.setAttribute("class", fieldClass)
+            squareRect.setAttribute("data-index", "" + index)
+        }
     }
 
     drawCoordinates() {
         if (!this.chessboard.config.style.showCoordinates) {
             return
         }
-        window.clearTimeout(this.drawCoordinatesDebounce)
-        this.drawCoordinatesDebounce = setTimeout(() => {
-            while (this.coordinatesGroup.firstChild) {
-                this.coordinatesGroup.removeChild(this.coordinatesGroup.lastChild)
-            }
-            const inline = !this.chessboard.config.style.showBorder
-            for (let file = 0; file < 8; file++) {
-                let x = this.borderSize + (18 + this.chessboard.config.sprite.grid * file) * this.scalingX
-                let y = this.height - this.scalingY * 2.6
-                let cssClass = "coordinate file"
-                if (inline) {
-                    x = x + this.scalingX * 15.5
-                    if (this.chessboard.config.style.showBorder) {
-                        y = y - this.scalingY * 11
-                    }
-                    cssClass += file % 2 ? " dark" : " light"
+        while (this.coordinatesGroup.firstChild) {
+            this.coordinatesGroup.removeChild(this.coordinatesGroup.lastChild)
+        }
+        const inline = !this.chessboard.config.style.showBorder
+        for (let file = 0; file < 8; file++) {
+            let x = this.borderSize + (18 + this.chessboard.config.sprite.grid * file) * this.scalingX
+            let y = this.height - this.scalingY * 2.6
+            let cssClass = "coordinate file"
+            if (inline) {
+                x = x + this.scalingX * 15.5
+                if (this.chessboard.config.style.showBorder) {
+                    y = y - this.scalingY * 11
                 }
-                const textElement = Svg.addElement(this.coordinatesGroup, "text", {
-                    class: cssClass,
-                    x: x,
-                    y: y,
-                    style: `font-size: ${this.scalingY * 8}px`
-                })
-                if (this.chessboard.model.orientation === COLOR.white) {
-                    textElement.textContent = String.fromCharCode(97 + file)
+                cssClass += file % 2 ? " dark" : " light"
+            }
+            const textElement = Svg.addElement(this.coordinatesGroup, "text", {
+                class: cssClass,
+                x: x,
+                y: y,
+                style: `font-size: ${this.scalingY * 8}px`
+            })
+            if (this.chessboard.model.orientation === COLOR.white) {
+                textElement.textContent = String.fromCharCode(97 + file)
+            } else {
+                textElement.textContent = String.fromCharCode(104 - file)
+            }
+        }
+        for (let rank = 0; rank < 8; rank++) {
+            let x = (this.borderSize / 3.7)
+            let y = this.borderSize + 24 * this.scalingY + rank * this.squareHeight
+            let cssClass = "coordinate rank"
+            if (inline) {
+                cssClass += rank % 2 ? " light" : " dark"
+                if (this.chessboard.config.style.showBorder) {
+                    x = x + this.scalingX * 10
+                    y = y - this.scalingY * 15
                 } else {
-                    textElement.textContent = String.fromCharCode(104 - file)
+                    x = x + this.scalingX * 2
+                    y = y - this.scalingY * 15
                 }
             }
-            for (let rank = 0; rank < 8; rank++) {
-                let x = (this.borderSize / 3.7)
-                let y = this.borderSize + 24 * this.scalingY + rank * this.squareHeight
-                let cssClass = "coordinate rank"
-                if (inline) {
-                    cssClass += rank % 2 ? " light" : " dark"
-                    if (this.chessboard.config.style.showBorder) {
-                        x = x + this.scalingX * 10
-                        y = y - this.scalingY * 15
-                    } else {
-                        x = x + this.scalingX * 2
-                        y = y - this.scalingY * 15
-                    }
-                }
-                const textElement = Svg.addElement(this.coordinatesGroup, "text", {
-                    class: cssClass,
-                    x: x,
-                    y: y,
-                    style: `font-size: ${this.scalingY * 8}px`
-                })
-                if (this.chessboard.model.orientation === COLOR.white) {
-                    textElement.textContent = 8 - rank
-                } else {
-                    textElement.textContent = 1 + rank
-                }
+            const textElement = Svg.addElement(this.coordinatesGroup, "text", {
+                class: cssClass,
+                x: x,
+                y: y,
+                style: `font-size: ${this.scalingY * 8}px`
+            })
+            if (this.chessboard.model.orientation === COLOR.white) {
+                textElement.textContent = 8 - rank
+            } else {
+                textElement.textContent = 1 + rank
             }
-        })
+        }
     }
 
     // Pieces //
 
-    drawPieces(squares = this.chessboard.model.squares) {
+    drawPiecesDebounced(squares = this.chessboard.model.squares) {
         window.clearTimeout(this.drawPiecesDebounce)
         this.drawPiecesDebounce = setTimeout(() => {
-            this.drawPiecesNow(squares)
+            this.drawPieces(squares)
         })
     }
 
-    drawPiecesNow(squares) {
+    drawPieces(squares = this.chessboard.model.squares) {
         while (this.piecesGroup.firstChild) {
             this.piecesGroup.removeChild(this.piecesGroup.lastChild)
         }
@@ -298,16 +293,13 @@ export class ChessboardView {
     // Markers //
 
     drawMarkers() {
-        window.clearTimeout(this.drawMarkersDebounce)
-        this.drawMarkersDebounce = setTimeout(() => {
-            while (this.markersGroup.firstChild) {
-                this.markersGroup.removeChild(this.markersGroup.firstChild)
+        while (this.markersGroup.firstChild) {
+            this.markersGroup.removeChild(this.markersGroup.firstChild)
+        }
+        this.chessboard.model.markers.forEach((marker) => {
+                this.drawMarker(marker)
             }
-            this.chessboard.model.markers.forEach((marker) => {
-                    this.drawMarker(marker)
-                }
-            )
-        })
+        )
     }
 
     drawMarker(marker) {
@@ -338,7 +330,7 @@ export class ChessboardView {
         const nextAnimation = this.animationQueue.shift()
         if (nextAnimation !== undefined) {
             new ChessboardPiecesAnimation(this, nextAnimation.fromSquares, nextAnimation.toSquares, this.chessboard.config.animationDuration / (this.animationQueue.length + 1), () => {
-                this.drawPiecesNow(nextAnimation.toSquares)
+                this.drawPieces(nextAnimation.toSquares)
                 this.nextPieceAnimationInQueue()
                 if (nextAnimation.callback) {
                     nextAnimation.callback()

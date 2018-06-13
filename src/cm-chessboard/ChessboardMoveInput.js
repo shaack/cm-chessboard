@@ -45,7 +45,7 @@ export class ChessboardMoveInput {
                 break
 
             case STATUS.pieceClickedThreshold:
-                if ([STATUS.waitForInputStart].indexOf(prevStatus) === -1) {
+                if (STATUS.waitForInputStart !== prevStatus) {
                     throw new Error("status")
                 }
                 this.startIndex = params.index
@@ -93,14 +93,14 @@ export class ChessboardMoveInput {
                 break
 
             case STATUS.secondClickThreshold:
-                if ([STATUS.clickTo].indexOf(prevStatus) === -1) {
+                if (STATUS.clickTo !== prevStatus) {
                     throw new Error("status")
                 }
                 this.startPoint = params.point
                 break
 
             case STATUS.dragTo:
-                if ([STATUS.pieceClickedThreshold].indexOf(prevStatus) === -1) {
+                if (STATUS.pieceClickedThreshold !== prevStatus) {
                     throw new Error("status")
                 }
                 if (this.config.moveInputMode === MOVE_INPUT_MODE.dragPiece) {
@@ -110,7 +110,7 @@ export class ChessboardMoveInput {
                 break
 
             case STATUS.clickDragTo:
-                if ([STATUS.secondClickThreshold].indexOf(prevStatus) === -1) {
+                if (STATUS.secondClickThreshold !== prevStatus) {
                     throw new Error("status")
                 }
                 if (this.config.moveInputMode === MOVE_INPUT_MODE.dragPiece) {
@@ -133,11 +133,11 @@ export class ChessboardMoveInput {
                             this.setStatus(STATUS.reset)
                         })
                     } else {
-                        this.view.drawPiecesNow(this.model.squares)
+                        this.view.drawPieces(this.model.squares)
                         this.setStatus(STATUS.reset)
                     }
                 } else {
-                    this.view.drawPieces()
+                    this.view.drawPiecesDebounced()
                     this.setStatus(STATUS.reset)
                 }
                 break
@@ -310,12 +310,12 @@ export class ChessboardMoveInput {
                     this.moveCanceledCallback()
                 }
             } else {
-                this.view.drawPieces()
+                this.view.drawPiecesDebounced()
                 this.setStatus(STATUS.reset)
                 this.moveCanceledCallback()
             }
         } else {
-            this.view.drawPieces()
+            this.view.drawPiecesDebounced()
             this.setStatus(STATUS.reset)
         }
     }

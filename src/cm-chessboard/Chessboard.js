@@ -70,10 +70,10 @@ export class Chessboard {
             this.config.sprite.grid = DEFAULT_SPRITE_GRID
         }
         this.model = new ChessboardModel()
+        this.model.orientation = this.config.orientation
         this.view = new ChessboardView(this, () => {
             setTimeout(() => {
                 this.setPosition(this.config.position, false)
-                this.setOrientation(this.config.orientation)
                 this.model.moveInputMode = this.config.moveInputMode
                 this.view.redraw()
                 if (callback) {
@@ -88,7 +88,7 @@ export class Chessboard {
 
     setPiece(square, piece) {
         this.model.setPiece(this.model.squareToIndex(square), piece)
-        this.view.drawPieces()
+        this.view.drawPiecesDebounced()
     }
 
     getPiece(square) {
@@ -118,7 +118,7 @@ export class Chessboard {
                 if (!this.view) {
                     console.trace()
                 }
-                this.view.drawPieces()
+                this.view.drawPiecesDebounced()
                 if (callback) {
                     callback()
                 }
