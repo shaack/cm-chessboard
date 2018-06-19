@@ -1,6 +1,6 @@
 {
   "name": "cm-chessboard",
-  "version": "2.11.34",
+  "version": "2.11.35",
   "description": "A lightweight, ES6 module based, responsive, SVG chessboard with almost no external dependencies.",
   "keywords": [
     "chess",
