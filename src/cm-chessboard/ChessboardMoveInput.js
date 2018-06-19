@@ -22,10 +22,10 @@ const DRAG_THRESHOLD = 2
 
 export class ChessboardMoveInput {
 
-    constructor(view, model, config, moveStartCallback, moveDoneCallback, moveCanceledCallback) {
+    constructor(view, state, props, moveStartCallback, moveDoneCallback, moveCanceledCallback) {
         this.view = view
-        this.model = model
-        this.config = config
+        this.state = state
+        this.props = props
         this.moveStartCallback = moveStartCallback
         this.moveDoneCallback = moveDoneCallback
         this.moveCanceledCallback = moveCanceledCallback
@@ -103,7 +103,7 @@ export class ChessboardMoveInput {
                 if (STATUS.pieceClickedThreshold !== prevStatus) {
                     throw new Error("status")
                 }
-                if (this.config.moveInputMode === MOVE_INPUT_MODE.dragPiece) {
+                if (this.props.moveInputMode === MOVE_INPUT_MODE.dragPiece) {
                     this.view.setPieceVisibility(params.index, false)
                     this.createDragablePiece(params.piece)
                 }
@@ -113,7 +113,7 @@ export class ChessboardMoveInput {
                 if (STATUS.secondClickThreshold !== prevStatus) {
                     throw new Error("status")
                 }
-                if (this.config.moveInputMode === MOVE_INPUT_MODE.dragPiece) {
+                if (this.props.moveInputMode === MOVE_INPUT_MODE.dragPiece) {
                     this.view.setPieceVisibility(params.index, false)
                     this.createDragablePiece(params.piece)
                 }
@@ -125,15 +125,15 @@ export class ChessboardMoveInput {
                 }
                 this.endIndex = params.index
                 if (this.endIndex && this.moveDoneCallback(this.startIndex, this.endIndex)) {
-                    const prevSquares = this.model.squares.slice(0)
-                    this.model.setPiece(this.startIndex, null)
-                    this.model.setPiece(this.endIndex, this.movedPiece)
+                    const prevSquares = this.state.squares.slice(0)
+                    this.state.setPiece(this.startIndex, null)
+                    this.state.setPiece(this.endIndex, this.movedPiece)
                     if (prevStatus === STATUS.clickTo) {
-                        this.view.animatePieces(prevSquares, this.model.squares.slice(0), () => {
+                        this.view.animatePieces(prevSquares, this.state.squares.slice(0), () => {
                             this.setStatus(STATUS.reset)
                         })
                     } else {
-                        this.view.drawPieces(this.model.squares)
+                        this.view.drawPieces(this.state.squares)
                         this.setStatus(STATUS.reset)
                     }
                 } else {
@@ -144,7 +144,7 @@ export class ChessboardMoveInput {
 
             case STATUS.reset:
                 if (this.startIndex && !this.endIndex && this.movedPiece) {
-                    this.model.setPiece(this.startIndex, this.movedPiece)
+                    this.state.setPiece(this.startIndex, this.movedPiece)
                 }
                 this.startIndex = null
                 this.endIndex = null
@@ -182,7 +182,7 @@ export class ChessboardMoveInput {
         const piece = Svg.addElement(this.dragablePiece, "use", {
             href: `#${pieceName}`
         })
-        const scaling = this.view.squareHeight / this.config.sprite.grid
+        const scaling = this.view.squareHeight / this.props.sprite.grid
         const transformScale = (this.dragablePiece.createSVGTransform())
         transformScale.setScale(scaling, scaling)
         piece.transform.baseVal.appendItem(transformScale)
@@ -204,8 +204,8 @@ export class ChessboardMoveInput {
                     color = pieceName ? pieceName.substr(0, 1) : null
                 }
                 if (this.status !== STATUS.waitForInputStart ||
-                    this.model.inputWhiteEnabled && color === "w" ||
-                    this.model.inputBlackEnabled && color === "b") {
+                    this.state.inputWhiteEnabled && color === "w" ||
+                    this.state.inputBlackEnabled && color === "b") {
                     let point
                     if (e.type === "mousedown") {
                         point = {x: e.clientX, y: e.clientY}
@@ -254,7 +254,7 @@ export class ChessboardMoveInput {
                 } else {
                     this.setStatus(STATUS.dragTo, {index: this.startIndex, piece: this.movedPiece})
                 }
-                if (this.config.moveInputMode === MOVE_INPUT_MODE.dragPiece) {
+                if (this.props.moveInputMode === MOVE_INPUT_MODE.dragPiece) {
                     this.moveDragablePiece(x, y)
                 }
             }
@@ -272,7 +272,7 @@ export class ChessboardMoveInput {
                 this.endIndex = null
                 this.updateStartEndMarkers()
             }
-            if (this.config.moveInputMode === MOVE_INPUT_MODE.dragPiece && (this.status === STATUS.dragTo || this.status === STATUS.clickDragTo)) {
+            if (this.props.moveInputMode === MOVE_INPUT_MODE.dragPiece && (this.status === STATUS.dragTo || this.status === STATUS.clickDragTo)) {
                 this.moveDragablePiece(x, y)
             }
         }
@@ -294,7 +294,7 @@ export class ChessboardMoveInput {
                 if (this.status === STATUS.dragTo || this.status === STATUS.clickDragTo) {
                     if (this.startIndex === index) {
                         if (this.status === STATUS.clickDragTo) {
-                            this.model.setPiece(this.startIndex, this.movedPiece)
+                            this.state.setPiece(this.startIndex, this.movedPiece)
                             this.view.setPieceVisibility(this.startIndex)
                             this.setStatus(STATUS.reset)
                         } else {
@@ -321,12 +321,12 @@ export class ChessboardMoveInput {
     }
 
     updateStartEndMarkers() {
-        this.model.removeMarkers(null, MARKER_TYPE.move)
+        this.state.removeMarkers(null, MARKER_TYPE.move)
         if (this.startIndex) {
-            this.model.addMarker(this.startIndex, MARKER_TYPE.move)
+            this.state.addMarker(this.startIndex, MARKER_TYPE.move)
         }
         if (this.endIndex) {
-            this.model.addMarker(this.endIndex, MARKER_TYPE.move)
+            this.state.addMarker(this.endIndex, MARKER_TYPE.move)
         }
         this.view.drawMarkers()
     }

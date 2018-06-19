@@ -31,7 +31,7 @@ rendering helper [svjs-svg](https://shaack.com/projekte/svjs-svg/)
 **Option 2:** Install the [npm package](https://www.npmjs.com/package/cm-chessboard) with `npm install --save cm-chessboard`
 
 After installation, copy the `cm-chessboard/assets/images/chessboard-sprite.svg` to your projects `assets/images` folder.
-If you put the sprite somewhere else you have to configure the location in `config.sprite.url`.
+If you put the sprite somewhere else you have to configure the location in `props.sprite.url`.
 
 ## Example Usage
 
@@ -58,7 +58,7 @@ Take a look at the [/examples](https://github.com/shaack/cm-chessboard/tree/mast
 Below is the default configuration
 
 ```javascript
-config = {
+props = {
     position: "empty", // set as fen, "start" or "empty"
     orientation: COLOR.white, // white on bottom
     style: {
@@ -80,10 +80,10 @@ config = {
 
 ### constructor
 
-`new Chessboard(containerElement, config = {}, callback = null)`
+`new Chessboard(containerElement, props = {}, callback = null)`
 
 - **`containerElement`** - a HTML DOM element being the container of the widget
-- **`config`** - The board configuration
+- **`props`** - The board configuration (properties)
 - **`callback`** - The callback after sprite loading and initialization, **wait for the callback before using the API**
 
 ### setPiece(square, piece)

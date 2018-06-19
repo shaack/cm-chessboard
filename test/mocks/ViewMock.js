@@ -6,7 +6,7 @@
 export class ViewMock {
     constructor() {
         this.squareHeight = 40;
-        this.config = {
+        this.props = {
             sprite: {
                 grid: 40
             }

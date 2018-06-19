@@ -5,7 +5,7 @@
  */
 
 import {ChessboardView} from "./ChessboardView.js"
-import {SQUARE_COORDINATES, ChessboardModel} from "./ChessboardModel.js"
+import {SQUARE_COORDINATES, ChessboardState} from "./ChessboardState.js"
 
 export const COLOR = {
     white: "w",
@@ -47,9 +47,9 @@ const DEFAULT_SPRITE_GRID = 40
 
 export class Chessboard {
 
-    constructor(element, config = {}, callback = null) {
+    constructor(element, props = {}, callback = null) {
         this.element = element
-        this.config = {
+        this.props = {
             position: "empty", // set as fen, "start" or "empty"
             orientation: COLOR.white, // white on bottom
             style: {
@@ -65,16 +65,16 @@ export class Chessboard {
                 grid: DEFAULT_SPRITE_GRID // the sprite is tiled with one piece every 40px
             }
         }
-        Object.assign(this.config, config)
-        if (!this.config.sprite.grid) {
-            this.config.sprite.grid = DEFAULT_SPRITE_GRID
+        Object.assign(this.props, props)
+        if (!this.props.sprite.grid) {
+            this.props.sprite.grid = DEFAULT_SPRITE_GRID
         }
-        this.model = new ChessboardModel()
-        this.model.orientation = this.config.orientation
+        this.state = new ChessboardState()
+        this.state.orientation = this.props.orientation
         this.view = new ChessboardView(this, () => {
             setTimeout(() => {
-                this.setPosition(this.config.position, false)
-                this.model.moveInputMode = this.config.moveInputMode
+                this.setPosition(this.props.position, false)
+                this.state.moveInputMode = this.props.moveInputMode
                 this.view.redraw()
                 if (callback) {
                     callback(this)
@@ -87,29 +87,29 @@ export class Chessboard {
     // API //
 
     setPiece(square, piece) {
-        this.model.setPiece(this.model.squareToIndex(square), piece)
+        this.state.setPiece(this.state.squareToIndex(square), piece)
         this.view.drawPiecesDebounced()
     }
 
     getPiece(square) {
-        return this.model.squares[this.model.squareToIndex(square)]
+        return this.state.squares[this.state.squareToIndex(square)]
     }
 
     setPosition(fen, animated = true, callback = null) {
-        const currentFen = this.model.getPosition()
+        const currentFen = this.state.getPosition()
         const fenParts = fen.split(" ")
         const fenNormalized = fenParts[0]
         if (fenNormalized !== currentFen) {
-            const prevSquares = this.model.squares.slice(0) // clone
+            const prevSquares = this.state.squares.slice(0) // clone
             if (fen === "start") {
-                this.model.setPosition(FEN_START_POSITION)
+                this.state.setPosition(FEN_START_POSITION)
             } else if (fen === "empty" || fen === null) {
-                this.model.setPosition(FEN_EMPTY_POSITION)
+                this.state.setPosition(FEN_EMPTY_POSITION)
             } else {
-                this.model.setPosition(fen)
+                this.state.setPosition(fen)
             }
             if (animated) {
-                this.view.animatePieces(prevSquares, this.model.squares.slice(0), () => {
+                this.view.animatePieces(prevSquares, this.state.squares.slice(0), () => {
                     if (callback) {
                         callback()
                     }
@@ -131,17 +131,17 @@ export class Chessboard {
     }
 
     getPosition() {
-        return this.model.getPosition()
+        return this.state.getPosition()
     }
 
     addMarker(square, type = MARKER_TYPE.emphasize) {
-        this.model.addMarker(this.model.squareToIndex(square), type)
+        this.state.addMarker(this.state.squareToIndex(square), type)
         this.view.drawMarkers()
     }
 
     getMarkers(square = null, type = null) {
         const markersFound = []
-        this.model.markers.forEach((marker) => {
+        this.state.markers.forEach((marker) => {
             const markerSquare = SQUARE_COORDINATES[marker.index]
             if (square === null && (type === null || type === marker.type) ||
                 type === null && square === markerSquare ||
@@ -153,45 +153,45 @@ export class Chessboard {
     }
 
     removeMarkers(square = null, type = null) {
-        const index = square !== null ? this.model.squareToIndex(square) : null
-        this.model.removeMarkers(index, type)
+        const index = square !== null ? this.state.squareToIndex(square) : null
+        this.state.removeMarkers(index, type)
         this.view.drawMarkers()
     }
 
     setOrientation(color) {
-        this.model.orientation = color
+        this.state.orientation = color
         this.view.redraw()
     }
 
     getOrientation() {
-        return this.model.orientation
+        return this.state.orientation
     }
 
     destroy() {
         this.view.destroy()
         this.view = null
-        this.model = null
+        this.state = null
     }
 
     enableMoveInput(callback, color = null) {
-        if (this.config.moveInputMode === MOVE_INPUT_MODE.viewOnly) {
-            throw Error("config.moveInputMode is MOVE_INPUT_MODE.viewOnly")
+        if (this.props.moveInputMode === MOVE_INPUT_MODE.viewOnly) {
+            throw Error("props.moveInputMode is MOVE_INPUT_MODE.viewOnly")
         }
         if (color === COLOR.white) {
-            this.model.inputWhiteEnabled = true
+            this.state.inputWhiteEnabled = true
         } else if (color === COLOR.black) {
-            this.model.inputBlackEnabled = true
+            this.state.inputBlackEnabled = true
         } else {
-            this.model.inputWhiteEnabled = true
-            this.model.inputBlackEnabled = true
+            this.state.inputWhiteEnabled = true
+            this.state.inputBlackEnabled = true
         }
         this.moveInputCallback = callback
         this.view.setCursor()
     }
 
     disableMoveInput() {
-        this.model.inputWhiteEnabled = false
-        this.model.inputBlackEnabled = false
+        this.state.inputWhiteEnabled = false
+        this.state.inputBlackEnabled = false
         this.moveInputCallback = null
         this.view.setCursor()
     }

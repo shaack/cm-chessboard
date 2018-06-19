@@ -5,7 +5,7 @@
 
 import {Test} from "../node_modules/svjs-test/src/svjs-test/Test.js"
 import {ChessboardPiecesAnimation} from "../src/cm-chessboard/ChessboardPiecesAnimation.js";
-import {ChessboardModel} from "../src/cm-chessboard/ChessboardModel.js";
+import {ChessboardState} from "../src/cm-chessboard/ChessboardState.js";
 import {ViewMock} from "./mocks/ViewMock.js";
 
 const cfa = new ChessboardPiecesAnimation(new ViewMock());
@@ -23,12 +23,12 @@ export class TestPiecesAnimation extends Test {
     }
 
     testSeekChanges() {
-        const model1 = new ChessboardModel();
-        model1.setPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
-        const model2 = new ChessboardModel();
-        model2.setPosition("rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR");
-        const previousBoard1 = model1.squares;
-        const newBoard1 = model2.squares;
+        const state1 = new ChessboardState();
+        state1.setPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+        const state2 = new ChessboardState();
+        state2.setPosition("rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR");
+        const previousBoard1 = state1.squares;
+        const newBoard1 = state2.squares;
         const changes = cfa.seekChanges(previousBoard1, newBoard1);
 
         Test.assertEquals(0, changes[0].type);
