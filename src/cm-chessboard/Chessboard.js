@@ -40,7 +40,7 @@ export const PIECE = {
     blackQueen: "bq",
     blackKing: "bk",
 }
-export const FEN_START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"
+export const FEN_START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 export const FEN_EMPTY_POSITION = "8/8/8/8/8/8/8/8"
 
 const DEFAULT_SPRITE_GRID = 40
