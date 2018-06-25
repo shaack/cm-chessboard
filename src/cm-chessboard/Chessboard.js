@@ -136,7 +136,7 @@ export class Chessboard {
 
     addMarker(square, type = MARKER_TYPE.emphasize) {
         this.state.addMarker(this.state.squareToIndex(square), type)
-        this.view.drawMarkers()
+        this.view.drawMarkersDebounced()
     }
 
     getMarkers(square = null, type = null) {
@@ -155,7 +155,7 @@ export class Chessboard {
     removeMarkers(square = null, type = null) {
         const index = square !== null ? this.state.squareToIndex(square) : null
         this.state.removeMarkers(index, type)
-        this.view.drawMarkers()
+        this.view.drawMarkersDebounced()
     }
 
     setOrientation(color) {
@@ -209,6 +209,7 @@ export class Chessboard {
         })
     }
 
+    // noinspection JSUnusedGlobalSymbols
     disableContextInput() {
         this.element.removeEventListener("contextmenu", this.contextInputCallback)
     }

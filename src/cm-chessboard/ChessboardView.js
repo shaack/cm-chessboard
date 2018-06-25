@@ -292,6 +292,13 @@ export class ChessboardView {
 
     // Markers //
 
+    drawMarkersDebounced() {
+        window.clearTimeout(this.drawMarkersDebounce)
+        this.drawMarkersDebounce = setTimeout(() => {
+            this.drawMarkers()
+        }, 10)
+    }
+
     drawMarkers() {
         while (this.markersGroup.firstChild) {
             this.markersGroup.removeChild(this.markersGroup.firstChild)
