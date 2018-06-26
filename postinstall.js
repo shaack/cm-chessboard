@@ -1,27 +1,27 @@
-const fs = require("fs");
-const process = require("process");
-const path = require("path");
+const fs = require("fs")
+const process = require("process")
+const path = require("path")
 
 // link dependencies
-process.chdir('./src');
-symlinkModuleSrc("svjs-svg");
+process.chdir('./src')
+symlinkModuleSrc("svjs-svg")
 
 
 function symlinkModuleSrc(moduleName) {
     try {
-        fs.symlinkSync(resolveModulePath(moduleName), moduleName, "dir");
+        fs.symlinkSync(resolveModulePath(moduleName), moduleName, "dir")
     } catch (e) {
-        console.log(e.message);
+        console.log(e.message)
     }
 }
 
 function resolveModulePath(moduleName) {
     try {
-        const pathToMainJs = require.resolve(moduleName);
-        console.log("pathToMainJs", pathToMainJs);
-        return pathToMainJs.substr(0, pathToMainJs.lastIndexOf(moduleName) + moduleName.length);
+        const pathToMainJs = require.resolve(moduleName)
+        console.log("pathToMainJs", pathToMainJs)
+        return pathToMainJs.substr(0, pathToMainJs.lastIndexOf(moduleName) + moduleName.length)
     } catch (e) {
-        console.warn(e);
-        return null;
+        console.warn(e)
+        return null
     }
 }

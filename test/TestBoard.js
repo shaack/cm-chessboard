@@ -1,10 +1,11 @@
 /**
- * Author: shaack
- * Date: 03.12.2017
+ * Author and copyright: Stefan Haack (https://shaack.com)
+ * Repository: https://github.com/shaack/cm-chessboard
+ * License: MIT, see file 'LICENSE'
  */
 
 import {Test} from "../node_modules/svjs-test/src/svjs-test/Test.js"
-import {Chessboard} from "../src/cm-chessboard/Chessboard.js";
+import {Chessboard} from "../src/cm-chessboard/Chessboard.js"
 
 export class TestBoard extends Test {
 
@@ -14,12 +15,12 @@ export class TestBoard extends Test {
             position: "start"
         }, () => {
             setTimeout(() => {
-                Test.assertEquals(1, chessboard.element.childNodes.length);
-                chessboard.destroy();
-                Test.assertEquals(null, chessboard.view);
-            });
+                Test.assertEquals(1, chessboard.element.childNodes.length)
+                chessboard.destroy()
+                Test.assertEquals(null, chessboard.state)
+            })
 
-        });
+        })
     }
 
 }
