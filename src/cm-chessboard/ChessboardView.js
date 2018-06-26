@@ -54,6 +54,7 @@ export class ChessboardView {
         window.clearTimeout(this.resizeDebounce)
         window.clearTimeout(this.redrawDebounce)
         window.clearTimeout(this.drawPiecesDebounce)
+        window.clearTimeout(this.drawMarkersDebounce)
         Svg.removeElement(this.svg)
     }
 
