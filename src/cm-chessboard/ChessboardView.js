@@ -50,6 +50,8 @@ export class ChessboardView {
     }
 
     destroy() {
+        this.moveInput.destroy()
+        ChessboardPiecesAnimation.stopAnimation()
         window.removeEventListener('resize', this.resizeListener)
         window.clearTimeout(this.resizeDebounce)
         window.clearTimeout(this.redrawDebounce)
