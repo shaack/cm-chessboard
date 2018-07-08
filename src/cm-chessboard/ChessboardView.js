@@ -62,7 +62,9 @@ export class ChessboardView {
         window.clearTimeout(this.drawMarkersDebounce)
         Svg.removeElement(this.svg)
         this.animationQueue = []
-        cancelAnimationFrame(this.currentAnimation.frameHandle)
+        if(this.currentAnimation) {
+            cancelAnimationFrame(this.currentAnimation.frameHandle)
+        }
     }
 
     // Sprite //
