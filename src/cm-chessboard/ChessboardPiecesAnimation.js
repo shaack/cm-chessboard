@@ -10,24 +10,21 @@ const CHANGE_TYPE = {
     disappear: 2
 }
 
-let animationRunning = false
-
 function AnimationRunningException() {
 }
 
 export class ChessboardPiecesAnimation {
 
     constructor(view, fromSquares, toSquares, duration, callback) {
-        if (animationRunning) {
-            console.warn("Animation running")
+        this.view = view
+        if (this.view.animationRunning) {
             throw new AnimationRunningException()
         }
-        this.view = view
         if (fromSquares && toSquares) {
             this.animatedElements = this.createAnimation(fromSquares, toSquares)
             this.duration = duration
             this.callback = callback
-            animationRunning = true
+            this.view.animationRunning = true
             this.frameHandle = requestAnimationFrame(this.animationStep.bind(this))
         }
     }
@@ -111,7 +108,7 @@ export class ChessboardPiecesAnimation {
             this.frameHandle = requestAnimationFrame(this.animationStep.bind(this))
         } else {
             cancelAnimationFrame(this.frameHandle)
-            animationRunning = false
+            this.view.animationRunning = false
             this.callback()
         }
         const t = Math.min(1, timeDiff / this.duration)
@@ -138,14 +135,6 @@ export class ChessboardPiecesAnimation {
                 console.warn("animatedItem has no element", animatedItem)
             }
         })
-    }
-
-    static isAnimationRunning() {
-        return animationRunning
-    }
-
-    static destroy() {
-        animationRunning = false
     }
 
     squareDistance(index1, index2) {

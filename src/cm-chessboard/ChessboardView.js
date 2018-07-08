@@ -19,6 +19,8 @@ const SPRITE_LOADING_STATUS = {
 export class ChessboardView {
 
     constructor(chessboard, callbackAfterCreation) {
+        this.animationRunning = false
+        this.currentAnimation = null
         this.chessboard = chessboard
         this.spriteLoadWaitingTries = 0
         this.loadSprite(chessboard.props, () => {
@@ -51,7 +53,6 @@ export class ChessboardView {
 
     destroy() {
         this.moveInput.destroy()
-        // ChessboardPiecesAnimation.stopAnimation()
         window.removeEventListener('resize', this.resizeListener)
         this.chessboard.element.removeEventListener("mousedown", this.pointerDownListener)
         this.chessboard.element.removeEventListener("touchstart", this.pointerDownListener)
@@ -60,7 +61,8 @@ export class ChessboardView {
         window.clearTimeout(this.drawPiecesDebounce)
         window.clearTimeout(this.drawMarkersDebounce)
         Svg.removeElement(this.svg)
-        ChessboardPiecesAnimation.destroy()
+        this.animationQueue = []
+        cancelAnimationFrame(this.currentAnimation.frameHandle)
     }
 
     // Sprite //
@@ -334,7 +336,7 @@ export class ChessboardView {
 
     animatePieces(fromSquares, toSquares, callback) {
         this.animationQueue.push({fromSquares: fromSquares, toSquares: toSquares, callback: callback})
-        if (!ChessboardPiecesAnimation.isAnimationRunning()) {
+        if (!this.animationRunning) {
             this.nextPieceAnimationInQueue()
         }
     }
@@ -342,7 +344,7 @@ export class ChessboardView {
     nextPieceAnimationInQueue() {
         const nextAnimation = this.animationQueue.shift()
         if (nextAnimation !== undefined) {
-            new ChessboardPiecesAnimation(this, nextAnimation.fromSquares, nextAnimation.toSquares, this.chessboard.props.animationDuration / (this.animationQueue.length + 1), () => {
+            this.currentAnimation = new ChessboardPiecesAnimation(this, nextAnimation.fromSquares, nextAnimation.toSquares, this.chessboard.props.animationDuration / (this.animationQueue.length + 1), () => {
                 if(!this.moveInput.dragablePiece) {
                     this.drawPieces(nextAnimation.toSquares)
                 }
