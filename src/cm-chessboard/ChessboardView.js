@@ -34,14 +34,9 @@ export class ChessboardView {
                 window.addEventListener("resize", this.resizeListener)
             }
             if (chessboard.props.moveInputMode !== MOVE_INPUT_MODE.viewOnly) {
-                chessboard.element.addEventListener("mousedown", (e) => {
-                    e.preventDefault()
-                    this.moveInput.onPointerDown(e)
-                })
-                chessboard.element.addEventListener("touchstart", (e) => {
-                    e.preventDefault()
-                    this.moveInput.onPointerDown(e)
-                })
+                this.pointerDownListener = this.pointerDownHandler.bind(this)
+                this.chessboard.element.addEventListener("mousedown", this.pointerDownListener)
+                this.chessboard.element.addEventListener("touchstart", this.pointerDownListener)
             }
             this.createSvgAndGroups()
             this.updateMetrics()
@@ -49,15 +44,23 @@ export class ChessboardView {
         })
     }
 
+    pointerDownHandler(e) {
+        e.preventDefault()
+        this.moveInput.onPointerDown(e)
+    }
+
     destroy() {
         this.moveInput.destroy()
-        ChessboardPiecesAnimation.stopAnimation()
+        // ChessboardPiecesAnimation.stopAnimation()
         window.removeEventListener('resize', this.resizeListener)
+        this.chessboard.element.removeEventListener("mousedown", this.pointerDownListener)
+        this.chessboard.element.removeEventListener("touchstart", this.pointerDownListener)
         window.clearTimeout(this.resizeDebounce)
         window.clearTimeout(this.redrawDebounce)
         window.clearTimeout(this.drawPiecesDebounce)
         window.clearTimeout(this.drawMarkersDebounce)
         Svg.removeElement(this.svg)
+        ChessboardPiecesAnimation.destroy()
     }
 
     // Sprite //

@@ -171,6 +171,7 @@ export class Chessboard {
         this.view.destroy()
         this.view = null
         this.state = null
+        this.element.removeEventListener("contextmenu", this.contextMenuListener)
     }
 
     enableMoveInput(callback, color = null) {
@@ -197,8 +198,11 @@ export class Chessboard {
     }
 
     enableContextInput(callback) {
-        this.contextInputCallback = callback
-        this.element.addEventListener("contextmenu", (e) => {
+        if(this.contextMenuListener) {
+            console.warn("contextMenuListener already existing")
+            return
+        }
+        this.contextMenuListener = function (e) {
             e.preventDefault()
             const index = e.target.getAttribute("data-index")
             callback({
@@ -206,11 +210,13 @@ export class Chessboard {
                 type: INPUT_EVENT_TYPE.context,
                 square: SQUARE_COORDINATES[index]
             })
-        })
+        }
+
+        this.element.addEventListener("contextmenu", this.contextMenuListener)
     }
 
     // noinspection JSUnusedGlobalSymbols
     disableContextInput() {
-        this.element.removeEventListener("contextmenu", this.contextInputCallback)
+        this.element.removeEventListener("contextmenu", this.contextMenuListener)
     }
 }

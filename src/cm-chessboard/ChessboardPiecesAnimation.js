@@ -11,7 +11,6 @@ const CHANGE_TYPE = {
 }
 
 let animationRunning = false
-let stopAnimation = false
 
 function AnimationRunningException() {
 }
@@ -104,10 +103,6 @@ export class ChessboardPiecesAnimation {
     }
 
     animationStep(time) {
-        if(stopAnimation) {
-            stopAnimation = false
-            return
-        }
         if (!this.startTime) {
             this.startTime = time
         }
@@ -149,8 +144,8 @@ export class ChessboardPiecesAnimation {
         return animationRunning
     }
 
-    static stopAnimation() {
-        stopAnimation = true
+    static destroy() {
+        animationRunning = false
     }
 
     squareDistance(index1, index2) {
