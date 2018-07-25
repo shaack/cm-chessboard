@@ -80,11 +80,10 @@ props = {
 
 ### constructor
 
-`new Chessboard(containerElement, props = {}, callback = null)`
+`new Chessboard(containerElement, props = {})`
 
 - **`containerElement`** - a HTML DOM element being the container of the widget
 - **`props`** - The board configuration (properties)
-- **`callback`** - The callback after sprite loading and initialization, **wait for the callback before using the API**
 
 ### setPiece(square, piece)
 
@@ -100,6 +99,8 @@ Returns the piece on a square or `null` if the square is empty.
 Sets the position as `fen`. Special values are `"start"`, sets the chess start position and
 `"empty"`, sets an empty board. When `animated` is set `false`, the new position will be 
 shown instant.
+
+Returns a **Promise** which will be resolved, when the Animation has finished.
 
 [Example for **setPosition**](https://shaack.com/projekte/cm-chessboard/examples/pieces-animation.html)
 
@@ -147,12 +148,12 @@ Returns the the board orientation.
 
 Removes the board from the DOM.
 
-### enableMoveInput(callback, color = null)
+### enableMoveInput(eventHandler, color = null)
 
 Enables moves via user input (mouse or touch).
 Set optional `color`, if you want to enable the move input for a specific side, `COLOR.white` or `COLOR.black`.
 
-`callback` is called on specific events of the user interaction. Receives the parameter `event`.
+`eventHandler` is called on specific events of the user interaction. Receives the parameter `event`.
 
 ```javascript
 board.enableMoveInput((event) => {
@@ -189,7 +190,7 @@ chessboard.enableMoveInput((event) => {
 
 Disables moves via user input.
 
-### enableContextInput(callback)
+### enableContextInput(eventHandler)
 
 Enables context input (right click on squares).
 
