@@ -32,7 +32,7 @@
 
     let chessboard = null
 
-    function moveCallback(event) {
+    function moveHandler(event) {
         switch (event.type) {
             case INPUT_EVENT_TYPE.moveStart:
                 log(`moveStart: ${event.square}`)
@@ -54,7 +54,7 @@
                 animationDuration: 5000,
                 sprite: {url: "../assets/images/chessboard-sprite.svg"}
             }, (board) => {
-                board.enableMoveInput(moveCallback)
+                board.enableMoveInput(moveHandler)
                 setTimeout(() => {
                     board.destroy()
                     chessboard = null
