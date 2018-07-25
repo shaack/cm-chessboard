@@ -71,15 +71,26 @@ export class Chessboard {
         }
         this.state = new ChessboardState()
         this.state.orientation = this.props.orientation
-        this.view = new ChessboardView(this, () => {
-            setTimeout(() => {
-                this.setPosition(this.props.position, false)
-                this.state.moveInputMode = this.props.moveInputMode
-                this.view.redraw()
-                if (callback) {
-                    callback(this)
+        this.initialization = new Promise((resolve) => {
+            this.view = new ChessboardView(this, () => {
+                if (this.props.position === "start") {
+                    this.state.setPosition(FEN_START_POSITION)
+                } else if (this.props.position === "empty" || this.props.position === null) {
+                    this.state.setPosition(FEN_EMPTY_POSITION)
+                } else {
+                    this.state.setPosition(this.props.position)
                 }
+                setTimeout(() => {
+                    this.view.redraw().then(() => {
+                        resolve()
+                    })
+                })
             })
+        }).then(() => {
+            if (callback) {
+                console.warn("warning: the constructor callback is deprecated and will be removed in future versions")
+                callback(this)
+            }
 
         })
     }
@@ -87,47 +98,48 @@ export class Chessboard {
     // API //
 
     setPiece(square, piece) {
-        this.state.setPiece(this.state.squareToIndex(square), piece)
-        this.view.drawPiecesDebounced()
+        return new Promise((resolve) => {
+            this.initialization.then(() => {
+                this.state.setPiece(this.state.squareToIndex(square), piece)
+                this.view.drawPiecesDebounced(this.state.squares, () => {
+                    resolve()
+                })
+            })
+        })
     }
 
     getPiece(square) {
         return this.state.squares[this.state.squareToIndex(square)]
     }
 
-    setPosition(fen, animated = true, callback = null) {
-        const currentFen = this.state.getPosition()
-        const fenParts = fen.split(" ")
-        const fenNormalized = fenParts[0]
-        if (fenNormalized !== currentFen) {
-            const prevSquares = this.state.squares.slice(0) // clone
-            if (fen === "start") {
-                this.state.setPosition(FEN_START_POSITION)
-            } else if (fen === "empty" || fen === null) {
-                this.state.setPosition(FEN_EMPTY_POSITION)
-            } else {
-                this.state.setPosition(fen)
-            }
-            if (animated) {
-                this.view.animatePieces(prevSquares, this.state.squares.slice(0), () => {
-                    if (callback) {
-                        callback()
+    setPosition(fen, animated = true) {
+        return new Promise((resolve) => {
+            this.initialization.then(() => {
+                const currentFen = this.state.getPosition()
+                const fenParts = fen.split(" ")
+                const fenNormalized = fenParts[0]
+                if (fenNormalized !== currentFen) {
+                    const prevSquares = this.state.squares.slice(0) // clone
+                    if (fen === "start") {
+                        this.state.setPosition(FEN_START_POSITION)
+                    } else if (fen === "empty" || fen === null) {
+                        this.state.setPosition(FEN_EMPTY_POSITION)
+                    } else {
+                        this.state.setPosition(fen)
                     }
-                })
-            } else {
-                if (!this.view) {
-                    console.trace()
+                    if (animated) {
+                        this.view.animatePieces(prevSquares, this.state.squares.slice(0), () => {
+                            resolve()
+                        })
+                    } else {
+                        this.view.drawPiecesDebounced()
+                        resolve()
+                    }
+                } else {
+                    resolve()
                 }
-                this.view.drawPiecesDebounced()
-                if (callback) {
-                    callback()
-                }
-            }
-        } else {
-            if (callback) {
-                callback()
-            }
-        }
+            })
+        })
     }
 
     getPosition() {
@@ -168,13 +180,18 @@ export class Chessboard {
     }
 
     destroy() {
-        this.view.destroy()
-        this.view = null
-        this.state = null
-        this.element.removeEventListener("contextmenu", this.contextMenuListener)
+        return new Promise((resolve) => {
+            this.initialization.then(() => {
+                this.view.destroy()
+                this.view = null
+                this.state = null
+                this.element.removeEventListener("contextmenu", this.contextMenuListener)
+                resolve()
+            })
+        })
     }
 
-    enableMoveInput(callback, color = null) {
+    enableMoveInput(eventHandler, color = null) {
         if (this.props.moveInputMode === MOVE_INPUT_MODE.viewOnly) {
             throw Error("props.moveInputMode is MOVE_INPUT_MODE.viewOnly")
         }
@@ -186,7 +203,7 @@ export class Chessboard {
             this.state.inputWhiteEnabled = true
             this.state.inputBlackEnabled = true
         }
-        this.moveInputCallback = callback
+        this.moveInputCallback = eventHandler
         this.view.setCursor()
     }
 
@@ -197,15 +214,15 @@ export class Chessboard {
         this.view.setCursor()
     }
 
-    enableContextInput(callback) {
-        if(this.contextMenuListener) {
+    enableContextInput(eventHandler) {
+        if (this.contextMenuListener) {
             console.warn("contextMenuListener already existing")
             return
         }
         this.contextMenuListener = function (e) {
             e.preventDefault()
             const index = e.target.getAttribute("data-index")
-            callback({
+            eventHandler({
                 chessboard: this,
                 type: INPUT_EVENT_TYPE.context,
                 square: SQUARE_COORDINATES[index]

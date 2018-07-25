@@ -26,54 +26,51 @@
 <div class="board" id="board2"></div>
 <br style="clear: both"/>
 <pre>
-new Chessboard(document.getElementById("board1"), {
+const board1 = new Chessboard(document.getElementById("board1"), {
     position: "start",
     sprite: {url: "../assets/images/chessboard-sprite.svg"}
-}, (board) => {
-    board.enableContextInput((event) => {
-        const markersOnSquare = board.getMarkers(event.square, MARKER_TYPE.emphasize)
-        if (markersOnSquare.length > 0) {
-            board.removeMarkers(event.square, MARKER_TYPE.emphasize)
-        } else {
-            board.addMarker(event.square)
-        }
-    })
+})
+board1.enableContextInput((event) => {
+    const markersOnSquare = board1.getMarkers(event.square, MARKER_TYPE.emphasize)
+    if (markersOnSquare.length > 0) {
+        board1.removeMarkers(event.square, MARKER_TYPE.emphasize)
+    } else {
+        board1.addMarker(event.square)
+    }
 })
 </pre>
 <script type="module">
     import {MARKER_TYPE, MOVE_INPUT_MODE, COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
 
-    new Chessboard(document.getElementById("board1"), {
+    const board1 = new Chessboard(document.getElementById("board1"), {
         position: "start",
         sprite: {url: "../assets/images/chessboard-sprite.svg"}
-    }, (board) => {
-        board.enableContextInput((event) => {
-            const markersOnSquare = board.getMarkers(event.square, MARKER_TYPE.emphasize)
-            if (markersOnSquare.length > 0) {
-                board.removeMarkers(event.square, MARKER_TYPE.emphasize)
-            } else {
-                board.addMarker(event.square)
-            }
-        })
+    })
+    board1.enableContextInput((event) => {
+        const markersOnSquare = board1.getMarkers(event.square, MARKER_TYPE.emphasize)
+        if (markersOnSquare.length > 0) {
+            board1.removeMarkers(event.square, MARKER_TYPE.emphasize)
+        } else {
+            board1.addMarker(event.square)
+        }
     })
 
-    new Chessboard(document.getElementById("board2"), {
+    const board2 = new Chessboard(document.getElementById("board2"), {
         position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR",
         sprite: {url: "../assets/images/chessboard-sprite.svg"},
         orientation: COLOR.black,
         moveInputMode: MOVE_INPUT_MODE.dragPiece
-    }, (board) => {
-        board.enableMoveInput(() => {
-            return true
-        })
-        board.enableContextInput((event) => {
-            const markersOnSquare = board.getMarkers(event.square, MARKER_TYPE.emphasize)
-            if (markersOnSquare.length > 0) {
-                board.removeMarkers(event.square, MARKER_TYPE.emphasize)
-            } else {
-                board.addMarker(event.square)
-            }
-        })
+    })
+    board2.enableMoveInput(() => {
+        return true
+    })
+    board2.enableContextInput((event) => {
+        const markersOnSquare = board2.getMarkers(event.square, MARKER_TYPE.emphasize)
+        if (markersOnSquare.length > 0) {
+            board2.removeMarkers(event.square, MARKER_TYPE.emphasize)
+        } else {
+            board2.addMarker(event.square)
+        }
     })
 
 </script>

@@ -23,6 +23,13 @@
 <p>Input enabled on both sides, without move validation.</p>
 <div class="board" id="board"></div>
 <pre>
+const board = new Chessboard(document.getElementById("board"), {
+    position: "start",
+    moveInputMode: MOVE_INPUT_MODE.dragPiece,
+    sprite: {url: "../assets/images/chessboard-sprite.svg"}
+})
+
+board.enableMoveInput(moveCallback)
 function moveCallback(event) {
     switch (event.type) {
         case INPUT_EVENT_TYPE.moveStart:
@@ -35,14 +42,6 @@ function moveCallback(event) {
             log(`moveCanceled`)
     }
 }
-
-new Chessboard(document.getElementById("board"), {
-    position: "start",
-    moveInputMode: MOVE_INPUT_MODE.dragPiece,
-    sprite: {url: "../assets/images/chessboard-sprite.svg"}
-}, (board) => {
-    board.enableMoveInput(moveCallback)
-})
 </pre>
 <button style="margin-bottom: 10px"
         onclick="window.board.setOrientation(window.board.getOrientation() === 'w' ? 'b' : 'w')">Switch Orientation
@@ -51,6 +50,12 @@ new Chessboard(document.getElementById("board"), {
 <script type="module">
     import {INPUT_EVENT_TYPE, MOVE_INPUT_MODE, Chessboard} from "../src/cm-chessboard/Chessboard.js"
 
+    window.board = new Chessboard(document.getElementById("board"), {
+        position: "start",
+        moveInputMode: MOVE_INPUT_MODE.dragPiece,
+        sprite: {url: "../assets/images/chessboard-sprite.svg"}
+    })
+    window.board.enableMoveInput(moveCallback)
     function moveCallback(event) {
         switch (event.type) {
             case INPUT_EVENT_TYPE.moveStart:
@@ -63,14 +68,6 @@ new Chessboard(document.getElementById("board"), {
                 log(`moveCanceled`)
         }
     }
-
-    window.board = new Chessboard(document.getElementById("board"), {
-        position: "start",
-        moveInputMode: MOVE_INPUT_MODE.dragPiece,
-        sprite: {url: "../assets/images/chessboard-sprite.svg"}
-    }, (board) => {
-        board.enableMoveInput(moveCallback)
-    })
 
     const output = document.getElementById("output")
 

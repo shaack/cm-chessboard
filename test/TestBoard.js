@@ -13,14 +13,12 @@ export class TestBoard extends Test {
         const chessboard = new Chessboard(document.getElementById("TestBoard"), {
             sprite: {url: "../assets/images/chessboard-sprite.svg"},
             position: "start"
-        }, () => {
-            setTimeout(() => {
-                Test.assertEquals(1, chessboard.element.childNodes.length)
-                chessboard.destroy()
+        })
+        chessboard.initialization.then(() => {
+            Test.assertEquals(1, chessboard.element.childNodes.length)
+            chessboard.destroy().then(() => {
                 Test.assertEquals(null, chessboard.state)
             })
-
         })
     }
-
 }

@@ -35,11 +35,13 @@
 
     window.board = new Chessboard(document.getElementById("board"),
         {
-            position: "start",
+            position: "empty",
             sprite: {url: "../assets/images/chessboard-sprite.svg"},
             responsive: true,
             animationDuration: 300
         })
+    window.board.setPosition('start')
+
 </script>
 </body>
 </html>

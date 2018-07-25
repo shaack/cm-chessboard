@@ -26,8 +26,10 @@
 <div class="board" id="board"></div>
 <pre>
 function inputCallback(event) {
-    if(event.type === INPUT_EVENT_TYPE.moveDone) {
-        const result = chess.move({from: event.squareFrom, to: event.squareTo})
+    console.log("event", event)
+    if (event.type === INPUT_EVENT_TYPE.moveDone) {
+        const move = {from: event.squareFrom, to: event.squareTo}
+        const result = chess.move(move)
         if (result) {
             event.chessboard.disableMoveInput()
             setTimeout(() => {
@@ -40,6 +42,8 @@ function inputCallback(event) {
                     event.chessboard.setPosition(chess.fen())
                 }
             })
+        } else {
+            console.warn("invalid move", move)
         }
         return result
     } else {
@@ -47,14 +51,13 @@ function inputCallback(event) {
     }
 }
 
-new Chessboard(document.getElementById("board"), {
+const board = new Chessboard(document.getElementById("board"), {
     position: chess.fen(),
     sprite: {url: "../assets/images/chessboard-sprite.svg"},
     orientation: COLOR.white,
     moveInputMode: MOVE_INPUT_MODE.dragPiece
-}, (board) => {
-    board.enableMoveInput(inputCallback, COLOR.white)
 })
+board.enableMoveInput(inputCallback, COLOR.white)
 </pre>
 <div id="output"></div>
 <script type="module">
@@ -67,9 +70,10 @@ new Chessboard(document.getElementById("board"), {
     const chess = new Chess()
 
     function inputCallback(event) {
-        console.log(event)
+        console.log("event", event)
         if (event.type === INPUT_EVENT_TYPE.moveDone) {
-            const result = chess.move({from: event.squareFrom, to: event.squareTo})
+            const move = {from: event.squareFrom, to: event.squareTo}
+            const result = chess.move(move)
             if (result) {
                 event.chessboard.disableMoveInput()
                 setTimeout(() => {
@@ -82,6 +86,8 @@ new Chessboard(document.getElementById("board"), {
                         event.chessboard.setPosition(chess.fen())
                     }
                 })
+            } else {
+                console.warn("invalid move", move)
             }
             return result
         } else {
@@ -89,14 +95,13 @@ new Chessboard(document.getElementById("board"), {
         }
     }
 
-    new Chessboard(document.getElementById("board"), {
+    const board = new Chessboard(document.getElementById("board"), {
         position: chess.fen(),
         sprite: {url: "../assets/images/chessboard-sprite.svg"},
         orientation: COLOR.white,
         moveInputMode: MOVE_INPUT_MODE.dragPiece
-    }, (board) => {
-        board.enableMoveInput(inputCallback, COLOR.white)
     })
+    board.enableMoveInput(inputCallback, COLOR.white)
 </script>
 </body>
 </html>

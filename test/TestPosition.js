@@ -9,52 +9,58 @@ import {PIECE, Chessboard} from "../src/cm-chessboard/Chessboard.js"
 
 export class TestPosition extends Test {
 
-    testStartPosition() {
+    testStartPositionConstructor() {
         const chessboard = new Chessboard(document.getElementById("TestPosition"), {
             position: "start"
         }, () => {
             Test.assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", chessboard.getPosition())
-            setTimeout(() => {
-                chessboard.destroy()
-            })
+            chessboard.destroy()
+        })
+    }
+
+    testStartPositionPromise() {
+        const chessboard = new Chessboard(document.getElementById("TestPosition"), {
+            position: "start"
+        })
+        chessboard.initialization.then(() => {
+            Test.assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", chessboard.getPosition())
+            chessboard.destroy()
         })
     }
 
     testSetAndGetPosition() {
-        const chessboard = new Chessboard(document.getElementById("TestPosition"), null, () => {
-            chessboard.setPosition("rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR w Gkq - 4 11", false)
+        const chessboard = new Chessboard(document.getElementById("TestPosition"), null)
+        chessboard.setPosition("rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR w Gkq - 4 11", false).then(() => {
             Test.assertEquals("rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR", chessboard.getPosition())
-            setTimeout(() => {
-                chessboard.destroy()
-            })
+            chessboard.destroy()
         })
     }
 
     testGetSquare() {
         const chessboard = new Chessboard(document.getElementById("TestPosition"), {
             position: "start"
-        }, () => {
+        })
+        chessboard.initialization.then(() => {
             Test.assertEquals("wq", chessboard.getPiece("d1"))
             Test.assertEquals("bq", chessboard.getPiece("d8"))
             Test.assertEquals("wp", chessboard.getPiece("a2"))
-            setTimeout(() => {
-                chessboard.destroy()
-            })
+            chessboard.destroy()
         })
     }
 
     testSetSquare() {
         const chessboard = new Chessboard(document.getElementById("TestPosition"), {
             position: "empty"
-        }, () => {
-            chessboard.setPiece("a1", PIECE.blackKing)
-            chessboard.setPiece("e5", PIECE.whiteKing)
-            Test.assertEquals("bk", chessboard.getPiece("a1"))
-            Test.assertEquals("wk", chessboard.getPiece("e5"))
-            setTimeout(() => {
-                chessboard.destroy()
-            })
         })
+        chessboard.setPiece("a1", PIECE.blackKing).then(() => {
+            Test.assertEquals("bk", chessboard.getPiece("a1"))
+        })
+        chessboard.setPiece("e5", PIECE.whiteKing).then(() => {
+            Test.assertEquals("wk", chessboard.getPiece("e5"))
+        })
+        setTimeout(() => {
+            chessboard.destroy()
+        }, 100)
     }
 
 }

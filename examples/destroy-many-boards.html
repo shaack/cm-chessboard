@@ -46,17 +46,16 @@
             const boardDiv = document.createElement("div")
             boardDiv.setAttribute("class", "board")
             boardsDiv.appendChild(boardDiv)
-            new Chessboard(boardDiv, {
+            const board = new Chessboard(boardDiv, {
                 position: Math.round(Math.random()) ? "start" : "empty",
                 orientation: Math.round(Math.random()) ? COLOR.white : COLOR.black,
                 responsive: true,
                 sprite: {url: "../assets/images/chessboard-sprite.svg"},
-            }, (chessboard) => {
-                setTimeout(() => {
-                    chessboard.destroy()
-                    boardsDiv.removeChild(boardDiv)
-                }, 10000)
             })
+            setTimeout(() => {
+                board.destroy()
+                boardsDiv.removeChild(boardDiv)
+            }, 10000)
         }, i * 100)
     }
 

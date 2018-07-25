@@ -93,13 +93,15 @@ Sets a piece on a square. Example: `board.setPiece("e4", PIECE.blackKnight)` or
 
 Returns the piece on a square or `null` if the square is empty.
 
+Returns a **Promise** which will be resolved, after the piece is set.
+
 ### setPosition(fen, animated = true)
 
 Sets the position as `fen`. Special values are `"start"`, sets the chess start position and
 `"empty"`, sets an empty board. When `animated` is set `false`, the new position will be 
 shown instant.
 
-Returns a **Promise** which will be resolved, when the Animation has finished.
+Returns a **Promise** which will be resolved, after the Animation has finished.
 
 [Example for **setPosition**](https://shaack.com/projekte/cm-chessboard/examples/pieces-animation.html)
 
@@ -145,7 +147,8 @@ Returns the the board orientation.
 
 ### destroy()
 
-Removes the board from the DOM.
+Removes the board from the DOM. Returns a **Promise** which will be resolved, after destruction.
+
 
 ### enableMoveInput(eventHandler, color = null)
 

@@ -62,7 +62,7 @@ export class ChessboardView {
         window.clearTimeout(this.drawMarkersDebounce)
         Svg.removeElement(this.svg)
         this.animationQueue = []
-        if(this.currentAnimation) {
+        if (this.currentAnimation) {
             cancelAnimationFrame(this.currentAnimation.frameHandle)
         }
     }
@@ -145,14 +145,18 @@ export class ChessboardView {
     }
 
     redraw() {
-        window.clearTimeout(this.redrawDebounce)
-        this.redrawDebounce = setTimeout(() => {
-            this.drawBoard()
-            this.drawCoordinates()
-            this.drawMarkers()
-            this.setCursor()
+        return new Promise((resolve) => {
+            window.clearTimeout(this.redrawDebounce)
+            this.redrawDebounce = setTimeout(() => {
+                this.drawBoard()
+                this.drawCoordinates()
+                this.drawMarkers()
+                this.setCursor()
+            })
+            this.drawPiecesDebounced(this.chessboard.state.squares, () => {
+                resolve()
+            })
         })
-        this.drawPiecesDebounced()
     }
 
     // Board //
@@ -247,10 +251,13 @@ export class ChessboardView {
 
     // Pieces //
 
-    drawPiecesDebounced(squares = this.chessboard.state.squares) {
+    drawPiecesDebounced(squares = this.chessboard.state.squares, callback = null) {
         window.clearTimeout(this.drawPiecesDebounce)
         this.drawPiecesDebounce = setTimeout(() => {
             this.drawPieces(squares)
+            if(callback) {
+                callback()
+            }
         })
     }
 
@@ -347,7 +354,7 @@ export class ChessboardView {
         const nextAnimation = this.animationQueue.shift()
         if (nextAnimation !== undefined) {
             this.currentAnimation = new ChessboardPiecesAnimation(this, nextAnimation.fromSquares, nextAnimation.toSquares, this.chessboard.props.animationDuration / (this.animationQueue.length + 1), () => {
-                if(!this.moveInput.dragablePiece) {
+                if (!this.moveInput.dragablePiece) {
                     this.drawPieces(nextAnimation.toSquares)
                 }
                 this.nextPieceAnimationInQueue()
@@ -397,11 +404,13 @@ export class ChessboardView {
     // Helpers //
 
     setCursor() {
-        if (this.chessboard.state.inputWhiteEnabled || this.chessboard.state.inputBlackEnabled) {
-            this.boardGroup.setAttribute("class", "board input-enabled")
-        } else {
-            this.boardGroup.setAttribute("class", "board")
-        }
+        this.chessboard.initialization.then(() => {
+            if (this.chessboard.state.inputWhiteEnabled || this.chessboard.state.inputBlackEnabled) {
+                this.boardGroup.setAttribute("class", "board input-enabled")
+            } else {
+                this.boardGroup.setAttribute("class", "board")
+            }
+        })
     }
 
     squareIndexToPoint(index) {
