@@ -89,11 +89,11 @@ props = {
 Sets a piece on a square. Example: `board.setPiece("e4", PIECE.blackKnight)` or
 `board.setPiece("e4", "bn")`.
 
+Returns a **Promise** which will be resolved, after the piece is set.
+
 ### getPiece(square)
 
 Returns the piece on a square or `null` if the square is empty.
-
-Returns a **Promise** which will be resolved, after the piece is set.
 
 ### setPosition(fen, animated = true)
 
