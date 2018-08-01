@@ -4,7 +4,7 @@
  * License: MIT, see file 'LICENSE'
  */
 
-import {Svg} from "../svjs-svg/Svg.js"
+import {Svg} from "../../lib/svjs-svg/Svg.js"
 import {MOVE_INPUT_MODE, MARKER_TYPE} from "./Chessboard.js"
 
 const STATE = {

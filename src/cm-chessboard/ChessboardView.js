@@ -4,7 +4,7 @@
  * License: MIT, see file 'LICENSE'
  */
 
-import {Svg} from "../svjs-svg/Svg.js"
+import {Svg} from "../../lib/svjs-svg/Svg.js"
 import {SQUARE_COORDINATES} from "./ChessboardState.js"
 import {ChessboardMoveInput} from "./ChessboardMoveInput.js"
 import {COLOR, MOVE_INPUT_MODE, INPUT_EVENT_TYPE} from "./Chessboard.js"
