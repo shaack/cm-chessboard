@@ -8,9 +8,9 @@ cm-chessboard is the new chessboard for the upcoming 'version 3' of
 
 ## Features
 
-- **[Mobile friendly and responsive](http://shaack.com/projekte/cm-chessboard/examples/responsive-board.html)**
-- **[Can handle moves input via click or drag](http://shaack.com/projekte/cm-chessboard/examples/validate-moves.html)**
-- **[Styleable via css](http://shaack.com/projekte/cm-chessboard/examples/styles.html)**
+- **[Mobile friendly and responsive](https://shaack.com/projekte/cm-chessboard/examples/responsive-board.html)**
+- **[Can handle moves input via click or drag](https://shaack.com/projekte/cm-chessboard/examples/validate-moves.html)**
+- **[Styleable via css](https://shaack.com/projekte/cm-chessboard/examples/styles.html)**
 - Uses **SVG for rendering**
 - **Vanilla JavaScript modules** in **ECMAScript 6** syntax
 - **No dependencies**, exept the very lightweight SVG 
@@ -18,10 +18,10 @@ rendering helper [svjs-svg](https://shaack.com/projekte/svjs-svg/)
 
 ## Demo and Repository
 
-- **Demo: [http://shaack.com/projekte/cm-chessboard/](http://shaack.com/projekte/cm-chessboard/)**
+- **Demo: [http://shaack.com/projekte/cm-chessboard/](https://shaack.com/projekte/cm-chessboard/)**
 - **Repository: [https://github.com/shaack/cm-chessboard](https://github.com/shaack/cm-chessboard)**
 
-![Example chessboards](http://shaack.com/projekte/assets/img/example_chessboards.png)
+![Example chessboards](https://shaack.com/projekte/assets/img/example_chessboards.png)
 
 ## Install
 
@@ -202,7 +202,7 @@ board.enableContextInput((event) => {
 })
 ```
 
-[Example for **enableContextInput**](http://shaack.com/projekte/cm-chessboard/examples/context-input.html)
+[Example for **enableContextInput**](https://shaack.com/projekte/cm-chessboard/examples/context-input.html)
 
 
 **`event.square`** contains the coordinates of the user input.
@@ -210,5 +210,10 @@ board.enableContextInput((event) => {
 ### disableContextInput()
 
 Disables the context input.
+
+## Licenses
+
+- License for the code: [MIT](https://github.com/shaack/cm-chessboard/blob/master/LICENSE), 
+License for the SVG-pieces [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/).
 
 
