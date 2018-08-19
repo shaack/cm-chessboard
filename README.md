@@ -29,6 +29,8 @@ rendering helper [svjs-svg](https://shaack.com/projekte/svjs-svg/)
 
 **Option 2:** Install the [npm package](https://www.npmjs.com/package/cm-chessboard) with `npm install --save cm-chessboard`
 
+Note: cm-chessboard uses symlinks internally, which requires admin rights on windows. If you're installing cm-chessboard on windows, please run `npm install` as an administrator.
+
 After installation, copy the `cm-chessboard/assets/images/chessboard-sprite.svg` to your projects `assets/images` folder.
 If you put the sprite somewhere else you have to configure the location in `props.sprite.url`.
 
