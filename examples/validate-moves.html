@@ -3,14 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>cm-chessboard</title>
+    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"/>
     <link rel="stylesheet" href="../styles/page.css"/>
     <link rel="stylesheet" href="../styles/cm-chessboard.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
     <style type="text/css">
         div.board {
             float: left;
-            width: 450px;
-            height: 430px;
+            max-width: 450px;
+            max-height: 430px;
+            width: calc(100vw - 40px);
+            height: calc(95vw - 40px);
             margin-right: 20px;
             margin-bottom: 20px;
         }
