@@ -3,8 +3,8 @@
  * License: MIT, see file 'LICENSE'
  */
 
-const WebModuleLinker = require("web-module-linker")
+const WebModuleCurator = require("web-module-curator")
 
-const linker = new WebModuleLinker(__dirname)
+const curator = new WebModuleCurator(__dirname)
 
-linker.symlinkModuleSrc("svjs-svg")
+curator.addModule("svjs-svg")
