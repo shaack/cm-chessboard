@@ -141,6 +141,8 @@ export class ChessboardView {
                 this.updateMetrics()
                 this.redraw()
             }
+            this.svg.setAttribute("width", "100%"); // safari bugfix
+            this.svg.setAttribute("height", "100%");
         })
     }
 
