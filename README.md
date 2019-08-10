@@ -1,6 +1,6 @@
 # cm-chessboard
 
-A Lightweight, ES6 module based, responsive, mobile friendly SVG chessboard with almost no dependencies (no jQuery needed). It works on desktop (current versions of Chrome, Firefox, Safari, Edge),
+A Lightweight, ES6 module based, responsive, mobile friendly SVG chessboard **without dependencies**. It works on desktop (current versions of Chrome, Firefox, Safari, Edge),
 and mobile (Android and iOS).
 
 cm-chessboard is the new chessboard for the upcoming 'version 3' of
@@ -13,8 +13,7 @@ cm-chessboard is the new chessboard for the upcoming 'version 3' of
 - **[Styleable via css](https://shaack.com/projekte/cm-chessboard/examples/styles.html)**
 - Uses **SVG for rendering**
 - **Vanilla JavaScript modules** in **ECMAScript 6** syntax
-- **No dependencies**, exept the very lightweight SVG 
-rendering helper [svjs-svg](https://shaack.com/projekte/svjs-svg/)
+- **No dependencies**
 
 ## Demo and Repository
 
