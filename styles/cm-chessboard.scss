@@ -15,7 +15,9 @@ $light-blue: #d7e3fc;
       }
     }
     .border {
-      fill: rgba(0,0,0,0.7);
+      stroke: rgba(0,0,0,0.7);
+      stroke-width: 3px;
+      fill: transparent;
     }
     .square {
       &.white {
@@ -30,6 +32,7 @@ $light-blue: #d7e3fc;
     .board {
       .border {
         fill: $light-default;
+        stroke: none;
       }
       .border-inner {
         fill: $dark-default;
