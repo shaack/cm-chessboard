@@ -5,7 +5,7 @@
 /* line 17, cm-chessboard.scss */
 .cm-chessboard .board .border {
   stroke: rgba(0, 0, 0, 0.7);
-  stroke-width: 3px;
+  stroke-width: 0.7%;
   fill: transparent; }
 
 /* line 23, cm-chessboard.scss */
