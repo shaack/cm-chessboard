@@ -46,7 +46,6 @@ export class ChessboardView {
     }
 
     pointerDownHandler(e) {
-        e.preventDefault()
         this.moveInput.onPointerDown(e)
     }
 
