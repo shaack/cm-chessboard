@@ -23,7 +23,7 @@ export class ChessboardView {
         this.chessboard = chessboard
         this.spriteLoadWaitingTries = 0
         this.loadSprite(chessboard.props, () => {
-            this.spriteLoadWaitDelay = 0
+            this.spriteLoadWaitDelay = 100
             this.moveInput = new ChessboardMoveInput(this, chessboard.state, chessboard.props,
                 this.moveStartCallback.bind(this),
                 this.moveDoneCallback.bind(this),
@@ -80,13 +80,12 @@ export class ChessboardView {
         } else if (ChessboardView.spriteLoadingStatus === SPRITE_LOADING_STATUS.loading) {
             setTimeout(() => {
                 this.spriteLoadWaitingTries++
-                if (this.spriteLoadWaitingTries < 50) {
+                if (this.spriteLoadWaitingTries < 100) {
                     this.loadSprite(props, callback)
                 } else {
                     console.error("timeout loading sprite", props.sprite.url)
                 }
             }, this.spriteLoadWaitDelay)
-            this.spriteLoadWaitDelay += 10
         } else if (ChessboardView.spriteLoadingStatus === SPRITE_LOADING_STATUS.loaded) {
             callback()
         } else {
