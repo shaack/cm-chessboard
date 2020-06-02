@@ -199,7 +199,7 @@ export class ChessboardMoveInput {
             const pieceElement = this.view.getPiece(index)
             if(pieceElement) {
                 // allow scrolling, if not pointed on piece
-
+                e.preventDefault()
             }
             if (index !== undefined) {
                 let pieceName, color
@@ -217,7 +217,6 @@ export class ChessboardMoveInput {
                         point = {x: e.touches[0].clientX, y: e.touches[0].clientY}
                     }
                     if (this.moveInputState === STATE.waitForInputStart && pieceName && this.moveStartCallback(index)) {
-                        e.preventDefault() // disallow scrolling
                         this.setMoveInputState(STATE.pieceClickedThreshold, {
                             index: index,
                             piece: pieceName,
