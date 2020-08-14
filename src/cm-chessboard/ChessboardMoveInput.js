@@ -197,9 +197,13 @@ export class ChessboardMoveInput {
         if (e.type === "mousedown" && e.button === 0 || e.type === "touchstart") {
             const index = e.target.getAttribute("data-index")
             const pieceElement = this.view.getPiece(index)
-            if(pieceElement) {
-                // allow scrolling, if not pointed on piece
-                e.preventDefault()
+            if (pieceElement) {
+                const color = pieceElement.getAttribute("data-piece").substr(0, 1)
+                // allow scrolling, if not pointed on dragable piece
+                if (color === "w" && this.state.inputWhiteEnabled ||
+                    color === "b" && this.state.inputBlackEnabled) {
+                    e.preventDefault()
+                }
             }
             if (index !== undefined) {
                 let pieceName, color
