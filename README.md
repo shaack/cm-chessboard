@@ -210,9 +210,14 @@ board.enableContextInput((event) => {
 
 Disables the context input.
 
+## Usage with react
+
+There exists a ticket from someone who is using cm-chessboard with react:
+https://github.com/shaack/cm-chessboard/issues/20 
+
 ## Licenses
 
-- License for the code: [MIT](https://github.com/shaack/cm-chessboard/blob/master/LICENSE), 
-License for the SVG-pieces [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/).
+- License for the code: [MIT](https://github.com/shaack/cm-chessboard/blob/master/LICENSE)
+- License for the SVG-pieces: [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)
 
 
