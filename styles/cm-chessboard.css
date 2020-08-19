@@ -70,14 +70,16 @@
 /* line 97, cm-chessboard.scss */
 .cm-chessboard .markers .marker.move {
   stroke: black;
-  opacity: 0.7; }
-
-/* line 101, cm-chessboard.scss */
-.cm-chessboard .markers .marker.emphasize {
-  stroke: blue;
+  stroke-width: 2px;
   opacity: 0.5; }
 
-/* line 107, cm-chessboard.scss */
+/* line 102, cm-chessboard.scss */
+.cm-chessboard .markers .marker.emphasize {
+  stroke: blue;
+  stroke-width: 4px;
+  opacity: 0.5; }
+
+/* line 109, cm-chessboard.scss */
 .cm-chessboard .pieces, .cm-chessboard .markers {
   pointer-events: none; }
 

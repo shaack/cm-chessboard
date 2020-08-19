@@ -9,40 +9,30 @@ import {ChessboardMoveInput} from "./ChessboardMoveInput.js"
 import {COLOR, MOVE_INPUT_MODE, INPUT_EVENT_TYPE} from "./Chessboard.js"
 import {ChessboardPiecesAnimation} from "./ChessboardPiecesAnimation.js"
 
-const SPRITE_LOADING_STATUS = {
-    notLoaded: 1,
-    loading: 2,
-    loaded: 3
-}
-
 export class ChessboardView {
 
     constructor(chessboard, callbackAfterCreation) {
         this.animationRunning = false
         this.currentAnimation = null
         this.chessboard = chessboard
-        this.spriteLoadWaitingTries = 0
-        this.loadSprite(chessboard.props, () => {
-            this.spriteLoadWaitDelay = 100
-            this.moveInput = new ChessboardMoveInput(this, chessboard.state, chessboard.props,
-                this.moveStartCallback.bind(this),
-                this.moveDoneCallback.bind(this),
-                this.moveCanceledCallback.bind(this)
-            )
-            this.animationQueue = []
-            if (chessboard.props.responsive) {
-                this.resizeListener = this.handleResize.bind(this)
-                window.addEventListener("resize", this.resizeListener)
-            }
-            if (chessboard.props.moveInputMode !== MOVE_INPUT_MODE.viewOnly) {
-                this.pointerDownListener = this.pointerDownHandler.bind(this)
-                this.chessboard.element.addEventListener("mousedown", this.pointerDownListener)
-                this.chessboard.element.addEventListener("touchstart", this.pointerDownListener)
-            }
-            this.createSvgAndGroups()
-            this.updateMetrics()
-            callbackAfterCreation()
-        })
+        this.moveInput = new ChessboardMoveInput(this, chessboard.state, chessboard.props,
+            this.moveStartCallback.bind(this),
+            this.moveDoneCallback.bind(this),
+            this.moveCanceledCallback.bind(this)
+        )
+        this.animationQueue = []
+        if (chessboard.props.responsive) {
+            this.resizeListener = this.handleResize.bind(this)
+            window.addEventListener("resize", this.resizeListener)
+        }
+        if (chessboard.props.moveInputMode !== MOVE_INPUT_MODE.viewOnly) {
+            this.pointerDownListener = this.pointerDownHandler.bind(this)
+            this.chessboard.element.addEventListener("mousedown", this.pointerDownListener)
+            this.chessboard.element.addEventListener("touchstart", this.pointerDownListener)
+        }
+        this.createSvgAndGroups()
+        this.updateMetrics()
+        callbackAfterCreation()
     }
 
     pointerDownHandler(e) {
@@ -66,34 +56,6 @@ export class ChessboardView {
     }
 
     // Sprite //
-
-    loadSprite(props, callback) {
-        if (ChessboardView.spriteLoadingStatus === SPRITE_LOADING_STATUS.notLoaded) {
-            ChessboardView.spriteLoadingStatus = SPRITE_LOADING_STATUS.loading
-            Svg.loadSprite(props.sprite.url, [
-                "wk", "wq", "wr", "wb", "wn", "wp",
-                "bk", "bq", "br", "bb", "bn", "bp",
-                "marker1", "marker2"], () => {
-                ChessboardView.spriteLoadingStatus = SPRITE_LOADING_STATUS.loaded
-                callback()
-            }, props.sprite.grid)
-        } else if (ChessboardView.spriteLoadingStatus === SPRITE_LOADING_STATUS.loading) {
-            setTimeout(() => {
-                this.spriteLoadWaitingTries++
-                if (this.spriteLoadWaitingTries < 100) {
-                    this.loadSprite(props, callback)
-                } else {
-                    console.error("timeout loading sprite", props.sprite.url)
-                }
-            }, this.spriteLoadWaitDelay)
-        } else if (ChessboardView.spriteLoadingStatus === SPRITE_LOADING_STATUS.loaded) {
-            callback()
-        } else {
-            console.error("error ChessboardView.spriteLoadingStatus", ChessboardView.spriteLoadingStatus)
-        }
-    }
-
-    // Draw //
 
     createSvgAndGroups() {
         if (this.svg) {
@@ -273,6 +235,7 @@ export class ChessboardView {
     }
 
     drawPiece(index, pieceName) {
+        // console.log(index, pieceName)
         const pieceGroup = Svg.addElement(this.piecesGroup, "g")
         pieceGroup.setAttribute("data-piece", pieceName)
         pieceGroup.setAttribute("data-index", index)
@@ -280,7 +243,7 @@ export class ChessboardView {
         const transform = (this.svg.createSVGTransform())
         transform.setTranslate(point.x, point.y)
         pieceGroup.transform.baseVal.appendItem(transform)
-        const pieceUse = Svg.addElement(pieceGroup, "use", {"href": `#${pieceName}`, "class": "piece"})
+        const pieceUse = Svg.addElement(pieceGroup, "use", {"href": `${this.chessboard.props.sprite.url}#${pieceName}`, "class": "piece"})
         // center on square
         const transformTranslate = (this.svg.createSVGTransform())
         transformTranslate.setTranslate(this.pieceXTranslate, 0)
@@ -333,7 +296,7 @@ export class ChessboardView {
         transform.setTranslate(point.x, point.y)
         markerGroup.transform.baseVal.appendItem(transform)
         const markerUse = Svg.addElement(markerGroup, "use",
-            {href: `#${marker.type.slice}`, class: "marker " + marker.type.class})
+            {href: `${this.chessboard.props.sprite.url}#${marker.type.slice}`, class: "marker " + marker.type.class})
         const transformScale = (this.svg.createSVGTransform())
         transformScale.setScale(this.scalingX, this.scalingY)
         markerUse.transform.baseVal.appendItem(transformScale)
@@ -476,57 +439,4 @@ export class Svg {
         element.parentNode.removeChild(element);
     }
 
-    /**
-     * Load sprite into html document (as `svg/defs`), elements can be referenced by `use` from all Svgs in page
-     * @param url
-     * @param elementIds array of element-ids, relevant for `use` in the svgs
-     * @param callback called after successful load, parameter is the svg element
-     * @param grid the grid size of the sprite
-     */
-    static loadSprite(url, elementIds, callback, grid = 1) {
-        const request = new XMLHttpRequest();
-        request.open("GET", url);
-        request.send();
-        request.onload = () => {
-            const response = request.response;
-            const parser = new DOMParser();
-            const svgDom = parser.parseFromString(response, "image/svg+xml");
-            // add relevant nodes to sprite-svg
-            const spriteSvg = this.createSvg(document.body);
-            spriteSvg.setAttribute("style", "display: none");
-            const defs = this.addElement(spriteSvg, "defs");
-            // filter relevant nodes
-            elementIds.forEach((elementId) => {
-                let elementNode = svgDom.getElementById(elementId);
-                if (!elementNode) {
-                    console.error("error, node id=" + elementId + " not found in sprite");
-                } else {
-                    const transformList = elementNode.transform.baseVal;
-                    for (let i = 0; i < transformList.numberOfItems; i++) {
-                        const transform = transformList.getItem(i);
-                        // re-transform items on grid
-                        if (transform.type === 2) {
-                            transform.setTranslate(transform.matrix.e % grid, transform.matrix.f % grid);
-                        }
-                    }
-                    // filter all ids in childs of the node
-                    let filterChilds = (childNodes) => {
-                        childNodes.forEach((childNode) => {
-                            if (childNode.nodeType === Node.ELEMENT_NODE) {
-                                childNode.removeAttribute("id");
-                                if (childNode.hasChildNodes()) {
-                                    filterChilds(childNode.childNodes);
-                                }
-                            }
-                        });
-                    };
-                    filterChilds(elementNode.childNodes);
-                    defs.appendChild(elementNode);
-                }
-            });
-            callback(spriteSvg);
-        };
-    }
 }
-
-ChessboardView.spriteLoadingStatus = SPRITE_LOADING_STATUS.notLoaded

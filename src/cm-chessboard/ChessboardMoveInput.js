@@ -180,7 +180,7 @@ export class ChessboardMoveInput {
         this.draggablePiece.setAttribute("style", "pointer-events: none")
         this.draggablePiece.name = pieceName
         const piece = Svg.addElement(this.draggablePiece, "use", {
-            href: `#${pieceName}`
+            href: `${this.props.sprite.url}#${pieceName}`
         })
         const scaling = this.view.squareHeight / this.props.sprite.grid
         const transformScale = (this.draggablePiece.createSVGTransform())
