@@ -215,7 +215,7 @@ export class Chessboard {
         this.view.setCursor()
     }
 
-    onContextInput(eventHandler) {
+    enableContextInput(eventHandler) {
         if (this.contextMenuListener) {
             console.warn("contextMenuListener already existing")
             return
@@ -233,6 +233,11 @@ export class Chessboard {
         this.element.addEventListener("contextmenu", this.contextMenuListener)
     }
 
+    // noinspection JSUnusedGlobalSymbols
+    disableContextInput() {
+        this.element.removeEventListener("contextmenu", this.contextMenuListener)
+    }
+
     onPrimaryInput(eventHandler) {
         this.element.addEventListener("click", function (e) {
             const index = e.target.getAttribute("data-index")
@@ -244,8 +249,4 @@ export class Chessboard {
         })
     }
 
-    // noinspection JSUnusedGlobalSymbols
-    disableContextInput() {
-        this.element.removeEventListener("contextmenu", this.contextMenuListener)
-    }
 }

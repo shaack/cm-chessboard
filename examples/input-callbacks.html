@@ -22,7 +22,7 @@ const board1 = new Chessboard(document.getElementById("board1"), {
     position: "start",
     sprite: {url: "../assets/images/chessboard-sprite.svg"}
 })
-board1.onContextInput((event) => {
+board1.enableContextInput((event) => {
     console.log(event)
     const markersOnSquare = board1.getMarkers(event.square, MARKER_TYPE.emphasize)
     if (markersOnSquare.length > 0) {
@@ -42,7 +42,7 @@ board1.onPrimaryInput((event) => {
         position: "start",
         sprite: {url: "../assets/images/chessboard-sprite.svg"}
     })
-    board1.onContextInput((event) => {
+    board1.enableContextInput((event) => {
         console.log(event)
         const markersOnSquare = board1.getMarkers(event.square, MARKER_TYPE.emphasize)
         if (markersOnSquare.length > 0) {
@@ -64,7 +64,7 @@ board1.onPrimaryInput((event) => {
     board2.enableMoveInput(() => {
         return true
     })
-    board2.onContextInput((event) => {
+    board2.enableContextInput((event) => {
         console.log(event)
         const markersOnSquare = board2.getMarkers(event.square, MARKER_TYPE.emphasize)
         if (markersOnSquare.length > 0) {
