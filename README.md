@@ -191,17 +191,17 @@ chessboard.enableMoveInput((event) => {
 
 Disables moves via user input.
 
-### enableContextInput(eventHandler)
+### onContextInput(eventHandler)
 
 Enables context input (right click on squares).
 
 ```javascript
-board.enableContextInput((event) => {
+board.onContextInput((event) => {
     // handle user context input here    
 })
 ```
 
-[Example for **enableContextInput**](https://shaack.com/projekte/cm-chessboard/examples/context-input.html)
+[Example for **onContextInput**](https://shaack.com/projekte/cm-chessboard/examples/context-input.html)
 
 
 **`event.square`** contains the coordinates of the user input.

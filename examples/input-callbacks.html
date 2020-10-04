@@ -11,7 +11,7 @@
 </head>
 <body>
 <h1><a href="../">cm-chessboard</a></h1>
-<h2>Example: Context input, mark squares</h2>
+<h2>Example: Context input, mark squares and log left click (primary click)</h2>
 <p>Toggle marker on context input. First board, context input only. Second board, move input and context input
     enabled.</p>
 <div class="board" id="board1"></div>
@@ -22,13 +22,17 @@ const board1 = new Chessboard(document.getElementById("board1"), {
     position: "start",
     sprite: {url: "../assets/images/chessboard-sprite.svg"}
 })
-board1.enableContextInput((event) => {
+board1.onContextInput((event) => {
+    console.log(event)
     const markersOnSquare = board1.getMarkers(event.square, MARKER_TYPE.emphasize)
     if (markersOnSquare.length > 0) {
         board1.removeMarkers(event.square, MARKER_TYPE.emphasize)
     } else {
         board1.addMarker(event.square)
     }
+})
+board1.onPrimaryInput((event) => {
+    console.log(event)
 })
 </pre>
 <script type="module">
@@ -38,13 +42,17 @@ board1.enableContextInput((event) => {
         position: "start",
         sprite: {url: "../assets/images/chessboard-sprite.svg"}
     })
-    board1.enableContextInput((event) => {
+    board1.onContextInput((event) => {
+        console.log(event)
         const markersOnSquare = board1.getMarkers(event.square, MARKER_TYPE.emphasize)
         if (markersOnSquare.length > 0) {
             board1.removeMarkers(event.square, MARKER_TYPE.emphasize)
         } else {
             board1.addMarker(event.square)
         }
+    })
+    board1.onPrimaryInput((event) => {
+        console.log(event)
     })
 
     const board2 = new Chessboard(document.getElementById("board2"), {
@@ -56,13 +64,17 @@ board1.enableContextInput((event) => {
     board2.enableMoveInput(() => {
         return true
     })
-    board2.enableContextInput((event) => {
+    board2.onContextInput((event) => {
+        console.log(event)
         const markersOnSquare = board2.getMarkers(event.square, MARKER_TYPE.emphasize)
         if (markersOnSquare.length > 0) {
             board2.removeMarkers(event.square, MARKER_TYPE.emphasize)
         } else {
             board2.addMarker(event.square)
         }
+    })
+    board2.onPrimaryInput((event) => {
+        console.log(event)
     })
 
 </script>

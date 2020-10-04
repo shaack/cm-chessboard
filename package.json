@@ -10,7 +10,7 @@
     "ECMAScript 6",
     "svjs"
   ],
-  "main": "src/cm-chessboard/Chessboard.js",
+  "browser": "./src/cm-chessboard/Chessboard.js",
   "scripts": {
     "test": "tput setaf 4;echo 'Run test/index.html in your browser for unit testing.'; echo ''; exit 0"
   },
@@ -18,7 +18,7 @@
     "type": "git",
     "url": "git+https://github.com/shaack/cm-chessboard.git"
   },
-  "author": "Stefan Haack <shaack@gmail.com> (http://www.shaack.com)",
+  "author": "Stefan Haack (http://www.shaack.com)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/shaack/cm-chessboard/issues"

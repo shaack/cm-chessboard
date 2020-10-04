@@ -20,7 +20,8 @@ export const INPUT_EVENT_TYPE = {
     moveStart: "moveStart",
     moveDone: "moveDone",
     moveCanceled: "moveCanceled",
-    context: "context"
+    context: "context",
+    primary: "primary"
 }
 export const MARKER_TYPE = {
     move: {class: "move", slice: "marker1"},
@@ -214,7 +215,7 @@ export class Chessboard {
         this.view.setCursor()
     }
 
-    enableContextInput(eventHandler) {
+    onContextInput(eventHandler) {
         if (this.contextMenuListener) {
             console.warn("contextMenuListener already existing")
             return
@@ -230,6 +231,17 @@ export class Chessboard {
         }
 
         this.element.addEventListener("contextmenu", this.contextMenuListener)
+    }
+
+    onPrimaryInput(eventHandler) {
+        this.element.addEventListener("click", function (e) {
+            const index = e.target.getAttribute("data-index")
+            eventHandler({
+                chessboard: this,
+                type: INPUT_EVENT_TYPE.primary,
+                square: SQUARE_COORDINATES[index]
+            })
+        })
     }
 
     // noinspection JSUnusedGlobalSymbols
