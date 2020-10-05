@@ -336,7 +336,11 @@ export class ChessboardMoveInput {
         this.view.drawMarkersDebounced()
     }
 
-    destroy() {
+    reset() {
         this.setMoveInputState(STATE.reset)
+    }
+
+    destroy() {
+        this.reset()
     }
 }
