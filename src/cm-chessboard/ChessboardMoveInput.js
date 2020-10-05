@@ -343,4 +343,5 @@ export class ChessboardMoveInput {
     destroy() {
         this.reset()
     }
+
 }
