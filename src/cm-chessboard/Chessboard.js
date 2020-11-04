@@ -233,7 +233,6 @@ export class Chessboard {
         this.element.addEventListener("contextmenu", this.contextMenuListener)
     }
 
-    // noinspection JSUnusedGlobalSymbols
     disableContextInput() {
         this.element.removeEventListener("contextmenu", this.contextMenuListener)
     }
