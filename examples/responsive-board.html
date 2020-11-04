@@ -14,7 +14,11 @@
 <h2>Example: Responsive chessboard with aspect ratio 0.9</h2>
 <div id="board"></div>
 <pre>
-new Chessboard(document.getElementById("board"), {position: "start", responsive: true})
+new Chessboard(document.getElementById("board"), {
+        position: "start",
+        responsive: true,
+        style: {aspectRatio: 0.9}
+    })
 </pre>
 <script type="module">
     import {Chessboard} from "../src/cm-chessboard/Chessboard.js"
