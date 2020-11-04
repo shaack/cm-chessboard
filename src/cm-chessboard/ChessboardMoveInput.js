@@ -175,6 +175,7 @@ export class ChessboardMoveInput {
             throw Error("draggablePiece exists")
         }
         this.draggablePiece = Svg.createSvg(document.body)
+        this.draggablePiece.classList.add("cm-chessboard-draggable-piece")
         this.draggablePiece.setAttribute("width", this.view.squareWidth)
         this.draggablePiece.setAttribute("height", this.view.squareHeight)
         this.draggablePiece.setAttribute("style", "pointer-events: none")
