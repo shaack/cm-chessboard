@@ -50,13 +50,14 @@ export class Chessboard {
 
     constructor(element, props = {}, callback = null) {
         this.element = element
-        this.props = {
+        let defaultProps = {
             position: "empty", // set as fen, "start" or "empty"
             orientation: COLOR.white, // white on bottom
             style: {
                 cssClass: "default",
                 showCoordinates: true, // show ranks and files
                 showBorder: false, // display a border around the board
+                aspectRatio: 1 // height/width. Set to null, if you want to define it only in the css.
             },
             responsive: false, // resizes the board on window resize, if true
             animationDuration: 300, // pieces animation duration in milliseconds
@@ -66,9 +67,19 @@ export class Chessboard {
                 grid: DEFAULT_SPRITE_GRID // the sprite is tiled with one piece every 40px
             }
         }
+        this.props = {}
+        Object.assign(this.props, defaultProps)
         Object.assign(this.props, props)
-        if (!this.props.sprite.grid) {
-            this.props.sprite.grid = DEFAULT_SPRITE_GRID
+        this.props.sprite = defaultProps.sprite
+        this.props.style = defaultProps.style
+        if(props.sprite) {
+            Object.assign(this.props.sprite, props.sprite)
+        }
+        if(props.style) {
+            Object.assign(this.props.style, props.style)
+        }
+        if(this.props.style.aspectRatio) {
+            this.element.style.height = (this.element.offsetWidth * this.props.style.aspectRatio) + "px"
         }
         this.state = new ChessboardState()
         this.state.orientation = this.props.orientation

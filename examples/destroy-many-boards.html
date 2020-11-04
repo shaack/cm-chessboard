@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <title>cm-chessboard</title>
     <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"/>
-    <link rel="stylesheet" href="../styles/page.css"/>
+    <link rel="stylesheet" href="examples.css"/>
     <link rel="stylesheet" href="../styles/cm-chessboard.css"/>
+    <!--suppress CssUnusedSymbol -->
     <style type="text/css">
         div.board {
             float: left;
@@ -18,7 +19,6 @@
         div.board1 {
             float: left;
             width: 43.1vw;
-            height: 43vw;
             margin-right: 0.9vw;
             margin-bottom: 0.5vw;
         }
@@ -52,6 +52,9 @@
                 orientation: Math.round(Math.random()) ? COLOR.white : COLOR.black,
                 responsive: true,
                 sprite: {url: "../assets/images/chessboard-sprite.svg"},
+                style: {
+                    aspectRatio: null
+                }
             })
             setTimeout(() => {
                 board.destroy()

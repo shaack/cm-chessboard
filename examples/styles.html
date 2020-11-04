@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>cm-chessboard</title>
     <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"/>
-    <link rel="stylesheet" href="../styles/page.css"/>
+    <link rel="stylesheet" href="./examples.css"/>
     <link rel="stylesheet" href="../styles/cm-chessboard.css"/>
     <script nomodule src="../node_modules/browser-es-module-loader/dist/babel-browser-build.js"></script>
     <script nomodule src="../node_modules/browser-es-module-loader/dist/browser-es-module-loader.js"></script>
@@ -21,7 +21,7 @@
 <div class="board" id="board7"></div>
 <br style="clear: both"/>
 <script type="module">
-    import {COLOR, MARKER_TYPE, Chessboard} from "../src/cm-chessboard/Chessboard.js"
+    import {COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
 
     new Chessboard(document.getElementById("board1"), {
         position: "start",
@@ -30,9 +30,6 @@
             showBorder: true
         },
         sprite: {url: "../assets/images/chessboard-sprite.svg"}
-    }, (board) => {
-        board.addMarker("g8", MARKER_TYPE.move)
-        board.addMarker("h6", MARKER_TYPE.move)
     })
     new Chessboard(document.getElementById("board2"), {
         position: "start",
@@ -51,9 +48,6 @@
             showBorder: false
         },
         sprite: {url: "../assets/images/chessboard-sprite.svg"},
-    }, (board) => {
-        board.addMarker("g8", MARKER_TYPE.move)
-        board.addMarker("h6", MARKER_TYPE.move)
     })
     new Chessboard(document.getElementById("board4"), {
         position: "start",

@@ -63,6 +63,7 @@ props = {
         cssClass: "default",
         showCoordinates: true, // show ranks and files
         showBorder: false, // display a border around the board
+        aspectRatio: 0.9 // height/width. Set to null, if you want to define it only in the css.
     },
     responsive: false, // resizes the board on window resize, if true
     animationDuration: 300, // pieces animation duration in milliseconds

@@ -95,6 +95,9 @@ export class ChessboardView {
     handleResize() {
         window.clearTimeout(this.resizeDebounce)
         this.resizeDebounce = setTimeout(() => {
+            if(this.chessboard.props.style.aspectRatio) {
+                this.chessboard.element.style.height = (this.chessboard.element.offsetWidth * this.chessboard.props.style.aspectRatio) + "px"
+            }
             if (this.chessboard.element.offsetWidth !== this.width ||
                 this.chessboard.element.offsetHeight !== this.height) {
                 this.updateMetrics()
@@ -420,11 +423,13 @@ export class Svg {
             attributes["xlink:href"] = attributes["href"]; // fix for safari
         }
         for (let attribute in attributes) {
-            if (attribute.indexOf(":") !== -1) {
-                const value = attribute.split(":");
-                element.setAttributeNS("http://www.w3.org/1999/" + value[0], value[1], attributes[attribute]);
-            } else {
-                element.setAttribute(attribute, attributes[attribute]);
+            if(attributes.hasOwnProperty(attribute)) {
+                if (attribute.indexOf(":") !== -1) {
+                    const value = attribute.split(":");
+                    element.setAttributeNS("http://www.w3.org/1999/" + value[0], value[1], attributes[attribute]);
+                } else {
+                    element.setAttribute(attribute, attributes[attribute]);
+                }
             }
         }
         parent.appendChild(element);
