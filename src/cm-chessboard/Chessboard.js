@@ -235,6 +235,7 @@ export class Chessboard {
 
     disableContextInput() {
         this.element.removeEventListener("contextmenu", this.contextMenuListener)
+        this.contextMenuListener = null
     }
 
     enableBoardClick(eventHandler) {
@@ -250,11 +251,12 @@ export class Chessboard {
                 square: SQUARE_COORDINATES[index]
             })
         }
-        this.element.addEventListener("click", this.boardClickListener)
+        this.element.addEventListener("", this.boardClickListener)
     }
 
     disableBoardClick() {
         this.element.removeEventListener("click", this.boardClickListener)
+        this.boardClickListener = null
     }
 
 }
