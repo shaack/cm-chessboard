@@ -43,7 +43,7 @@ board1.onPrimaryInput((event) => {
         sprite: {url: "../assets/images/chessboard-sprite.svg"}
     })
     board1.enableContextInput((event) => {
-        console.log(event)
+        console.log("ContextInput board1", event)
         const markersOnSquare = board1.getMarkers(event.square, MARKER_TYPE.emphasize)
         if (markersOnSquare.length > 0) {
             board1.removeMarkers(event.square, MARKER_TYPE.emphasize)
@@ -51,8 +51,8 @@ board1.onPrimaryInput((event) => {
             board1.addMarker(event.square)
         }
     })
-    board1.onPrimaryInput((event) => {
-        console.log(event)
+    board1.enableBoardClick((event) => {
+        console.log("boardClick board1", event)
     })
 
     const board2 = new Chessboard(document.getElementById("board2"), {
@@ -61,11 +61,12 @@ board1.onPrimaryInput((event) => {
         orientation: COLOR.black,
         moveInputMode: MOVE_INPUT_MODE.dragPiece
     })
-    board2.enableMoveInput(() => {
+    board2.enableMoveInput((event) => {
+        console.log("MoveInput board2", event)
         return true
     })
     board2.enableContextInput((event) => {
-        console.log(event)
+        console.log("ContextInput board2", event)
         const markersOnSquare = board2.getMarkers(event.square, MARKER_TYPE.emphasize)
         if (markersOnSquare.length > 0) {
             board2.removeMarkers(event.square, MARKER_TYPE.emphasize)
@@ -73,8 +74,8 @@ board1.onPrimaryInput((event) => {
             board2.addMarker(event.square)
         }
     })
-    board2.onPrimaryInput((event) => {
-        console.log(event)
+    board2.enableBoardClick((event) => {
+        console.log("boardClick board2", event)
     })
 
 </script>

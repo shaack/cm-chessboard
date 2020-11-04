@@ -21,7 +21,7 @@ export const INPUT_EVENT_TYPE = {
     moveDone: "moveDone",
     moveCanceled: "moveCanceled",
     context: "context",
-    primary: "primary"
+    click: "click"
 }
 export const MARKER_TYPE = {
     move: {class: "move", slice: "marker1"},
@@ -230,7 +230,6 @@ export class Chessboard {
                 square: SQUARE_COORDINATES[index]
             })
         }
-
         this.element.addEventListener("contextmenu", this.contextMenuListener)
     }
 
@@ -239,15 +238,24 @@ export class Chessboard {
         this.element.removeEventListener("contextmenu", this.contextMenuListener)
     }
 
-    onPrimaryInput(eventHandler) {
-        this.element.addEventListener("click", function (e) {
+    enableBoardClick(eventHandler) {
+        if (this.boardClickListener) {
+            console.warn("boardClickListener already existing")
+            return
+        }
+        this.boardClickListener = function(e) {
             const index = e.target.getAttribute("data-index")
             eventHandler({
                 chessboard: this,
-                type: INPUT_EVENT_TYPE.primary,
+                type: INPUT_EVENT_TYPE.click,
                 square: SQUARE_COORDINATES[index]
             })
-        })
+        }
+        this.element.addEventListener("click", this.boardClickListener)
+    }
+
+    disableBoardClick() {
+        this.element.removeEventListener("click", this.boardClickListener)
     }
 
 }
