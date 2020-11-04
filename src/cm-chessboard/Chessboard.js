@@ -28,18 +28,8 @@ export const MARKER_TYPE = {
     emphasize: {class: "emphasize", slice: "marker2"}
 }
 export const PIECE = {
-    whitePawn: "wp",
-    whiteBishop: "wb",
-    whiteKnight: "wn",
-    whiteRook: "wr",
-    whiteQueen: "wq",
-    whiteKing: "wk",
-    blackPawn: "bp",
-    blackBishop: "bb",
-    blackKnight: "bn",
-    blackRook: "br",
-    blackQueen: "bq",
-    blackKing: "bk",
+    wp: "wp", wb: "wb", wn: "wn", wr: "wr", wq: "wq", wk: "wk",
+    bp: "bp", bb: "bb", bn: "bn", br: "br", bq: "bq", bk: "bk",
 }
 export const FEN_START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 export const FEN_EMPTY_POSITION = "8/8/8/8/8/8/8/8"
@@ -72,13 +62,13 @@ export class Chessboard {
         Object.assign(this.props, props)
         this.props.sprite = defaultProps.sprite
         this.props.style = defaultProps.style
-        if(props.sprite) {
+        if (props.sprite) {
             Object.assign(this.props.sprite, props.sprite)
         }
-        if(props.style) {
+        if (props.style) {
             Object.assign(this.props.style, props.style)
         }
-        if(this.props.style.aspectRatio) {
+        if (this.props.style.aspectRatio) {
             this.element.style.height = (this.element.offsetWidth * this.props.style.aspectRatio) + "px"
         }
         this.state = new ChessboardState()

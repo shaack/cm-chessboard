@@ -29,7 +29,7 @@ export class TestPosition extends Test {
     }
 
     testSetAndGetPosition() {
-        const chessboard = new Chessboard(document.getElementById("TestPosition"), null)
+        const chessboard = new Chessboard(document.getElementById("TestPosition"))
         chessboard.setPosition("rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR w Gkq - 4 11", false).then(() => {
             Test.assertEquals("rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR", chessboard.getPosition())
             chessboard.destroy()
@@ -52,10 +52,10 @@ export class TestPosition extends Test {
         const chessboard = new Chessboard(document.getElementById("TestPosition"), {
             position: "empty"
         })
-        chessboard.setPiece("a1", PIECE.blackKing).then(() => {
+        chessboard.setPiece("a1", PIECE.bk).then(() => {
             Test.assertEquals("bk", chessboard.getPiece("a1"))
         })
-        chessboard.setPiece("e5", PIECE.whiteKing).then(() => {
+        chessboard.setPiece("e5", PIECE.wk).then(() => {
             Test.assertEquals("wk", chessboard.getPiece("e5"))
         })
         setTimeout(() => {
