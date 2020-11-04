@@ -251,7 +251,7 @@ export class Chessboard {
                 square: SQUARE_COORDINATES[index]
             })
         }
-        this.element.addEventListener("", this.boardClickListener)
+        this.element.addEventListener("click", this.boardClickListener)
     }
 
     disableBoardClick() {
