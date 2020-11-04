@@ -24,9 +24,6 @@ export class ChessboardView {
         if (chessboard.props.responsive) {
             this.resizeListener = this.handleResize.bind(this)
             window.addEventListener("resize", this.resizeListener)
-            setTimeout(() => {
-                this.handleResize().bind(this)
-            })
         }
         if (chessboard.props.moveInputMode !== MOVE_INPUT_MODE.viewOnly) {
             this.pointerDownListener = this.pointerDownHandler.bind(this)
@@ -36,6 +33,11 @@ export class ChessboardView {
         this.createSvgAndGroups()
         this.updateMetrics()
         callbackAfterCreation()
+        if (chessboard.props.responsive) {
+            setTimeout(() => {
+                this.handleResize()
+            })
+        }
     }
 
     pointerDownHandler(e) {
