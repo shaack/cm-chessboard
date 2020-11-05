@@ -18,7 +18,7 @@ const STATE = {
     reset: 7
 }
 
-const MOVE_CANCELED_REASON = {
+export const MOVE_CANCELED_REASON = {
     secondClick: "secondClick",
     movedOutOfBoard: "movedOutOfBoard"
 }
