@@ -362,11 +362,13 @@ export class ChessboardView {
         }
     }
 
-    moveCanceledCallback() {
+    moveCanceledCallback(reason, index) {
         if (this.chessboard.moveInputCallback) {
             this.chessboard.moveInputCallback({
                 chessboard: this.chessboard,
-                type: INPUT_EVENT_TYPE.moveCanceled
+                type: INPUT_EVENT_TYPE.moveCanceled,
+                reason: reason,
+                square: index ? SQUARE_COORDINATES[index] : undefined
             })
         }
     }
