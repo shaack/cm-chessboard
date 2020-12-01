@@ -24,9 +24,9 @@ cm-chessboard is the main chessboard of
 
 ## Install
 
-**Option 1:** Download from [GitHub](https://github.com/shaack/cm-chessboard) and run `npm install`, or
+**Option 1:** Install the [npm package](https://www.npmjs.com/package/cm-chessboard) with `npm install cm-chessboard`, or
 
-**Option 2:** Install the [npm package](https://www.npmjs.com/package/cm-chessboard) with `npm install --save cm-chessboard`
+**Option 2:** Download the code from [GitHub](https://github.com/shaack/cm-chessboard) and run `npm install`.
 
 After installation, copy the `cm-chessboard/assets/images/chessboard-sprite.svg` to your projects `assets/images` folder.
 If you put the sprite somewhere else you have to configure the location in `props.sprite.url`.
