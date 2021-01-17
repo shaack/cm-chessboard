@@ -39,6 +39,9 @@ const DEFAULT_SPRITE_GRID = 40
 export class Chessboard {
 
     constructor(element, props = {}, callback = null) {
+        if(!element) {
+            throw new Error("container element is " + element)
+        }
         this.element = element
         let defaultProps = {
             position: "empty", // set as fen, "start" or "empty"
