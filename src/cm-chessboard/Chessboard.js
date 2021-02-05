@@ -38,7 +38,7 @@ const DEFAULT_SPRITE_GRID = 40
 
 export class Chessboard {
 
-    constructor(element, props = {}, callback = null) {
+    constructor(element, props = {}) {
         if(!element) {
             throw new Error("container element is " + element)
         }
@@ -91,12 +91,6 @@ export class Chessboard {
                     })
                 })
             })
-        }).then(() => {
-            if (callback) {
-                console.warn("warning: the constructor callback is deprecated and will be removed in future versions")
-                callback(this)
-            }
-
         })
     }
 
