@@ -219,6 +219,7 @@ https://github.com/shaack/cm-chessboard/issues/20
 ## Licenses
 
 - License for the code: [MIT](https://github.com/shaack/cm-chessboard/blob/master/LICENSE)
-- License for the SVG-pieces: [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)
+- License for the Staunty SVG-pieces (chessboard-sprite-staunty.svg): [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+- License for the Wikimedia SVG-pieces: [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)
 
 

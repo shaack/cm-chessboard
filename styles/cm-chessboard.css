@@ -32,54 +32,53 @@
   /* line 45, cm-chessboard.scss */
   .cm-chessboard .coordinates .coordinate {
     fill: rgba(0, 0, 0, 0.7);
-    font-size: 7px;
     cursor: default; }
 
-/* line 54, cm-chessboard.scss */
+/* line 53, cm-chessboard.scss */
 .cm-chessboard.green .board .square.white {
   fill: #bddac4; }
 
-/* line 57, cm-chessboard.scss */
+/* line 56, cm-chessboard.scss */
 .cm-chessboard.green .board .square.black {
   fill: #8ebd9b; }
 
-/* line 64, cm-chessboard.scss */
+/* line 63, cm-chessboard.scss */
 .cm-chessboard.green.has-border .board .border {
   fill: #bddac4; }
 
-/* line 67, cm-chessboard.scss */
+/* line 66, cm-chessboard.scss */
 .cm-chessboard.green.has-border .board .border-inner {
   fill: #8ebd9b; }
 
-/* line 76, cm-chessboard.scss */
+/* line 75, cm-chessboard.scss */
 .cm-chessboard.blue .board .square.white {
   fill: #d7e3fc; }
 
-/* line 79, cm-chessboard.scss */
+/* line 78, cm-chessboard.scss */
 .cm-chessboard.blue .board .square.black {
   fill: #aec0e9; }
 
-/* line 86, cm-chessboard.scss */
+/* line 85, cm-chessboard.scss */
 .cm-chessboard.blue.has-border .board .border {
   fill: #d7e3fc; }
 
-/* line 89, cm-chessboard.scss */
+/* line 88, cm-chessboard.scss */
 .cm-chessboard.blue.has-border .board .border-inner {
   fill: #aec0e9; }
 
-/* line 97, cm-chessboard.scss */
+/* line 96, cm-chessboard.scss */
 .cm-chessboard .markers .marker.move {
   stroke: black;
   stroke-width: 2px;
   opacity: 0.5; }
 
-/* line 102, cm-chessboard.scss */
+/* line 101, cm-chessboard.scss */
 .cm-chessboard .markers .marker.emphasize {
-  stroke: blue;
+  stroke: #009900;
   stroke-width: 4px;
   opacity: 0.5; }
 
-/* line 109, cm-chessboard.scss */
+/* line 108, cm-chessboard.scss */
 .cm-chessboard .pieces, .cm-chessboard .markers {
   pointer-events: none; }
 

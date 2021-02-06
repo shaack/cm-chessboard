@@ -18,7 +18,7 @@
 const board = new Chessboard(document.getElementById("board"), {
     position: "start",
     moveInputMode: MOVE_INPUT_MODE.dragPiece,
-    sprite: {url: "../assets/images/chessboard-sprite.svg"}
+    sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"}
 })
 
 board.enableMoveInput(inputHandler)
@@ -45,7 +45,7 @@ function inputHandler(event) {
     window.board = new Chessboard(document.getElementById("board"), {
         position: "start",
         moveInputMode: MOVE_INPUT_MODE.dragPiece,
-        sprite: {url: "../assets/images/chessboard-sprite.svg"}
+        sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"}
     })
     window.board.enableMoveInput(inputHandler)
     function inputHandler(event) {

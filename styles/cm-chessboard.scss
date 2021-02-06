@@ -44,7 +44,6 @@ $light-blue: #d7e3fc;
     user-select: none;
     .coordinate {
       fill: rgba(0, 0, 0, 0.7);
-      font-size: 7px;
       cursor: default;
     }
   }
@@ -100,7 +99,7 @@ $light-blue: #d7e3fc;
         opacity: 0.5;
       }
       &.emphasize {
-        stroke: blue;
+        stroke: #009900;
         stroke-width: 4px;
         opacity: 0.5;
       }
