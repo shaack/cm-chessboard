@@ -84,7 +84,7 @@ export class ChessboardView {
         this.width = this.chessboard.element.offsetWidth
         this.height = this.chessboard.element.offsetHeight
         if (this.chessboard.props.style.showBorder) {
-            this.borderSize = this.width / 32
+            this.borderSize = this.width / 28
         } else {
             this.borderSize = this.width / 320
         }
@@ -168,8 +168,8 @@ export class ChessboardView {
         }
         const inline = !this.chessboard.props.style.showBorder
         for (let file = 0; file < 8; file++) {
-            let x = this.borderSize + (18 + this.chessboard.props.sprite.grid * file) * this.scalingX
-            let y = this.height - this.scalingY * 2.6
+            let x = this.borderSize + (17 + this.chessboard.props.sprite.grid * file) * this.scalingX
+            let y = this.height - this.scalingY * 3.2
             let cssClass = "coordinate file"
             if (inline) {
                 x = x + this.scalingX * 15.5
@@ -182,7 +182,7 @@ export class ChessboardView {
                 class: cssClass,
                 x: x,
                 y: y,
-                style: `font-size: ${this.scalingY * 8}px`
+                style: `font-size: ${this.scalingY * 10}px`
             })
             if (this.chessboard.state.orientation === COLOR.white) {
                 textElement.textContent = String.fromCharCode(97 + file)
@@ -192,7 +192,7 @@ export class ChessboardView {
         }
         for (let rank = 0; rank < 8; rank++) {
             let x = (this.borderSize / 3.7)
-            let y = this.borderSize + 24 * this.scalingY + rank * this.squareHeight
+            let y = this.borderSize + 25 * this.scalingY + rank * this.squareHeight
             let cssClass = "coordinate rank"
             if (inline) {
                 cssClass += rank % 2 ? " light" : " dark"
@@ -208,7 +208,7 @@ export class ChessboardView {
                 class: cssClass,
                 x: x,
                 y: y,
-                style: `font-size: ${this.scalingY * 8}px`
+                style: `font-size: ${this.scalingY * 10}px`
             })
             if (this.chessboard.state.orientation === COLOR.white) {
                 textElement.textContent = 8 - rank
