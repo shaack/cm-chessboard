@@ -27,7 +27,7 @@ See also: https://github.com/ornicar/lila/blob/master/COPYING.md
          fill="#f0f0f0"
          stroke-linecap="round"
          stroke-width="1.2"
-         stroke="#222222"
+         stroke="#1e1e1e"
          id="path1542" />
       <rect
          x="20.299"
@@ -38,7 +38,7 @@ See also: https://github.com/ornicar/lila/blob/master/COPYING.md
          fill="#f0f0f0"
          stroke-linejoin="round"
          stroke-width="1.2"
-         stroke="#222222"
+         stroke="#1e1e1e"
          id="rect1544" />
       <path
          d="m 26.416,14.215 c 0.725,0 1.308,0.621 1.308,1.393 0,0.773 -0.583,1.394 -1.308,1.394 h 1.974 c 0.724,0 1.308,-0.621 1.308,-1.393 0,-0.773 -0.584,-1.394 -1.308,-1.394 z"
@@ -53,7 +53,7 @@ See also: https://github.com/ornicar/lila/blob/master/COPYING.md
          fill="#f0f0f0"
          stroke-linecap="round"
          stroke-width="1.2"
-         stroke="#222222"
+         stroke="#1e1e1e"
          id="path1550" />
       <path
          d="m 24.996,16.576 c 15.938,2.622 12.573,9.354 6.64,22.543 l 2.028,-1.729 c 0,0 7.747,-13.723 6.584,-16.32 -1.545,-2.833 -7.503,-4.159 -15.252,-4.494 z"
@@ -72,7 +72,7 @@ See also: https://github.com/ornicar/lila/blob/master/COPYING.md
          fill="#f0f0f0"
          stroke-linejoin="round"
          stroke-width="1.2"
-         stroke="#222222"
+         stroke="#1e1e1e"
          id="path1558" />
       <path
          d="m 25,37.147 c 0,0 -8.712,-0.137 -11.624,1.666 -0.37,0.229 -0.7,0.84 -0.954,1.39 0.261,-0.331 0.503,-0.613 0.887,-0.849 2.56,-1.571 11.691,-1.62 11.691,-1.62 0,0 9.132,0.049 11.692,1.62 0.391,0.24 0.592,0.532 0.856,0.87 0.025,-0.076 -0.409,-1.158 -1.144,-1.596 C 33.648,37.136 25,37.148 25,37.148 Z"
@@ -88,7 +88,7 @@ See also: https://github.com/ornicar/lila/blob/master/COPYING.md
          stroke-linecap="round"
          stroke-linejoin="round"
          stroke-width="1.2"
-         stroke="#222222"
+         stroke="#1e1e1e"
          id="path1856" />
       <path
          d="M 24.836,5.732 C 24.46,5.522 21.112,6.538 22.651,9.308 22.416,7.763 23.089,6.105 24.836,5.732 Z"
@@ -100,7 +100,7 @@ See also: https://github.com/ornicar/lila/blob/master/COPYING.md
          stroke-linecap="round"
          stroke-linejoin="round"
          stroke-width="1.2"
-         stroke="#222222"
+         stroke="#1e1e1e"
          id="path1860" />
       <path
          d="m 18.161,14.977 c 1.042,-1.478 2.92,-3.22 6.84,-3.38 -0.31,0.277 -4.788,1.138 -6.84,3.38 z"
@@ -116,7 +116,7 @@ See also: https://github.com/ornicar/lila/blob/master/COPYING.md
          stroke-linecap="round"
          stroke-linejoin="round"
          stroke-width="1.2"
-         stroke="#222222"
+         stroke="#1e1e1e"
          id="path1866" />
       <path
          d="m 9.895,19.34 c -0.136,-0.01 -0.331,0.056 -0.458,0.085 3.081,4.1 6.575,9.537 7.099,12.417 -1.407,-4.933 -3.267,-9.562 -6.14,-12.472 z"
@@ -135,7 +135,7 @@ See also: https://github.com/ornicar/lila/blob/master/COPYING.md
          fill="#f0f0f0"
          stroke-linejoin="round"
          stroke-width="1.2"
-         stroke="#222222"
+         stroke="#1e1e1e"
          id="path1874" />
       <path
          d="m 25,37.147 c 0,0 -8.712,-0.137 -11.624,1.666 -0.37,0.229 -0.7,0.84 -0.954,1.39 0.261,-0.331 0.502,-0.613 0.887,-0.849 2.56,-1.571 11.691,-1.62 11.691,-1.62 0,0 9.132,0.049 11.692,1.62 0.391,0.24 0.593,0.532 0.856,0.87 0.026,-0.076 -0.409,-1.158 -1.144,-1.596 C 33.648,37.136 25,37.147 25,37.147 Z"
@@ -150,7 +150,7 @@ See also: https://github.com/ornicar/lila/blob/master/COPYING.md
          fill="#f0f0f0"
          stroke-linejoin="round"
          stroke-width="1.2"
-         stroke="#222222"
+         stroke="#1e1e1e"
          id="path1449" />
       <path
          d="m 25,5.767 c -0.816,0 -1.571,0.134 -2.191,0.358 4.338,0.848 4.976,1.12 2.56,4.351 l 3.246,3.567 c -3.657,8.24 -1.604,7.991 -1.604,7.991 0,0 0.696,-2.648 4.112,-7.768 A 35.696,35.696 0 0 0 27.296,10.38 L 28.812,7.73 C 28.812,6.646 27.106,5.767 25,5.767 Z m 8.765,12.238 -1.009,1.513 c 3.737,8.413 -4.134,17.997 -4.134,17.997 h 4.381 c 0.158,0.034 6.958,-8.844 0.762,-19.51 z"
@@ -165,7 +165,7 @@ See also: https://github.com/ornicar/lila/blob/master/COPYING.md
          fill="#f0f0f0"
          stroke-linejoin="round"
          stroke-width="1.2"
-         stroke="#222222"
+         stroke="#1e1e1e"
          id="path1455" />
       <path
          d="m 25,37.147 c 0,0 -8.712,-0.137 -11.624,1.666 -0.37,0.229 -0.7,0.84 -0.954,1.39 0.261,-0.331 0.502,-0.613 0.887,-0.85 C 15.869,37.784 25,37.736 25,37.736 c 0,0 9.132,0.048 11.692,1.619 0.391,0.24 0.592,0.532 0.856,0.87 0.026,-0.076 -0.409,-1.158 -1.144,-1.596 C 33.648,37.136 25,37.147 25,37.147 Z"
@@ -178,7 +178,7 @@ See also: https://github.com/ornicar/lila/blob/master/COPYING.md
       <path
          d="m 25.192,23.015 c -0.165,6.967 -11.758,5.219 -11.516,18.104 l 22.86,0.118 C 34.442,34.795 46.226,16.077 24.605,8.979 v 0 c 0,0 -2.438,-2.6 -5.965,-2.823 l 0.222,3.534 -4.558,4.582 c -2.63,3.145 -8.735,8.378 -7.751,9.611 3.115,5.304 6.33,4.432 6.33,4.432 4.242,-4.544 5.82,-2.09 12.31,-5.3 z"
          fill="#f0f0f0"
-         stroke="#222222"
+         stroke="#1e1e1e"
          stroke-linejoin="round"
          stroke-width="1.2"
          id="path1668" />
@@ -209,7 +209,7 @@ See also: https://github.com/ornicar/lila/blob/master/COPYING.md
       <path
          d="m 25,36.457 c 0,0 -9.13,0.048 -11.691,1.62 -1.727,1.06 -2.135,3.65 -1.9,6.323 h 27.182 c 0.235,-2.672 -0.172,-5.264 -1.9,-6.324 -2.56,-1.57 -11.69,-1.619 -11.69,-1.619 z"
          fill="#f0f0f0"
-         stroke="#222222"
+         stroke="#1e1e1e"
          stroke-linejoin="round"
          stroke-width="1.2"
          id="path1682" />
@@ -225,7 +225,7 @@ See also: https://github.com/ornicar/lila/blob/master/COPYING.md
          d="m 17.932,20.414 c 4.906,-0.74 9.579,-0.578 14.136,0 M 14.183,9.662 c -1.06,8.767 1.103,10.677 3.748,10.752 L 14.616,38.573 H 35.383 L 32.067,20.414 c 2.645,-0.074 4.808,-1.985 3.749,-10.752 l -3.608,-0.53 -1.073,3.644 -3.142,-0.1 -0.522,-3.754 h -4.945 l -0.52,3.754 -3.143,0.1 -1.073,-3.643 z"
          fill="#f0f0f0"
          stroke-width="1.2"
-         stroke="#222222"
+         stroke="#1e1e1e"
          id="path1983" />
       <path
          d="m 17.932,20.414 c 6.828,0 13.118,0.408 14.948,16.572 l 2.319,0.386 -3.131,-16.428 C 32.036,20.636 25.98,19.121 17.932,20.414 Z"
@@ -244,7 +244,7 @@ See also: https://github.com/ornicar/lila/blob/master/COPYING.md
          fill="#f0f0f0"
          stroke-linejoin="round"
          stroke-width="1.2"
-         stroke="#222222"
+         stroke="#1e1e1e"
          id="path1991" />
       <path
          d="m 25,37.146 c 0,0 -8.712,-0.137 -11.624,1.666 -0.37,0.229 -0.7,0.84 -0.954,1.39 0.261,-0.331 0.503,-0.613 0.887,-0.849 C 15.87,37.782 25,37.733 25,37.733 c 0,0 9.132,0.049 11.692,1.62 0.391,0.24 0.592,0.532 0.856,0.87 0.025,-0.076 -0.409,-1.158 -1.144,-1.596 C 33.648,37.135 25,37.147 25,37.147 Z"
@@ -259,7 +259,7 @@ See also: https://github.com/ornicar/lila/blob/master/COPYING.md
          fill="#f0f0f0"
          stroke-linejoin="round"
          stroke-width="1.2"
-         stroke="#222222"
+         stroke="#1e1e1e"
          id="path1775" />
       <path
          d="m 24.962,11.537 c 1.17,-0.459 9.527,5.906 0.647,10.773 l 4.512,2.1 -0.562,3.125 h 2.659 l 0.428,-3.399 -3.65,-2.1 c 1.253,-1.2 1.962,-2.58 1.964,-4.312 -0.468,-5.416 -5.998,-6.186 -5.998,-6.186 z m -2.949,15.998 c 4.503,7.934 9.47,9.994 13.074,9.965 L 32.972,36.153 C 30.897,34.663 28.24,31.295 27.91,27.535 Z"
