@@ -20,7 +20,7 @@ cm-chessboard is the main chessboard of
 - **Demo: [http://shaack.com/projekte/cm-chessboard/](https://shaack.com/projekte/cm-chessboard/)**
 - **Repository: [https://github.com/shaack/cm-chessboard](https://github.com/shaack/cm-chessboard)**
 
-![Example chessboards](https://shaack.com/projekte/assets/img/example_chessboards_staunty.png)
+![Example chessboards](https://shaack.com/projekte/assets/img/example_chessboards_staunty.png?v=2)
 
 ## Install
 
