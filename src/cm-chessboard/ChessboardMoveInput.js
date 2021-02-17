@@ -280,8 +280,10 @@ export class ChessboardMoveInput {
                     this.updateStartEndMarkers()
                 }
             } else {
-                this.endIndex = null
-                this.updateStartEndMarkers()
+                if(this.endIndex !== null) {
+                    this.endIndex = null
+                    this.updateStartEndMarkers()
+                }
             }
             if (this.props.moveInputMode === MOVE_INPUT_MODE.dragPiece && (this.moveInputState === STATE.dragTo || this.moveInputState === STATE.clickDragTo)) {
                 this.moveDraggablePiece(x, y)
