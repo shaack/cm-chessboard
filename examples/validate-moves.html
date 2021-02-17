@@ -24,16 +24,14 @@ function inputHandler(event) {
         const result = chess.move(move)
         if (result) {
             event.chessboard.disableMoveInput()
-            setTimeout(() => {
+            event.chessboard.setPosition(chess.fen())
+            const possibleMoves = chess.moves({verbose: true})
+            if (possibleMoves.length > 0) {
+                const randomMove = possibleMoves[random(0, possibleMoves.length - 1)]
+                chess.move({from: randomMove.from, to: randomMove.to})
+                event.chessboard.enableMoveInput(inputHandler, COLOR.white)
                 event.chessboard.setPosition(chess.fen())
-                const possibleMoves = chess.moves({verbose: true})
-                if (possibleMoves.length > 0) {
-                    const randomMove = possibleMoves[random(0, possibleMoves.length - 1)]
-                    chess.move({from: randomMove.from, to: randomMove.to})
-                    event.chessboard.enableMoveInput(inputHandler, COLOR.white)
-                    event.chessboard.setPosition(chess.fen())
-                }
-            })
+            }
         } else {
             console.warn("invalid move", move)
         }
@@ -42,7 +40,6 @@ function inputHandler(event) {
         return true
     }
 }
-
 const board = new Chessboard(document.getElementById("board"), {
     position: chess.fen(),
     sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
@@ -68,16 +65,14 @@ board.enableMoveInput(inputHandler, COLOR.white)
             const result = chess.move(move)
             if (result) {
                 event.chessboard.disableMoveInput()
-                setTimeout(() => {
+                event.chessboard.setPosition(chess.fen())
+                const possibleMoves = chess.moves({verbose: true})
+                if (possibleMoves.length > 0) {
+                    const randomMove = possibleMoves[random(0, possibleMoves.length - 1)]
+                    chess.move({from: randomMove.from, to: randomMove.to})
+                    event.chessboard.enableMoveInput(inputHandler, COLOR.white)
                     event.chessboard.setPosition(chess.fen())
-                    const possibleMoves = chess.moves({verbose: true})
-                    if (possibleMoves.length > 0) {
-                        const randomMove = possibleMoves[random(0, possibleMoves.length - 1)]
-                        chess.move({from: randomMove.from, to: randomMove.to})
-                        event.chessboard.enableMoveInput(inputHandler, COLOR.white)
-                        event.chessboard.setPosition(chess.fen())
-                    }
-                })
+                }
             } else {
                 console.warn("invalid move", move)
             }
