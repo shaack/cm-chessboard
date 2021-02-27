@@ -5,9 +5,9 @@
  */
 
 import {Test} from "../node_modules/svjs-test/src/svjs-test/Test.js"
-import {ChessboardPiecesAnimation} from "../src/cm-chessboard/ChessboardPiecesAnimation.js"
-import {ChessboardState} from "../src/cm-chessboard/ChessboardState.js"
-import {ViewMock} from "./mocks/ViewMock.js"
+import {ChessboardPiecesAnimation} from "../src/cm-chessboard/ChessboardPiecesAnimation.mjs"
+import {ChessboardState} from "../src/cm-chessboard/ChessboardState.mjs"
+import {ViewMock} from "./mocks/ViewMock.mjs"
 
 const cfa = new ChessboardPiecesAnimation(new ViewMock())
 

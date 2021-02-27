@@ -5,7 +5,7 @@
  */
 
 import {Test} from "../node_modules/svjs-test/src/svjs-test/Test.js"
-import {PIECE, Chessboard} from "../src/cm-chessboard/Chessboard.js"
+import {PIECE, Chessboard} from "../src/cm-chessboard/Chessboard.mjs"
 
 export class TestPosition extends Test {
 

@@ -40,7 +40,7 @@ function inputHandler(event) {
 </button>
 <div id="output"></div>
 <script type="module">
-    import {INPUT_EVENT_TYPE, MOVE_INPUT_MODE, Chessboard} from "../src/cm-chessboard/Chessboard.js"
+    import {INPUT_EVENT_TYPE, MOVE_INPUT_MODE, Chessboard} from "../src/cm-chessboard/Chessboard.mjs"
 
     window.board = new Chessboard(document.getElementById("board"), {
         position: "start",

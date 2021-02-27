@@ -4,10 +4,10 @@
  * License: MIT, see file 'LICENSE'
  */
 
-import {SQUARE_COORDINATES} from "./ChessboardState.js"
-import {ChessboardMoveInput} from "./ChessboardMoveInput.js"
-import {COLOR, MOVE_INPUT_MODE, INPUT_EVENT_TYPE} from "./Chessboard.js"
-import {ChessboardPiecesAnimation} from "./ChessboardPiecesAnimation.js"
+import {SQUARE_COORDINATES} from "./ChessboardState.mjs"
+import {ChessboardMoveInput} from "./ChessboardMoveInput.mjs"
+import {COLOR, MOVE_INPUT_MODE, INPUT_EVENT_TYPE} from "./Chessboard.mjs"
+import {ChessboardPiecesAnimation} from "./ChessboardPiecesAnimation.mjs"
 
 export class ChessboardView {
 

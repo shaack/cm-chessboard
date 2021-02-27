@@ -10,7 +10,7 @@
     "ECMAScript 6",
     "svjs"
   ],
-  "browser": "./src/cm-chessboard/Chessboard.js",
+  "browser": "./src/cm-chessboard/Chessboard.mjs",
   "scripts": {
     "test": "tput setaf 4;echo 'Run test/index.html in your browser for unit testing.'; echo ''; exit 0"
   },
@@ -24,7 +24,6 @@
     "url": "https://github.com/shaack/cm-chessboard/issues"
   },
   "homepage": "https://github.com/shaack/cm-chessboard#readme",
-  "dependencies": {},
   "devDependencies": {
     "browser-es-module-loader": "^0.4.1",
     "svjs-test": "^1.3.5"
