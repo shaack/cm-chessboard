@@ -8,7 +8,7 @@ export class ViewMock {
         this.squareHeight = 40;
         this.props = {
             sprite: {
-                grid: 40
+                size: 40
             }
         }
     }

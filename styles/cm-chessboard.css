@@ -10,20 +10,20 @@
 
 /* line 23, cm-chessboard.scss */
 .cm-chessboard .board .square.white {
-  fill: #eedab6; }
+  fill: #f5ddb3; }
 
 /* line 26, cm-chessboard.scss */
 .cm-chessboard .board .square.black {
-  fill: #c7a47b; }
+  fill: #ceaa81; }
 
 /* line 33, cm-chessboard.scss */
 .cm-chessboard.has-border .board .border {
-  fill: #eedab6;
+  fill: #f5ddb3;
   stroke: none; }
 
 /* line 37, cm-chessboard.scss */
 .cm-chessboard.has-border .board .border-inner {
-  fill: #c7a47b; }
+  fill: #ceaa81; }
 
 /* line 42, cm-chessboard.scss */
 .cm-chessboard .coordinates {

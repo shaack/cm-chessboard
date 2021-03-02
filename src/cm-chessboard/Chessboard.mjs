@@ -34,8 +34,6 @@ export const PIECE = {
 export const FEN_START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 export const FEN_EMPTY_POSITION = "8/8/8/8/8/8/8/8"
 
-const DEFAULT_SPRITE_GRID = 40
-
 export class Chessboard {
 
     constructor(element, props = {}) {
@@ -56,8 +54,8 @@ export class Chessboard {
             animationDuration: 300, // pieces animation duration in milliseconds
             moveInputMode: MOVE_INPUT_MODE.viewOnly, // set to MOVE_INPUT_MODE.dragPiece or MOVE_INPUT_MODE.dragMarker for interactive movement
             sprite: {
-                url: "./assets/images/chessboard-sprite-staunty.svg", // pieces and markers are stored es svg in the sprite
-                grid: DEFAULT_SPRITE_GRID // the sprite is tiled with one piece every 40px
+                url: "./assets/images/chessboard-sprite-staunty.svg", // pieces and markers are stored as svg sprite
+                size: 40 // the sprite size, defaults to 40x40px
             }
         }
         this.props = {}

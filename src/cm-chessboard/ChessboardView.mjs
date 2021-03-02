@@ -92,9 +92,9 @@ export class ChessboardView {
         this.innerHeight = this.height - 2 * this.borderSize
         this.squareWidth = this.innerWidth / 8
         this.squareHeight = this.innerHeight / 8
-        this.scalingX = this.squareWidth / this.chessboard.props.sprite.grid
-        this.scalingY = this.squareHeight / this.chessboard.props.sprite.grid
-        this.pieceXTranslate = (this.squareWidth / 2 - this.chessboard.props.sprite.grid * this.scalingY / 2)
+        this.scalingX = this.squareWidth / this.chessboard.props.sprite.size
+        this.scalingY = this.squareHeight / this.chessboard.props.sprite.size
+        this.pieceXTranslate = (this.squareWidth / 2 - this.chessboard.props.sprite.size * this.scalingY / 2)
     }
 
     handleResize() {
@@ -168,7 +168,7 @@ export class ChessboardView {
         }
         const inline = !this.chessboard.props.style.showBorder
         for (let file = 0; file < 8; file++) {
-            let x = this.borderSize + (17 + this.chessboard.props.sprite.grid * file) * this.scalingX
+            let x = this.borderSize + (17 + this.chessboard.props.sprite.size * file) * this.scalingX
             let y = this.height - this.scalingY * 3.2
             let cssClass = "coordinate file"
             if (inline) {
