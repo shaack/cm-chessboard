@@ -4,7 +4,10 @@ A Lightweight, ES6 module based, responsive, mobile friendly SVG chessboard **wi
 and mobile (Android and iOS).
 
 cm-chessboard is the main chessboard of 
-[chessmail.eu](https://www.chessmail.eu) / [chessmail.de](https://www.chessmail.de), and is used every day by thousands of users.
+[chessmail.eu](https://www.chessmail.eu) and [chessmail.de](https://www.chessmail.de).
+It is also used in [chess-console](https://shaack.com/projekte/chess-console/examples/load-pgn.html) and in 
+ [cm-fen-editor](https://shaack.com/projekte/cm-fen-editor/). They are all nice 
+written ES6 Modules to handle different aspects of chess games.
 
 ## Features
 
@@ -43,7 +46,7 @@ Example, showing a FEN:
 ```html
 
 <script type="module">
-    import {Chessboard} from "./Chessboard.mjs"
+    import {Chessboard} from "./src/cm-chessboard/Chessboard.mjs"
 
     new Chessboard(document.getElementById("containerId"),
             {position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR"})
@@ -64,14 +67,14 @@ props = {
         cssClass: "default",
         showCoordinates: true, // show ranks and files
         showBorder: false, // display a border around the board
-        aspectRatio: 0.9 // height/width. Set to null, if you want to define it only in the css.
+        aspectRatio: 1 // height/width. Set to null, if you want to define it only in the css.
     },
     responsive: false, // resizes the board on window resize, if true
     animationDuration: 300, // pieces animation duration in milliseconds
     moveInputMode: MOVE_INPUT_MODE.viewOnly, // set to MOVE_INPUT_MODE.dragPiece or MOVE_INPUT_MODE.dragMarker for interactive movement
     sprite: {
-        url: "./assets/images/chessboard-sprite.svg", // pieces and markers are stored as svg in the sprite
-        grid: 40 // the sprite is tiled with one piece every 40px
+        url: "./assets/images/chessboard-sprite-staunty.svg", // pieces and markers are stored as svg sprite
+        size: 40 // the sprite size, defaults to 40x40px
     }
 }
 ```
@@ -212,6 +215,18 @@ board.enableContextInput((event) => {
 
 Disables the context input.
 
+## Piece Sets
+
+cm-chessboard supports alternative piece sets. 
+A piece set is defined in an SVG sprite. cm-chessboart is shipped with two
+sets, the default [staunty](https://github.com/ornicar/lila/tree/master/public/piece/staunty) (chessboard-sprite-staunty.svg) and a sprite of the 
+[Wikimedia standard pieces](https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces/Standard) 
+(chessboard-sprite.svg).
+
+Sprites must be 40x40px in size where the piece elements must have ids like 
+"bp" (black pawn) or "wq" (white queen). Just open the sprite in a text editor,
+SVG is readable like HTML. Also the markers are defined in the sprite.
+
 ## Usage with react
 
 There exists a ticket from someone who is using cm-chessboard with react:
@@ -223,4 +238,8 @@ https://github.com/shaack/cm-chessboard/issues/20
 - License for the Staunty SVG-pieces (chessboard-sprite-staunty.svg): [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 - License for the Wikimedia SVG-pieces: [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)
 
+## cm-chess
+
+You may also be interested in [cm-chess](https://github.com/shaack/cm-chess), it is like 
+[chess.js](https://github.com/jhlywa/chess.js), but in ES6 and can handle games and PGNs with variants, NAGs and comments. 
 
