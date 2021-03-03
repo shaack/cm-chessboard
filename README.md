@@ -40,17 +40,17 @@ If you put the sprite somewhere else you have to configure the location in `prop
 Preconditions for using cm-chessboard in a web page:
 
 - **include the css:** `styles/cm-chessboard.css`
-- **import the ES6 module:** `import {Chessboard} from "../src/cm-chessboard/Chessboard.mjs"`
+- **import the ES6 module:** `import {Chessboard} from "../src/cm-chessboard/Chessboard.js"`
 
 Example, showing a FEN:
 
 ```html
 
 <script type="module">
-    import {Chessboard} from "./src/cm-chessboard/Chessboard.mjs"
+ import {Chessboard} from "./Chessboard.js"
 
-    new Chessboard(document.getElementById("containerId"),
-            {position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR"})
+ new Chessboard(document.getElementById("containerId"),
+         {position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR"})
 </script>
 ```
 
@@ -120,7 +120,7 @@ Returns the board position as `fen`.
 Adds a marker on a square.
 
 Default types are: `MARKER_TYPE.move`, `MARKER_TYPE.emphasize`,
-exportet by `Chessboard.mjs`. You can create your own marker types: Just create an object like 
+exportet by `Chessboard.js`. You can create your own marker types: Just create an object like 
 `const myMarker = {class: "my-marker", slice: "marker1"}`, where `class` is the css class of the
 marker for styling and `slice` is the `id` in `sprite.svg`.
 

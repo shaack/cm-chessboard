@@ -4,8 +4,8 @@
  * License: MIT, see file 'LICENSE'
  */
 
-import {ChessboardView} from "./ChessboardView.mjs"
-import {SQUARE_COORDINATES, ChessboardState} from "./ChessboardState.mjs"
+import {ChessboardView} from "./ChessboardView.js"
+import {SQUARE_COORDINATES, ChessboardState} from "./ChessboardState.js"
 
 export const COLOR = {
     white: "w",

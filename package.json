@@ -10,7 +10,7 @@
     "ECMAScript 6",
     "svjs"
   ],
-  "browser": "./src/cm-chessboard/Chessboard.mjs",
+  "browser": "./src/cm-chessboard/Chessboard.js",
   "scripts": {
     "test": "tput setaf 4;echo 'Run test/index.html in your browser for unit testing.'; echo ''; exit 0"
   },

@@ -4,8 +4,8 @@
  * License: MIT, see file 'LICENSE'
  */
 
-import {Svg} from "./ChessboardView.mjs"
-import {MOVE_INPUT_MODE, MARKER_TYPE} from "./Chessboard.mjs"
+import {Svg} from "./ChessboardView.js"
+import {MOVE_INPUT_MODE, MARKER_TYPE} from "./Chessboard.js"
 
 const STATE = {
     waitForInputStart: 0,
