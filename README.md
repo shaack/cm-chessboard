@@ -11,11 +11,12 @@ written ES6 Modules to handle different aspects of chess games.
 
 ## Features
 
-- **[Mobile friendly and responsive](https://shaack.com/projekte/cm-chessboard/examples/responsive-board.html)**
-- **[Can handle moves input via click or drag](https://shaack.com/projekte/cm-chessboard/examples/validate-moves.html)**
-- **[Styleable via css](https://shaack.com/projekte/cm-chessboard/examples/styles.html)**
-- Uses **SVG for rendering**
-- **Vanilla JavaScript modules** in **ECMAScript 6** syntax
+- [Mobile friendly and responsive](https://shaack.com/projekte/cm-chessboard/examples/responsive-board.html)
+- [Can handle moves input via click or drag](https://shaack.com/projekte/cm-chessboard/examples/validate-moves.html)
+- [Styleable via css](https://shaack.com/projekte/cm-chessboard/examples/styles.html)
+- [Supports multiple piece sets](https://shaack.com/projekte/cm-chessboard/examples/styles.html)
+- Uses SVG for rendering
+- Vanilla JavaScript modules in ECMAScript 6 syntax
 - **No dependencies**
 
 ## Demo and Repository
