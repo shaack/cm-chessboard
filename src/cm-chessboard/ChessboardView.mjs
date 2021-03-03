@@ -21,6 +21,9 @@ export class ChessboardView {
             this.moveCanceledCallback.bind(this)
         )
         this.animationQueue = []
+        if (chessboard.props.sprite.cache) {
+            this.cacheSprite()
+        }
         if (chessboard.props.responsive) {
             this.resizeListener = this.handleResize.bind(this)
             window.addEventListener("resize", this.resizeListener)
@@ -62,6 +65,22 @@ export class ChessboardView {
 
     // Sprite //
 
+    cacheSprite() {
+        const wrapperId = "chessboardSpriteCache"
+        if (!document.getElementById(wrapperId)) {
+            const wrapper = document.createElement("div")
+            wrapper.style.display = "none"
+            wrapper.id = wrapperId
+            document.body.appendChild(wrapper)
+            const xhr = new XMLHttpRequest()
+            xhr.open("GET", this.chessboard.props.sprite.url, true)
+            xhr.onload = function () {
+                wrapper.insertAdjacentHTML('afterbegin', xhr.response)
+            }
+            xhr.send()
+        }
+    }
+
     createSvgAndGroups() {
         if (this.svg) {
             Svg.removeElement(this.svg)
@@ -100,7 +119,7 @@ export class ChessboardView {
     handleResize() {
         window.clearTimeout(this.resizeDebounce)
         this.resizeDebounce = setTimeout(() => {
-            if(this.chessboard.props.style.aspectRatio) {
+            if (this.chessboard.props.style.aspectRatio) {
                 this.chessboard.element.style.height = (this.chessboard.element.offsetWidth * this.chessboard.props.style.aspectRatio) + "px"
             }
             if (this.chessboard.element.offsetWidth !== this.width ||
@@ -251,7 +270,11 @@ export class ChessboardView {
         const transform = (this.svg.createSVGTransform())
         transform.setTranslate(point.x, point.y)
         pieceGroup.transform.baseVal.appendItem(transform)
-        const pieceUse = Svg.addElement(pieceGroup, "use", {"href": `${this.chessboard.props.sprite.url}#${pieceName}`, "class": "piece"})
+        const spriteUrl = this.chessboard.props.sprite.cache ? "" : this.chessboard.props.sprite.url
+        const pieceUse = Svg.addElement(pieceGroup, "use", {
+            "href": `${spriteUrl}#${pieceName}`,
+            "class": "piece"
+        })
         // center on square
         const transformTranslate = (this.svg.createSVGTransform())
         transformTranslate.setTranslate(this.pieceXTranslate, 0)
@@ -303,8 +326,9 @@ export class ChessboardView {
         const transform = (this.svg.createSVGTransform())
         transform.setTranslate(point.x, point.y)
         markerGroup.transform.baseVal.appendItem(transform)
+        const spriteUrl = this.chessboard.props.sprite.cache ? "" : this.chessboard.props.sprite.url
         const markerUse = Svg.addElement(markerGroup, "use",
-            {href: `${this.chessboard.props.sprite.url}#${marker.type.slice}`, class: "marker " + marker.type.class})
+            {href: `${spriteUrl}#${marker.type.slice}`, class: "marker " + marker.type.class})
         const transformScale = (this.svg.createSVGTransform())
         transformScale.setScale(this.scalingX, this.scalingY)
         markerUse.transform.baseVal.appendItem(transformScale)
@@ -399,7 +423,8 @@ export class ChessboardView {
 
 }
 
-const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
+const SVG_NAMESPACE = "http://www.w3.org/2000/svg"
+
 export class Svg {
 
     /**
@@ -408,13 +433,13 @@ export class Svg {
      * @returns {Element}
      */
     static createSvg(containerElement = null) {
-        let svg = document.createElementNS(SVG_NAMESPACE, "svg");
-        if(containerElement) {
-            svg.setAttribute("width", "100%");
-            svg.setAttribute("height", "100%");
-            containerElement.appendChild(svg);
+        let svg = document.createElementNS(SVG_NAMESPACE, "svg")
+        if (containerElement) {
+            svg.setAttribute("width", "100%")
+            svg.setAttribute("height", "100%")
+            containerElement.appendChild(svg)
         }
-        return svg;
+        return svg
     }
 
     /**
@@ -425,22 +450,22 @@ export class Svg {
      * @returns {Element}
      */
     static addElement(parent, name, attributes) {
-        let element = document.createElementNS(SVG_NAMESPACE, name);
+        let element = document.createElementNS(SVG_NAMESPACE, name)
         if (name === "use") {
-            attributes["xlink:href"] = attributes["href"]; // fix for safari
+            attributes["xlink:href"] = attributes["href"] // fix for safari
         }
         for (let attribute in attributes) {
-            if(attributes.hasOwnProperty(attribute)) {
+            if (attributes.hasOwnProperty(attribute)) {
                 if (attribute.indexOf(":") !== -1) {
-                    const value = attribute.split(":");
-                    element.setAttributeNS("http://www.w3.org/1999/" + value[0], value[1], attributes[attribute]);
+                    const value = attribute.split(":")
+                    element.setAttributeNS("http://www.w3.org/1999/" + value[0], value[1], attributes[attribute])
                 } else {
-                    element.setAttribute(attribute, attributes[attribute]);
+                    element.setAttribute(attribute, attributes[attribute])
                 }
             }
         }
-        parent.appendChild(element);
-        return element;
+        parent.appendChild(element)
+        return element
     }
 
     /**
@@ -448,7 +473,7 @@ export class Svg {
      * @param element
      */
     static removeElement(element) {
-        element.parentNode.removeChild(element);
+        element.parentNode.removeChild(element)
     }
 
 }

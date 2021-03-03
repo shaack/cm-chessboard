@@ -74,7 +74,8 @@ props = {
     moveInputMode: MOVE_INPUT_MODE.viewOnly, // set to MOVE_INPUT_MODE.dragPiece or MOVE_INPUT_MODE.dragMarker for interactive movement
     sprite: {
         url: "./assets/images/chessboard-sprite-staunty.svg", // pieces and markers are stored as svg sprite
-        size: 40 // the sprite size, defaults to 40x40px
+        size: 40, // the sprite size, defaults to 40x40px
+        cache: true // cache the sprite inline, in the HTML
     }
 }
 ```
