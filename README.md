@@ -175,7 +175,7 @@ The event has the following **`event.type`**:
 
 - **`INPUT_EVENT_TYPE.moveStart`** - User started the move input, `event.square` contains the coordinates
 - **`INPUT_EVENT_TYPE.moveDone`** - User finished the move input, `event.squareFrom` and `event.squareTo` contain the coordinates
-- **`INPUT_EVENT_TYPE.moveCanceled`** - User canceled the move with clicking again ob the start square or clicking outside of the board
+- **`INPUT_EVENT_TYPE.moveCanceled`** - User canceled the move with clicking again on the start square or clicking outside of the board
 
 ```javascript
 chessboard.enableMoveInput((event) => {
