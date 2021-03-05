@@ -272,8 +272,8 @@ export class ChessboardView {
         pieceGroup.transform.baseVal.appendItem(transform)
         const spriteUrl = this.chessboard.props.sprite.cache ? "" : this.chessboard.props.sprite.url
         const pieceUse = Svg.addElement(pieceGroup, "use", {
-            "href": `${spriteUrl}#${pieceName}`,
-            "class": "piece"
+            href: `${spriteUrl}#${pieceName}`,
+            class: "piece"
         })
         // center on square
         const transformTranslate = (this.svg.createSVGTransform())
