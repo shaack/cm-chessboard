@@ -27,8 +27,8 @@ function inputHandler(event) {
             event.chessboard.setPosition(chess.fen())
             const possibleMoves = chess.moves({verbose: true})
             if (possibleMoves.length > 0) {
-                const randomIndex = Math.floor(Math.random() * possibleMoves.length);
-                const randomMove = possibleMoves[randomIndex];
+                const randomIndex = Math.floor(Math.random() * possibleMoves.length)
+                const randomMove = possibleMoves[randomIndex]
                 chess.move({from: randomMove.from, to: randomMove.to})
                 event.chessboard.enableMoveInput(inputHandler, COLOR.white)
                 event.chessboard.setPosition(chess.fen())
@@ -65,8 +65,8 @@ board.enableMoveInput(inputHandler, COLOR.white)
                 event.chessboard.setPosition(chess.fen())
                 const possibleMoves = chess.moves({verbose: true})
                 if (possibleMoves.length > 0) {
-                    const randomIndex = Math.floor(Math.random() * possibleMoves.length);
-                    const randomMove = possibleMoves[randomIndex];
+                    const randomIndex = Math.floor(Math.random() * possibleMoves.length)
+                    const randomMove = possibleMoves[randomIndex]
                     chess.move({from: randomMove.from, to: randomMove.to})
                     event.chessboard.enableMoveInput(inputHandler, COLOR.white)
                     event.chessboard.setPosition(chess.fen())
