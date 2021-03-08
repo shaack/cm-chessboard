@@ -52,10 +52,6 @@ board.enableMoveInput(inputHandler, COLOR.white)
 <script type="module">
     import {INPUT_EVENT_TYPE, MOVE_INPUT_MODE, COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
 
-    function random(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min
-    }
-
     const chess = new Chess()
 
     function inputHandler(event) {
@@ -68,7 +64,8 @@ board.enableMoveInput(inputHandler, COLOR.white)
                 event.chessboard.setPosition(chess.fen())
                 const possibleMoves = chess.moves({verbose: true})
                 if (possibleMoves.length > 0) {
-                    const randomMove = possibleMoves[random(0, possibleMoves.length - 1)]
+                    const randomIndex = Math.floor(Math.random() * possibleMoves.length);
+                    const randomMove = possibleMoves[randomIndex];
                     chess.move({from: randomMove.from, to: randomMove.to})
                     event.chessboard.enableMoveInput(inputHandler, COLOR.white)
                     event.chessboard.setPosition(chess.fen())
