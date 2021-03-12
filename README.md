@@ -265,11 +265,11 @@ To allow easy removing of the marker, you have to define the marker type in your
 ```js
 const myMarkerType = {class: "myMarkerCssClass", slice: "myMarkerIdInSvg"}
 // add
-addMarker("e4", myMarkerType)
+chessboard.addMarker("e4", myMarkerType)
 // remove
-removeMarkers("e4", myMarkerType) 
+chessboard.removeMarkers("e4", myMarkerType) 
 // remove all "myMarkerType"
-removeMarkers(null, myMarkerType)
+chessboard.removeMarkers(null, myMarkerType)
 ```
 
 ## Usage with React
