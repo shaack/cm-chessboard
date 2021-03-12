@@ -234,19 +234,19 @@ SVG is readable like HTML. Also the markers are defined in the sprite.
 The ability to add custom markers is build in. The main hurdle is to add the marker to the SVG sprite. 
 With a program like InkScape or Sketch this should be relatively easy.
 
-Example: The default circle marker is defined in the SVG like this:
+Example: The default circle marker is defined in the SVG like this.
 ```svg
 <g id="marker2" transform="translate(2.000000, 2.000000)" fill="#000000" fill-opacity="0">
     <circle cx="18" cy="18" r="18"></circle>
 </g>
 ```
-It's a circle with the radius 18 and the center at 20/20. 
+It's a circle with the radius 18 and its center at 20/20. 
 
 Important is the id "marker2". You can set the marker with `board.addMarker("e4", {class: "emphasize", slice: "marker2"})`
 "emphasize" is the css class, which defines the color of the marker. "slice" is the id of the marker in the SVG.
-This is demonstrated in the [mark Squares Example](https://shaack.com/projekte/cm-chessboard/examples/input-callbacks.html).
+This is also demonstrated in the [mark Squares Example](https://shaack.com/projekte/cm-chessboard/examples/input-callbacks.html).
 
-The color and stroke-width of it is defined in the css (or scss). 
+The color and stroke-width of the marker is defined in the css (or scss). 
 You could also define your marker completely in the sprite, but then that is not so flexible.
 ```css
 marker.emphasize {
@@ -256,8 +256,8 @@ marker.emphasize {
 }
 ```
 
-So you can simply add a marker with the id `myMarkerIdInSvg` to the SVG, and the class `myMarkerCssClass` in the css 
-and then add it to the field "e4" on your board with
+So you can simply add a marker with the id `myMarkerIdInSvg` to the SVG, and add the class `myMarkerCssClass` to the css. 
+Then you can add it to the field "e4" on your board with
 
 `addMarker("e4", {class: "myMarkerCssClass", slice: "myMarkerIdInSvg"})`
 
@@ -269,7 +269,7 @@ addMarker("e4", myMarkerType)
 // remove
 removeMarkers("e4", myMarkerType) 
 // remove all "myMarkerType"
-removeMarkers(null, myMarkerType) 
+removeMarkers(null, myMarkerType)
 ```
 
 ## Usage with React
