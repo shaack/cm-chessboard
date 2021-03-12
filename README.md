@@ -234,7 +234,7 @@ SVG is readable like HTML. Also the markers are defined in the sprite.
 The ability to add custom markers is build in. The main hurdle is to add the marker to the SVG sprite. 
 With a program like InkScape or Sketch this should be relatively easy.
 
-Example: The default circle marker is defined in SVG like this:
+Example: The default circle marker is defined in the SVG like this:
 ```svg
 <g id="marker2" transform="translate(2.000000, 2.000000)" fill="#000000" fill-opacity="0">
     <circle cx="18" cy="18" r="18"></circle>
