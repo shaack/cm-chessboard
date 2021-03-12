@@ -122,9 +122,7 @@ Adds a marker on a square.
 Default types are: `MARKER_TYPE.move`, `MARKER_TYPE.emphasize`,
 exportet by `Chessboard.js`. You can create your own marker types: Just create an object like 
 `const myMarker = {class: "my-marker", slice: "marker1"}`, where `class` is the css class of the
-marker for styling and `slice` is the `id` in `sprite.svg`.
-
-See also [Create your own custom markers](#create-your-own-custom-markers) below.
+marker for styling and `slice` is the `id` in `sprite.svg`. See also [Create your own custom markers](#create-your-own-custom-markers) below.
 
 [Example for **addMarker**, **getMarkers** and **removeMarkers**](https://shaack.com/projekte/cm-chessboard/examples/context-input.html)
 
