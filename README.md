@@ -19,7 +19,7 @@ written ES6 Modules to handle different aspects of chess games.
 - Vanilla JavaScript modules in ECMAScript 6 syntax
 - **No dependencies**
 
-## Demo and Repository
+## Demo and repository
 
 - **Demo: [http://shaack.com/projekte/cm-chessboard/](https://shaack.com/projekte/cm-chessboard/)**
 - **Repository: [https://github.com/shaack/cm-chessboard](https://github.com/shaack/cm-chessboard)**
@@ -35,7 +35,7 @@ written ES6 Modules to handle different aspects of chess games.
 After installation, copy the `cm-chessboard/assets/images/chessboard-sprite.svg` to your projects `assets/images` folder.
 If you put the sprite somewhere else you have to configure the location in `props.sprite.url`.
 
-## Example Usage
+## Example usage
 
 Preconditions for using cm-chessboard in a web page:
 
@@ -123,6 +123,8 @@ Default types are: `MARKER_TYPE.move`, `MARKER_TYPE.emphasize`,
 exportet by `Chessboard.js`. You can create your own marker types: Just create an object like 
 `const myMarker = {class: "my-marker", slice: "marker1"}`, where `class` is the css class of the
 marker for styling and `slice` is the `id` in `sprite.svg`.
+
+See also [Create your own custom markers](#create-your-own-custom-markers) below.
 
 [Example for **addMarker**, **getMarkers** and **removeMarkers**](https://shaack.com/projekte/cm-chessboard/examples/context-input.html)
 
@@ -217,7 +219,7 @@ board.enableContextInput((event) => {
 
 Disables the context input.
 
-## Piece Sets
+## Piece sets
 
 cm-chessboard supports alternative piece sets. 
 A piece set is defined in an SVG sprite. cm-chessboart is shipped with two
@@ -272,7 +274,7 @@ removeMarkers("e4", myMarkerType)
 removeMarkers(null, myMarkerType) 
 ```
 
-## Usage with react
+## Usage with React
 
 There exists a ticket from someone who is using cm-chessboard with react:
 https://github.com/shaack/cm-chessboard/issues/20 
