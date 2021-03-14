@@ -7,8 +7,6 @@
     <link rel="stylesheet" href="./examples.css"/>
     <link rel="stylesheet" href="../styles/cm-chessboard.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
-    <script nomodule src="../node_modules/browser-es-module-loader/dist/babel-browser-build.js"></script>
-    <script nomodule src="../node_modules/browser-es-module-loader/dist/browser-es-module-loader.js"></script>
 </head>
 <body>
 <h1><a href="../">cm-chessboard</a></h1>
@@ -50,6 +48,7 @@ const board = new Chessboard(document.getElementById("board"), {
 board.enableMoveInput(inputHandler, COLOR.white)
 </pre>
 <div id="output"></div>
+<!--suppress JSUnresolvedFunction -->
 <script type="module">
     import {INPUT_EVENT_TYPE, MOVE_INPUT_MODE, COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
 
