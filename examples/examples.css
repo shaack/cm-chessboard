@@ -1,4 +1,3 @@
-/* line 8, examples.scss */
 body {
   color: #333;
   background-color: #f8f9fa;
@@ -7,35 +6,27 @@ body {
   font-family: "Helvetica Neue", sans-serif;
   line-height: 1.3;
   font-size: 17px; }
-  /* line 16, examples.scss */
   body * {
     font-size: 17px; }
 
-/* line 21, examples.scss */
 a {
   color: #068cdf; }
-  /* line 23, examples.scss */
   a:visited {
     color: #333; }
-  /* line 26, examples.scss */
   a:hover {
     color: #056dad; }
 
-/* line 31, examples.scss */
 h1, h1 a {
   margin-top: 0;
   font-size: 34px; }
 
-/* line 36, examples.scss */
 h1 {
   margin-bottom: 10px; }
 
-/* line 40, examples.scss */
 h2 {
   margin-bottom: 15px;
   font-size: 23.8px; }
 
-/* line 45, examples.scss */
 pre {
   font-family: "courier new", monospace;
   background-color: #555;
@@ -43,7 +34,6 @@ pre {
   padding: 5px;
   overflow: auto; }
 
-/* line 53, examples.scss */
 div.board {
   float: left;
   max-width: 450px;
@@ -53,7 +43,6 @@ div.board {
   margin-right: 20px;
   margin-bottom: 20px; }
 
-/* line 63, examples.scss */
 .clearfix::after {
   content: "";
   clear: both;

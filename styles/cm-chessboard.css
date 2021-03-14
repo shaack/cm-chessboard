@@ -1,84 +1,65 @@
-/* line 13, cm-chessboard.scss */
 .cm-chessboard .board.input-enabled .square {
   cursor: pointer; }
 
-/* line 17, cm-chessboard.scss */
 .cm-chessboard .board .border {
   stroke: rgba(0, 0, 0, 0.7);
   stroke-width: 0.7%;
   fill: transparent; }
 
-/* line 23, cm-chessboard.scss */
 .cm-chessboard .board .square.white {
   fill: #f5ddb3; }
 
-/* line 26, cm-chessboard.scss */
 .cm-chessboard .board .square.black {
   fill: #ceaa81; }
 
-/* line 33, cm-chessboard.scss */
 .cm-chessboard.has-border .board .border {
   fill: #f5ddb3;
   stroke: none; }
 
-/* line 37, cm-chessboard.scss */
 .cm-chessboard.has-border .board .border-inner {
   fill: #ceaa81; }
 
-/* line 42, cm-chessboard.scss */
 .cm-chessboard .coordinates {
   pointer-events: none;
   user-select: none; }
-  /* line 45, cm-chessboard.scss */
   .cm-chessboard .coordinates .coordinate {
     fill: rgba(0, 0, 0, 0.7);
     cursor: default; }
 
-/* line 53, cm-chessboard.scss */
 .cm-chessboard.green .board .square.white {
   fill: #bddac4; }
 
-/* line 56, cm-chessboard.scss */
 .cm-chessboard.green .board .square.black {
   fill: #8ebd9b; }
 
-/* line 63, cm-chessboard.scss */
 .cm-chessboard.green.has-border .board .border {
   fill: #bddac4; }
 
-/* line 66, cm-chessboard.scss */
 .cm-chessboard.green.has-border .board .border-inner {
   fill: #8ebd9b; }
 
-/* line 75, cm-chessboard.scss */
 .cm-chessboard.blue .board .square.white {
   fill: #d7e3fc; }
 
-/* line 78, cm-chessboard.scss */
 .cm-chessboard.blue .board .square.black {
   fill: #aec0e9; }
 
-/* line 85, cm-chessboard.scss */
 .cm-chessboard.blue.has-border .board .border {
   fill: #d7e3fc; }
 
-/* line 88, cm-chessboard.scss */
 .cm-chessboard.blue.has-border .board .border-inner {
   fill: #aec0e9; }
 
-/* line 96, cm-chessboard.scss */
 .cm-chessboard .markers .marker.move {
   stroke: black;
   stroke-width: 2px;
   opacity: 0.5; }
 
-/* line 101, cm-chessboard.scss */
 .cm-chessboard .markers .marker.emphasize {
   stroke: #009900;
   stroke-width: 4px;
   opacity: 0.5; }
 
-/* line 108, cm-chessboard.scss */
 .cm-chessboard .pieces, .cm-chessboard .markers {
   pointer-events: none; }
 
