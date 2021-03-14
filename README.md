@@ -32,11 +32,11 @@ aspects of chess games.
 
 **Option 2:** Download the code from [GitHub](https://github.com/shaack/cm-chessboard).
 
-To run the tests in `/test` you first have to `npm install` the dev dependencies. Without tests there are no
-dependencies.
-
 After installation, copy the sprite in `cm-chessboard/assets/images/` to your projects `assets/images/`
 folder. If you put the sprite somewhere else you have to configure the location with `props.sprite.url`.
+
+To run the tests in `/test` you first have to `npm install` the dev dependencies. Without tests there are no
+dependencies.
 
 ## Example usage
 
@@ -52,7 +52,7 @@ Example, showing a FEN:
 <script type="module">
     import {Chessboard} from "./src/cm-chessboard/Chessboard.js"
 
-    new Chessboard(document.getElementById("containerId"), 
+    new Chessboard(document.getElementById("containerId"),
             {position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR"})
 </script>
 ```
@@ -128,8 +128,8 @@ marker types: Just create an object like
 and `slice` is the `id` in `sprite.svg`. See also [Create your own custom markers](#create-your-own-custom-markers)
 below.
 
-[Example for **addMarker**, **getMarkers** and **
-removeMarkers**](https://shaack.com/projekte/cm-chessboard/examples/context-input.html)
+[Example for **addMarker**, **getMarkers** and
+**removeMarkers**](https://shaack.com/projekte/cm-chessboard/examples/context-input.html)
 
 ### getMarkers(square = null, type = null)
 
@@ -153,11 +153,13 @@ Sets the board orientation (color at bottom). Allowed values are `COLOR.white` o
 
 ### getOrientation()
 
-Returns the the board orientation.
+Returns the board orientation.
 
 ### destroy()
 
 Removes the board from the DOM. Returns a **Promise** which will be resolved, after destruction.
+
+[Example for **destroy**](https://shaack.com/projekte/cm-chessboard/examples/destroy-many-boards.html)
 
 ### enableMoveInput(eventHandler, color = null)
 
@@ -223,7 +225,7 @@ Disables the context input.
 
 ## Piece sets
 
-cm-chessboard supports alternative piece sets. A piece set is defined in an SVG sprite. cm-chessboart is shipped with
+cm-chessboard supports alternative piece sets. A piece set is defined in an SVG sprite. cm-chessboard is shipped with
 two sets, the default [staunty](https://github.com/ornicar/lila/tree/master/public/piece/staunty) (
 chessboard-sprite-staunty.svg) and a sprite of the
 [Wikimedia standard pieces](https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces/Standard)
@@ -276,11 +278,11 @@ To allow easy removing of the marker, you have to define the marker type in your
 ```js
 const myMarkerType = {class: "myMarkerCssClass", slice: "myMarkerIdInSvg"}
 // add
-addMarker("e4", myMarkerType)
+chessboard.addMarker("e4", myMarkerType)
 // remove
-removeMarkers("e4", myMarkerType)
+chessboard.removeMarkers("e4", myMarkerType)
 // remove all "myMarkerType"
-removeMarkers(null, myMarkerType)
+chessboard.removeMarkers(null, myMarkerType)
 ```
 
 ## Usage with React
@@ -293,7 +295,8 @@ https://github.com/shaack/cm-chessboard/issues/20
 - License for the code: [MIT](https://github.com/shaack/cm-chessboard/blob/master/LICENSE)
 - License for the Staunty SVG-pieces (
   chessboard-sprite-staunty.svg): [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
-- License for the Wikimedia SVG-pieces: [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)
+- License for the Wikimedia SVG-pieces (
+  chessboard-sprite.svg): [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)
 
 ## cm-chess
 
