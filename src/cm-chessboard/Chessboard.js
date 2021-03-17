@@ -64,6 +64,7 @@ export class Chessboard {
                 cache: true // cache the sprite inline, in the HTML
             }
         }
+        // TODO remove in a later version
         // noinspection JSUnresolvedVariable
         if(props.style && props.style.showBorder !== undefined) {
             console.warn("style.showBorder is deprecated, use style.borderType instead")
