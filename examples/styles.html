@@ -18,13 +18,12 @@
 <div class="board" id="board6"></div>
 <div class="board" id="board7"></div>
 <script type="module">
-    import {COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
+    import {COLOR, Chessboard, BORDER_TYPE} from "../src/cm-chessboard/Chessboard.js"
 
     new Chessboard(document.getElementById("board1"), {
         position: "start",
         style: {
-            showCoordinates: true,
-            showBorder: true
+            borderType: BORDER_TYPE.frame
         },
         sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"}
     })
@@ -32,7 +31,7 @@
         position: "start",
         style: {
             showCoordinates: false,
-            showBorder: true
+            borderType: BORDER_TYPE.thin
         },
         orientation: COLOR.black,
         sprite: {url: "../assets/images/chessboard-sprite.svg", cache: false}
@@ -40,9 +39,7 @@
     new Chessboard(document.getElementById("board3"), {
         position: "start",
         style: {
-            cssClass: "green",
-            showCoordinates: true,
-            showBorder: false
+            cssClass: "green"
         },
         sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
     })
@@ -50,7 +47,7 @@
         position: "start",
         style: {
             cssClass: "blue",
-            showBorder: false,
+            borderType: BORDER_TYPE.none,
             showCoordinates: false,
         },
         sprite: {url: "../assets/images/chessboard-sprite.svg", cache: false}
@@ -58,8 +55,7 @@
     new Chessboard(document.getElementById("board5"), {
         position: "start",
         style: {
-            showBorder: false,
-            showCoordinates: true,
+            borderType: BORDER_TYPE.none
         },
         sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
     })
@@ -67,8 +63,7 @@
         position: "start",
         style: {
             cssClass: "green",
-            showBorder: true,
-            showCoordinates: true,
+            borderType: BORDER_TYPE.frame
         },
         sprite: {url: "../assets/images/chessboard-sprite.svg", cache: false},
     })
@@ -76,8 +71,7 @@
         position: "start",
         style: {
             cssClass: "blue",
-            showBorder: true,
-            showCoordinates: true,
+            borderType: BORDER_TYPE.frame
         },
         sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
     })

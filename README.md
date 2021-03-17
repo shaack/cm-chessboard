@@ -66,22 +66,22 @@ Below is the default configuration
 
 ```javascript
 props = {
-    position: "empty", // set as fen, "start" or "empty"
-    orientation: COLOR.white, // white on bottom
-    style: {
-        cssClass: "default",
-        showCoordinates: true, // show ranks and files
-        showBorder: false, // display a border around the board
-        aspectRatio: 1 // height/width. Set to null, if you want to define it only in the css.
-    },
-    responsive: false, // resizes the board on window resize, if true
-    animationDuration: 300, // pieces animation duration in milliseconds
-    moveInputMode: MOVE_INPUT_MODE.viewOnly, // set to MOVE_INPUT_MODE.dragPiece or MOVE_INPUT_MODE.dragMarker for interactive movement
-    sprite: {
-        url: "./assets/images/chessboard-sprite-staunty.svg", // pieces and markers are stored as svg sprite
-        size: 40, // the sprite size, defaults to 40x40px
-        cache: true // cache the sprite inline, in the HTML
-    }
+  position: "empty", // set as fen, "start" or "empty"
+  orientation: COLOR.white, // white on bottom
+  style: {
+    cssClass: "default",
+    showCoordinates: true, // show ranks and files
+    borderType: BORDER_TYPE.thin, // thin: thin border, frame: wide border with coordinates in it, none: no border
+    aspectRatio: 1 // height/width. Set to null, if you want to define it only in the css.
+  },
+  responsive: false, // resizes the board on window resize, if true
+  animationDuration: 300, // pieces animation duration in milliseconds
+  moveInputMode: MOVE_INPUT_MODE.viewOnly, // set to MOVE_INPUT_MODE.dragPiece or MOVE_INPUT_MODE.dragMarker for interactive movement
+  sprite: {
+    url: "./assets/images/chessboard-sprite-staunty.svg", // pieces and markers are stored as svg sprite
+    size: 40, // the sprite size, defaults to 40x40px
+    cache: true // cache the sprite inline, in the HTML
+  }
 }
 ```
 

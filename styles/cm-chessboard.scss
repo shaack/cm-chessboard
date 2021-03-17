@@ -28,14 +28,16 @@ $light-blue: #d7e3fc;
       }
     }
   }
-  &.has-border {
+  &.border-type-frame {
     .board {
       .border {
         fill: $light-default;
         stroke: none;
       }
       .border-inner {
-        fill: $dark-default;
+        fill: transparent;
+        stroke: $dark-default;
+        stroke-width: 0.8%;
       }
     }
   }
@@ -58,13 +60,13 @@ $light-blue: #d7e3fc;
         }
       }
     }
-    &.has-border {
+    &.border-type-frame {
       .board {
         .border {
           fill: $light-green;
         }
         .border-inner {
-          fill: $dark-green;
+          stroke: $dark-green;
         }
       }
     }
@@ -80,13 +82,13 @@ $light-blue: #d7e3fc;
         }
       }
     }
-    &.has-border {
+    &.border-type-frame {
       .board {
         .border {
           fill: $light-blue;
         }
         .border-inner {
-          fill: $dark-blue;
+          stroke: $dark-blue;
         }
       }
     }

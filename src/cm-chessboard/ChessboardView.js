@@ -6,7 +6,7 @@
 
 import {SQUARE_COORDINATES} from "./ChessboardState.js"
 import {ChessboardMoveInput} from "./ChessboardMoveInput.js"
-import {COLOR, MOVE_INPUT_MODE, INPUT_EVENT_TYPE} from "./Chessboard.js"
+import {COLOR, MOVE_INPUT_MODE, INPUT_EVENT_TYPE, BORDER_TYPE} from "./Chessboard.js"
 import {ChessboardPiecesAnimation} from "./ChessboardPiecesAnimation.js"
 
 export class ChessboardView {
@@ -87,11 +87,7 @@ export class ChessboardView {
         }
         this.svg = Svg.createSvg(this.chessboard.element)
         let cssClass = this.chessboard.props.style.cssClass ? this.chessboard.props.style.cssClass : "default"
-        if (this.chessboard.props.style.showBorder) {
-            this.svg.setAttribute("class", "cm-chessboard has-border " + cssClass)
-        } else {
-            this.svg.setAttribute("class", "cm-chessboard " + cssClass)
-        }
+        this.svg.setAttribute("class", "cm-chessboard border-type-" + this.chessboard.props.style.borderType + " " + cssClass)
         this.updateMetrics()
         this.boardGroup = Svg.addElement(this.svg, "g", {class: "board"})
         this.coordinatesGroup = Svg.addElement(this.svg, "g", {class: "coordinates"})
@@ -102,10 +98,12 @@ export class ChessboardView {
     updateMetrics() {
         this.width = this.chessboard.element.offsetWidth
         this.height = this.chessboard.element.offsetHeight
-        if (this.chessboard.props.style.showBorder) {
+        if (this.chessboard.props.style.borderType === BORDER_TYPE.frame) {
             this.borderSize = this.width / 28
-        } else {
+        } else if (this.chessboard.props.style.borderType === BORDER_TYPE.thin) {
             this.borderSize = this.width / 320
+        } else {
+            this.borderSize = 0
         }
         this.innerWidth = this.width - 2 * this.borderSize
         this.innerHeight = this.height - 2 * this.borderSize
@@ -153,17 +151,19 @@ export class ChessboardView {
         while (this.boardGroup.firstChild) {
             this.boardGroup.removeChild(this.boardGroup.lastChild)
         }
-        let boardBorder = Svg.addElement(this.boardGroup, "rect", {width: this.width, height: this.height})
-        boardBorder.setAttribute("class", "border")
-        if (this.chessboard.props.style.showBorder) {
-            const innerPos = this.borderSize - this.borderSize / 9
-            let borderInner = Svg.addElement(this.boardGroup, "rect", {
-                x: innerPos,
-                y: innerPos,
-                width: this.width - innerPos * 2,
-                height: this.height - innerPos * 2
-            })
-            borderInner.setAttribute("class", "border-inner")
+        if(this.chessboard.props.style.borderType !== BORDER_TYPE.none) {
+            let boardBorder = Svg.addElement(this.boardGroup, "rect", {width: this.width, height: this.height})
+            boardBorder.setAttribute("class", "border")
+            if (this.chessboard.props.style.borderType === BORDER_TYPE.frame) {
+                const innerPos = this.borderSize
+                let borderInner = Svg.addElement(this.boardGroup, "rect", {
+                    x: innerPos,
+                    y: innerPos,
+                    width: this.width - innerPos * 2,
+                    height: this.height - innerPos * 2
+                })
+                borderInner.setAttribute("class", "border-inner")
+            }
         }
         for (let i = 0; i < 64; i++) {
             const index = this.chessboard.state.orientation === COLOR.white ? i : 63 - i
@@ -185,14 +185,14 @@ export class ChessboardView {
         while (this.coordinatesGroup.firstChild) {
             this.coordinatesGroup.removeChild(this.coordinatesGroup.lastChild)
         }
-        const inline = !this.chessboard.props.style.showBorder
+        const inline = this.chessboard.props.style.borderType !== BORDER_TYPE.frame
         for (let file = 0; file < 8; file++) {
             let x = this.borderSize + (17 + this.chessboard.props.sprite.size * file) * this.scalingX
             let y = this.height - this.scalingY * 3.2
             let cssClass = "coordinate file"
             if (inline) {
                 x = x + this.scalingX * 15.5
-                if (this.chessboard.props.style.showBorder) {
+                if (this.chessboard.props.style.borderType === BORDER_TYPE.frame) {
                     y = y - this.scalingY * 11
                 }
                 cssClass += file % 2 ? " dark" : " light"
@@ -215,7 +215,7 @@ export class ChessboardView {
             let cssClass = "coordinate rank"
             if (inline) {
                 cssClass += rank % 2 ? " light" : " dark"
-                if (this.chessboard.props.style.showBorder) {
+                if (this.chessboard.props.style.borderType === BORDER_TYPE.frame) {
                     x = x + this.scalingX * 10
                     y = y - this.scalingY * 15
                 } else {

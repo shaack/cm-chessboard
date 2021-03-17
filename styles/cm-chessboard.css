@@ -12,12 +12,14 @@
 .cm-chessboard .board .square.black {
   fill: #ceaa81; }
 
-.cm-chessboard.has-border .board .border {
+.cm-chessboard.border-type-frame .board .border {
   fill: #f5ddb3;
   stroke: none; }
 
-.cm-chessboard.has-border .board .border-inner {
-  fill: #ceaa81; }
+.cm-chessboard.border-type-frame .board .border-inner {
+  fill: transparent;
+  stroke: #ceaa81;
+  stroke-width: 0.8%; }
 
 .cm-chessboard .coordinates {
   pointer-events: none;
@@ -32,11 +34,11 @@
 .cm-chessboard.green .board .square.black {
   fill: #8ebd9b; }
 
-.cm-chessboard.green.has-border .board .border {
+.cm-chessboard.green.border-type-frame .board .border {
   fill: #bddac4; }
 
-.cm-chessboard.green.has-border .board .border-inner {
-  fill: #8ebd9b; }
+.cm-chessboard.green.border-type-frame .board .border-inner {
+  stroke: #8ebd9b; }
 
 .cm-chessboard.blue .board .square.white {
   fill: #d7e3fc; }
@@ -44,11 +46,11 @@
 .cm-chessboard.blue .board .square.black {
   fill: #aec0e9; }
 
-.cm-chessboard.blue.has-border .board .border {
+.cm-chessboard.blue.border-type-frame .board .border {
   fill: #d7e3fc; }
 
-.cm-chessboard.blue.has-border .board .border-inner {
-  fill: #aec0e9; }
+.cm-chessboard.blue.border-type-frame .board .border-inner {
+  stroke: #aec0e9; }
 
 .cm-chessboard .markers .marker.move {
   stroke: black;

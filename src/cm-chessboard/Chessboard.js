@@ -23,6 +23,11 @@ export const INPUT_EVENT_TYPE = {
     context: "context",
     click: "click"
 }
+export const BORDER_TYPE = {
+    none: "none", // no border
+    thin: "thin", // small border
+    frame: "frame" // wide border with coordinates in it
+}
 export const MARKER_TYPE = {
     move: {class: "move", slice: "marker1"},
     emphasize: {class: "emphasize", slice: "marker2"}
@@ -47,7 +52,7 @@ export class Chessboard {
             style: {
                 cssClass: "default",
                 showCoordinates: true, // show ranks and files
-                showBorder: false, // display a border around the board
+                borderType: BORDER_TYPE.thin, // thin: thin border, frame: wide border with coordinates in it, none: no border
                 aspectRatio: 1 // height/width. Set to null, if you want to define it only in the css.
             },
             responsive: false, // resizes the board on window resize, if true
@@ -57,6 +62,16 @@ export class Chessboard {
                 url: "./assets/images/chessboard-sprite-staunty.svg", // pieces and markers are stored as svg sprite
                 size: 40, // the sprite size, defaults to 40x40px
                 cache: true // cache the sprite inline, in the HTML
+            }
+        }
+        // noinspection JSUnresolvedVariable
+        if(props.style && props.style.showBorder !== undefined) {
+            console.warn("style.showBorder is deprecated, use style.borderType instead")
+            // noinspection JSUnresolvedVariable
+            if(props.style.showBorder) {
+                props.style.borderType = BORDER_TYPE.frame
+            } else {
+                props.style.borderType = BORDER_TYPE.thin
             }
         }
         this.props = {}
