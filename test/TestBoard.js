@@ -17,7 +17,7 @@ export class TestBoard extends Test {
         chessboard.initialization.then(() => {
             Test.assertEquals(1, chessboard.element.childNodes.length)
             chessboard.destroy().then(() => {
-                Test.assertEquals(null, chessboard.state)
+                Test.assertEquals(undefined, chessboard.state)
             })
         })
     }

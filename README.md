@@ -72,7 +72,7 @@ props = {
     cssClass: "default",
     showCoordinates: true, // show ranks and files
     borderType: BORDER_TYPE.thin, // thin: thin border, frame: wide border with coordinates in it, none: no border
-    aspectRatio: 1 // height/width. Set to null, if you want to define it only in the css.
+    aspectRatio: 1 // height/width. Set to `undefined`, if you want to define it only in the css.
   },
   responsive: false, // resizes the board on window resize, if true
   animationDuration: 300, // pieces animation duration in milliseconds
@@ -103,7 +103,7 @@ Returns a **Promise** which will be resolved, after the piece is set.
 
 ### getPiece(square)
 
-Returns the piece on a square or `null` if the square is empty.
+Returns the piece on a square or `undefined` if the square is empty.
 
 ### setPosition(fen, animated = true)
 
@@ -131,19 +131,19 @@ below.
 [Example for **addMarker**, **getMarkers** and
 **removeMarkers**](https://shaack.com/projekte/cm-chessboard/examples/context-input.html)
 
-### getMarkers(square = null, type = null)
+### getMarkers(square = undefined, type = undefined)
 
 Returns the board's markers as an array.
 
-Set square to `null`, to get all markers of a type on the board. Set type to `null`, to get all types. Set `both` to
-null to get all markers on the board.
+Set square to `undefined`, to get all markers of a type on the board. Set type to `undefined`, to get all types. Set `both` to
+undefined to get all markers on the board.
 
-### removeMarkers(square = null, type = null)
+### removeMarkers(square = undefined, type = undefined)
 
 Removes markers from the board.
 
-Set `square` to `null` to remove markers of `type` from all squares. Set `type` to `null`, to remove all types from a
-square. Set both to `null` to remove all markers from the board.
+Set `square` to `undefined` to remove markers of `type` from all squares. Set `type` to `undefined`, to remove all types from a
+square. Set both to `undefined` to remove all markers from the board.
 
 ### setOrientation(color)
 
@@ -161,7 +161,7 @@ Removes the board from the DOM. Returns a **Promise** which will be resolved, af
 
 [Example for **destroy**](https://shaack.com/projekte/cm-chessboard/examples/destroy-many-boards.html)
 
-### enableMoveInput(eventHandler, color = null)
+### enableMoveInput(eventHandler, color = undefined)
 
 Enables moves via user input (mouse or touch). Set optional `color`, if you want to enable the move input for a specific
 side, `COLOR.white` or `COLOR.black`.
@@ -282,7 +282,7 @@ chessboard.addMarker("e4", myMarkerType)
 // remove
 chessboard.removeMarkers("e4", myMarkerType)
 // remove all "myMarkerType"
-chessboard.removeMarkers(null, myMarkerType)
+chessboard.removeMarkers(undefined, myMarkerType)
 ```
 
 ## Usage with React

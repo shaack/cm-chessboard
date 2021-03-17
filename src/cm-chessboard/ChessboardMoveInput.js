@@ -37,7 +37,7 @@ export class ChessboardMoveInput {
         this.setMoveInputState(STATE.waitForInputStart)
     }
 
-    setMoveInputState(newState, params = null) {
+    setMoveInputState(newState, params = undefined) {
 
         // console.log("setMoveInputState", Object.keys(STATE)[this.moveInputState], "=>", Object.keys(STATE)[newState]);
 
@@ -54,7 +54,7 @@ export class ChessboardMoveInput {
                     throw new Error("moveInputState")
                 }
                 this.startIndex = params.index
-                this.endIndex = null
+                this.endIndex = undefined
                 this.movedPiece = params.piece
                 this.updateStartEndMarkers()
                 this.startPoint = params.point
@@ -90,7 +90,7 @@ export class ChessboardMoveInput {
             case STATE.clickTo:
                 if (this.draggablePiece) {
                     Svg.removeElement(this.draggablePiece)
-                    this.draggablePiece = null
+                    this.draggablePiece = undefined
                 }
                 if (prevState === STATE.dragTo) {
                     this.view.setPieceVisibility(params.index)
@@ -131,7 +131,7 @@ export class ChessboardMoveInput {
                 this.endIndex = params.index
                 if (this.endIndex && this.moveDoneCallback(this.startIndex, this.endIndex)) {
                     const prevSquares = this.state.squares.slice(0)
-                    this.state.setPiece(this.startIndex, null)
+                    this.state.setPiece(this.startIndex, undefined)
                     this.state.setPiece(this.endIndex, this.movedPiece)
                     if (prevState === STATE.clickTo) {
                         this.view.animatePieces(prevSquares, this.state.squares.slice(0), () => {
@@ -151,21 +151,21 @@ export class ChessboardMoveInput {
                 if (this.startIndex && !this.endIndex && this.movedPiece) {
                     this.state.setPiece(this.startIndex, this.movedPiece)
                 }
-                this.startIndex = null
-                this.endIndex = null
-                this.movedPiece = null
+                this.startIndex = undefined
+                this.endIndex = undefined
+                this.movedPiece = undefined
                 this.updateStartEndMarkers()
                 if (this.draggablePiece) {
                     Svg.removeElement(this.draggablePiece)
-                    this.draggablePiece = null
+                    this.draggablePiece = undefined
                 }
                 if (this.pointerMoveListener) {
                     window.removeEventListener(this.pointerMoveListener.type, this.pointerMoveListener)
-                    this.pointerMoveListener = null
+                    this.pointerMoveListener = undefined
                 }
                 if (this.pointerUpListener) {
                     window.removeEventListener(this.pointerUpListener.type, this.pointerUpListener)
-                    this.pointerUpListener = null
+                    this.pointerUpListener = undefined
                 }
                 this.setMoveInputState(STATE.waitForInputStart)
                 break
@@ -207,7 +207,7 @@ export class ChessboardMoveInput {
             let pieceName, color
             if (pieceElement) {
                 pieceName = pieceElement.getAttribute("data-piece")
-                color = pieceName ? pieceName.substr(0, 1) : null
+                color = pieceName ? pieceName.substr(0, 1) : undefined
                 // allow scrolling, if not pointed on draggable piece
                 if (color === "w" && this.state.inputWhiteEnabled ||
                     color === "b" && this.state.inputBlackEnabled) {
@@ -276,13 +276,13 @@ export class ChessboardMoveInput {
                 if (index !== this.startIndex && index !== this.endIndex) {
                     this.endIndex = index
                     this.updateStartEndMarkers()
-                } else if (index === this.startIndex && this.endIndex !== null) {
-                    this.endIndex = null
+                } else if (index === this.startIndex && this.endIndex !== undefined) {
+                    this.endIndex = undefined
                     this.updateStartEndMarkers()
                 }
             } else {
-                if(this.endIndex !== null) {
-                    this.endIndex = null
+                if(this.endIndex !== undefined) {
+                    this.endIndex = undefined
                     this.updateStartEndMarkers()
                 }
             }
@@ -335,7 +335,7 @@ export class ChessboardMoveInput {
     }
 
     updateStartEndMarkers() {
-        this.state.removeMarkers(null, MARKER_TYPE.move)
+        this.state.removeMarkers(undefined, MARKER_TYPE.move)
         if (this.startIndex) {
             this.state.addMarker(this.startIndex, MARKER_TYPE.move)
         }

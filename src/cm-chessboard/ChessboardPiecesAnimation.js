@@ -45,7 +45,7 @@ export class ChessboardPiecesAnimation {
         }
         appearedList.forEach((appeared) => {
             let shortestDistance = 8
-            let foundMoved = null
+            let foundMoved = undefined
             disappearedList.forEach((disappeared) => {
                 if (appeared.piece === disappeared.piece) {
                     const moveDistance = this.squareDistance(appeared.index, disappeared.index)

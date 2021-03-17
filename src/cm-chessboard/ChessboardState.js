@@ -18,8 +18,8 @@ export const SQUARE_COORDINATES = [
 export class ChessboardState {
 
     constructor() {
-        this.squares = new Array(64).fill(null)
-        this.orientation = null
+        this.squares = new Array(64).fill(undefined)
+        this.orientation = undefined
         this.markers = []
     }
 
@@ -31,16 +31,16 @@ export class ChessboardState {
         this.markers.push({index: index, type: type})
     }
 
-    removeMarkers(index = null, type = null) {
-        if (index === null && type === null) {
+    removeMarkers(index = undefined, type = undefined) {
+        if (index === undefined && type === undefined) {
             this.markers = []
         } else {
             this.markers = this.markers.filter((marker) => {
-                if (marker.type === null) {
+                if (marker.type === undefined) {
                     if (index === marker.index) {
                         return false
                     }
-                } else if (index === null) {
+                } else if (index === undefined) {
                     if (marker.type === type) {
                         return false
                     }
@@ -66,7 +66,7 @@ export class ChessboardState {
                 })
                 for (let c = 0; c < 8; c++) {
                     const char = row.substr(c, 1)
-                    let piece = null
+                    let piece = undefined
                     if (char !== '-') {
                         if (char.toUpperCase() === char) {
                             piece = `w${char.toLowerCase()}`
@@ -86,7 +86,7 @@ export class ChessboardState {
             let spaceCounter = 0
             for (let i = 0; i < 8; i++) {
                 const piece = this.squares[part * 8 + i]
-                if (piece === null) {
+                if (piece === undefined) {
                     spaceCounter++
                 } else {
                     if (spaceCounter > 0) {

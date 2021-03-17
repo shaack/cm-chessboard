@@ -53,7 +53,7 @@ export class Chessboard {
                 cssClass: "default",
                 showCoordinates: true, // show ranks and files
                 borderType: BORDER_TYPE.thin, // thin: thin border, frame: wide border with coordinates in it, none: no border
-                aspectRatio: 1 // height/width. Set to null, if you want to define it only in the css.
+                aspectRatio: 1 // height/width. Set to `undefined`, if you want to define it only in the css.
             },
             responsive: false, // resizes the board on window resize, if true
             animationDuration: 300, // pieces animation duration in milliseconds
@@ -98,7 +98,7 @@ export class Chessboard {
             this.view = new ChessboardView(this, () => {
                 if (this.props.position === "start") {
                     this.state.setPosition(FEN_START_POSITION)
-                } else if (this.props.position === "empty" || this.props.position === null) {
+                } else if (this.props.position === "empty" || this.props.position === undefined) {
                     this.state.setPosition(FEN_EMPTY_POSITION)
                 } else {
                     this.state.setPosition(this.props.position)
@@ -139,7 +139,7 @@ export class Chessboard {
                     const prevSquares = this.state.squares.slice(0) // clone
                     if (fen === "start") {
                         this.state.setPosition(FEN_START_POSITION)
-                    } else if (fen === "empty" || fen === null) {
+                    } else if (fen === "empty" || fen === undefined) {
                         this.state.setPosition(FEN_EMPTY_POSITION)
                     } else {
                         this.state.setPosition(fen)
@@ -168,12 +168,12 @@ export class Chessboard {
         this.view.drawMarkersDebounced()
     }
 
-    getMarkers(square = null, type = null) {
+    getMarkers(square = undefined, type = undefined) {
         const markersFound = []
         this.state.markers.forEach((marker) => {
             const markerSquare = SQUARE_COORDINATES[marker.index]
-            if (square === null && (type === null || type === marker.type) ||
-                type === null && square === markerSquare ||
+            if (square === undefined && (type === undefined || type === marker.type) ||
+                type === undefined && square === markerSquare ||
                 type === marker.type && square === markerSquare) {
                 markersFound.push({square: SQUARE_COORDINATES[marker.index], type: marker.type})
             }
@@ -181,8 +181,8 @@ export class Chessboard {
         return markersFound
     }
 
-    removeMarkers(square = null, type = null) {
-        const index = square !== null ? this.state.squareToIndex(square) : null
+    removeMarkers(square = undefined, type = undefined) {
+        const index = square !== undefined ? this.state.squareToIndex(square) : undefined
         this.state.removeMarkers(index, type)
         this.view.drawMarkersDebounced()
     }
@@ -200,18 +200,20 @@ export class Chessboard {
         return new Promise((resolve) => {
             this.initialization.then(() => {
                 this.view.destroy()
-                this.view = null
-                this.state = null
+                this.view = undefined
+                this.state = undefined
                 this.element.removeEventListener("contextmenu", this.contextMenuListener)
                 resolve()
             })
         })
     }
 
-    enableMoveInput(eventHandler, color = null) {
+    enableMoveInput(eventHandler, color = undefined) {
+        /*
         if (this.props.moveInputMode === MOVE_INPUT_MODE.viewOnly) {
             throw Error("props.moveInputMode is MOVE_INPUT_MODE.viewOnly")
         }
+         */
         if (color === COLOR.white) {
             this.state.inputWhiteEnabled = true
         } else if (color === COLOR.black) {
@@ -227,7 +229,7 @@ export class Chessboard {
     disableMoveInput() {
         this.state.inputWhiteEnabled = false
         this.state.inputBlackEnabled = false
-        this.moveInputCallback = null
+        this.moveInputCallback = undefined
         this.view.setCursor()
     }
 
@@ -250,7 +252,7 @@ export class Chessboard {
 
     disableContextInput() {
         this.element.removeEventListener("contextmenu", this.contextMenuListener)
-        this.contextMenuListener = null
+        this.contextMenuListener = undefined
     }
 
     enableBoardClick(eventHandler) {
@@ -271,7 +273,7 @@ export class Chessboard {
 
     disableBoardClick() {
         this.element.removeEventListener("click", this.boardClickListener)
-        this.boardClickListener = null
+        this.boardClickListener = undefined
     }
 
 }

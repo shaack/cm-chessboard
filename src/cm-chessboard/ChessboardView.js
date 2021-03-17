@@ -13,7 +13,7 @@ export class ChessboardView {
 
     constructor(chessboard, callbackAfterCreation) {
         this.animationRunning = false
-        this.currentAnimation = null
+        this.currentAnimation = undefined
         this.chessboard = chessboard
         this.moveInput = new ChessboardMoveInput(this, chessboard.state, chessboard.props,
             this.moveStartCallback.bind(this),
@@ -239,7 +239,7 @@ export class ChessboardView {
 
     // Pieces //
 
-    drawPiecesDebounced(squares = this.chessboard.state.squares, callback = null) {
+    drawPiecesDebounced(squares = this.chessboard.state.squares, callback = undefined) {
         window.clearTimeout(this.drawPiecesDebounce)
         this.drawPiecesDebounce = setTimeout(() => {
             this.drawPieces(squares)
@@ -432,7 +432,7 @@ export class Svg {
      * @param containerElement
      * @returns {Element}
      */
-    static createSvg(containerElement = null) {
+    static createSvg(containerElement = undefined) {
         let svg = document.createElementNS(SVG_NAMESPACE, "svg")
         if (containerElement) {
             svg.setAttribute("width", "100%")
