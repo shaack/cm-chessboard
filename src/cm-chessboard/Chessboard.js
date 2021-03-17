@@ -75,8 +75,8 @@ export class Chessboard {
                 props.style.borderType = BORDER_TYPE.thin
             }
         }
-        if(props.moveInputMode === MOVE_INPUT_MODE.dragMarker) {
-            console.warn("MOVE_INPUT_MODE.dragMarker is deprecated and will be removed in a later version")
+        if(props.moveInputMode) {
+            console.warn("`props.moveInputMode` is deprecated and will be removed in a later version")
         }
         this.props = {}
         Object.assign(this.props, defaultProps)
@@ -209,28 +209,11 @@ export class Chessboard {
     }
 
     enableMoveInput(eventHandler, color = undefined) {
-        /*
-        if (this.props.moveInputMode === MOVE_INPUT_MODE.viewOnly) {
-            throw Error("props.moveInputMode is MOVE_INPUT_MODE.viewOnly")
-        }
-         */
-        if (color === COLOR.white) {
-            this.state.inputWhiteEnabled = true
-        } else if (color === COLOR.black) {
-            this.state.inputBlackEnabled = true
-        } else {
-            this.state.inputWhiteEnabled = true
-            this.state.inputBlackEnabled = true
-        }
-        this.moveInputCallback = eventHandler
-        this.view.setCursor()
+        this.view.enableMoveInput(eventHandler, color)
     }
 
     disableMoveInput() {
-        this.state.inputWhiteEnabled = false
-        this.state.inputBlackEnabled = false
-        this.moveInputCallback = undefined
-        this.view.setCursor()
+        this.view.disableMoveInput()
     }
 
     enableContextInput(eventHandler) {

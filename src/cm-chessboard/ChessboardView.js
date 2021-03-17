@@ -359,11 +359,33 @@ export class ChessboardView {
         }
     }
 
-    // Callbacks //
+    // enable and disable move input //
+
+    enableMoveInput(eventHandler, color = undefined) {
+        if (color === COLOR.white) {
+            this.chessboard.state.inputWhiteEnabled = true
+        } else if (color === COLOR.black) {
+            this.chessboard.state.inputBlackEnabled = true
+        } else {
+            this.chessboard.state.inputWhiteEnabled = true
+            this.chessboard.state.inputBlackEnabled = true
+        }
+        this.moveInputCallback = eventHandler
+        this.setCursor()
+    }
+
+    disableMoveInput() {
+        this.chessboard.state.inputWhiteEnabled = false
+        this.chessboard.state.inputBlackEnabled = false
+        this.moveInputCallback = undefined
+        this.setCursor()
+    }
+
+    // callbacks //
 
     moveStartCallback(index) {
-        if (this.chessboard.moveInputCallback) {
-            return this.chessboard.moveInputCallback({
+        if (this.moveInputCallback) {
+            return this.moveInputCallback({
                 chessboard: this.chessboard,
                 type: INPUT_EVENT_TYPE.moveStart,
                 square: SQUARE_COORDINATES[index]
@@ -374,8 +396,8 @@ export class ChessboardView {
     }
 
     moveDoneCallback(fromIndex, toIndex) {
-        if (this.chessboard.moveInputCallback) {
-            return this.chessboard.moveInputCallback({
+        if (this.moveInputCallback) {
+            return this.moveInputCallback({
                 chessboard: this.chessboard,
                 type: INPUT_EVENT_TYPE.moveDone,
                 squareFrom: SQUARE_COORDINATES[fromIndex],
@@ -387,8 +409,8 @@ export class ChessboardView {
     }
 
     moveCanceledCallback(reason, index) {
-        if (this.chessboard.moveInputCallback) {
-            this.chessboard.moveInputCallback({
+        if (this.moveInputCallback) {
+            this.moveInputCallback({
                 chessboard: this.chessboard,
                 type: INPUT_EVENT_TYPE.moveCanceled,
                 reason: reason,
