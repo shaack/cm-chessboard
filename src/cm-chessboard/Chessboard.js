@@ -14,7 +14,7 @@ export const COLOR = {
 export const MOVE_INPUT_MODE = {
     viewOnly: 0,
     dragPiece: 1,
-    dragMarker: 2
+    dragMarker: 2 // this mode is deprecated and should not be used anymore
 }
 export const INPUT_EVENT_TYPE = {
     moveStart: "moveStart",
@@ -74,6 +74,9 @@ export class Chessboard {
             } else {
                 props.style.borderType = BORDER_TYPE.thin
             }
+        }
+        if(props.moveInputMode === MOVE_INPUT_MODE.dragMarker) {
+            console.warn("MOVE_INPUT_MODE.dragMarker is deprecated and will be removed in a later version")
         }
         this.props = {}
         Object.assign(this.props, defaultProps)
