@@ -134,6 +134,7 @@ export class ChessboardMoveInput {
                     this.state.setPiece(this.startIndex, undefined)
                     this.state.setPiece(this.endIndex, this.movedPiece)
                     if (prevState === STATE.clickTo) {
+                        this.updateStartEndMarkers()
                         this.view.animatePieces(prevSquares, this.state.squares.slice(0), () => {
                             this.setMoveInputState(STATE.reset)
                         })
@@ -220,7 +221,7 @@ export class ChessboardMoveInput {
                     this.state.inputBlackEnabled && color === "b") {
                     let point
                     if (e.type === "mousedown") {
-                        point = {x: e.pageX, y: e.pageY}
+                        point = {x: e.clientX, y: e.clientY}
                     } else if (e.type === "touchstart") {
                         point = {x: e.touches[0].clientX, y: e.touches[0].clientY}
                     }
@@ -249,25 +250,29 @@ export class ChessboardMoveInput {
     }
 
     onPointerMove(e) {
-        let x, y, target
+        let pageX, pageY, clientX, clientY, target
         if (e.type === "mousemove") {
-            x = e.pageX
-            y = e.pageY
+            clientX = e.clientX
+            clientY = e.clientY
+            pageX = e.pageX
+            pageY = e.pageY
             target = e.target
         } else if (e.type === "touchmove") {
-            x = e.touches[0].pageX
-            y = e.touches[0].pageY
-            target = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY)
+            clientX = e.touches[0].clientX
+            clientY = e.touches[0].clientY
+            pageX = e.touches[0].pageX
+            pageY = e.touches[0].pageY
+            target = document.elementFromPoint(clientX, clientY)
         }
         if (this.moveInputState === STATE.pieceClickedThreshold || this.moveInputState === STATE.secondClickThreshold) {
-            if (Math.abs(this.startPoint.x - x) > DRAG_THRESHOLD || Math.abs(this.startPoint.y - y) > DRAG_THRESHOLD) {
+            if (Math.abs(this.startPoint.x - clientX) > DRAG_THRESHOLD || Math.abs(this.startPoint.y - clientY) > DRAG_THRESHOLD) {
                 if (this.moveInputState === STATE.secondClickThreshold) {
                     this.setMoveInputState(STATE.clickDragTo, {index: this.startIndex, piece: this.movedPiece})
                 } else {
                     this.setMoveInputState(STATE.dragTo, {index: this.startIndex, piece: this.movedPiece})
                 }
                 if (this.view.moveInputCallback) {
-                    this.moveDraggablePiece(x, y)
+                    this.moveDraggablePiece(pageX, pageY)
                 }
             }
         } else if (this.moveInputState === STATE.dragTo || this.moveInputState === STATE.clickDragTo || this.moveInputState === STATE.clickTo) {
@@ -287,19 +292,17 @@ export class ChessboardMoveInput {
                 }
             }
             if (this.view.moveInputCallback && (this.moveInputState === STATE.dragTo || this.moveInputState === STATE.clickDragTo)) {
-                this.moveDraggablePiece(x, y)
+                this.moveDraggablePiece(pageX, pageY)
             }
         }
     }
 
     onPointerUp(e) {
-        let x, y, target
+        let target
         if (e.type === "mouseup") {
             target = e.target
         } else if (e.type === "touchend") {
-            x = e.changedTouches[0].clientX
-            y = e.changedTouches[0].clientY
-            target = document.elementFromPoint(x, y)
+            target = document.elementFromPoint(e.changedTouches[0].clientX, e.changedTouches[0].clientY)
         }
         if (target && target.getAttribute) {
             const index = target.getAttribute("data-index")
