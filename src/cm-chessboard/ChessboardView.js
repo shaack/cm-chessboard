@@ -262,7 +262,6 @@ export class ChessboardView {
     }
 
     drawPiece(index, pieceName) {
-        // console.log(index, pieceName)
         const pieceGroup = Svg.addElement(this.piecesGroup, "g")
         pieceGroup.setAttribute("data-piece", pieceName)
         pieceGroup.setAttribute("data-index", index)
