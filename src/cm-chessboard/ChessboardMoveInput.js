@@ -23,7 +23,7 @@ export const MOVE_CANCELED_REASON = {
     movedOutOfBoard: "movedOutOfBoard"
 }
 
-const DRAG_THRESHOLD = 2
+const DRAG_THRESHOLD = 3
 
 export class ChessboardMoveInput {
 
