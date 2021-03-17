@@ -133,7 +133,7 @@ below.
 
 ### getMarkers(square = null, type = null)
 
-Returns the the board's markers as an array.
+Returns the board's markers as an array.
 
 Set square to `null`, to get all markers of a type on the board. Set type to `null`, to get all types. Set `both` to
 null to get all markers on the board.
@@ -245,7 +245,7 @@ Example: The default circle marker is defined in the SVG like this.
 ```svg
 
 <g id="marker2" transform="translate(2.000000, 2.000000)" fill="#000000" fill-opacity="0">
-    <circle cx="18" cy="18" r="18"></circle>
+    <circle cx="18" cy="18" r="18"/>
 </g>
 ```
 
