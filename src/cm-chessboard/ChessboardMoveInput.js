@@ -23,7 +23,7 @@ export const MOVE_CANCELED_REASON = {
     movedOutOfBoard: "movedOutOfBoard"
 }
 
-const DRAG_THRESHOLD = 3
+const DRAG_THRESHOLD = 4
 
 export class ChessboardMoveInput {
 
@@ -220,7 +220,7 @@ export class ChessboardMoveInput {
                     this.state.inputBlackEnabled && color === "b") {
                     let point
                     if (e.type === "mousedown") {
-                        point = {x: e.clientX, y: e.clientY}
+                        point = {x: e.pageX, y: e.pageY}
                     } else if (e.type === "touchstart") {
                         point = {x: e.touches[0].clientX, y: e.touches[0].clientY}
                     }
