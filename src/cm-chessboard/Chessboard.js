@@ -170,6 +170,12 @@ export class Chessboard {
     }
 
     getMarkers(square = undefined, type = undefined) {
+        if(square === null) {
+            square = undefined // todo legacy, remove in later version
+        }
+        if(type === null) {
+            type = undefined
+        }
         const markersFound = []
         this.state.markers.forEach((marker) => {
             const markerSquare = SQUARE_COORDINATES[marker.index]
@@ -183,6 +189,12 @@ export class Chessboard {
     }
 
     removeMarkers(square = undefined, type = undefined) {
+        if(square === null) {
+            square = undefined // todo legacy, remove in later version
+        }
+        if(type === null) {
+            type = undefined
+        }
         const index = square !== undefined ? this.state.squareToIndex(square) : undefined
         this.state.removeMarkers(index, type)
         this.view.drawMarkersDebounced()
@@ -210,6 +222,9 @@ export class Chessboard {
     }
 
     enableMoveInput(eventHandler, color = undefined) {
+        if(color === null) {
+            color = undefined // todo legacy, remove in later version
+        }
         this.view.enableMoveInput(eventHandler, color)
     }
 
