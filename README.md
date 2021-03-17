@@ -76,7 +76,6 @@ props = {
   },
   responsive: false, // resizes the board on window resize, if true
   animationDuration: 300, // pieces animation duration in milliseconds
-  moveInputMode: MOVE_INPUT_MODE.viewOnly, // set to MOVE_INPUT_MODE.dragPiece or MOVE_INPUT_MODE.dragMarker for interactive movement
   sprite: {
     url: "./assets/images/chessboard-sprite-staunty.svg", // pieces and markers are stored as svg sprite
     size: 40, // the sprite size, defaults to 40x40px

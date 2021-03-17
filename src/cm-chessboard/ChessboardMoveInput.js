@@ -5,7 +5,7 @@
  */
 
 import {Svg} from "./ChessboardView.js"
-import {MOVE_INPUT_MODE, MARKER_TYPE} from "./Chessboard.js"
+import {MARKER_TYPE} from "./Chessboard.js"
 
 const STATE = {
     waitForInputStart: 0,
@@ -108,7 +108,7 @@ export class ChessboardMoveInput {
                 if (STATE.pieceClickedThreshold !== prevState) {
                     throw new Error("moveInputState")
                 }
-                if (this.props.moveInputMode === MOVE_INPUT_MODE.dragPiece) {
+                if (this.view.moveInputCallback) {
                     this.view.setPieceVisibility(params.index, false)
                     this.createDraggablePiece(params.piece)
                 }
@@ -118,7 +118,7 @@ export class ChessboardMoveInput {
                 if (STATE.secondClickThreshold !== prevState) {
                     throw new Error("moveInputState")
                 }
-                if (this.props.moveInputMode === MOVE_INPUT_MODE.dragPiece) {
+                if (this.view.moveInputCallback) {
                     this.view.setPieceVisibility(params.index, false)
                     this.createDraggablePiece(params.piece)
                 }
@@ -266,7 +266,7 @@ export class ChessboardMoveInput {
                 } else {
                     this.setMoveInputState(STATE.dragTo, {index: this.startIndex, piece: this.movedPiece})
                 }
-                if (this.props.moveInputMode === MOVE_INPUT_MODE.dragPiece) {
+                if (this.view.moveInputCallback) {
                     this.moveDraggablePiece(x, y)
                 }
             }
@@ -286,7 +286,7 @@ export class ChessboardMoveInput {
                     this.updateStartEndMarkers()
                 }
             }
-            if (this.props.moveInputMode === MOVE_INPUT_MODE.dragPiece && (this.moveInputState === STATE.dragTo || this.moveInputState === STATE.clickDragTo)) {
+            if (this.view.moveInputCallback && (this.moveInputState === STATE.dragTo || this.moveInputState === STATE.clickDragTo)) {
                 this.moveDraggablePiece(x, y)
             }
         }

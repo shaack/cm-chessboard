@@ -6,7 +6,7 @@
 
 import {SQUARE_COORDINATES} from "./ChessboardState.js"
 import {ChessboardMoveInput} from "./ChessboardMoveInput.js"
-import {COLOR, MOVE_INPUT_MODE, INPUT_EVENT_TYPE, BORDER_TYPE} from "./Chessboard.js"
+import {COLOR, INPUT_EVENT_TYPE, BORDER_TYPE} from "./Chessboard.js"
 import {ChessboardPiecesAnimation} from "./ChessboardPiecesAnimation.js"
 
 export class ChessboardView {
@@ -28,11 +28,11 @@ export class ChessboardView {
             this.resizeListener = this.handleResize.bind(this)
             window.addEventListener("resize", this.resizeListener)
         }
-        if (chessboard.props.moveInputMode !== MOVE_INPUT_MODE.viewOnly) {
-            this.pointerDownListener = this.pointerDownHandler.bind(this)
-            this.chessboard.element.addEventListener("mousedown", this.pointerDownListener)
-            this.chessboard.element.addEventListener("touchstart", this.pointerDownListener)
-        }
+
+        this.pointerDownListener = this.pointerDownHandler.bind(this)
+        this.chessboard.element.addEventListener("mousedown", this.pointerDownListener)
+        this.chessboard.element.addEventListener("touchstart", this.pointerDownListener)
+
         this.createSvgAndGroups()
         this.updateMetrics()
         callbackAfterCreation()

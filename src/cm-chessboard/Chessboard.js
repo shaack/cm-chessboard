@@ -11,11 +11,6 @@ export const COLOR = {
     white: "w",
     black: "b"
 }
-export const MOVE_INPUT_MODE = {
-    viewOnly: 0,
-    dragPiece: 1,
-    dragMarker: 2 // this mode is deprecated and should not be used anymore
-}
 export const INPUT_EVENT_TYPE = {
     moveStart: "moveStart",
     moveDone: "moveDone",
@@ -57,7 +52,6 @@ export class Chessboard {
             },
             responsive: false, // resizes the board on window resize, if true
             animationDuration: 300, // pieces animation duration in milliseconds
-            moveInputMode: MOVE_INPUT_MODE.viewOnly, // set to MOVE_INPUT_MODE.dragPiece or MOVE_INPUT_MODE.dragMarker for interactive movement
             sprite: {
                 url: "./assets/images/chessboard-sprite-staunty.svg", // pieces and markers are stored as svg sprite
                 size: 40, // the sprite size, defaults to 40x40px
@@ -75,8 +69,10 @@ export class Chessboard {
                 props.style.borderType = BORDER_TYPE.thin
             }
         }
+        // TODO remove in a later version
+        // noinspection JSUnresolvedVariable
         if(props.moveInputMode) {
-            console.warn("`props.moveInputMode` is deprecated and will be removed in a later version")
+            console.warn("`props.moveInputMode` is deprecated, you don't need it anymore")
         }
         this.props = {}
         Object.assign(this.props, defaultProps)

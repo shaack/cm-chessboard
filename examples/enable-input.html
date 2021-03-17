@@ -15,7 +15,6 @@
 <pre>
 const board = new Chessboard(document.getElementById("board"), {
     position: "start",
-    moveInputMode: MOVE_INPUT_MODE.dragPiece,
     sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"}
 })
 
@@ -38,11 +37,10 @@ function inputHandler(event) {
 </button>
 <div id="output"></div>
 <script type="module">
-    import {INPUT_EVENT_TYPE, MOVE_INPUT_MODE, Chessboard} from "../src/cm-chessboard/Chessboard.js"
+    import {INPUT_EVENT_TYPE, Chessboard} from "../src/cm-chessboard/Chessboard.js"
 
     window.board = new Chessboard(document.getElementById("board"), {
         position: "start",
-        moveInputMode: MOVE_INPUT_MODE.dragPiece,
         sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"}
     })
     window.board.enableMoveInput(inputHandler)

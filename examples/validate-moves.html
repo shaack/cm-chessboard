@@ -42,15 +42,14 @@ function inputHandler(event) {
 const board = new Chessboard(document.getElementById("board"), {
     position: chess.fen(),
     sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
-    orientation: COLOR.white,
-    moveInputMode: MOVE_INPUT_MODE.dragPiece
+    orientation: COLOR.white
 })
 board.enableMoveInput(inputHandler, COLOR.white)
 </pre>
 <div id="output"></div>
 <!--suppress JSUnresolvedFunction -->
 <script type="module">
-    import {INPUT_EVENT_TYPE, MOVE_INPUT_MODE, COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
+    import {INPUT_EVENT_TYPE, COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
 
     const chess = new Chess()
 
@@ -82,8 +81,7 @@ board.enableMoveInput(inputHandler, COLOR.white)
     const board = new Chessboard(document.getElementById("board"), {
         position: chess.fen(),
         sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
-        orientation: COLOR.white,
-        moveInputMode: MOVE_INPUT_MODE.dragPiece
+        orientation: COLOR.white
     })
     board.enableMoveInput(inputHandler, COLOR.white)
 </script>
