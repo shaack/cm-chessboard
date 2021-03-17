@@ -18,6 +18,11 @@ export const INPUT_EVENT_TYPE = {
     context: "context",
     click: "click"
 }
+export const MOVE_INPUT_MODE = { // deprecated, not needed anymore
+    viewOnly: 0,
+    dragPiece: 1,
+    dragMarker: 2
+}
 export const BORDER_TYPE = {
     none: "none", // no border
     thin: "thin", // small border
