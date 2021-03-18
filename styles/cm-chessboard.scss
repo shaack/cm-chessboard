@@ -1,4 +1,4 @@
-@import "cm-chessboard-mixin";
+@import "cm-chessboard-theme";
 
 // define markers (for all themes)
 .cm-chessboard {
@@ -9,6 +9,7 @@
         stroke-width: 2px;
         opacity: 0.5;
       }
+
       &.emphasize {
         stroke: #009900;
         stroke-width: 4px;
@@ -16,17 +17,25 @@
       }
     }
   }
+
   .pieces, .markers {
     pointer-events: none;
   }
 }
 
 // define themes
-@include cm-chessboard("default", #f5ddb3, #ceaa81)
-@include cm-chessboard("green", #bddac4, #8ebd9b,
-        #8ebd9b, #bddac4,
-        rgba(0,0,0,0.5), rgba(0,0,0,0.5), rgba(0,0,0,0.5))
-@include cm-chessboard("blue", #d7e3fc, #aec0e9,
+@include cm-chessboard-theme("default", #f5ddb3, #ceaa81)
+@include cm-chessboard-theme(
+                "green", // name
+                #bddac4, // square-white
+                #8ebd9b, // square-black
+                #8ebd9b, // border
+                #bddac4, // frame background
+                rgba(0, 0, 0, 0.5), // coordinates-white (on white square)
+                rgba(0, 0, 0, 0.5), // coordinates-black (on black square)
+                rgba(0, 0, 0, 0.5) // coordinates-frame (in frame mode)
+)
+@include cm-chessboard-theme("blue", #d7e3fc, #aec0e9,
         #aec0e9, #aec0e9,
-        rgba(0,0,0,0.5), rgba(0,0,0,0.5),
+        rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5),
         #d7e3fc)
