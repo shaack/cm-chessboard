@@ -1,3 +1,6 @@
+.cm-chessboard .board.input-enabled .square {
+  cursor: pointer; }
+
 .cm-chessboard .markers .marker.move {
   stroke: black;
   stroke-width: 2px;

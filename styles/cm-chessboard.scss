@@ -2,6 +2,14 @@
 
 // define markers (for all themes)
 .cm-chessboard {
+  .board {
+    &.input-enabled {
+      .square {
+        cursor: pointer;
+      }
+    }
+  }
+
   .markers {
     .marker {
       &.move {
