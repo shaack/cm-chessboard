@@ -14,13 +14,13 @@
     .marker {
       &.move {
         stroke: black;
-        stroke-width: 2px;
+        stroke-width: 1.8px;
         opacity: 0.5;
       }
 
       &.emphasize {
         stroke: #009900;
-        stroke-width: 4px;
+        stroke-width: 3px;
         opacity: 0.5;
       }
     }
