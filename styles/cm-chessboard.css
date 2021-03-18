@@ -174,4 +174,36 @@
     .cm-chessboard.chessboard-js .coordinates .coordinate.white {
       fill: #b58863; }
 
+.cm-chessboard.black-and-white .board .square.white {
+  fill: #ffffff; }
+
+.cm-chessboard.black-and-white .board .square.black {
+  fill: #9c9c9c; }
+
+.cm-chessboard.black-and-white.border-type-thin .board .border {
+  stroke: #9c9c9c;
+  stroke-width: 0.7%;
+  fill: transparent; }
+
+.cm-chessboard.black-and-white.border-type-frame .board .border {
+  fill: #ffffff;
+  stroke: none; }
+
+.cm-chessboard.black-and-white.border-type-frame .board .border-inner {
+  fill: transparent;
+  stroke: #9c9c9c;
+  stroke-width: 0.7%; }
+
+.cm-chessboard.black-and-white .coordinates {
+  pointer-events: none;
+  user-select: none; }
+  .cm-chessboard.black-and-white .coordinates .coordinate {
+    fill: #9c9c9c;
+    font-size: 7px;
+    cursor: default; }
+    .cm-chessboard.black-and-white .coordinates .coordinate.black {
+      fill: #ffffff; }
+    .cm-chessboard.black-and-white .coordinates .coordinate.white {
+      fill: #9c9c9c; }
+
 /*# sourceMappingURL=cm-chessboard.css.map */

@@ -58,3 +58,7 @@
                 #404040,
                 #404040, transparent
 )
+@include cm-chessboard-theme(
+                "black-and-white", // name
+                #ffffff, #9c9c9c // squares
+)

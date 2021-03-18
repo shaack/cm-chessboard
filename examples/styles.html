@@ -17,8 +17,10 @@
 <div class="board" id="board5"></div>
 <div class="board" id="board6"></div>
 <div class="board" id="board7"></div>
+<div class="board" id="board8"></div>
+<div class="board" id="board9"></div>
 <script type="module">
-    import {COLOR, Chessboard, BORDER_TYPE} from "../src/cm-chessboard/Chessboard.js"
+    import {Chessboard, BORDER_TYPE} from "../src/cm-chessboard/Chessboard.js"
 
     new Chessboard(document.getElementById("board1"), {
         position: "start",
@@ -62,17 +64,32 @@
     new Chessboard(document.getElementById("board6"), {
         position: "start",
         style: {
-            cssClass: "green"
-        },
-        sprite: {url: "../assets/images/chessboard-sprite.svg", cache: false},
-    })
-    new Chessboard(document.getElementById("board7"), {
-        position: "start",
-        style: {
             cssClass: "blue",
             borderType: BORDER_TYPE.frame
         },
         sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
+    })
+    new Chessboard(document.getElementById("board7"), {
+        position: "start",
+        style: {
+            cssClass: "green"
+        },
+        sprite: {url: "../assets/images/chessboard-sprite.svg", cache: false},
+    })
+    new Chessboard(document.getElementById("board8"), {
+        position: "start",
+        style: {
+            cssClass: "black-and-white"
+        },
+        sprite: {url: "../assets/images/chessboard-sprite.svg", cache: false},
+    })
+    new Chessboard(document.getElementById("board9"), {
+        position: "start",
+        style: {
+            cssClass: "chessboard-js",
+            borderType: BORDER_TYPE.frame
+        },
+        sprite: {url: "../assets/images/chessboard-sprite.svg", cache: false},
     })
 </script>
 </body>
