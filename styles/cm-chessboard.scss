@@ -35,15 +35,15 @@
 @include cm-chessboard-theme("default", #f5ddb3, #ceaa81)
 @include cm-chessboard-theme(
                 "green", // name
-                #bddac4, // square-white
-                #8ebd9b, // square-black
-                #8ebd9b, // border
-                #bddac4, // frame background
-                rgba(0, 0, 0, 0.5), // coordinates-white (on white square)
-                rgba(0, 0, 0, 0.5), // coordinates-black (on black square)
-                rgba(0, 0, 0, 0.5) // coordinates-frame (in frame mode)
+                #bddac4, #8ebd9b, // squares
+                rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5), // coordinates in squares (white, black)
+                rgba(0, 0, 0, 0.5), // coordinates in frame-mode
+                #8ebd9b, #bddac4 // border and frame background
 )
-@include cm-chessboard-theme("blue", #d7e3fc, #aec0e9,
-        #aec0e9, #aec0e9,
-        rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5),
-        #d7e3fc)
+@include cm-chessboard-theme(
+                "blue", // name
+                #d7e3fc, #aec0e9, // squares
+                #aec0e9, #d7e3fc, // coordinates in squares (white, black)
+                #d7e3fc, // coordinates in frame-mode
+                #aec0e9, #aec0e9
+)

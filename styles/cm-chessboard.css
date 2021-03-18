@@ -106,8 +106,8 @@
     font-size: 7px;
     cursor: default; }
     .cm-chessboard.blue .coordinates .coordinate.black {
-      fill: rgba(0, 0, 0, 0.5); }
+      fill: #d7e3fc; }
     .cm-chessboard.blue .coordinates .coordinate.white {
-      fill: rgba(0, 0, 0, 0.5); }
+      fill: #aec0e9; }
 
 /*# sourceMappingURL=cm-chessboard.css.map */

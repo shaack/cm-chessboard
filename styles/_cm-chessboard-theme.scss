@@ -1,8 +1,8 @@
 @mixin cm-chessboard-theme($name,
 $square-white, $square-black,
-$border: $square-black, $frame-bg: $square-white,
 $coordinates-white: $square-black, $coordinates-black: $square-white,
-$coordinates-frame: $square-black) {
+$coordinates-frame: $square-black,
+$border: $square-black, $frame-bg: $square-white,) {
   .cm-chessboard.#{$name} {
     .board {
       .square {
