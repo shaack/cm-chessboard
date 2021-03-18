@@ -15,36 +15,36 @@
   pointer-events: none; }
 
 .cm-chessboard.default .board .square.white {
-  fill: #f3e2c3; }
+  fill: #ecdab9; }
 
 .cm-chessboard.default .board .square.black {
-  fill: #cea679; }
+  fill: #c5a076; }
 
 .cm-chessboard.default.border-type-thin .board .border {
-  stroke: #cea679;
+  stroke: #c5a076;
   stroke-width: 0.7%;
   fill: transparent; }
 
 .cm-chessboard.default.border-type-frame .board .border {
-  fill: #f3e2c3;
+  fill: #ecdab9;
   stroke: none; }
 
 .cm-chessboard.default.border-type-frame .board .border-inner {
   fill: transparent;
-  stroke: #cea679;
+  stroke: #c5a076;
   stroke-width: 0.7%; }
 
 .cm-chessboard.default .coordinates {
   pointer-events: none;
   user-select: none; }
   .cm-chessboard.default .coordinates .coordinate {
-    fill: #cea679;
+    fill: #c5a076;
     font-size: 7px;
     cursor: default; }
     .cm-chessboard.default .coordinates .coordinate.black {
-      fill: #f3e2c3; }
+      fill: #ecdab9; }
     .cm-chessboard.default .coordinates .coordinate.white {
-      fill: #cea679; }
+      fill: #c5a076; }
 
 .cm-chessboard.green .board .square.white {
   fill: #E0DDCC; }
