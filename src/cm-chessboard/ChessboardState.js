@@ -32,15 +32,15 @@ export class ChessboardState {
     }
 
     removeMarkers(index = undefined, type = undefined) {
-        if (index === undefined && type === undefined) {
+        if (!index && !type) {
             this.markers = []
         } else {
             this.markers = this.markers.filter((marker) => {
-                if (marker.type === undefined) {
+                if (!marker.type) {
                     if (index === marker.index) {
                         return false
                     }
-                } else if (index === undefined) {
+                } else if (!index) {
                     if (marker.type === type) {
                         return false
                     }

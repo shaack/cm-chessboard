@@ -18,7 +18,7 @@ export const INPUT_EVENT_TYPE = {
     context: "context",
     click: "click"
 }
-export const MOVE_INPUT_MODE = { // deprecated, not needed anymore
+export const MOVE_INPUT_MODE = { // todo deprecated, not needed anymore
     viewOnly: 0,
     dragPiece: 1,
     dragMarker: 2
@@ -63,7 +63,7 @@ export class Chessboard {
                 cache: true // cache the sprite inline, in the HTML
             }
         }
-        // TODO remove in a later version
+        // todo remove in a later version
         // noinspection JSUnresolvedVariable
         if(props.style && props.style.showBorder !== undefined) {
             console.warn("style.showBorder is deprecated, use style.borderType instead")
@@ -74,7 +74,7 @@ export class Chessboard {
                 props.style.borderType = BORDER_TYPE.thin
             }
         }
-        // TODO remove in a later version
+        // todo remove in a later version
         // noinspection JSUnresolvedVariable
         if(props.moveInputMode) {
             console.warn("`props.moveInputMode` is deprecated, you don't need it anymore")
@@ -170,17 +170,11 @@ export class Chessboard {
     }
 
     getMarkers(square = undefined, type = undefined) {
-        if(square === null) {
-            square = undefined // todo legacy, remove in later version
-        }
-        if(type === null) {
-            type = undefined
-        }
         const markersFound = []
         this.state.markers.forEach((marker) => {
             const markerSquare = SQUARE_COORDINATES[marker.index]
-            if (square === undefined && (type === undefined || type === marker.type) ||
-                type === undefined && square === markerSquare ||
+            if (!square && (!type || type === marker.type) ||
+                !type && square === markerSquare ||
                 type === marker.type && square === markerSquare) {
                 markersFound.push({square: SQUARE_COORDINATES[marker.index], type: marker.type})
             }
@@ -189,13 +183,7 @@ export class Chessboard {
     }
 
     removeMarkers(square = undefined, type = undefined) {
-        if(square === null) {
-            square = undefined // todo legacy, remove in later version
-        }
-        if(type === null) {
-            type = undefined
-        }
-        const index = square !== undefined ? this.state.squareToIndex(square) : undefined
+        const index = square ? this.state.squareToIndex(square) : undefined
         this.state.removeMarkers(index, type)
         this.view.drawMarkersDebounced()
     }
@@ -222,9 +210,6 @@ export class Chessboard {
     }
 
     enableMoveInput(eventHandler, color = undefined) {
-        if(color === null) {
-            color = undefined // todo legacy, remove in later version
-        }
         this.view.enableMoveInput(eventHandler, color)
     }
 
