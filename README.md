@@ -74,7 +74,7 @@ props = {
     borderType: BORDER_TYPE.thin, // thin: thin border, frame: wide border with coordinates in it, none: no border
     aspectRatio: 1 // height/width. Set to `undefined`, if you want to define it only in the css.
   },
-  responsive: false, // resizes the board on window resize, if true
+  responsive: true, // resizes the board on window resize, if true
   animationDuration: 300, // pieces animation duration in milliseconds
   sprite: {
     url: "./assets/images/chessboard-sprite-staunty.svg", // pieces and markers are stored as svg sprite

@@ -1,98 +1,7 @@
-$dark-default: #ceaa81;
-$light-default: #f5ddb3;
+@import "cm-chessboard-mixin";
 
-$dark-green: #8ebd9b;
-$light-green: #bddac4;
-
-$dark-blue: #aec0e9;
-$light-blue: #d7e3fc;
-
+// define markers (for all themes)
 .cm-chessboard {
-  .board {
-    &.input-enabled {
-      .square {
-        cursor: pointer;
-      }
-    }
-    .border {
-      stroke: rgba(0,0,0,0.7);
-      stroke-width: 0.7%;
-      fill: transparent;
-    }
-    .square {
-      &.white {
-        fill: $light-default;
-      }
-      &.black {
-        fill: $dark-default;
-      }
-    }
-  }
-  &.border-type-frame {
-    .board {
-      .border {
-        fill: $light-default;
-        stroke: none;
-      }
-      .border-inner {
-        fill: transparent;
-        stroke: $dark-default;
-        stroke-width: 0.8%;
-      }
-    }
-  }
-  .coordinates {
-    pointer-events: none;
-    user-select: none;
-    .coordinate {
-      fill: rgba(0, 0, 0, 0.7);
-      cursor: default;
-    }
-  }
-  &.green {
-    .board {
-      .square {
-        &.white {
-          fill: $light-green;
-        }
-        &.black {
-          fill: $dark-green;
-        }
-      }
-    }
-    &.border-type-frame {
-      .board {
-        .border {
-          fill: $light-green;
-        }
-        .border-inner {
-          stroke: $dark-green;
-        }
-      }
-    }
-  }
-  &.blue {
-    .board {
-      .square {
-        &.white {
-          fill: $light-blue;
-        }
-        &.black {
-          fill: $dark-blue;
-        }
-      }
-    }
-    &.border-type-frame {
-      .board {
-        .border {
-          fill: $light-blue;
-        }
-        .border-inner {
-          stroke: $dark-blue;
-        }
-      }
-    }
-  }
   .markers {
     .marker {
       &.move {
@@ -111,3 +20,13 @@ $light-blue: #d7e3fc;
     pointer-events: none;
   }
 }
+
+// define themes
+@include cm-chessboard("default", #f5ddb3, #ceaa81)
+@include cm-chessboard("green", #bddac4, #8ebd9b,
+        #8ebd9b, #bddac4,
+        rgba(0,0,0,0.5), rgba(0,0,0,0.5), rgba(0,0,0,0.5))
+@include cm-chessboard("blue", #d7e3fc, #aec0e9,
+        #aec0e9, #aec0e9,
+        rgba(0,0,0,0.5), rgba(0,0,0,0.5),
+        #d7e3fc)

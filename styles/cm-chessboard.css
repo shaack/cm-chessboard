@@ -1,57 +1,3 @@
-.cm-chessboard .board.input-enabled .square {
-  cursor: pointer; }
-
-.cm-chessboard .board .border {
-  stroke: rgba(0, 0, 0, 0.7);
-  stroke-width: 0.7%;
-  fill: transparent; }
-
-.cm-chessboard .board .square.white {
-  fill: #f5ddb3; }
-
-.cm-chessboard .board .square.black {
-  fill: #ceaa81; }
-
-.cm-chessboard.border-type-frame .board .border {
-  fill: #f5ddb3;
-  stroke: none; }
-
-.cm-chessboard.border-type-frame .board .border-inner {
-  fill: transparent;
-  stroke: #ceaa81;
-  stroke-width: 0.8%; }
-
-.cm-chessboard .coordinates {
-  pointer-events: none;
-  user-select: none; }
-  .cm-chessboard .coordinates .coordinate {
-    fill: rgba(0, 0, 0, 0.7);
-    cursor: default; }
-
-.cm-chessboard.green .board .square.white {
-  fill: #bddac4; }
-
-.cm-chessboard.green .board .square.black {
-  fill: #8ebd9b; }
-
-.cm-chessboard.green.border-type-frame .board .border {
-  fill: #bddac4; }
-
-.cm-chessboard.green.border-type-frame .board .border-inner {
-  stroke: #8ebd9b; }
-
-.cm-chessboard.blue .board .square.white {
-  fill: #d7e3fc; }
-
-.cm-chessboard.blue .board .square.black {
-  fill: #aec0e9; }
-
-.cm-chessboard.blue.border-type-frame .board .border {
-  fill: #d7e3fc; }
-
-.cm-chessboard.blue.border-type-frame .board .border-inner {
-  stroke: #aec0e9; }
-
 .cm-chessboard .markers .marker.move {
   stroke: black;
   stroke-width: 2px;
@@ -64,5 +10,101 @@
 
 .cm-chessboard .pieces, .cm-chessboard .markers {
   pointer-events: none; }
+
+.cm-chessboard.default .board .square.white {
+  fill: #f5ddb3; }
+
+.cm-chessboard.default .board .square.black {
+  fill: #ceaa81; }
+
+.cm-chessboard.default.border-type-thin .board .border {
+  stroke: #ceaa81;
+  stroke-width: 0.7%;
+  fill: transparent; }
+
+.cm-chessboard.default.border-type-frame .board .border {
+  fill: #f5ddb3;
+  stroke: none; }
+
+.cm-chessboard.default.border-type-frame .board .border-inner {
+  fill: transparent;
+  stroke: #ceaa81;
+  stroke-width: 0.7%; }
+
+.cm-chessboard.default .coordinates {
+  pointer-events: none;
+  user-select: none; }
+  .cm-chessboard.default .coordinates .coordinate {
+    fill: #ceaa81;
+    font-size: 7px;
+    cursor: default; }
+    .cm-chessboard.default .coordinates .coordinate.black {
+      fill: #f5ddb3; }
+    .cm-chessboard.default .coordinates .coordinate.white {
+      fill: #ceaa81; }
+
+.cm-chessboard.green .board .square.white {
+  fill: #bddac4; }
+
+.cm-chessboard.green .board .square.black {
+  fill: #8ebd9b; }
+
+.cm-chessboard.green.border-type-thin .board .border {
+  stroke: #8ebd9b;
+  stroke-width: 0.7%;
+  fill: transparent; }
+
+.cm-chessboard.green.border-type-frame .board .border {
+  fill: #bddac4;
+  stroke: none; }
+
+.cm-chessboard.green.border-type-frame .board .border-inner {
+  fill: transparent;
+  stroke: #8ebd9b;
+  stroke-width: 0.7%; }
+
+.cm-chessboard.green .coordinates {
+  pointer-events: none;
+  user-select: none; }
+  .cm-chessboard.green .coordinates .coordinate {
+    fill: rgba(0, 0, 0, 0.5);
+    font-size: 7px;
+    cursor: default; }
+    .cm-chessboard.green .coordinates .coordinate.black {
+      fill: rgba(0, 0, 0, 0.5); }
+    .cm-chessboard.green .coordinates .coordinate.white {
+      fill: rgba(0, 0, 0, 0.5); }
+
+.cm-chessboard.blue .board .square.white {
+  fill: #d7e3fc; }
+
+.cm-chessboard.blue .board .square.black {
+  fill: #aec0e9; }
+
+.cm-chessboard.blue.border-type-thin .board .border {
+  stroke: #aec0e9;
+  stroke-width: 0.7%;
+  fill: transparent; }
+
+.cm-chessboard.blue.border-type-frame .board .border {
+  fill: #aec0e9;
+  stroke: none; }
+
+.cm-chessboard.blue.border-type-frame .board .border-inner {
+  fill: transparent;
+  stroke: #aec0e9;
+  stroke-width: 0.7%; }
+
+.cm-chessboard.blue .coordinates {
+  pointer-events: none;
+  user-select: none; }
+  .cm-chessboard.blue .coordinates .coordinate {
+    fill: #d7e3fc;
+    font-size: 7px;
+    cursor: default; }
+    .cm-chessboard.blue .coordinates .coordinate.black {
+      fill: rgba(0, 0, 0, 0.5); }
+    .cm-chessboard.blue .coordinates .coordinate.white {
+      fill: rgba(0, 0, 0, 0.5); }
 
 /*# sourceMappingURL=cm-chessboard.css.map */

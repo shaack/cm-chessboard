@@ -192,7 +192,7 @@ export class ChessboardView {
             let cssClass = "coordinate file"
             if (inline) {
                 x = x + this.scalingX * 15.5
-                cssClass += file % 2 ? " dark" : " light"
+                cssClass += file % 2 ? " white" : " black"
             }
             const textElement = Svg.addElement(this.coordinatesGroup, "text", {
                 class: cssClass,
@@ -211,7 +211,7 @@ export class ChessboardView {
             let y = this.borderSize + 25 * this.scalingY + rank * this.squareHeight
             let cssClass = "coordinate rank"
             if (inline) {
-                cssClass += rank % 2 ? " light" : " dark"
+                cssClass += rank % 2 ? " black" : " white"
                 if (this.chessboard.props.style.borderType === BORDER_TYPE.frame) {
                     x = x + this.scalingX * 10
                     y = y - this.scalingY * 15

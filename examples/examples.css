@@ -36,10 +36,8 @@ pre {
 
 div.board {
   float: left;
-  max-width: 450px;
-  max-height: 430px;
+  max-width: 500px;
   width: calc(100vw - 40px);
-  height: calc(95vw - 40px);
   margin-right: 20px;
   margin-bottom: 20px; }
 
@@ -47,5 +45,10 @@ div.board {
   content: "";
   clear: both;
   display: table; }
+
+button {
+  padding: 4px 20px;
+  margin-right: 10px;
+  margin-bottom: 10px; }
 
 /*# sourceMappingURL=examples.css.map */
