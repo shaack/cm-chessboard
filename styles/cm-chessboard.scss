@@ -52,11 +52,11 @@
                 #57211E, #57211E // border and frame background
 )
 @include cm-chessboard-theme(
-                "chessboard-js",
-                #f0d9b5, #b58863,
-                #b58863, #f0d9b5,
-                #404040,
-                #404040, transparent
+                "chessboard-js", // name
+                #f0d9b5, #b58863, // squares
+                #b58863, #f0d9b5, // coordinates in squares (white, black)
+                #404040, // coordinates in frame-mode
+                #404040, transparent // border and frame background
 )
 @include cm-chessboard-theme(
                 "black-and-white", // name
