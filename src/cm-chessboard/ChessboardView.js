@@ -99,7 +99,7 @@ export class ChessboardView {
         this.width = this.chessboard.element.offsetWidth
         this.height = this.chessboard.element.offsetHeight
         if (this.chessboard.props.style.borderType === BORDER_TYPE.frame) {
-            this.borderSize = this.width / 28
+            this.borderSize = this.width / 25
         } else if (this.chessboard.props.style.borderType === BORDER_TYPE.thin) {
             this.borderSize = this.width / 320
         } else {
@@ -188,13 +188,10 @@ export class ChessboardView {
         const inline = this.chessboard.props.style.borderType !== BORDER_TYPE.frame
         for (let file = 0; file < 8; file++) {
             let x = this.borderSize + (17 + this.chessboard.props.sprite.size * file) * this.scalingX
-            let y = this.height - this.scalingY * 3.2
+            let y = this.height - this.scalingY * 3.5
             let cssClass = "coordinate file"
             if (inline) {
                 x = x + this.scalingX * 15.5
-                if (this.chessboard.props.style.borderType === BORDER_TYPE.frame) {
-                    y = y - this.scalingY * 11
-                }
                 cssClass += file % 2 ? " dark" : " light"
             }
             const textElement = Svg.addElement(this.coordinatesGroup, "text", {
