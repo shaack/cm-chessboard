@@ -36,7 +36,6 @@
     boardsDiv.appendChild(boardDiv)
     new Chessboard(boardDiv, {
         position: "start",
-        responsive: true,
         sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
     })
 
@@ -48,7 +47,6 @@
             const board = new Chessboard(boardDiv, {
                 position: Math.round(Math.random()) ? "start" : "empty",
                 orientation: Math.round(Math.random()) ? COLOR.white : COLOR.black,
-                responsive: true,
                 sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
                 style: {
                     aspectRatio: undefined
