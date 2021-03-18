@@ -110,4 +110,36 @@
     .cm-chessboard.blue .coordinates .coordinate.white {
       fill: #aec0e9; }
 
+.cm-chessboard.chessclub .board .square.white {
+  fill: #E6D3B1; }
+
+.cm-chessboard.chessclub .board .square.black {
+  fill: #AF6B3F; }
+
+.cm-chessboard.chessclub.border-type-thin .board .border {
+  stroke: #57211E;
+  stroke-width: 0.7%;
+  fill: transparent; }
+
+.cm-chessboard.chessclub.border-type-frame .board .border {
+  fill: #57211E;
+  stroke: none; }
+
+.cm-chessboard.chessclub.border-type-frame .board .border-inner {
+  fill: transparent;
+  stroke: #57211E;
+  stroke-width: 0.7%; }
+
+.cm-chessboard.chessclub .coordinates {
+  pointer-events: none;
+  user-select: none; }
+  .cm-chessboard.chessclub .coordinates .coordinate {
+    fill: #E6D3B1;
+    font-size: 7px;
+    cursor: default; }
+    .cm-chessboard.chessclub .coordinates .coordinate.black {
+      fill: #E6D3B1; }
+    .cm-chessboard.chessclub .coordinates .coordinate.white {
+      fill: #AF6B3F; }
+
 /*# sourceMappingURL=cm-chessboard.css.map */

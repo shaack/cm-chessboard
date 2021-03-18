@@ -23,6 +23,7 @@
     new Chessboard(document.getElementById("board1"), {
         position: "start",
         style: {
+            cssClass: "chessclub",
             borderType: BORDER_TYPE.frame
         },
         sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"}
@@ -30,7 +31,7 @@
     new Chessboard(document.getElementById("board2"), {
         position: "start",
         style: {
-            showCoordinates: false,
+            showCoordinates: true,
             borderType: BORDER_TYPE.thin
         },
         orientation: COLOR.black,
