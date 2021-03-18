@@ -23,7 +23,7 @@
     new Chessboard(document.getElementById("board1"), {
         position: "start",
         style: {
-            cssClass: "chessclub",
+            cssClass: "chess-club",
             borderType: BORDER_TYPE.frame
         },
         sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"}
@@ -31,16 +31,15 @@
     new Chessboard(document.getElementById("board2"), {
         position: "start",
         style: {
-            showCoordinates: true,
-            borderType: BORDER_TYPE.thin
+            cssClass: "chessboard-js"
         },
-        orientation: COLOR.black,
         sprite: {url: "../assets/images/chessboard-sprite.svg", cache: false}
     })
     new Chessboard(document.getElementById("board3"), {
         position: "start",
         style: {
-            cssClass: "green"
+            cssClass: "green",
+            borderType: BORDER_TYPE.frame
         },
         sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
     })
@@ -63,8 +62,7 @@
     new Chessboard(document.getElementById("board6"), {
         position: "start",
         style: {
-            cssClass: "green",
-            borderType: BORDER_TYPE.frame
+            cssClass: "green"
         },
         sprite: {url: "../assets/images/chessboard-sprite.svg", cache: false},
     })

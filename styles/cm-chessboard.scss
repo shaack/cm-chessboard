@@ -32,26 +32,29 @@
 }
 
 // define themes
-@include cm-chessboard-theme("default", #f5ddb3, #ceaa81)
+@include cm-chessboard-theme(
+                "default", // name
+                #f3e2c3, #cea679 // squares
+)
 @include cm-chessboard-theme(
                 "green", // name
-                #bddac4, #8ebd9b, // squares
-                rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5), // coordinates in squares (white, black)
-                rgba(0, 0, 0, 0.5), // coordinates in frame-mode
-                #8ebd9b, #bddac4 // border and frame background
+                #E0DDCC, #397a54 // squares
 )
 @include cm-chessboard-theme(
                 "blue", // name
-                #d7e3fc, #aec0e9, // squares
-                #aec0e9, #d7e3fc, // coordinates in squares (white, black)
-                #d7e3fc, // coordinates in frame-mode
-                #aec0e9, #aec0e9
+                #EBF0F5, #678FB1 // squares
 )
 @include cm-chessboard-theme(
-                "chessclub",
-                #E6D3B1, #AF6B3F,
-                #AF6B3F, #E6D3B1,
-                #E6D3B1,
-                #57211E, #57211E
-
+                "chess-club", // name
+                #E6D3B1, #AF6B3F, // squares
+                #AF6B3F, #E6D3B1, // coordinates in squares (white, black)
+                #E6D3B1, // coordinates in frame-mode
+                #57211E, #57211E // border and frame background
+)
+@include cm-chessboard-theme(
+                "chessboard-js",
+                #f0d9b5, #b58863,
+                #b58863, #f0d9b5,
+                #404040,
+                #404040, transparent
 )
