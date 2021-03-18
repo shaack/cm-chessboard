@@ -1,6 +1,6 @@
 @mixin cm-chessboard-theme($name,
 $square-white, $square-black,
-$border: $square-black, $frame: $square-white,
+$border: $square-black, $frame-bg: $square-white,
 $coordinates-white: $square-black, $coordinates-black: $square-white,
 $coordinates-frame: $square-black) {
   .cm-chessboard.#{$name} {
@@ -29,7 +29,7 @@ $coordinates-frame: $square-black) {
     &.border-type-frame {
       .board {
         .border {
-          fill: $frame;
+          fill: $frame-bg;
           stroke: none;
         }
         .border-inner {
