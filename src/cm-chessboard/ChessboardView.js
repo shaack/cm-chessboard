@@ -366,6 +366,7 @@ export class ChessboardView {
             this.chessboard.state.inputWhiteEnabled = true
             this.chessboard.state.inputBlackEnabled = true
         }
+        this.chessboard.state.inputEnabled = true
         this.moveInputCallback = eventHandler
         this.setCursor()
     }
@@ -373,6 +374,7 @@ export class ChessboardView {
     disableMoveInput() {
         this.chessboard.state.inputWhiteEnabled = false
         this.chessboard.state.inputBlackEnabled = false
+        this.chessboard.state.inputEnabled = false
         this.moveInputCallback = undefined
         this.setCursor()
     }

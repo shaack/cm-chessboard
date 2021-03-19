@@ -108,7 +108,7 @@ export class ChessboardMoveInput {
                 if (STATE.pieceClickedThreshold !== prevState) {
                     throw new Error("moveInputState")
                 }
-                if (this.view.moveInputCallback) {
+                if (this.view.chessboard.state.inputEnabled ) {
                     this.view.setPieceVisibility(params.index, false)
                     this.createDraggablePiece(params.piece)
                 }
@@ -118,7 +118,7 @@ export class ChessboardMoveInput {
                 if (STATE.secondClickThreshold !== prevState) {
                     throw new Error("moveInputState")
                 }
-                if (this.view.moveInputCallback) {
+                if (this.view.chessboard.state.inputEnabled ) {
                     this.view.setPieceVisibility(params.index, false)
                     this.createDraggablePiece(params.piece)
                 }
@@ -271,7 +271,7 @@ export class ChessboardMoveInput {
                 } else {
                     this.setMoveInputState(STATE.dragTo, {index: this.startIndex, piece: this.movedPiece})
                 }
-                if (this.view.moveInputCallback) {
+                if (this.view.chessboard.state.inputEnabled) {
                     this.moveDraggablePiece(pageX, pageY)
                 }
             }
@@ -291,7 +291,7 @@ export class ChessboardMoveInput {
                     this.updateStartEndMarkers()
                 }
             }
-            if (this.view.moveInputCallback && (this.moveInputState === STATE.dragTo || this.moveInputState === STATE.clickDragTo)) {
+            if (this.view.chessboard.state.inputEnabled  && (this.moveInputState === STATE.dragTo || this.moveInputState === STATE.clickDragTo)) {
                 this.moveDraggablePiece(pageX, pageY)
             }
         }
