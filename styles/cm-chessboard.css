@@ -50,10 +50,10 @@
   fill: #E0DDCC; }
 
 .cm-chessboard.green .board .square.black {
-  fill: #397a54; }
+  fill: #4c946a; }
 
 .cm-chessboard.green.border-type-thin .board .border {
-  stroke: #397a54;
+  stroke: #4c946a;
   stroke-width: 0.7%;
   fill: transparent; }
 
@@ -63,20 +63,20 @@
 
 .cm-chessboard.green.border-type-frame .board .border-inner {
   fill: transparent;
-  stroke: #397a54;
+  stroke: #4c946a;
   stroke-width: 0.7%; }
 
 .cm-chessboard.green .coordinates {
   pointer-events: none;
   user-select: none; }
   .cm-chessboard.green .coordinates .coordinate {
-    fill: #397a54;
+    fill: #4c946a;
     font-size: 7px;
     cursor: default; }
     .cm-chessboard.green .coordinates .coordinate.black {
       fill: #E0DDCC; }
     .cm-chessboard.green .coordinates .coordinate.white {
-      fill: #397a54; }
+      fill: #4c946a; }
 
 .cm-chessboard.blue .board .square.white {
   fill: #EBF0F5; }
@@ -154,7 +154,7 @@
   fill: transparent; }
 
 .cm-chessboard.chessboard-js.border-type-frame .board .border {
-  fill: transparent;
+  fill: #f0d9b5;
   stroke: none; }
 
 .cm-chessboard.chessboard-js.border-type-frame .board .border-inner {
