@@ -4,8 +4,8 @@
  * License: MIT, see file 'LICENSE'
  */
 
-import {ChessboardView} from "./ChessboardView.js"
-import {SQUARE_COORDINATES, ChessboardState} from "./ChessboardState.js"
+import {SQUARE_COORDINATES, ChessboardView} from "./ChessboardView.js"
+import {ChessboardState} from "./ChessboardState.js"
 
 export const COLOR = {
     white: "w",
@@ -25,7 +25,7 @@ export const MOVE_INPUT_MODE = { // todo deprecated, not needed anymore
 }
 export const BORDER_TYPE = {
     none: "none", // no border
-    thin: "thin", // small border
+    thin: "thin", // thin border
     frame: "frame" // wide border with coordinates in it
 }
 export const MARKER_TYPE = {
