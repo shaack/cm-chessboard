@@ -117,17 +117,17 @@
   fill: #AF6B3F; }
 
 .cm-chessboard.chess-club.border-type-thin .board .border {
-  stroke: #57211E;
+  stroke: #692e2b;
   stroke-width: 0.7%;
   fill: transparent; }
 
 .cm-chessboard.chess-club.border-type-frame .board .border {
-  fill: #57211E;
+  fill: #692e2b;
   stroke: none; }
 
 .cm-chessboard.chess-club.border-type-frame .board .border-inner {
   fill: transparent;
-  stroke: #57211E;
+  stroke: #692e2b;
   stroke-width: 0.7%; }
 
 .cm-chessboard.chess-club .coordinates {
