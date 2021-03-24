@@ -14,9 +14,11 @@ export const COLOR = {
 export const INPUT_EVENT_TYPE = {
     moveStart: "moveStart",
     moveDone: "moveDone",
-    moveCanceled: "moveCanceled",
-    context: "context",
-    click: "click"
+    moveCanceled: "moveCanceled"
+}
+export const SQUARE_SELECT_TYPE = {
+    primary: "primary",
+    secondary: "secondary"
 }
 export const MOVE_INPUT_MODE = { // todo deprecated, not needed anymore
     viewOnly: 0,
@@ -29,8 +31,9 @@ export const BORDER_TYPE = {
     frame: "frame" // wide border with coordinates in it
 }
 export const MARKER_TYPE = {
-    move: {class: "move", slice: "marker1"},
-    emphasize: {class: "emphasize", slice: "marker2"}
+    move: {class: "move", slice: "markerFrame"},
+    emphasize: {class: "emphasize", slice: "markerSquare"},
+    danger: {class: "danger", slice: "markerCircle"}
 }
 export const PIECE = {
     wp: "wp", wb: "wb", wn: "wn", wr: "wr", wq: "wq", wk: "wk",
@@ -218,46 +221,46 @@ export class Chessboard {
     }
 
     enableContextInput(eventHandler) {
-        if (this.contextMenuListener) {
-            console.warn("contextMenuListener already existing")
-            return
-        }
-        this.contextMenuListener = function (e) {
-            e.preventDefault()
-            const index = e.target.getAttribute("data-index")
-            eventHandler({
-                chessboard: this,
-                type: INPUT_EVENT_TYPE.context,
-                square: SQUARE_COORDINATES[index]
-            })
-        }
-        this.element.addEventListener("contextmenu", this.contextMenuListener)
+        console.warn("enableContextInput is deprecated, use enableSquareSelect")
+        this.enableSquareSelect(function(event) {
+            if(event.type === SQUARE_SELECT_TYPE.secondary) {
+                eventHandler(event)
+            }
+        })
     }
 
     disableContextInput() {
-        this.element.removeEventListener("contextmenu", this.contextMenuListener)
-        this.contextMenuListener = undefined
+        this.disableSquareSelect()
     }
 
-    enableBoardClick(eventHandler) {
-        if (this.boardClickListener) {
-            console.warn("boardClickListener already existing")
+    enableSquareSelect(eventHandler, ) {
+        if (this.squareSelectListener) {
+            console.warn("squareSelectListener already existing")
             return
         }
-        this.boardClickListener = function(e) {
+        this.squareSelectListener = function(e) {
             const index = e.target.getAttribute("data-index")
+            if(e.type === "contextmenu") {
+                // disable context menu
+                e.preventDefault()
+                return
+            }
             eventHandler({
                 chessboard: this,
-                type: INPUT_EVENT_TYPE.click,
+                type: e.button === 2 ? SQUARE_SELECT_TYPE.secondary : SQUARE_SELECT_TYPE.primary,
                 square: SQUARE_COORDINATES[index]
             })
         }
-        this.element.addEventListener("click", this.boardClickListener)
+        this.element.addEventListener("contextmenu", this.squareSelectListener)
+        this.element.addEventListener("mouseup", this.squareSelectListener)
+        this.element.addEventListener("touchend", this.squareSelectListener)
     }
 
-    disableBoardClick() {
-        this.element.removeEventListener("click", this.boardClickListener)
-        this.boardClickListener = undefined
+    disableSquareSelect() {
+        this.element.removeEventListener("contextmenu", this.squareSelectListener)
+        this.element.removeEventListener("mouseup", this.squareSelectListener)
+        this.element.removeEventListener("touchend", this.squareSelectListener)
+        this.squareSelectListener = undefined
     }
 
 }

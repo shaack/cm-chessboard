@@ -9,70 +9,69 @@
 </head>
 <body>
 <h1><a href="../">cm-chessboard</a></h1>
-<h2>Example: Context input, mark squares and log left click (primary click)</h2>
-<p>Toggle marker on context input. First board, context input only. Second board, move input and context input
-    enabled.</p>
+<h2>Example: Square select, left and right click, mark squares and log to console.</h2>
 <div class="board" id="board1"></div>
 <div class="board" id="board2"></div>
 <br style="clear: both"/>
 <pre>
-const board1 = new Chessboard(document.getElementById("board1"), {
-    position: "start",
-    sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"}
-})
-board1.enableContextInput((event) => {
-    console.log(event)
-    const markersOnSquare = board1.getMarkers(event.square, MARKER_TYPE.emphasize)
-    if (markersOnSquare.length > 0) {
-        board1.removeMarkers(event.square, MARKER_TYPE.emphasize)
+board1.enableSquareSelect((event) => {
+    console.log("SquareSelect board1", event)
+    let markerType
+    if(event.type === SQUARE_SELECT_TYPE.primary) {
+        markerType = MARKER_TYPE.emphasize
     } else {
-        board1.addMarker(event.square)
+        markerType = MARKER_TYPE.danger
     }
-})
-board1.onPrimaryInput((event) => {
-    console.log(event)
+    const markersOnSquare = board1.getMarkers(event.square, markerType)
+    if (markersOnSquare.length > 0) {
+        board1.removeMarkers(event.square, markerType)
+    } else {
+        board1.addMarker(event.square, markerType)
+    }
 })
 </pre>
 <script type="module">
-    import {MARKER_TYPE, COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
+    import {MARKER_TYPE, Chessboard, SQUARE_SELECT_TYPE} from "../src/cm-chessboard/Chessboard.js"
 
     const board1 = new Chessboard(document.getElementById("board1"), {
         position: "start",
         sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"}
     })
-    board1.enableContextInput((event) => {
-        console.log("ContextInput board1", event)
-        const markersOnSquare = board1.getMarkers(event.square, MARKER_TYPE.emphasize)
-        if (markersOnSquare.length > 0) {
-            board1.removeMarkers(event.square, MARKER_TYPE.emphasize)
+    board1.enableSquareSelect((event) => {
+        console.log("SquareSelect board1", event)
+        let markerType
+        if(event.type === SQUARE_SELECT_TYPE.primary) {
+            markerType = MARKER_TYPE.emphasize
         } else {
-            board1.addMarker(event.square)
+            markerType = MARKER_TYPE.danger
         }
-    })
-    board1.enableBoardClick((event) => {
-        console.log("boardClick board1", event)
+        const markersOnSquare = board1.getMarkers(event.square, markerType)
+        if (markersOnSquare.length > 0) {
+            board1.removeMarkers(event.square, markerType)
+        } else {
+            board1.addMarker(event.square, markerType)
+        }
     })
 
     const board2 = new Chessboard(document.getElementById("board2"), {
         position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR",
-        sprite: {url: "../assets/images/chessboard-sprite.svg"},
-        orientation: COLOR.black
+        sprite: {url: "../assets/images/chessboard-sprite.svg"}
     })
     board2.enableMoveInput((event) => {
         console.log("MoveInput board2", event)
         return true
     })
-    board2.enableContextInput((event) => {
-        console.log("ContextInput board2", event)
-        const markersOnSquare = board2.getMarkers(event.square, MARKER_TYPE.emphasize)
-        if (markersOnSquare.length > 0) {
-            board2.removeMarkers(event.square, MARKER_TYPE.emphasize)
-        } else {
-            board2.addMarker(event.square)
+    board2.enableSquareSelect((event) => {
+        console.log("SquareSelect board2", event)
+        if(event.type === SQUARE_SELECT_TYPE.secondary) {
+            const marker = MARKER_TYPE.danger
+            const markersOnSquare = board2.getMarkers(event.square, marker)
+            if (markersOnSquare.length > 0) {
+                board2.removeMarkers(event.square, marker)
+            } else {
+                board2.addMarker(event.square, marker)
+            }
         }
-    })
-    board2.enableBoardClick((event) => {
-        console.log("boardClick board2", event)
     })
 
 </script>

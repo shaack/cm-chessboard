@@ -7,7 +7,11 @@
   opacity: 0.5; }
 
 .cm-chessboard .markers .marker.emphasize {
-  stroke: #009900;
+  fill: black;
+  opacity: 0.4; }
+
+.cm-chessboard .markers .marker.danger {
+  stroke: #cc0000;
   stroke-width: 3px;
   opacity: 0.5; }
 
