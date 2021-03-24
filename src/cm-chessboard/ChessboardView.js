@@ -106,8 +106,8 @@ export class ChessboardView {
     }
 
     updateMetrics() {
-        this.width = this.chessboard.element.offsetWidth
-        this.height = this.chessboard.element.offsetHeight
+        this.width = this.chessboard.element.clientWidth
+        this.height = this.chessboard.element.clientHeight
         if (this.chessboard.props.style.borderType === BORDER_TYPE.frame) {
             this.borderSize = this.width / 25
         } else if (this.chessboard.props.style.borderType === BORDER_TYPE.thin) {
@@ -128,10 +128,10 @@ export class ChessboardView {
         window.clearTimeout(this.resizeDebounce)
         this.resizeDebounce = setTimeout(() => {
             if (this.chessboard.props.style.aspectRatio) {
-                this.chessboard.element.style.height = (this.chessboard.element.offsetWidth * this.chessboard.props.style.aspectRatio) + "px"
+                this.chessboard.element.style.height = (this.chessboard.element.clientWidth * this.chessboard.props.style.aspectRatio) + "px"
             }
-            if (this.chessboard.element.offsetWidth !== this.width ||
-                this.chessboard.element.offsetHeight !== this.height) {
+            if (this.chessboard.element.clientWidth !== this.width ||
+                this.chessboard.element.clientHeight !== this.height) {
                 this.updateMetrics()
                 this.redraw()
             }
