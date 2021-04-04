@@ -4,63 +4,57 @@
  * License: MIT, see file 'LICENSE'
  */
 
-import {Test} from "../node_modules/svjs-test/src/svjs-test/Test.js"
+import {describe, it, assert} from "../node_modules/teevi/src/teevi.js"
 import {PIECE, Chessboard} from "../src/cm-chessboard/Chessboard.js"
 
-export class TestPosition extends Test {
+describe("TestPosition", () => {
 
-    testStartPositionConstructor() {
+    it("should create and destroy a chessboard", () => {
         const chessboard = new Chessboard(document.getElementById("TestPosition"), {
+            sprite: {url: "../assets/images/chessboard-sprite.svg"},
             position: "start"
         }, () => {
-            Test.assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", chessboard.getPosition())
+            assert.equals(chessboard.getPosition(), "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR")
             chessboard.destroy()
         })
-    }
+    })
 
-    testStartPositionPromise() {
-        const chessboard = new Chessboard(document.getElementById("TestPosition"), {
-            position: "start"
-        })
-        chessboard.initialization.then(() => {
-            Test.assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", chessboard.getPosition())
-            chessboard.destroy()
-        })
-    }
-
-    testSetAndGetPosition() {
-        const chessboard = new Chessboard(document.getElementById("TestPosition"))
+    it("should set and get the position", () => {
+        const chessboard = new Chessboard(document.getElementById("TestPosition"),
+            {sprite: {url: "../assets/images/chessboard-sprite.svg"},})
         chessboard.setPosition("rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR w Gkq - 4 11", false).then(() => {
-            Test.assertEquals("rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR", chessboard.getPosition())
+            assert.equals(chessboard.getPosition(), "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR")
             chessboard.destroy()
         })
-    }
+    })
 
-    testGetSquare() {
+    it("should get pieces on squares", () => {
         const chessboard = new Chessboard(document.getElementById("TestPosition"), {
+            sprite: {url: "../assets/images/chessboard-sprite.svg"},
             position: "start"
         })
         chessboard.initialization.then(() => {
-            Test.assertEquals("wq", chessboard.getPiece("d1"))
-            Test.assertEquals("bq", chessboard.getPiece("d8"))
-            Test.assertEquals("wp", chessboard.getPiece("a2"))
+            assert.equals(chessboard.getPiece("d1"), "wq")
+            assert.equals(chessboard.getPiece("d8"), "bq")
+            assert.equals(chessboard.getPiece("a2"), "wp")
             chessboard.destroy()
         })
-    }
+    })
 
-    testSetSquare() {
+    it("should set pieces on squares", () => {
         const chessboard = new Chessboard(document.getElementById("TestPosition"), {
-            position: "empty"
+            position: "empty",
+            sprite: {url: "../assets/images/chessboard-sprite.svg"},
         })
         chessboard.setPiece("a1", PIECE.bk).then(() => {
-            Test.assertEquals("bk", chessboard.getPiece("a1"))
+            assert.equals(chessboard.getPiece("a1"), "bk")
         })
         chessboard.setPiece("e5", PIECE.wk).then(() => {
-            Test.assertEquals("wk", chessboard.getPiece("e5"))
+            assert.equals(chessboard.getPiece("e5"), "wk")
         })
         setTimeout(() => {
             chessboard.destroy()
         }, 100)
-    }
+    })
 
-}
+})
