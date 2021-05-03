@@ -255,6 +255,7 @@ export class Chessboard {
         this.element.addEventListener("mouseup", this.squareSelectListener)
         this.element.addEventListener("touchend", this.squareSelectListener)
         this.state.squareSelectEnabled = true
+        this.view.setCursor()
     }
 
     disableSquareSelect() {
@@ -263,6 +264,7 @@ export class Chessboard {
         this.element.removeEventListener("touchend", this.squareSelectListener)
         this.squareSelectListener = undefined
         this.state.squareSelectEnabled = false
+        this.view.setCursor()
     }
 
 }

@@ -25,6 +25,6 @@
   },
   "homepage": "https://github.com/shaack/cm-chessboard#readme",
   "devDependencies": {
-    "teevi": "^2.1.4"
+    "teevi": "^2.1.9"
   }
 }
