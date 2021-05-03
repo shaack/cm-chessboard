@@ -431,7 +431,7 @@ export class ChessboardView {
 
     setCursor() {
         this.chessboard.initialization.then(() => {
-            if (this.chessboard.state.inputWhiteEnabled || this.chessboard.state.inputBlackEnabled || this.chessboard.boardClickListener) {
+            if (this.chessboard.state.inputWhiteEnabled || this.chessboard.state.inputBlackEnabled || this.chessboard.squareSelectEnabled) {
                 this.boardGroup.setAttribute("class", "board input-enabled")
             } else {
                 this.boardGroup.setAttribute("class", "board")

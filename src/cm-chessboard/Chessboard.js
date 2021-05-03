@@ -233,7 +233,7 @@ export class Chessboard {
         this.disableSquareSelect()
     }
 
-    enableSquareSelect(eventHandler, ) {
+    enableSquareSelect(eventHandler) {
         if (this.squareSelectListener) {
             console.warn("squareSelectListener already existing")
             return
@@ -254,6 +254,7 @@ export class Chessboard {
         this.element.addEventListener("contextmenu", this.squareSelectListener)
         this.element.addEventListener("mouseup", this.squareSelectListener)
         this.element.addEventListener("touchend", this.squareSelectListener)
+        this.state.squareSelectEnabled = true
     }
 
     disableSquareSelect() {
@@ -261,6 +262,7 @@ export class Chessboard {
         this.element.removeEventListener("mouseup", this.squareSelectListener)
         this.element.removeEventListener("touchend", this.squareSelectListener)
         this.squareSelectListener = undefined
+        this.state.squareSelectEnabled = false
     }
 
 }

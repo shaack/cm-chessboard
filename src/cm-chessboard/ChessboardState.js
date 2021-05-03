@@ -10,6 +10,10 @@ export class ChessboardState {
         this.squares = new Array(64).fill(undefined)
         this.orientation = undefined
         this.markers = []
+        this.inputWhiteEnabled = false
+        this.inputBlackEnabled = false
+        this.inputEnabled = false
+        this.squareSelectEnabled = false
     }
 
     setPiece(index, piece) {
