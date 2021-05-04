@@ -134,20 +134,19 @@ export class Chessboard {
     }
 
     setPosition(fen, animated = true) {
-        return new Promise((resolve) => {
+        this.setPositionPromise = new Promise((resolve) => {
             this.initialization.then(() => {
+                if(fen === "start") {
+                    fen = FEN_START_POSITION
+                } else if(fen === "empty") {
+                    fen = FEN_EMPTY_POSITION
+                }
                 const currentFen = this.state.getPosition()
                 const fenParts = fen.split(" ")
                 const fenNormalized = fenParts[0]
                 if (fenNormalized !== currentFen) {
                     const prevSquares = this.state.squares.slice(0) // clone
-                    if (fen === "start") {
-                        this.state.setPosition(FEN_START_POSITION)
-                    } else if (fen === "empty" || fen === undefined) {
-                        this.state.setPosition(FEN_EMPTY_POSITION)
-                    } else {
-                        this.state.setPosition(fen)
-                    }
+                    this.state.setPosition(fen)
                     if (animated) {
                         this.view.animatePieces(prevSquares, this.state.squares.slice(0), () => {
                             resolve()
@@ -161,6 +160,7 @@ export class Chessboard {
                 }
             })
         })
+        return this.setPositionPromise
     }
 
     getPosition() {
