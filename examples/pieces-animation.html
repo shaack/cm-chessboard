@@ -26,17 +26,18 @@
 
     const board = new Chessboard(document.getElementById("board"),
         {
-            position: "empty",
+            position: "start",
             sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
-            animationDuration: 300
+            animationDuration: 500
         })
     board.initialization.then(() => {
         console.log("initialization resolved")
     })
-    board.setPosition('start')
+    let i = 0
     window.setPosition = (position) => {
+        i++
         board.setPosition(position).then(() => {
-            console.log("setPosition resolved", position)
+            console.log("setPosition resolved", position, i)
         })
     }
     window.switchOrientation = () => {

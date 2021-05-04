@@ -134,7 +134,7 @@ export class Chessboard {
     }
 
     setPosition(fen, animated = true) {
-        return new Promise((resolve) => {
+        const promise = new Promise((resolve) => {
             this.initialization.then(() => {
                 if (fen === "start") {
                     fen = FEN_START_POSITION
@@ -145,6 +145,7 @@ export class Chessboard {
                 const fenParts = fen.split(" ")
                 const fenNormalized = fenParts[0]
                 if (fenNormalized !== currentFen) {
+                    this.previousPromise = promise
                     const prevSquares = this.state.squares.slice(0) // clone
                     this.state.setPosition(fen)
                     if (animated) {
@@ -152,14 +153,22 @@ export class Chessboard {
                             resolve()
                         })
                     } else {
-                        this.view.drawPiecesDebounced()
-                        resolve()
+                        this.view.drawPiecesDebounced(this.state.squares, () => {
+                            resolve()
+                        })
                     }
                 } else {
-                    // not sure, what to do here
+                    if(this.previousPromise) {
+                        this.previousPromise.then(() => {
+                            resolve()
+                        })
+                    } else {
+                        resolve()
+                    }
                 }
             })
         })
+        return promise
     }
 
     getPosition() {
