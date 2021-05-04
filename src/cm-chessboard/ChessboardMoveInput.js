@@ -20,7 +20,8 @@ const STATE = {
 
 export const MOVE_CANCELED_REASON = {
     secondClick: "secondClick",
-    movedOutOfBoard: "movedOutOfBoard"
+    movedOutOfBoard: "movedOutOfBoard",
+    draggedBack: "draggedBack"
 }
 
 const DRAG_THRESHOLD = 4
@@ -39,7 +40,7 @@ export class ChessboardMoveInput {
 
     setMoveInputState(newState, params = undefined) {
 
-        // console.log("setMoveInputState", Object.keys(STATE)[this.moveInputState], "=>", Object.keys(STATE)[newState]);
+        console.log("setMoveInputState", Object.keys(STATE)[this.moveInputState], "=>", Object.keys(STATE)[newState]);
 
         const prevState = this.moveInputState
         this.moveInputState = newState
@@ -313,6 +314,7 @@ export class ChessboardMoveInput {
                         if (this.moveInputState === STATE.clickDragTo) {
                             this.state.setPiece(this.startIndex, this.movedPiece)
                             this.view.setPieceVisibility(this.startIndex)
+                            this.moveCanceledCallback(MOVE_CANCELED_REASON.draggedBack, index)
                             this.setMoveInputState(STATE.reset)
                         } else {
                             this.setMoveInputState(STATE.clickTo, {index: index})
