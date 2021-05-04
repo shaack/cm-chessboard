@@ -13,25 +13,35 @@
 <p>Animations are queued automatically.</p>
 <div class="board" id="board"></div>
 <br/>
-<button onclick="window.board.setPosition('empty')">Empty Position</button>
-<button onclick="window.board.setPosition('start')">Start Position</button>
-<button onclick="window.board.setPosition('rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR')">Position 1</button>
-<button onclick="window.board.setPosition('rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R')">Position 2</button>
-<button onclick="window.board.setPosition('rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR')">Position 3</button>
-<button onclick="window.board.setOrientation(window.board.getOrientation() === 'w' ? 'b' : 'w')">Switch Orientation
+<button onclick="setPosition('empty')">Empty Position</button>
+<button onclick="setPosition('start')">Start Position</button>
+<button onclick="setPosition('rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR')">Position 1</button>
+<button onclick="setPosition('rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R')">Position 2</button>
+<button onclick="setPosition('rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR')">Position 3</button>
+<button onclick="switchOrientation()">Switch Orientation
 </button>
 <pre>&lt;button onclick="window.board.setPosition('rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR')"&gt;Position 3&lt;/button&gt;</pre>
 <script type="module">
     import {Chessboard} from "../src/cm-chessboard/Chessboard.js"
 
-    window.board = new Chessboard(document.getElementById("board"),
+    const board = new Chessboard(document.getElementById("board"),
         {
             position: "empty",
             sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
             animationDuration: 300
         })
-    window.board.setPosition('start')
-
+    board.initialization.then(() => {
+        console.log("initialization finished")
+    })
+    board.setPosition('start')
+    window.setPosition = (position) => {
+        board.setPosition(position).then(() => {
+            console.log("setPosition finished")
+        })
+    }
+    window.switchOrientation = () => {
+        board.setOrientation(board.getOrientation() === 'w' ? 'b' : 'w')
+    }
 </script>
 </body>
 </html>

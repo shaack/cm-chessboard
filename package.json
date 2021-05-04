@@ -8,7 +8,9 @@
     "SVG",
     "ES6",
     "ECMAScript 6",
-    "svjs"
+    "chessmail",
+    "module",
+    "widget"
   ],
   "browser": "./src/cm-chessboard/Chessboard.js",
   "scripts": {
