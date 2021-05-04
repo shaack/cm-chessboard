@@ -31,12 +31,12 @@
             animationDuration: 300
         })
     board.initialization.then(() => {
-        console.log("initialization finished")
+        console.log("initialization resolved")
     })
     board.setPosition('start')
     window.setPosition = (position) => {
         board.setPosition(position).then(() => {
-            console.log("setPosition finished", position)
+            console.log("setPosition resolved", position)
         })
     }
     window.switchOrientation = () => {

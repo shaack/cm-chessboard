@@ -45,7 +45,7 @@ export const FEN_EMPTY_POSITION = "8/8/8/8/8/8/8/8"
 export class Chessboard {
 
     constructor(element, props = {}) {
-        if(!element) {
+        if (!element) {
             throw new Error("container element is " + element)
         }
         this.element = element
@@ -68,10 +68,10 @@ export class Chessboard {
         }
         // todo remove in a later version
         // noinspection JSUnresolvedVariable
-        if(props.style && props.style.showBorder !== undefined) {
+        if (props.style && props.style.showBorder !== undefined) {
             console.warn("style.showBorder is deprecated, use style.borderType instead")
             // noinspection JSUnresolvedVariable
-            if(props.style.showBorder) {
+            if (props.style.showBorder) {
                 props.style.borderType = BORDER_TYPE.frame
             } else {
                 props.style.borderType = BORDER_TYPE.thin
@@ -79,7 +79,7 @@ export class Chessboard {
         }
         // todo remove in a later version
         // noinspection JSUnresolvedVariable
-        if(props.moveInputMode) {
+        if (props.moveInputMode) {
             console.warn("`props.moveInputMode` is deprecated, you don't need it anymore")
         }
         this.props = {}
@@ -134,11 +134,11 @@ export class Chessboard {
     }
 
     setPosition(fen, animated = true) {
-        this.setPositionPromise = new Promise((resolve) => {
+        return new Promise((resolve) => {
             this.initialization.then(() => {
-                if(fen === "start") {
+                if (fen === "start") {
                     fen = FEN_START_POSITION
-                } else if(fen === "empty") {
+                } else if (fen === "empty") {
                     fen = FEN_EMPTY_POSITION
                 }
                 const currentFen = this.state.getPosition()
@@ -156,11 +156,10 @@ export class Chessboard {
                         resolve()
                     }
                 } else {
-                    resolve()
+                    // not sure, what to do here
                 }
             })
         })
-        return this.setPositionPromise
     }
 
     getPosition() {
@@ -222,8 +221,8 @@ export class Chessboard {
 
     enableContextInput(eventHandler) {
         console.warn("enableContextInput is deprecated, use enableSquareSelect")
-        this.enableSquareSelect(function(event) {
-            if(event.type === SQUARE_SELECT_TYPE.secondary) {
+        this.enableSquareSelect(function (event) {
+            if (event.type === SQUARE_SELECT_TYPE.secondary) {
                 eventHandler(event)
             }
         })
@@ -238,9 +237,9 @@ export class Chessboard {
             console.warn("squareSelectListener already existing")
             return
         }
-        this.squareSelectListener = function(e) {
+        this.squareSelectListener = function (e) {
             const index = e.target.getAttribute("data-index")
-            if(e.type === "contextmenu") {
+            if (e.type === "contextmenu") {
                 // disable context menu
                 e.preventDefault()
                 return
