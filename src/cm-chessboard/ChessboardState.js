@@ -79,7 +79,7 @@ export class ChessboardState {
             let spaceCounter = 0
             for (let i = 0; i < 8; i++) {
                 const piece = this.squares[part * 8 + i]
-                if (piece === undefined) {
+                if (!piece) {
                     spaceCounter++
                 } else {
                     if (spaceCounter > 0) {
