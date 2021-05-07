@@ -40,7 +40,7 @@ export class ChessboardMoveInput {
 
     setMoveInputState(newState, params = undefined) {
 
-        console.log("setMoveInputState", Object.keys(STATE)[this.moveInputState], "=>", Object.keys(STATE)[newState]);
+        // console.log("setMoveInputState", Object.keys(STATE)[this.moveInputState], "=>", Object.keys(STATE)[newState]);
 
         const prevState = this.moveInputState
         this.moveInputState = newState
