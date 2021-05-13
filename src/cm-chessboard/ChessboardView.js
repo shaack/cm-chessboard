@@ -25,7 +25,7 @@ export class ChessboardView {
         this.animationRunning = false
         this.currentAnimation = undefined
         this.chessboard = chessboard
-        this.moveInput = new ChessboardMoveInput(this, chessboard.state, chessboard.props,
+        this.moveInput = new ChessboardMoveInput(this,
             this.moveStartCallback.bind(this),
             this.moveDoneCallback.bind(this),
             this.moveCanceledCallback.bind(this)
