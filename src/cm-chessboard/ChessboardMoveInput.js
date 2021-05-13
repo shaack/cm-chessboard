@@ -4,7 +4,7 @@
  * License: MIT, see file 'LICENSE'
  */
 
-import {Svg} from "./ChessboardView.js"
+import {SQUARE_COORDINATES, Svg} from "./ChessboardView.js"
 import {MARKER_TYPE} from "./Chessboard.js"
 
 const STATE = {
@@ -21,7 +21,8 @@ const STATE = {
 export const MOVE_CANCELED_REASON = {
     secondClick: "secondClick",
     movedOutOfBoard: "movedOutOfBoard",
-    draggedBack: "draggedBack"
+    draggedBack: "draggedBack",
+    clickedAnother: "clickedAnother"
 }
 
 const DRAG_THRESHOLD = 4
@@ -50,8 +51,16 @@ export class ChessboardMoveInput {
                 break
 
             case STATE.pieceClickedThreshold:
-                if (STATE.waitForInputStart !== prevState) {
+                if (STATE.waitForInputStart !== prevState && STATE.clickTo !== prevState) {
                     throw new Error("moveInputState")
+                }
+                if(this.pointerMoveListener) {
+                    removeEventListener(this.pointerMoveListener.type, this.pointerMoveListener)
+                    this.pointerMoveListener = undefined
+                }
+                if(this.pointerUpListener) {
+                    removeEventListener(this.pointerUpListener.type, this.pointerUpListener)
+                    this.pointerUpListener = undefined
                 }
                 this.startIndex = params.index
                 this.endIndex = undefined
@@ -63,21 +72,21 @@ export class ChessboardMoveInput {
 
                         this.pointerMoveListener = this.onPointerMove.bind(this)
                         this.pointerMoveListener.type = "mousemove"
-                        window.addEventListener("mousemove", this.pointerMoveListener)
+                        addEventListener("mousemove", this.pointerMoveListener)
 
                         this.pointerUpListener = this.onPointerUp.bind(this)
                         this.pointerUpListener.type = "mouseup"
-                        window.addEventListener("mouseup", this.pointerUpListener)
+                        addEventListener("mouseup", this.pointerUpListener)
 
                     } else if (params.type === "touchstart") {
 
                         this.pointerMoveListener = this.onPointerMove.bind(this)
                         this.pointerMoveListener.type = "touchmove"
-                        window.addEventListener("touchmove", this.pointerMoveListener)
+                        addEventListener("touchmove", this.pointerMoveListener)
 
                         this.pointerUpListener = this.onPointerUp.bind(this)
                         this.pointerUpListener.type = "touchend"
-                        window.addEventListener("touchend", this.pointerUpListener)
+                        addEventListener("touchend", this.pointerUpListener)
 
                     } else {
                         throw Error("event type")
@@ -161,11 +170,11 @@ export class ChessboardMoveInput {
                     this.draggablePiece = undefined
                 }
                 if (this.pointerMoveListener) {
-                    window.removeEventListener(this.pointerMoveListener.type, this.pointerMoveListener)
+                    removeEventListener(this.pointerMoveListener.type, this.pointerMoveListener)
                     this.pointerMoveListener = undefined
                 }
                 if (this.pointerUpListener) {
-                    window.removeEventListener(this.pointerUpListener.type, this.pointerUpListener)
+                    removeEventListener(this.pointerUpListener.type, this.pointerUpListener)
                     this.pointerUpListener = undefined
                 }
                 this.setMoveInputState(STATE.waitForInputStart)
@@ -215,7 +224,7 @@ export class ChessboardMoveInput {
                     e.preventDefault()
                 }
             }
-            if (index !== undefined) {
+            if (index) { // pointer on square
                 if (this.moveInputState !== STATE.waitForInputStart ||
                     this.chessboard.state.inputWhiteEnabled && color === "w" ||
                     this.chessboard.state.inputBlackEnabled && color === "b") {
@@ -241,8 +250,25 @@ export class ChessboardMoveInput {
                                 type: e.type
                             })
                         } else {
-                            // console.log("XXX", this.view.getPiece(index))
-                            this.setMoveInputState(STATE.moveDone, {index: index})
+                            const pieceName = this.chessboard.getPiece(SQUARE_COORDINATES[index])
+                            const pieceColor = pieceName ? pieceName.substr(0, 1) : undefined
+                            const startPieceName = this.chessboard.getPiece(SQUARE_COORDINATES[this.startIndex])
+                            const startPieceColor = startPieceName ? startPieceName.substr(0, 1) : undefined
+                            if(color && startPieceColor === pieceColor) { // https://github.com/shaack/cm-chessboard/issues/40
+                                this.moveCanceledCallback(MOVE_CANCELED_REASON.clickedAnother, index)
+                                if(this.moveStartCallback(index)) {
+                                    this.setMoveInputState(STATE.pieceClickedThreshold, {
+                                        index: index,
+                                        piece: pieceName,
+                                        point: point,
+                                        type: e.type
+                                    })
+                                } else {
+                                    this.setMoveInputState(STATE.reset)
+                                }
+                            } else {
+                                this.setMoveInputState(STATE.moveDone, {index: index})
+                            }
                         }
                     }
                 }
