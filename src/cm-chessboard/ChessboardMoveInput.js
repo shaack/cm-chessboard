@@ -241,7 +241,7 @@ export class ChessboardMoveInput {
                                 type: e.type
                             })
                         } else {
-                            console.log("XXX", this.view.getPiece(index))
+                            // console.log("XXX", this.view.getPiece(index))
                             this.setMoveInputState(STATE.moveDone, {index: index})
                         }
                     }
