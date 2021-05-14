@@ -5,7 +5,6 @@
  */
 
 import {SQUARE_COORDINATES, Svg} from "./ChessboardView.js"
-import {MARKER_TYPE} from "./Chessboard.js"
 
 const STATE = {
     waitForInputStart: 0,
@@ -366,12 +365,12 @@ export class ChessboardMoveInput {
     }
 
     updateStartEndMarkers() {
-        this.chessboard.state.removeMarkers(undefined, MARKER_TYPE.move)
+        this.chessboard.state.removeMarkers(undefined, this.chessboard.props.markers.move)
         if (this.startIndex) {
-            this.chessboard.state.addMarker(this.startIndex, MARKER_TYPE.move)
+            this.chessboard.state.addMarker(this.startIndex, this.chessboard.props.markers.move)
         }
         if (this.endIndex) {
-            this.chessboard.state.addMarker(this.endIndex, MARKER_TYPE.move)
+            this.chessboard.state.addMarker(this.endIndex, this.chessboard.props.markers.move)
         }
         this.view.drawMarkersDebounced()
     }

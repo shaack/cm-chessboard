@@ -132,8 +132,11 @@ See also: https://github.com/ornicar/lila/blob/master/COPYING.md
             <path d="M 0,36 V 27.529412 C 0,26.823529 0.17647059,26.294118 0.52941176,25.941176 0.88235294,25.588235 1.4117647,25.411765 2.1176471,25.411765 h 8.4705879" id="path1925" transform="rotate(-90,5.294118,30.705882)"/>
             <path d="M 25.411765,10.588235 V 2.1176471 c 0,-0.7058824 0.17647,-1.23529416 0.529411,-1.58823534 C 26.294118,0.17647059 26.823529,0 27.529412,0 H 36" id="path1927" transform="rotate(90,30.705882,5.294118)"/>
         </g>
-        <g id="markerCircle" transform="matrix(1.03,0,0,1.03,1.46,1.46)" fill="#000000" fill-opacity="0">
-            <circle cx="18" cy="18" r="18"/>
+        <g id="markerCircle" fill="#000000" fill-opacity="0">
+            <circle cx="20" cy="20" r="18"/>
+        </g>
+        <g id="markerDot">
+            <circle cx="20" cy="20" r="10"/>
         </g>
         <g id="markerSquare">
             <rect x="0" y="0" width="40" height="40"/>

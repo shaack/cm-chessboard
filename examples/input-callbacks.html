@@ -9,41 +9,27 @@
 </head>
 <body>
 <h1><a href="../">cm-chessboard</a></h1>
-<h2>Example: Square select, left and right click, mark squares and log to console.</h2>
+<h2>Example: Custom markers, left and right click, mark squares and log to console.</h2>
 <div class="board" id="board1"></div>
 <div class="board" id="board2"></div>
 <br style="clear: both"/>
 <pre>
-board1.enableSquareSelect((event) => {
-    console.log("SquareSelect board1", event)
-    let markerType
-    if(event.type === SQUARE_SELECT_TYPE.primary) {
-        markerType = MARKER_TYPE.emphasize
-    } else {
-        markerType = MARKER_TYPE.danger
-    }
-    const markersOnSquare = board1.getMarkers(event.square, markerType)
-    if (markersOnSquare.length > 0) {
-        board1.removeMarkers(event.square, markerType)
-    } else {
-        board1.addMarker(event.square, markerType)
-    }
-})
+
 </pre>
 <script type="module">
-    import {MARKER_TYPE, Chessboard, SQUARE_SELECT_TYPE} from "../src/cm-chessboard/Chessboard.js"
+    import {Chessboard, MARKER_TYPE, SQUARE_SELECT_TYPE} from "../src/cm-chessboard/Chessboard.js"
 
     const board1 = new Chessboard(document.getElementById("board1"), {
         position: "start",
-        sprite: {url: "../assets/images/chessboard-sprite.svg"}
+        sprite: {url: "../assets/images/chessboard-sprite.svg", cache: false}
     })
     board1.enableSquareSelect((event) => {
         console.log("SquareSelect board1", event)
         let markerType
         if(event.type === SQUARE_SELECT_TYPE.primary) {
-            markerType = MARKER_TYPE.emphasize
+            markerType = MARKER_TYPE.square
         } else {
-            markerType = MARKER_TYPE.danger
+            markerType = MARKER_TYPE.circle
         }
         const markersOnSquare = board1.getMarkers(event.square, markerType)
         if (markersOnSquare.length > 0) {
@@ -55,7 +41,8 @@ board1.enableSquareSelect((event) => {
 
     const board2 = new Chessboard(document.getElementById("board2"), {
         position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR",
-        sprite: {url: "../assets/images/chessboard-sprite-staunty.svg", cache: false}
+        sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
+        markers: {move: MARKER_TYPE.square}
     })
     board2.enableMoveInput((event) => {
         console.log("MoveInput board2", event)
@@ -64,7 +51,7 @@ board1.enableSquareSelect((event) => {
     board2.enableSquareSelect((event) => {
         console.log("SquareSelect board2", event)
         if(event.type === SQUARE_SELECT_TYPE.secondary) {
-            const marker = MARKER_TYPE.danger
+            const marker = {class: "danger", slice: "markerCircle"}
             const markersOnSquare = board2.getMarkers(event.square, marker)
             if (markersOnSquare.length > 0) {
                 board2.removeMarkers(event.square, marker)

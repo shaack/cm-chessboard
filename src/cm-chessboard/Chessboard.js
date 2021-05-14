@@ -20,20 +20,16 @@ export const SQUARE_SELECT_TYPE = {
     primary: "primary",
     secondary: "secondary"
 }
-export const MOVE_INPUT_MODE = { // todo deprecated, not needed anymore
-    viewOnly: 0,
-    dragPiece: 1,
-    dragMarker: 2
-}
 export const BORDER_TYPE = {
     none: "none", // no border
     thin: "thin", // thin border
     frame: "frame" // wide border with coordinates in it
 }
 export const MARKER_TYPE = {
-    move: {class: "move", slice: "markerFrame"},
-    emphasize: {class: "emphasize", slice: "markerSquare"},
-    danger: {class: "danger", slice: "markerCircle"}
+    frame: {class: "markerFrame", slice: "markerFrame"},
+    square: {class: "markerSquare", slice: "markerSquare"},
+    dot: {class: "markerDot", slice: "markerDot"},
+    circle: {class: "markerCircle", slice: "markerCircle"}
 }
 export const PIECE = {
     wp: "wp", wb: "wb", wn: "wn", wr: "wr", wq: "wq", wk: "wk",
@@ -64,31 +60,22 @@ export class Chessboard {
                 url: "./assets/images/chessboard-sprite-staunty.svg", // pieces and markers are stored as svg sprite
                 size: 40, // the sprite size, defaults to 40x40px
                 cache: true // cache the sprite inline, in the HTML
+            },
+            markers: {
+                move: MARKER_TYPE.frame // the marker used for moves
             }
-        }
-        // todo remove in a later version
-        // noinspection JSUnresolvedVariable
-        if (props.style && props.style.showBorder !== undefined) {
-            console.warn("style.showBorder is deprecated, use style.borderType instead")
-            // noinspection JSUnresolvedVariable
-            if (props.style.showBorder) {
-                props.style.borderType = BORDER_TYPE.frame
-            } else {
-                props.style.borderType = BORDER_TYPE.thin
-            }
-        }
-        // todo remove in a later version
-        // noinspection JSUnresolvedVariable
-        if (props.moveInputMode) {
-            console.warn("`props.moveInputMode` is deprecated, you don't need it anymore")
         }
         this.props = {}
         Object.assign(this.props, defaultProps)
         Object.assign(this.props, props)
         this.props.sprite = defaultProps.sprite
+        this.props.markers = defaultProps.markers
         this.props.style = defaultProps.style
         if (props.sprite) {
             Object.assign(this.props.sprite, props.sprite)
+        }
+        if (props.markers) {
+            Object.assign(this.props.markers, props.markers)
         }
         if (props.style) {
             Object.assign(this.props.style, props.style)
@@ -175,7 +162,7 @@ export class Chessboard {
         return this.state.getPosition()
     }
 
-    addMarker(square, type = MARKER_TYPE.emphasize) {
+    addMarker(square, type = this.props.markers.emphasize) {
         this.state.addMarker(this.state.squareToIndex(square), type)
         this.view.drawMarkersDebounced()
     }
