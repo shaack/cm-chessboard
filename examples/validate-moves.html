@@ -15,9 +15,20 @@
     with random moves.</p>
 <div class="board" id="board"></div>
 <pre>
+import {INPUT_EVENT_TYPE, COLOR, Chessboard, MARKER_TYPE} from "../src/cm-chessboard/Chessboard.js"
+
+const chess = new Chess()
+
 function inputHandler(event) {
     console.log("event", event)
-    if (event.type === INPUT_EVENT_TYPE.moveDone) {
+    event.chessboard.removeMarkers(undefined, MARKER_TYPE.dot)
+    if (event.type === INPUT_EVENT_TYPE.moveStart) {
+        const moves = chess.moves({square: event.square, verbose: true});
+        for (const move of moves) {
+            event.chessboard.addMarker(move.to, MARKER_TYPE.dot)
+        }
+        return true
+    } else if (event.type === INPUT_EVENT_TYPE.moveDone) {
         const move = {from: event.squareFrom, to: event.squareTo}
         const result = chess.move(move)
         if (result) {
@@ -35,13 +46,13 @@ function inputHandler(event) {
             console.warn("invalid move", move)
         }
         return result
-    } else {
-        return true
     }
 }
+
 const board = new Chessboard(document.getElementById("board"), {
     position: chess.fen(),
     sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
+    style: {moveMarker: MARKER_TYPE.square},
     orientation: COLOR.white
 })
 board.enableMoveInput(inputHandler, COLOR.white)
@@ -49,13 +60,20 @@ board.enableMoveInput(inputHandler, COLOR.white)
 <div id="output"></div>
 <!--suppress JSUnresolvedFunction -->
 <script type="module">
-    import {INPUT_EVENT_TYPE, COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
+    import {INPUT_EVENT_TYPE, COLOR, Chessboard, MARKER_TYPE} from "../src/cm-chessboard/Chessboard.js"
 
     const chess = new Chess()
 
     function inputHandler(event) {
         console.log("event", event)
-        if (event.type === INPUT_EVENT_TYPE.moveDone) {
+        event.chessboard.removeMarkers(undefined, MARKER_TYPE.dot)
+        if (event.type === INPUT_EVENT_TYPE.moveStart) {
+            const moves = chess.moves({square: event.square, verbose: true});
+            for (const move of moves) {
+                event.chessboard.addMarker(move.to, MARKER_TYPE.dot)
+            }
+            return true
+        } else if (event.type === INPUT_EVENT_TYPE.moveDone) {
             const move = {from: event.squareFrom, to: event.squareTo}
             const result = chess.move(move)
             if (result) {
@@ -73,14 +91,13 @@ board.enableMoveInput(inputHandler, COLOR.white)
                 console.warn("invalid move", move)
             }
             return result
-        } else {
-            return true
         }
     }
 
     const board = new Chessboard(document.getElementById("board"), {
         position: chess.fen(),
         sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
+        style: {moveMarker: MARKER_TYPE.square},
         orientation: COLOR.white
     })
     board.enableMoveInput(inputHandler, COLOR.white)

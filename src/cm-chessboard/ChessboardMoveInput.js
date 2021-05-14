@@ -365,12 +365,12 @@ export class ChessboardMoveInput {
     }
 
     updateStartEndMarkers() {
-        this.chessboard.state.removeMarkers(undefined, this.chessboard.props.markers.move)
+        this.chessboard.state.removeMarkers(undefined, this.chessboard.props.style.moveMarker)
         if (this.startIndex) {
-            this.chessboard.state.addMarker(this.startIndex, this.chessboard.props.markers.move)
+            this.chessboard.state.addMarker(this.startIndex, this.chessboard.props.style.moveMarker)
         }
         if (this.endIndex) {
-            this.chessboard.state.addMarker(this.endIndex, this.chessboard.props.markers.move)
+            this.chessboard.state.addMarker(this.endIndex, this.chessboard.props.style.moveMarker)
         }
         this.view.drawMarkersDebounced()
     }

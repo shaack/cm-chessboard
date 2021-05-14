@@ -52,7 +52,8 @@ export class Chessboard {
                 cssClass: "default",
                 showCoordinates: true, // show ranks and files
                 borderType: BORDER_TYPE.thin, // thin: thin border, frame: wide border with coordinates in it, none: no border
-                aspectRatio: 1 // height/width. Set to `undefined`, if you want to define it only in the css.
+                aspectRatio: 1, // height/width. Set to `undefined`, if you want to define it only in the css.
+                moveMarker: MARKER_TYPE.frame // the marker used for moves
             },
             responsive: true, // resizes the board on window resize
             animationDuration: 300, // pieces animation duration in milliseconds
@@ -60,22 +61,15 @@ export class Chessboard {
                 url: "./assets/images/chessboard-sprite-staunty.svg", // pieces and markers are stored as svg sprite
                 size: 40, // the sprite size, defaults to 40x40px
                 cache: true // cache the sprite inline, in the HTML
-            },
-            markers: {
-                move: MARKER_TYPE.frame // the marker used for moves
             }
         }
         this.props = {}
         Object.assign(this.props, defaultProps)
         Object.assign(this.props, props)
         this.props.sprite = defaultProps.sprite
-        this.props.markers = defaultProps.markers
         this.props.style = defaultProps.style
         if (props.sprite) {
             Object.assign(this.props.sprite, props.sprite)
-        }
-        if (props.markers) {
-            Object.assign(this.props.markers, props.markers)
         }
         if (props.style) {
             Object.assign(this.props.style, props.style)
@@ -169,10 +163,8 @@ export class Chessboard {
 
     getMarkers(square = undefined, type = undefined) {
         const markersFound = []
-        console.log("this.state.markers", this.state.markers)
         this.state.markers.forEach((marker) => {
             const markerSquare = SQUARE_COORDINATES[marker.index]
-            console.log("markerSquare",markerSquare, type, marker.type, type === marker.type)
             if (!square && (!type || type === marker.type) ||
                 !type && square === markerSquare ||
                 type === marker.type && square === markerSquare) {

@@ -5,7 +5,7 @@
  */
 
 import {describe, it, assert} from "../node_modules/teevi/src/teevi.js"
-import {Chessboard} from "../src/cm-chessboard/Chessboard.js"
+import {Chessboard, MARKER_TYPE} from "../src/cm-chessboard/Chessboard.js"
 
 describe("TestMarkers", () => {
 
@@ -15,18 +15,18 @@ describe("TestMarkers", () => {
             position: "empty"
         })
         chessboard.addMarker("e5")
-        chessboard.addMarker("b6", chessboard.props.markers.move)
-        chessboard.addMarker("h6", chessboard.props.markers.move)
+        chessboard.addMarker("b6", MARKER_TYPE.frame)
+        chessboard.addMarker("h6", MARKER_TYPE.frame)
         setTimeout(() => {
             assert.equals(chessboard.getMarkers().length,3)
             assert.equals(chessboard.getMarkers("e5").length, 1)
             assert.equals(chessboard.getMarkers("e5")[0].square, "e5")
             assert.equals(chessboard.getMarkers("e5")[0].type.slice, "markerSquare")
-            assert.equals(chessboard.getMarkers(undefined, chessboard.props.markers.emphasize).length, 1)
-            assert.equals(chessboard.getMarkers("e5", chessboard.props.markers.emphasize).length, 1)
+            assert.equals(chessboard.getMarkers(undefined, MARKER_TYPE.square).length, 1)
+            assert.equals(chessboard.getMarkers("e5", MARKER_TYPE.square).length, 1)
             assert.equals(chessboard.getMarkers("a4").length, 0)
-            assert.equals(chessboard.getMarkers(undefined, chessboard.props.markers.move).length, 1)
-            assert.equals(chessboard.getMarkers("b6", chessboard.props.markers.move).length, 0)
+            assert.equals(chessboard.getMarkers(undefined, MARKER_TYPE.frame).length, 1)
+            assert.equals(chessboard.getMarkers("b6", MARKER_TYPE.frame).length, 0)
             chessboard.destroy()
         }, 100)
     })
