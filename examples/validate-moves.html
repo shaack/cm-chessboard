@@ -54,7 +54,7 @@ function inputHandler(event) {
 const board = new Chessboard(document.getElementById("board"), {
     position: chess.fen(),
     sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
-    style: {moveMarker: MARKER_TYPE.square},
+    style: {moveMarker: MARKER_TYPE.square, hoverMarker: undefined},
     orientation: COLOR.white
 })
 board.enableMoveInput(inputHandler, COLOR.white)
