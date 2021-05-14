@@ -136,7 +136,7 @@ See also: https://github.com/ornicar/lila/blob/master/COPYING.md
             <circle cx="20" cy="20" r="18"/>
         </g>
         <g id="markerDot">
-            <circle cx="20" cy="20" r="10"/>
+            <circle cx="20" cy="20" r="7"/>
         </g>
         <g id="markerSquare">
             <rect x="0" y="0" width="40" height="40"/>
