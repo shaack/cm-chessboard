@@ -162,15 +162,17 @@ export class Chessboard {
         return this.state.getPosition()
     }
 
-    addMarker(square, type = this.props.markers.emphasize) {
+    addMarker(square, type) {
         this.state.addMarker(this.state.squareToIndex(square), type)
         this.view.drawMarkersDebounced()
     }
 
     getMarkers(square = undefined, type = undefined) {
         const markersFound = []
+        console.log("this.state.markers", this.state.markers)
         this.state.markers.forEach((marker) => {
             const markerSquare = SQUARE_COORDINATES[marker.index]
+            console.log("markerSquare",markerSquare, type, marker.type, type === marker.type)
             if (!square && (!type || type === marker.type) ||
                 !type && square === markerSquare ||
                 type === marker.type && square === markerSquare) {

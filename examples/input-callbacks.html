@@ -14,7 +14,21 @@
 <div class="board" id="board2"></div>
 <br style="clear: both"/>
 <pre>
-
+    board1.enableSquareSelect((event) => {
+        console.log("SquareSelect board1", event)
+        let markerType
+        if(event.type === SQUARE_SELECT_TYPE.primary) {
+            markerType = MARKER_TYPE.dot
+        } else {
+            markerType = MARKER_TYPE.circle
+        }
+        const markersOnSquare = board1.getMarkers(event.square, markerType)
+        if (markersOnSquare.length > 0) {
+            board1.removeMarkers(event.square, markerType)
+        } else {
+            board1.addMarker(event.square, markerType)
+        }
+    })
 </pre>
 <script type="module">
     import {Chessboard, MARKER_TYPE, SQUARE_SELECT_TYPE} from "../src/cm-chessboard/Chessboard.js"
@@ -27,7 +41,7 @@
         console.log("SquareSelect board1", event)
         let markerType
         if(event.type === SQUARE_SELECT_TYPE.primary) {
-            markerType = MARKER_TYPE.square
+            markerType = MARKER_TYPE.dot
         } else {
             markerType = MARKER_TYPE.circle
         }
@@ -48,10 +62,9 @@
         console.log("MoveInput board2", event)
         return true
     })
+    const marker = {class: "markerCircleRed", slice: "markerCircle"}
     board2.enableSquareSelect((event) => {
-        console.log("SquareSelect board2", event)
         if(event.type === SQUARE_SELECT_TYPE.secondary) {
-            const marker = {class: "danger", slice: "markerCircle"}
             const markersOnSquare = board2.getMarkers(event.square, marker)
             if (markersOnSquare.length > 0) {
                 board2.removeMarkers(event.square, marker)

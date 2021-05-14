@@ -18,14 +18,19 @@
       }
       &.markerSquare {
         fill: black;
-        opacity: 0.1;
+        opacity: 0.11;
       }
       &.markerDot {
         fill: black;
-        opacity: 0.4;
+        opacity: 0.3;
       }
       &.markerCircle {
-        stroke: #cc0000;
+        stroke: #000055;
+        stroke-width: 3px;
+        opacity: 0.5;
+      }
+      &.markerCircleRed {
+        stroke: #aa0000;
         stroke-width: 3px;
         opacity: 0.5;
       }
