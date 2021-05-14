@@ -72,7 +72,8 @@ props = {
         cssClass: "default",
         showCoordinates: true, // show ranks and files
         borderType: BORDER_TYPE.thin, // thin: thin border, frame: wide border with coordinates in it, none: no border
-        aspectRatio: 1 // height/width. Set to `undefined`, if you want to define it only in the css.
+        aspectRatio: 1, // height/width. Set to `undefined`, if you want to define it only in the css.
+        moveMarker: MARKER_TYPE.frame // the marker used for moves
     },
     responsive: true, // resizes the board on window resize
     animationDuration: 300, // pieces animation duration in milliseconds
@@ -117,13 +118,15 @@ Returns a **Promise** which will be resolved, after the Animation has finished.
 
 Returns the board position as `fen`.
 
-### addMarker(square, type = MARKER_TYPE.emphasize)
+### addMarker(square, type)
 
 Adds a marker on a square.
 
-Default types are: `MARKER_TYPE.move`, `MARKER_TYPE.emphasize`, exportet by `Chessboard.js`. You can create your own
-marker types: Just create an object like
-`const myMarker = {class: "my-marker", slice: "markerFrame"}`, where `class` is the css class of the marker for styling
+Default types are: `MARKER_TYPE.frame`, `MARKER_TYPE.square`, `MARKER_TYPE.dot`, `MARKER_TYPE.cliecle` exportet by `Chessboard.js`. 
+
+#### You can create your own marker types: 
+
+Just create an object like `const myMarker = {class: "markerCssClass", slice: "markerSliceId"}`, where `class` is the css class of the marker for styling
 and `slice` is the `id` in `sprite.svg`. See also [Create your own custom markers](#create-your-own-custom-markers)
 below.
 
