@@ -27,7 +27,7 @@ function inputHandler(event) {
         for (const move of moves) {
             event.chessboard.addMarker(move.to, MARKER_TYPE.dot)
         }
-        return true
+        return moves.length > 0
     } else if (event.type === INPUT_EVENT_TYPE.moveDone) {
         const move = {from: event.squareFrom, to: event.squareTo}
         const result = chess.move(move)
@@ -72,7 +72,7 @@ board.enableMoveInput(inputHandler, COLOR.white)
             for (const move of moves) {
                 event.chessboard.addMarker(move.to, MARKER_TYPE.dot)
             }
-            return true
+            return moves.length > 0
         } else if (event.type === INPUT_EVENT_TYPE.moveDone) {
             const move = {from: event.squareFrom, to: event.squareTo}
             const result = chess.move(move)
