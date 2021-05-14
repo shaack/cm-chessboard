@@ -53,7 +53,8 @@ export class Chessboard {
                 showCoordinates: true, // show ranks and files
                 borderType: BORDER_TYPE.thin, // thin: thin border, frame: wide border with coordinates in it, none: no border
                 aspectRatio: 1, // height/width. Set to `undefined`, if you want to define it only in the css.
-                moveMarker: MARKER_TYPE.frame // the marker used for moves
+                moveMarker: MARKER_TYPE.frame, // the marker used for moves
+                hoverMarker: MARKER_TYPE.frame // the marker used for hovering, when moving
             },
             responsive: true, // resizes the board on window resize
             animationDuration: 300, // pieces animation duration in milliseconds

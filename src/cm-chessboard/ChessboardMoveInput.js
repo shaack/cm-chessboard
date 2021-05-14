@@ -53,11 +53,11 @@ export class ChessboardMoveInput {
                 if (STATE.waitForInputStart !== prevState && STATE.clickTo !== prevState) {
                     throw new Error("moveInputState")
                 }
-                if(this.pointerMoveListener) {
+                if (this.pointerMoveListener) {
                     removeEventListener(this.pointerMoveListener.type, this.pointerMoveListener)
                     this.pointerMoveListener = undefined
                 }
-                if(this.pointerUpListener) {
+                if (this.pointerUpListener) {
                     removeEventListener(this.pointerUpListener.type, this.pointerUpListener)
                     this.pointerUpListener = undefined
                 }
@@ -253,9 +253,9 @@ export class ChessboardMoveInput {
                             const pieceColor = pieceName ? pieceName.substr(0, 1) : undefined
                             const startPieceName = this.chessboard.getPiece(SQUARE_COORDINATES[this.startIndex])
                             const startPieceColor = startPieceName ? startPieceName.substr(0, 1) : undefined
-                            if(color && startPieceColor === pieceColor) { // https://github.com/shaack/cm-chessboard/issues/40
+                            if (color && startPieceColor === pieceColor) { // https://github.com/shaack/cm-chessboard/issues/40
                                 this.moveCanceledCallback(MOVE_CANCELED_REASON.clickedAnother, index)
-                                if(this.moveStartCallback(index)) {
+                                if (this.moveStartCallback(index)) {
                                     this.setMoveInputState(STATE.pieceClickedThreshold, {
                                         index: index,
                                         piece: pieceName,
@@ -365,12 +365,17 @@ export class ChessboardMoveInput {
     }
 
     updateStartEndMarkers() {
-        this.chessboard.state.removeMarkers(undefined, this.chessboard.props.style.moveMarker)
-        if (this.startIndex) {
-            this.chessboard.state.addMarker(this.startIndex, this.chessboard.props.style.moveMarker)
+        if (this.chessboard.props.style.moveMarker) {
+            this.chessboard.state.removeMarkers(undefined, this.chessboard.props.style.moveMarker)
+            if (this.startIndex) {
+                this.chessboard.state.addMarker(this.startIndex, this.chessboard.props.style.moveMarker)
+            }
         }
-        if (this.endIndex) {
-            this.chessboard.state.addMarker(this.endIndex, this.chessboard.props.style.moveMarker)
+        if (this.chessboard.props.style.hoverMarker) {
+            this.chessboard.state.removeMarkers(undefined, this.chessboard.props.style.hoverMarker)
+            if (this.endIndex) {
+                this.chessboard.state.addMarker(this.endIndex, this.chessboard.props.style.hoverMarker)
+            }
         }
         this.view.drawMarkersDebounced()
     }

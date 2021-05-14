@@ -40,7 +40,9 @@ function inputHandler(event) {
                 const randomMove = possibleMoves[randomIndex]
                 chess.move({from: randomMove.from, to: randomMove.to})
                 event.chessboard.enableMoveInput(inputHandler, COLOR.white)
-                event.chessboard.setPosition(chess.fen())
+                setTimeout(() => { // smoother with 500ms delay
+                    event.chessboard.setPosition(chess.fen())
+                }, 500)
             }
         } else {
             console.warn("invalid move", move)
@@ -85,7 +87,9 @@ board.enableMoveInput(inputHandler, COLOR.white)
                     const randomMove = possibleMoves[randomIndex]
                     chess.move({from: randomMove.from, to: randomMove.to})
                     event.chessboard.enableMoveInput(inputHandler, COLOR.white)
-                    event.chessboard.setPosition(chess.fen())
+                    setTimeout(() => { // smoother with 500ms delay
+                        event.chessboard.setPosition(chess.fen())
+                    }, 500)
                 }
             } else {
                 console.warn("invalid move", move)
@@ -97,7 +101,7 @@ board.enableMoveInput(inputHandler, COLOR.white)
     const board = new Chessboard(document.getElementById("board"), {
         position: chess.fen(),
         sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
-        style: {moveMarker: MARKER_TYPE.square},
+        style: {moveMarker: MARKER_TYPE.square, hoverMarker: undefined},
         orientation: COLOR.white
     })
     board.enableMoveInput(inputHandler, COLOR.white)
