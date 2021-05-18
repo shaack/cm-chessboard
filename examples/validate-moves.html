@@ -38,9 +38,9 @@ function inputHandler(event) {
             if (possibleMoves.length > 0) {
                 const randomIndex = Math.floor(Math.random() * possibleMoves.length)
                 const randomMove = possibleMoves[randomIndex]
-                chess.move({from: randomMove.from, to: randomMove.to})
-                event.chessboard.enableMoveInput(inputHandler, COLOR.white)
                 setTimeout(() => { // smoother with 500ms delay
+                    chess.move({from: randomMove.from, to: randomMove.to})
+                    event.chessboard.enableMoveInput(inputHandler, COLOR.white)
                     event.chessboard.setPosition(chess.fen())
                 }, 500)
             }
@@ -85,9 +85,9 @@ board.enableMoveInput(inputHandler, COLOR.white)
                 if (possibleMoves.length > 0) {
                     const randomIndex = Math.floor(Math.random() * possibleMoves.length)
                     const randomMove = possibleMoves[randomIndex]
-                    chess.move({from: randomMove.from, to: randomMove.to})
-                    event.chessboard.enableMoveInput(inputHandler, COLOR.white)
                     setTimeout(() => { // smoother with 500ms delay
+                        chess.move({from: randomMove.from, to: randomMove.to})
+                        event.chessboard.enableMoveInput(inputHandler, COLOR.white)
                         event.chessboard.setPosition(chess.fen())
                     }, 500)
                 }
