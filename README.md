@@ -75,7 +75,7 @@ props = {
         aspectRatio: 1, // height/width. Set to `undefined`, if you want to define it only in the css.
         moveMarker: MARKER_TYPE.frame // the marker used for moves
     },
-    responsive: true, // resizes the board on window resize
+    responsive: true, // resizes the board based on element size
     animationDuration: 300, // pieces animation duration in milliseconds
     sprite: {
         url: "./assets/images/chessboard-sprite-staunty.svg", // pieces and markers are stored as svg sprite
