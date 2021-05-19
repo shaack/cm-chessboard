@@ -56,7 +56,7 @@ export class Chessboard {
                 moveMarker: MARKER_TYPE.frame, // the marker used for moves
                 hoverMarker: MARKER_TYPE.frame // the marker used for hovering, when moving
             },
-            responsive: true, // resizes the board on window resize
+            responsive: true, // resizes the board based on element size
             animationDuration: 300, // pieces animation duration in milliseconds
             sprite: {
                 url: "./assets/images/chessboard-sprite-staunty.svg", // pieces and markers are stored as svg sprite

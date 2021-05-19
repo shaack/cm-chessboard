@@ -35,8 +35,8 @@ export class ChessboardView {
             this.cacheSprite()
         }
         if (chessboard.props.responsive) {
-            this.resizeListener = this.handleResize.bind(this)
-            window.addEventListener("resize", this.resizeListener)
+            this.resizeObserver = new ResizeObserver(elements => {this.handleResize()});
+            this.resizeObserver.observe(this.chessboard.element);
         }
 
         this.pointerDownListener = this.pointerDownHandler.bind(this)
@@ -59,7 +59,7 @@ export class ChessboardView {
 
     destroy() {
         this.moveInput.destroy()
-        window.removeEventListener('resize', this.resizeListener)
+        this.resizeObserver.unobserve(this.chessboard.element);
         this.chessboard.element.removeEventListener("mousedown", this.pointerDownListener)
         this.chessboard.element.removeEventListener("touchstart", this.pointerDownListener)
         window.clearTimeout(this.resizeDebounce)
