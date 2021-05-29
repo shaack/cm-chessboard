@@ -1,7 +1,8 @@
 # cm-chessboard
 
-A JavaScript chessboard which is lightweight, ES6 module based, responsive, SVG rendered and **without dependencies**. It works on
-desktop (current versions of Chrome, Firefox, Safari, Edge), and mobile (Android and iOS).
+A JavaScript chessboard which is lightweight, ES6 module based, responsive, SVG rendered and **without dependencies**. 
+
+It works on desktop (current versions of Chrome, Firefox, Safari, Edge), and mobile (Android and iOS).
 
 cm-chessboard is the main chessboard of
 [chessmail.eu](https://www.chessmail.eu) and [chessmail.de](https://www.chessmail.de). It is also used
@@ -33,17 +34,18 @@ aspects of chess games.
 **Option 2:** Download the code from [GitHub](https://github.com/shaack/cm-chessboard).
 
 After installation, copy the sprite in `cm-chessboard/assets/images/` to your projects `assets/images/`
-folder. If you put the sprite somewhere else you have to configure the location with `props.sprite.url`.
+folder. If you put the sprite somewhere else you have to configure the location with `{sprite.url: "./url/of/chessboard-sprite.svg"}`
+(see section 'Configuration' below).
 
-To run the tests in `/test` you first have to `npm install` the dev dependencies. Without tests there are no
+To run the unit tests in `/test` you first have to `npm install` the dev dependencies. Without tests there are no
 dependencies.
 
 ## Example usage
 
 Preconditions for using cm-chessboard in a web page:
 
-- **include the css:** `styles/cm-chessboard.css`
-- **import the ES6 module:** `import {Chessboard} from "PATH/TO/src/cm-chessboard/Chessboard.js"`
+1. **include the css:** `styles/cm-chessboard.css`
+2. **import the ES6 module:** `import {Chessboard} from "PATH/TO/src/cm-chessboard/Chessboard.js"`
 
 Example, showing a FEN:
 
@@ -91,8 +93,8 @@ props = {
 
 `new Chessboard(containerElement, props = {})`
 
-- **`containerElement`** - a HTML DOM element being the container of the widget
-- **`props`** - The board configuration (properties)
+- **`containerElement`**: a HTML DOM element being the container of the widget
+- **`props`**: The board configuration (properties)
 
 ### setPiece(square, piece)
 
@@ -180,10 +182,10 @@ board.enableMoveInput((event) => {
 
 The event has the following **`event.type`**:
 
-- **`INPUT_EVENT_TYPE.moveStart`** - User started the move input, `event.square` contains the coordinates
-- **`INPUT_EVENT_TYPE.moveDone`** - User finished the move input, `event.squareFrom` and `event.squareTo` contain the
+- **`INPUT_EVENT_TYPE.moveStart`**: User started the move input, `event.square` contains the coordinates
+- **`INPUT_EVENT_TYPE.moveDone`**: User finished the move input, `event.squareFrom` and `event.squareTo` contain the
   coordinates
-- **`INPUT_EVENT_TYPE.moveCanceled`** - User canceled the move with clicking again on the start square or clicking
+- **`INPUT_EVENT_TYPE.moveCanceled`**: User canceled the move with clicking again on the start square or clicking
   outside of the board
 
 ```javascript
