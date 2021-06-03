@@ -45,11 +45,9 @@ export class ChessboardView {
 
         this.createSvgAndGroups()
         this.updateMetrics()
-        callbackAfterCreation()
+        callbackAfterCreation(this)
         if (chessboard.props.responsive) {
-            setTimeout(() => {
-                this.handleResize()
-            })
+            this.handleResize()
         }
     }
 

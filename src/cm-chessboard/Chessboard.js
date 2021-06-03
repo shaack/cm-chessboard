@@ -81,7 +81,7 @@ export class Chessboard {
         this.state = new ChessboardState()
         this.state.orientation = this.props.orientation
         this.initialization = new Promise((resolve) => {
-            this.view = new ChessboardView(this, () => {
+            this.view = new ChessboardView(this, (view) => {
                 if (this.props.position === "start") {
                     this.state.setPosition(FEN_START_POSITION)
                 } else if (this.props.position === "empty" || this.props.position === undefined) {
@@ -89,10 +89,8 @@ export class Chessboard {
                 } else {
                     this.state.setPosition(this.props.position)
                 }
-                setTimeout(() => {
-                    this.view.redraw().then(() => {
-                        resolve()
-                    })
+                view.redraw().then(() => {
+                    resolve()
                 })
             })
         })
@@ -158,6 +156,9 @@ export class Chessboard {
     }
 
     addMarker(square, type) {
+        if(!type) {
+            console.error("Error addMarker(), type is " + type)
+        }
         this.state.addMarker(this.state.squareToIndex(square), type)
         this.view.drawMarkersDebounced()
     }
