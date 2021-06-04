@@ -35,6 +35,7 @@ export class ChessboardView {
             this.cacheSprite()
         }
         if (chessboard.props.responsive) {
+            // noinspection JSUnresolvedFunction
             this.resizeObserver = new ResizeObserver(() => {this.handleResize()});
             this.resizeObserver.observe(this.chessboard.element);
         }
@@ -131,6 +132,7 @@ export class ChessboardView {
             if (this.chessboard.element.clientWidth !== this.width ||
                 this.chessboard.element.clientHeight !== this.height) {
                 this.updateMetrics()
+                // noinspection JSIgnoredPromiseFromCall
                 this.redraw()
             }
             this.svg.setAttribute("width", "100%") // safari bugfix
@@ -235,9 +237,9 @@ export class ChessboardView {
                 style: `font-size: ${this.scalingY * 10}px`
             })
             if (this.chessboard.state.orientation === COLOR.white) {
-                textElement.textContent = 8 - rank
+                textElement.textContent = "" + (8 - rank)
             } else {
-                textElement.textContent = 1 + rank
+                textElement.textContent = "" + (1 + rank)
             }
         }
     }

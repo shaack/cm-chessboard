@@ -138,7 +138,7 @@ export class Chessboard {
                         })
                     }
                 } else {
-                    if(this.previousPromise) {
+                    if (this.previousPromise) {
                         this.previousPromise.then(() => {
                             resolve()
                         })
@@ -156,7 +156,7 @@ export class Chessboard {
     }
 
     addMarker(square, type) {
-        if(!type) {
+        if (!type) {
             console.error("Error addMarker(), type is " + type)
         }
         this.state.addMarker(this.state.squareToIndex(square), type)
@@ -184,7 +184,7 @@ export class Chessboard {
 
     setOrientation(color) {
         this.state.orientation = color
-        this.view.redraw()
+        return this.view.redraw()
     }
 
     getOrientation() {
@@ -197,7 +197,11 @@ export class Chessboard {
                 this.view.destroy()
                 this.view = undefined
                 this.state = undefined
-                this.element.removeEventListener("contextmenu", this.contextMenuListener)
+                if (this.squareSelectListener) {
+                    this.element.removeEventListener("contextmenu", this.squareSelectListener)
+                    this.element.removeEventListener("mouseup", this.squareSelectListener)
+                    this.element.removeEventListener("touchend", this.squareSelectListener)
+                }
                 resolve()
             })
         })
@@ -211,8 +215,10 @@ export class Chessboard {
         this.view.disableMoveInput()
     }
 
+    // TODO remove deprecated function
+    // noinspection JSUnusedGlobalSymbols
     enableContextInput(eventHandler) {
-        console.warn("enableContextInput is deprecated, use enableSquareSelect")
+        console.warn("enableContextInput() is deprecated, use enableSquareSelect()")
         this.enableSquareSelect(function (event) {
             if (event.type === SQUARE_SELECT_TYPE.secondary) {
                 eventHandler(event)
@@ -220,6 +226,8 @@ export class Chessboard {
         })
     }
 
+    // TODO remove deprecated function
+    // noinspection JSUnusedGlobalSymbols
     disableContextInput() {
         this.disableSquareSelect()
     }
