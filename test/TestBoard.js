@@ -9,6 +9,15 @@ import {Chessboard} from "../src/cm-chessboard/Chessboard.js"
 
 describe("TestBoard", () => {
 
+    // https://github.com/shaack/cm-chessboard/issues/47
+    it("should create and immediately destroy a board without failure", () => {
+        const chessboard = new Chessboard(document.getElementById("TestBoard"), {
+            sprite: {url: "../assets/images/chessboard-sprite.svg"},
+            position: "start"
+        })
+        chessboard.destroy()
+    })
+
     it("should create and destroy a board", () => {
         const chessboard = new Chessboard(document.getElementById("TestBoard"), {
             sprite: {url: "../assets/images/chessboard-sprite.svg"},

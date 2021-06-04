@@ -35,7 +35,7 @@ export class ChessboardView {
             this.cacheSprite()
         }
         if (chessboard.props.responsive) {
-            this.resizeObserver = new ResizeObserver(elements => {this.handleResize()});
+            this.resizeObserver = new ResizeObserver(() => {this.handleResize()});
             this.resizeObserver.observe(this.chessboard.element);
         }
 
@@ -429,10 +429,12 @@ export class ChessboardView {
 
     setCursor() {
         this.chessboard.initialization.then(() => {
-            if (this.chessboard.state.inputWhiteEnabled || this.chessboard.state.inputBlackEnabled || this.chessboard.state.squareSelectEnabled) {
-                this.boardGroup.setAttribute("class", "board input-enabled")
-            } else {
-                this.boardGroup.setAttribute("class", "board")
+            if(this.chessboard.state) { // fix https://github.com/shaack/cm-chessboard/issues/47
+                if (this.chessboard.state && this.chessboard.state.inputWhiteEnabled || this.chessboard.state.inputBlackEnabled || this.chessboard.state.squareSelectEnabled) {
+                    this.boardGroup.setAttribute("class", "board input-enabled")
+                } else {
+                    this.boardGroup.setAttribute("class", "board")
+                }
             }
         })
     }
