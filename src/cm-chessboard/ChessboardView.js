@@ -35,9 +35,17 @@ export class ChessboardView {
             this.cacheSprite()
         }
         if (chessboard.props.responsive) {
-            // noinspection JSUnresolvedFunction
-            this.resizeObserver = new ResizeObserver(() => {this.handleResize()});
-            this.resizeObserver.observe(this.chessboard.element);
+            // noinspection JSUnresolvedVariable
+            if (typeof ResizeObserver !== "undefined") {
+                // noinspection JSUnresolvedFunction
+                this.resizeObserver = new ResizeObserver(() => {
+                    this.handleResize()
+                })
+                this.resizeObserver.observe(this.chessboard.element)
+            } else {
+                this.resizeListener = this.handleResize.bind(this)
+                window.addEventListener("resize", this.resizeListener)
+            }
         }
 
         this.pointerDownListener = this.pointerDownHandler.bind(this)
@@ -58,7 +66,12 @@ export class ChessboardView {
 
     destroy() {
         this.moveInput.destroy()
-        this.resizeObserver.unobserve(this.chessboard.element);
+        if (this.resizeObserver) {
+            this.resizeObserver.unobserve(this.chessboard.element);
+        }
+        if (this.resizeListener) {
+            window.removeEventListener("resize", this.resizeListener)
+        }
         this.chessboard.element.removeEventListener("mousedown", this.pointerDownListener)
         this.chessboard.element.removeEventListener("touchstart", this.pointerDownListener)
         window.clearTimeout(this.resizeDebounce)
@@ -161,7 +174,7 @@ export class ChessboardView {
         while (this.boardGroup.firstChild) {
             this.boardGroup.removeChild(this.boardGroup.lastChild)
         }
-        if(this.chessboard.props.style.borderType !== BORDER_TYPE.none) {
+        if (this.chessboard.props.style.borderType !== BORDER_TYPE.none) {
             let boardBorder = Svg.addElement(this.boardGroup, "rect", {width: this.width, height: this.height})
             boardBorder.setAttribute("class", "border")
             if (this.chessboard.props.style.borderType === BORDER_TYPE.frame) {
@@ -431,7 +444,7 @@ export class ChessboardView {
 
     setCursor() {
         this.chessboard.initialization.then(() => {
-            if(this.chessboard.state) { // fix https://github.com/shaack/cm-chessboard/issues/47
+            if (this.chessboard.state) { // fix https://github.com/shaack/cm-chessboard/issues/47
                 if (this.chessboard.state.inputWhiteEnabled || this.chessboard.state.inputBlackEnabled || this.chessboard.state.squareSelectEnabled) {
                     this.boardGroup.setAttribute("class", "board input-enabled")
                 } else {
