@@ -124,7 +124,7 @@ Returns the board position as `fen`.
 
 Adds a marker on a square.
 
-Default types are: `MARKER_TYPE.frame`, `MARKER_TYPE.square`, `MARKER_TYPE.dot`, `MARKER_TYPE.cliecle` exportet by `Chessboard.js`. 
+Default types are: `MARKER_TYPE.frame`, `MARKER_TYPE.square`, `MARKER_TYPE.dot`, `MARKER_TYPE.circle` exportet by `Chessboard.js`. 
 
 #### You can create your own marker types: 
 
