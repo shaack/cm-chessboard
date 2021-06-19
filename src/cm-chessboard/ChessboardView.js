@@ -269,19 +269,18 @@ export class ChessboardView {
 
     drawPieces(squares = this.chessboard.state.squares) {
         return new Promise((resolve) => {
-            // requestAnimationFrame(() => { // TODO
-            const childNodes = Array.from(this.piecesGroup.childNodes)
-            for (let i = 0; i < 64; i++) {
-                const pieceName = squares[i]
-                if (pieceName) {
-                    this.drawPiece(i, pieceName)
+            requestAnimationFrame(() => {
+                while (this.piecesGroup.firstChild) {
+                    this.piecesGroup.removeChild(this.piecesGroup.lastChild)
                 }
-            }
-            for (const childNode of childNodes) { // delete after creating new to prevent flicker
-                this.piecesGroup.removeChild(childNode)
-            }
-            resolve()
-            // })
+                for (let i = 0; i < 64; i++) {
+                    const pieceName = squares[i]
+                    if (pieceName) {
+                        this.drawPiece(i, pieceName)
+                    }
+                }
+                resolve()
+            })
         })
     }
 
@@ -370,15 +369,18 @@ export class ChessboardView {
     nextPieceAnimationInQueue() {
         const nextAnimation = this.animationQueue.shift()
         if (nextAnimation !== undefined) {
+            this.animationRunning = true
             this.currentAnimation = new ChessboardPiecesAnimation(this, nextAnimation.fromSquares, nextAnimation.toSquares, this.chessboard.props.animationDuration / (this.animationQueue.length + 1), () => {
                 if (!this.moveInput.draggablePiece) {
                     this.drawPieces(nextAnimation.toSquares).then(() => {
+                        this.animationRunning = false
                         this.nextPieceAnimationInQueue()
                         if (nextAnimation.callback) {
                             nextAnimation.callback()
                         }
                     })
                 } else {
+                    this.animationRunning = false
                     this.nextPieceAnimationInQueue()
                     if (nextAnimation.callback) {
                         nextAnimation.callback()

@@ -10,18 +10,11 @@ const CHANGE_TYPE = {
     disappear: 2
 }
 
-function AnimationRunningException() {
-}
-
 export class ChessboardPiecesAnimation {
 
     constructor(view, fromSquares, toSquares, duration, callback) {
         this.view = view
-        if (this.view.animationRunning) {
-            throw new AnimationRunningException()
-        }
         if (fromSquares && toSquares) {
-            this.view.animationRunning = true
             this.animatedElements = this.createAnimation(fromSquares, toSquares)
             this.duration = duration
             this.callback = callback
@@ -108,7 +101,6 @@ export class ChessboardPiecesAnimation {
             this.frameHandle = requestAnimationFrame(this.animationStep.bind(this))
         } else {
             cancelAnimationFrame(this.frameHandle)
-            this.view.animationRunning = false
             this.callback()
             return
         }
