@@ -102,9 +102,7 @@ export class Chessboard {
         return new Promise((resolve) => {
             this.initialization.then(() => {
                 this.state.setPiece(this.state.squareToIndex(square), piece)
-                this.view.drawPiecesDebounced(this.state.squares, () => {
-                    resolve()
-                })
+                this.view.drawPiecesDebounced(this.state.squares).then(resolve)
             })
         })
     }
@@ -133,9 +131,7 @@ export class Chessboard {
                             resolve()
                         })
                     } else {
-                        this.view.drawPiecesDebounced(this.state.squares, () => {
-                            resolve()
-                        })
+                        this.view.drawPiecesDebounced(this.state.squares).then(resolve)
                     }
                 } else {
                     if (this.previousPromise) {

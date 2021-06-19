@@ -147,12 +147,14 @@ export class ChessboardMoveInput {
                             this.setMoveInputState(STATE.reset)
                         })
                     } else {
-                        this.view.drawPieces(this.chessboard.state.squares)
-                        this.setMoveInputState(STATE.reset)
+                        this.view.drawPieces(this.chessboard.state.squares).then(() => {
+                            this.setMoveInputState(STATE.reset)
+                        })
                     }
                 } else {
-                    this.view.drawPiecesDebounced()
-                    this.setMoveInputState(STATE.reset)
+                    this.view.drawPiecesDebounced().then(() => {
+                        this.setMoveInputState(STATE.reset)
+                    })
                 }
                 break
 
@@ -354,13 +356,15 @@ export class ChessboardMoveInput {
                     this.moveCanceledCallback(MOVE_CANCELED_REASON.secondClick, index)
                 }
             } else {
-                this.view.drawPiecesDebounced()
-                this.setMoveInputState(STATE.reset)
-                this.moveCanceledCallback(MOVE_CANCELED_REASON.movedOutOfBoard, undefined)
+                this.view.drawPiecesDebounced().then(() => {
+                    this.setMoveInputState(STATE.reset)
+                    this.moveCanceledCallback(MOVE_CANCELED_REASON.movedOutOfBoard, undefined)
+                })
             }
         } else {
-            this.view.drawPiecesDebounced()
-            this.setMoveInputState(STATE.reset)
+            this.view.drawPiecesDebounced().then(() => {
+                this.setMoveInputState(STATE.reset)
+            })
         }
     }
 

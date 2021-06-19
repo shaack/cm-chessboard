@@ -21,10 +21,10 @@ export class ChessboardPiecesAnimation {
             throw new AnimationRunningException()
         }
         if (fromSquares && toSquares) {
+            this.view.animationRunning = true
             this.animatedElements = this.createAnimation(fromSquares, toSquares)
             this.duration = duration
             this.callback = callback
-            this.view.animationRunning = true
             this.frameHandle = requestAnimationFrame(this.animationStep.bind(this))
         }
     }
@@ -110,6 +110,7 @@ export class ChessboardPiecesAnimation {
             cancelAnimationFrame(this.frameHandle)
             this.view.animationRunning = false
             this.callback()
+            return
         }
         const t = Math.min(1, timeDiff / this.duration)
         const progress = t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t // easeInOut
