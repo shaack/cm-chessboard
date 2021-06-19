@@ -264,23 +264,21 @@ export class ChessboardView {
                 this.drawPieces(squares).then(resolve)
             })
         })
-
     }
 
     drawPieces(squares = this.chessboard.state.squares) {
-        return new Promise((resolve) => {
-            requestAnimationFrame(() => {
-                while (this.piecesGroup.firstChild) {
-                    this.piecesGroup.removeChild(this.piecesGroup.lastChild)
+        return new Promise((resolve) => { // TODO Promise is not necessary
+            const childNodes = Array.from(this.piecesGroup.childNodes)
+            for (let i = 0; i < 64; i++) {
+                const pieceName = squares[i]
+                if (pieceName) {
+                    this.drawPiece(i, pieceName)
                 }
-                for (let i = 0; i < 64; i++) {
-                    const pieceName = squares[i]
-                    if (pieceName) {
-                        this.drawPiece(i, pieceName)
-                    }
-                }
-                resolve()
-            })
+            }
+            for (const childNode of childNodes) {
+                this.piecesGroup.removeChild(childNode)
+            }
+            resolve()
         })
     }
 
