@@ -89,9 +89,8 @@ export class Chessboard {
                 } else {
                     this.state.setPosition(this.props.position)
                 }
-                view.redraw().then(() => {
-                    resolve()
-                })
+                view.redraw()
+                resolve()
             })
         })
     }

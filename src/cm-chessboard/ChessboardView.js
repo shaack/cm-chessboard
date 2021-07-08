@@ -75,7 +75,6 @@ export class ChessboardView {
         this.chessboard.element.removeEventListener("mousedown", this.pointerDownListener)
         this.chessboard.element.removeEventListener("touchstart", this.pointerDownListener)
         window.clearTimeout(this.resizeDebounce)
-        window.clearTimeout(this.redrawDebounce)
         Svg.removeElement(this.svg)
         this.animationQueue = []
         if (this.currentAnimation) {
@@ -152,17 +151,11 @@ export class ChessboardView {
     }
 
     redraw() {
-        return new Promise((resolve) => {
-            window.clearTimeout(this.redrawDebounce)
-            this.redrawDebounce = setTimeout(() => {
-                this.drawBoard()
-                this.drawCoordinates()
-                this.drawMarkers()
-                this.setCursor()
-            })
-            this.drawPieces(this.chessboard.state.squares)
-            resolve()
-        })
+        this.drawBoard()
+        this.drawCoordinates()
+        this.drawMarkers()
+        this.setCursor()
+        this.drawPieces(this.chessboard.state.squares)
     }
 
     // Board //
