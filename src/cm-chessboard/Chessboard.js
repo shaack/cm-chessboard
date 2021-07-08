@@ -156,7 +156,7 @@ export class Chessboard {
             console.error("Error addMarker(), type is " + type)
         }
         this.state.addMarker(this.state.squareToIndex(square), type)
-        this.view.drawMarkersDebounced()
+        this.view.drawMarkers()
     }
 
     getMarkers(square = undefined, type = undefined) {
@@ -175,7 +175,7 @@ export class Chessboard {
     removeMarkers(square = undefined, type = undefined) {
         const index = square ? this.state.squareToIndex(square) : undefined
         this.state.removeMarkers(index, type)
-        this.view.drawMarkersDebounced()
+        this.view.drawMarkers()
     }
 
     setOrientation(color) {

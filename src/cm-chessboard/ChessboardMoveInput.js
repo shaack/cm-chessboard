@@ -385,7 +385,7 @@ export class ChessboardMoveInput {
                 this.chessboard.state.addMarker(this.endIndex, this.chessboard.props.style.hoverMarker)
             }
         }
-        this.view.drawMarkersDebounced()
+        this.view.drawMarkers()
     }
 
     reset() {

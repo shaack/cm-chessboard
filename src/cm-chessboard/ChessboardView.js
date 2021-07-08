@@ -77,7 +77,6 @@ export class ChessboardView {
         window.clearTimeout(this.resizeDebounce)
         window.clearTimeout(this.redrawDebounce)
         window.clearTimeout(this.drawPiecesDebounce)
-        window.clearTimeout(this.drawMarkersDebounce)
         Svg.removeElement(this.svg)
         this.animationQueue = []
         if (this.currentAnimation) {
@@ -321,13 +320,6 @@ export class ChessboardView {
     }
 
     // Markers //
-
-    drawMarkersDebounced() {
-        window.clearTimeout(this.drawMarkersDebounce)
-        this.drawMarkersDebounce = setTimeout(() => {
-            this.drawMarkers()
-        }, 10)
-    }
 
     drawMarkers() {
         while (this.markersGroup.firstChild) {
