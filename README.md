@@ -159,7 +159,7 @@ Returns the board orientation.
 
 ### destroy()
 
-Removes the board from the DOM. Returns a **Promise** which will be resolved, after destruction.
+Removes the board from the DOM.
 
 [Example for **destroy**](https://shaack.com/projekte/cm-chessboard/examples/destroy-many-boards.html)
 

@@ -24,9 +24,8 @@ describe("TestBoard", () => {
             position: "start"
         })
         assert.equals(chessboard.element.childNodes.length, 1)
-        chessboard.destroy().then(() => {
-            assert.equals(chessboard.state, undefined)
-        })
+        chessboard.destroy()
+        assert.equals(chessboard.state, undefined)
     })
 
 })

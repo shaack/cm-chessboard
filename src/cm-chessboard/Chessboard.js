@@ -184,17 +184,14 @@ export class Chessboard {
     }
 
     destroy() {
-        return new Promise((resolve) => {
-            this.view.destroy()
-            this.view = undefined
-            this.state = undefined
-            if (this.squareSelectListener) {
-                this.element.removeEventListener("contextmenu", this.squareSelectListener)
-                this.element.removeEventListener("mouseup", this.squareSelectListener)
-                this.element.removeEventListener("touchend", this.squareSelectListener)
-            }
-            resolve()
-        })
+        this.view.destroy()
+        this.view = undefined
+        this.state = undefined
+        if (this.squareSelectListener) {
+            this.element.removeEventListener("contextmenu", this.squareSelectListener)
+            this.element.removeEventListener("mouseup", this.squareSelectListener)
+            this.element.removeEventListener("touchend", this.squareSelectListener)
+        }
     }
 
     enableMoveInput(eventHandler, color = undefined) {
