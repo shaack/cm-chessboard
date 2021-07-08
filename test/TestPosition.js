@@ -44,12 +44,10 @@ describe("TestPosition", () => {
             position: "empty",
             sprite: {url: "../assets/images/chessboard-sprite.svg"},
         })
-        chessboard.setPiece("a1", PIECE.bk).then(() => {
-            assert.equals(chessboard.getPiece("a1"), "bk")
-        })
-        chessboard.setPiece("e5", PIECE.wk).then(() => {
-            assert.equals(chessboard.getPiece("e5"), "wk")
-        })
+        chessboard.setPiece("a1", PIECE.bk)
+        assert.equals(chessboard.getPiece("a1"), "bk")
+        chessboard.setPiece("e5", PIECE.wk)
+        assert.equals(chessboard.getPiece("e5"), "wk")
         setTimeout(() => {
             chessboard.destroy()
         }, 100)

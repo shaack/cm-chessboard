@@ -96,11 +96,8 @@ export class Chessboard {
     // API //
 
     setPiece(square, piece) {
-        return new Promise((resolve) => {
-            this.state.setPiece(this.state.squareToIndex(square), piece)
-            this.view.drawPieces(this.state.squares)
-            resolve()
-        })
+        this.state.setPiece(this.state.squareToIndex(square), piece)
+        this.view.drawPieces(this.state.squares)
     }
 
     getPiece(square) {
