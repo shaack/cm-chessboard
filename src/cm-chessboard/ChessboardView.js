@@ -425,15 +425,13 @@ export class ChessboardView {
     // Helpers //
 
     setCursor() {
-        this.chessboard.initialization.then(() => {
-            if (this.chessboard.state) { // fix https://github.com/shaack/cm-chessboard/issues/47
-                if (this.chessboard.state.inputWhiteEnabled || this.chessboard.state.inputBlackEnabled || this.chessboard.state.squareSelectEnabled) {
-                    this.boardGroup.setAttribute("class", "board input-enabled")
-                } else {
-                    this.boardGroup.setAttribute("class", "board")
-                }
+        if (this.chessboard.state) { // fix https://github.com/shaack/cm-chessboard/issues/47
+            if (this.chessboard.state.inputWhiteEnabled || this.chessboard.state.inputBlackEnabled || this.chessboard.state.squareSelectEnabled) {
+                this.boardGroup.setAttribute("class", "board input-enabled")
+            } else {
+                this.boardGroup.setAttribute("class", "board")
             }
-        })
+        }
     }
 
     squareIndexToPoint(index) {

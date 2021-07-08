@@ -33,12 +33,10 @@ describe("TestPosition", () => {
             sprite: {url: "../assets/images/chessboard-sprite.svg"},
             position: "start"
         })
-        chessboard.initialization.then(() => {
-            assert.equals(chessboard.getPiece("d1"), "wq")
-            assert.equals(chessboard.getPiece("d8"), "bq")
-            assert.equals(chessboard.getPiece("a2"), "wp")
-            chessboard.destroy()
-        })
+        assert.equals(chessboard.getPiece("d1"), "wq")
+        assert.equals(chessboard.getPiece("d8"), "bq")
+        assert.equals(chessboard.getPiece("a2"), "wp")
+        chessboard.destroy()
     })
 
     it("should set pieces on squares", () => {
