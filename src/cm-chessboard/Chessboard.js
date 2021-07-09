@@ -80,31 +80,24 @@ export class Chessboard {
         }
         this.state = new ChessboardState()
         this.state.orientation = this.props.orientation
-        this.initialization = new Promise((resolve) => {
-            this.view = new ChessboardView(this, (view) => {
-                if (this.props.position === "start") {
-                    this.state.setPosition(FEN_START_POSITION)
-                } else if (this.props.position === "empty" || this.props.position === undefined) {
-                    this.state.setPosition(FEN_EMPTY_POSITION)
-                } else {
-                    this.state.setPosition(this.props.position)
-                }
-                view.redraw().then(() => {
-                    resolve()
-                })
-            })
+
+        this.view = new ChessboardView(this, (view) => {
+            if (this.props.position === "start") {
+                this.state.setPosition(FEN_START_POSITION)
+            } else if (this.props.position === "empty" || this.props.position === undefined) {
+                this.state.setPosition(FEN_EMPTY_POSITION)
+            } else {
+                this.state.setPosition(this.props.position)
+            }
+            view.redraw()
         })
     }
 
     // API //
 
     setPiece(square, piece) {
-        return new Promise((resolve) => {
-            this.initialization.then(() => {
-                this.state.setPiece(this.state.squareToIndex(square), piece)
-                this.view.drawPiecesDebounced(this.state.squares).then(resolve)
-            })
-        })
+        this.state.setPiece(this.state.squareToIndex(square), piece)
+        this.view.drawPieces(this.state.squares)
     }
 
     getPiece(square) {
@@ -112,38 +105,41 @@ export class Chessboard {
     }
 
     setPosition(fen, animated = true) {
-        const promise = new Promise((resolve) => {
-            this.initialization.then(() => {
-                if (fen === "start") {
-                    fen = FEN_START_POSITION
-                } else if (fen === "empty") {
-                    fen = FEN_EMPTY_POSITION
-                }
-                const currentFen = this.state.getPosition()
-                const fenParts = fen.split(" ")
-                const fenNormalized = fenParts[0]
-                if (fenNormalized !== currentFen) {
-                    this.previousPromise = promise
-                    const prevSquares = this.state.squares.slice(0) // clone
-                    this.state.setPosition(fen)
-                    if (animated) {
-                        this.view.animatePieces(prevSquares, this.state.squares.slice(0), () => {
-                            resolve()
-                        })
-                    } else {
-                        this.view.drawPiecesDebounced(this.state.squares).then(resolve)
-                    }
-                } else {
-                    if (this.previousPromise) {
-                        this.previousPromise.then(() => {
-                            resolve()
-                        })
-                    } else {
+        let promise = new Promise((resolve) => {
+            if (fen === "start") {
+                fen = FEN_START_POSITION
+            } else if (fen === "empty") {
+                fen = FEN_EMPTY_POSITION
+            }
+            const currentFen = this.state.getPosition()
+            const fenParts = fen.split(" ")
+            const fenNormalized = fenParts[0]
+
+            if (fenNormalized !== currentFen) {
+                const prevSquares = this.state.squares.slice(0) // clone
+                this.state.setPosition(fen)
+                if (animated) {
+                    this.view.animatePieces(prevSquares, this.state.squares.slice(0), () => {
                         resolve()
-                    }
+                    })
+                } else {
+                    this.view.drawPieces(this.state.squares)
+                    resolve()
                 }
-            })
+            } else {
+                resolve()
+            }
         })
+
+        // If there was a previous promise, wait for it to resolve before resolving the current
+        // promise.
+        if (this.previousPromise) {
+            promise = this.previousPromise.then(promise)
+        }
+
+        // Store the promise so it can be accessed by subsequent calls to this method.
+        this.previousPromise = promise;
+
         return promise
     }
 
@@ -156,7 +152,7 @@ export class Chessboard {
             console.error("Error addMarker(), type is " + type)
         }
         this.state.addMarker(this.state.squareToIndex(square), type)
-        this.view.drawMarkersDebounced()
+        this.view.drawMarkers()
     }
 
     getMarkers(square = undefined, type = undefined) {
@@ -175,7 +171,7 @@ export class Chessboard {
     removeMarkers(square = undefined, type = undefined) {
         const index = square ? this.state.squareToIndex(square) : undefined
         this.state.removeMarkers(index, type)
-        this.view.drawMarkersDebounced()
+        this.view.drawMarkers()
     }
 
     setOrientation(color) {
@@ -188,19 +184,14 @@ export class Chessboard {
     }
 
     destroy() {
-        return new Promise((resolve) => {
-            this.initialization.then(() => {
-                this.view.destroy()
-                this.view = undefined
-                this.state = undefined
-                if (this.squareSelectListener) {
-                    this.element.removeEventListener("contextmenu", this.squareSelectListener)
-                    this.element.removeEventListener("mouseup", this.squareSelectListener)
-                    this.element.removeEventListener("touchend", this.squareSelectListener)
-                }
-                resolve()
-            })
-        })
+        this.view.destroy()
+        this.view = undefined
+        this.state = undefined
+        if (this.squareSelectListener) {
+            this.element.removeEventListener("contextmenu", this.squareSelectListener)
+            this.element.removeEventListener("mouseup", this.squareSelectListener)
+            this.element.removeEventListener("touchend", this.squareSelectListener)
+        }
     }
 
     enableMoveInput(eventHandler, color = undefined) {

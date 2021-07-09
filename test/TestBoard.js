@@ -23,12 +23,9 @@ describe("TestBoard", () => {
             sprite: {url: "../assets/images/chessboard-sprite.svg"},
             position: "start"
         })
-        chessboard.initialization.then(() => {
-            assert.equals(chessboard.element.childNodes.length, 1)
-            chessboard.destroy().then(() => {
-                assert.equals(chessboard.state, undefined)
-            })
-        })
+        assert.equals(chessboard.element.childNodes.length, 1)
+        chessboard.destroy()
+        assert.equals(chessboard.state, undefined)
     })
 
 })

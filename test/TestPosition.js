@@ -33,12 +33,10 @@ describe("TestPosition", () => {
             sprite: {url: "../assets/images/chessboard-sprite.svg"},
             position: "start"
         })
-        chessboard.initialization.then(() => {
-            assert.equals(chessboard.getPiece("d1"), "wq")
-            assert.equals(chessboard.getPiece("d8"), "bq")
-            assert.equals(chessboard.getPiece("a2"), "wp")
-            chessboard.destroy()
-        })
+        assert.equals(chessboard.getPiece("d1"), "wq")
+        assert.equals(chessboard.getPiece("d8"), "bq")
+        assert.equals(chessboard.getPiece("a2"), "wp")
+        chessboard.destroy()
     })
 
     it("should set pieces on squares", () => {
@@ -46,12 +44,10 @@ describe("TestPosition", () => {
             position: "empty",
             sprite: {url: "../assets/images/chessboard-sprite.svg"},
         })
-        chessboard.setPiece("a1", PIECE.bk).then(() => {
-            assert.equals(chessboard.getPiece("a1"), "bk")
-        })
-        chessboard.setPiece("e5", PIECE.wk).then(() => {
-            assert.equals(chessboard.getPiece("e5"), "wk")
-        })
+        chessboard.setPiece("a1", PIECE.bk)
+        assert.equals(chessboard.getPiece("a1"), "bk")
+        chessboard.setPiece("e5", PIECE.wk)
+        assert.equals(chessboard.getPiece("e5"), "wk")
         setTimeout(() => {
             chessboard.destroy()
         }, 100)

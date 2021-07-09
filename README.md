@@ -1,6 +1,6 @@
 # cm-chessboard
 
-A JavaScript chessboard which is lightweight, ES6 module based, responsive, SVG rendered and **without dependencies**. 
+A JavaScript chessboard which is lightweight, ES6 module based, responsive, SVG rendered and **without dependencies**.
 
 It works on desktop (current versions of Chrome, Firefox, Safari, Edge), and mobile (Android and iOS).
 
@@ -101,8 +101,6 @@ props = {
 Sets a piece on a square. Example: `board.setPiece("e4", PIECE.blackKnight)` or
 `board.setPiece("e4", "bn")`.
 
-Returns a **Promise** which will be resolved, after the piece is set.
-
 ### getPiece(square)
 
 Returns the piece on a square or `undefined` if the square is empty.
@@ -124,9 +122,9 @@ Returns the board position as `fen`.
 
 Adds a marker on a square.
 
-Default types are: `MARKER_TYPE.frame`, `MARKER_TYPE.square`, `MARKER_TYPE.dot`, `MARKER_TYPE.circle` exportet by `Chessboard.js`. 
+Default types are: `MARKER_TYPE.frame`, `MARKER_TYPE.square`, `MARKER_TYPE.dot`, `MARKER_TYPE.circle` exportet by `Chessboard.js`.
 
-#### You can create your own marker types: 
+#### You can create your own marker types:
 
 Just create an object like `const myMarker = {class: "markerCssClass", slice: "markerSliceId"}`, where `class` is the css class of the marker for styling
 and `slice` is the `id` in `sprite.svg`. See also [Create your own custom markers](#create-your-own-custom-markers)
@@ -161,7 +159,7 @@ Returns the board orientation.
 
 ### destroy()
 
-Removes the board from the DOM. Returns a **Promise** which will be resolved, after destruction.
+Removes the board from the DOM.
 
 [Example for **destroy**](https://shaack.com/projekte/cm-chessboard/examples/destroy-many-boards.html)
 
@@ -211,7 +209,7 @@ Disables moves via user input.
 
 ### enableSquareSelect(eventHandler)
 
-Enables primary and secondary pointer events on squares. 
+Enables primary and secondary pointer events on squares.
 On desktop devices this means left and right click on squares.
 
 ```javascript
@@ -247,8 +245,8 @@ markers are defined in the sprite.
 
 ## Create your own custom markers
 
-The ability to add custom markers is build in. You can use the existing 
-marker shapes in the SVG sprite and create your own markers with just css or create 
+The ability to add custom markers is build in. You can use the existing
+marker shapes in the SVG sprite and create your own markers with just css or create
 your own custom SVG shapes. With a program like InkScape or Sketch this should be relatively easy.
 
 Example: The markerCircle is defined in the SVG like this.
@@ -319,5 +317,5 @@ https://github.com/shaack/cm-chessboard/issues/20
 
 You may also be interested in [cm-chess](https://github.com/shaack/cm-chess), it is like
 [chess.js](https://github.com/jhlywa/chess.js), but in ES6 and can handle games and PGNs with variants, NAGs and
-comments. 
+comments.
 

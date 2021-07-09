@@ -75,9 +75,6 @@ export class ChessboardView {
         this.chessboard.element.removeEventListener("mousedown", this.pointerDownListener)
         this.chessboard.element.removeEventListener("touchstart", this.pointerDownListener)
         window.clearTimeout(this.resizeDebounce)
-        window.clearTimeout(this.redrawDebounce)
-        window.clearTimeout(this.drawPiecesDebounce)
-        window.clearTimeout(this.drawMarkersDebounce)
         Svg.removeElement(this.svg)
         this.animationQueue = []
         if (this.currentAnimation) {
@@ -154,16 +151,11 @@ export class ChessboardView {
     }
 
     redraw() {
-        return new Promise((resolve) => {
-            window.clearTimeout(this.redrawDebounce)
-            this.redrawDebounce = setTimeout(() => {
-                this.drawBoard()
-                this.drawCoordinates()
-                this.drawMarkers()
-                this.setCursor()
-            })
-            this.drawPiecesDebounced(this.chessboard.state.squares).then(resolve)
-        })
+        this.drawBoard()
+        this.drawCoordinates()
+        this.drawMarkers()
+        this.setCursor()
+        this.drawPieces(this.chessboard.state.squares)
     }
 
     // Board //
@@ -257,29 +249,17 @@ export class ChessboardView {
 
     // Pieces //
 
-    drawPiecesDebounced(squares = this.chessboard.state.squares) {
-        return new Promise((resolve) => {
-            window.clearTimeout(this.drawPiecesDebounce)
-            this.drawPiecesDebounce = setTimeout(() => {
-                this.drawPieces(squares).then(resolve)
-            })
-        })
-    }
-
     drawPieces(squares = this.chessboard.state.squares) {
-        return new Promise((resolve) => { // TODO Promise is not necessary
-            const childNodes = Array.from(this.piecesGroup.childNodes)
-            for (let i = 0; i < 64; i++) {
-                const pieceName = squares[i]
-                if (pieceName) {
-                    this.drawPiece(i, pieceName)
-                }
+        const childNodes = Array.from(this.piecesGroup.childNodes)
+        for (let i = 0; i < 64; i++) {
+            const pieceName = squares[i]
+            if (pieceName) {
+                this.drawPiece(i, pieceName)
             }
-            for (const childNode of childNodes) {
-                this.piecesGroup.removeChild(childNode)
-            }
-            resolve()
-        })
+        }
+        for (const childNode of childNodes) {
+            this.piecesGroup.removeChild(childNode)
+        }
     }
 
     drawPiece(index, pieceName) {
@@ -322,13 +302,6 @@ export class ChessboardView {
 
     // Markers //
 
-    drawMarkersDebounced() {
-        window.clearTimeout(this.drawMarkersDebounce)
-        this.drawMarkersDebounce = setTimeout(() => {
-            this.drawMarkers()
-        }, 10)
-    }
-
     drawMarkers() {
         while (this.markersGroup.firstChild) {
             this.markersGroup.removeChild(this.markersGroup.firstChild)
@@ -370,13 +343,12 @@ export class ChessboardView {
             this.animationRunning = true
             this.currentAnimation = new ChessboardPiecesAnimation(this, nextAnimation.fromSquares, nextAnimation.toSquares, this.chessboard.props.animationDuration / (this.animationQueue.length + 1), () => {
                 if (!this.moveInput.draggablePiece) {
-                    this.drawPieces(nextAnimation.toSquares).then(() => {
-                        this.animationRunning = false
-                        this.nextPieceAnimationInQueue()
-                        if (nextAnimation.callback) {
-                            nextAnimation.callback()
-                        }
-                    })
+                    this.drawPieces(nextAnimation.toSquares)
+                    this.animationRunning = false
+                    this.nextPieceAnimationInQueue()
+                    if (nextAnimation.callback) {
+                        nextAnimation.callback()
+                    }
                 } else {
                     this.animationRunning = false
                     this.nextPieceAnimationInQueue()
@@ -453,15 +425,13 @@ export class ChessboardView {
     // Helpers //
 
     setCursor() {
-        this.chessboard.initialization.then(() => {
-            if (this.chessboard.state) { // fix https://github.com/shaack/cm-chessboard/issues/47
-                if (this.chessboard.state.inputWhiteEnabled || this.chessboard.state.inputBlackEnabled || this.chessboard.state.squareSelectEnabled) {
-                    this.boardGroup.setAttribute("class", "board input-enabled")
-                } else {
-                    this.boardGroup.setAttribute("class", "board")
-                }
+        if (this.chessboard.state) { // fix https://github.com/shaack/cm-chessboard/issues/47
+            if (this.chessboard.state.inputWhiteEnabled || this.chessboard.state.inputBlackEnabled || this.chessboard.state.squareSelectEnabled) {
+                this.boardGroup.setAttribute("class", "board input-enabled")
+            } else {
+                this.boardGroup.setAttribute("class", "board")
             }
-        })
+        }
     }
 
     squareIndexToPoint(index) {
