@@ -26,10 +26,10 @@ export const BORDER_TYPE = {
     frame: "frame" // wide border with coordinates in it
 }
 export const MARKER_TYPE = {
-    frame: {class: "markerFrame", slice: "markerFrame"},
-    square: {class: "markerSquare", slice: "markerSquare"},
-    dot: {class: "markerDot", slice: "markerDot"},
-    circle: {class: "markerCircle", slice: "markerCircle"}
+    frame: {class: "marker-frame", slice: "markerFrame"},
+    square: {class: "marker-square", slice: "markerSquare"},
+    dot: {class: "marker-dot", slice: "markerDot"},
+    circle: {class: "marker-circle", slice: "markerCircle"}
 }
 export const PIECE = {
     wp: "wp", wb: "wb", wn: "wn", wr: "wr", wq: "wq", wk: "wk",
@@ -53,8 +53,10 @@ export class Chessboard {
                 showCoordinates: true, // show ranks and files
                 borderType: BORDER_TYPE.thin, // thin: thin border, frame: wide border with coordinates in it, none: no border
                 aspectRatio: 1, // height/width. Set to `undefined`, if you want to define it only in the css.
-                moveMarker: MARKER_TYPE.frame, // the marker used for moves
-                hoverMarker: MARKER_TYPE.frame // the marker used for hovering, when moving
+                moveFromMarker: MARKER_TYPE.frame, // the marker used to mark the start square
+                moveToMarker: MARKER_TYPE.frame, // the marker used to mark the square where the figure is moving to
+                moveMarker: MARKER_TYPE.frame, // deprecated => moveFromMarker // TODO remove in future
+                hoverMarker: MARKER_TYPE.frame // deprecated => moveToMarker // TODO remove in future
             },
             responsive: true, // resizes the board based on element size
             animationDuration: 300, // pieces animation duration in milliseconds
@@ -74,6 +76,14 @@ export class Chessboard {
         }
         if (props.style) {
             Object.assign(this.props.style, props.style)
+        }
+        if(this.props.style.moveMarker !== MARKER_TYPE.frame) { // TODO remove in future
+            console.warn("this.props.style.moveMarker is deprecated, use this.props.style.moveFromMarker")
+            this.props.style.moveFromMarker = this.props.style.moveMarker
+        }
+        if(this.props.style.hoverMarker !== MARKER_TYPE.frame) { // TODO remove in future
+            console.warn("this.props.style.hoverMarker is deprecated, use this.props.style.moveToMarker")
+            this.props.style.moveToMarker = this.props.style.hoverMarker
         }
         if (this.props.style.aspectRatio) {
             this.element.style.height = (this.element.offsetWidth * this.props.style.aspectRatio) + "px"

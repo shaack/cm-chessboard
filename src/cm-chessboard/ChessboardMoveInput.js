@@ -365,20 +365,20 @@ export class ChessboardMoveInput {
     }
 
     updateStartEndMarkers() {
-        if(this.chessboard.props.style.moveMarker) {
-            this.chessboard.state.removeMarkers(undefined, this.chessboard.props.style.moveMarker)
+        if(this.chessboard.props.style.moveFromMarker) {
+            this.chessboard.state.removeMarkers(undefined, this.chessboard.props.style.moveFromMarker)
         }
-        if(this.chessboard.props.style.hoverMarker) {
-            this.chessboard.state.removeMarkers(undefined, this.chessboard.props.style.hoverMarker)
+        if(this.chessboard.props.style.moveToMarker) {
+            this.chessboard.state.removeMarkers(undefined, this.chessboard.props.style.moveToMarker)
         }
-        if (this.chessboard.props.style.moveMarker) {
+        if (this.chessboard.props.style.moveFromMarker) {
             if (this.startIndex) {
-                this.chessboard.state.addMarker(this.startIndex, this.chessboard.props.style.moveMarker)
+                this.chessboard.state.addMarker(this.startIndex, this.chessboard.props.style.moveFromMarker)
             }
         }
-        if (this.chessboard.props.style.hoverMarker) {
+        if (this.chessboard.props.style.moveToMarker) {
             if (this.endIndex) {
-                this.chessboard.state.addMarker(this.endIndex, this.chessboard.props.style.hoverMarker)
+                this.chessboard.state.addMarker(this.endIndex, this.chessboard.props.style.moveToMarker)
             }
         }
         this.view.drawMarkers()

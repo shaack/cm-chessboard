@@ -75,7 +75,8 @@ props = {
         showCoordinates: true, // show ranks and files
         borderType: BORDER_TYPE.thin, // thin: thin border, frame: wide border with coordinates in it, none: no border
         aspectRatio: 1, // height/width. Set to `undefined`, if you want to define it only in the css.
-        moveMarker: MARKER_TYPE.frame // the marker used for moves
+        moveFromMarker: MARKER_TYPE.frame, // the marker used to mark the start square
+        moveToMarker: MARKER_TYPE.frame // the marker used to mark the square where the figure is moving to
     },
     responsive: true, // resizes the board based on element size
     animationDuration: 300, // pieces animation duration in milliseconds
@@ -272,14 +273,14 @@ in the sprite, but then that is not so flexible.
 These are the css styles of the markers "emphasize" and "danger".
 
 ```css
-marker.emphasize {
+marker.markerSquare {
   fill: black;
-  opacity: 0.4;
+  opacity: 0.11;
 }
-marker.danger {
-   stroke: #cc0000;
+marker.markerCircleRed {
+   stroke: #aa0000;
    stroke-width: 3px;
-   opacity: 0.5;
+   opacity: 0.4;
  }
 ```
 

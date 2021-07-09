@@ -5,7 +5,7 @@
     <title>cm-chessboard</title>
     <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"/>
     <link rel="stylesheet" href="styles/examples.css"/>
-    <link rel="stylesheet" href="../styles/cm-chessboard.css"/>
+    <link rel="stylesheet" href="../assets/styles/cm-chessboard.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
 </head>
 <body>
@@ -24,6 +24,7 @@ function inputHandler(event) {
     event.chessboard.removeMarkers(undefined, MARKER_TYPE.dot)
     if (event.type === INPUT_EVENT_TYPE.moveStart) {
         const moves = chess.moves({square: event.square, verbose: true});
+        event.chessboard.addMarker(event.square, MARKER_TYPE.square)
         for (const move of moves) {
             event.chessboard.addMarker(move.to, MARKER_TYPE.dot)
         }
@@ -32,6 +33,7 @@ function inputHandler(event) {
         const move = {from: event.squareFrom, to: event.squareTo}
         const result = chess.move(move)
         if (result) {
+            event.chessboard.removeMarkers(undefined, MARKER_TYPE.square)
             event.chessboard.disableMoveInput()
             event.chessboard.setPosition(chess.fen())
             const possibleMoves = chess.moves({verbose: true})
@@ -54,7 +56,7 @@ function inputHandler(event) {
 const board = new Chessboard(document.getElementById("board"), {
     position: chess.fen(),
     sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
-    style: {moveMarker: MARKER_TYPE.square, hoverMarker: undefined},
+    style: {moveFromMarker: undefined, moveToMarker: undefined}, // disable standard markers
     orientation: COLOR.white
 })
 board.enableMoveInput(inputHandler, COLOR.white)
@@ -69,9 +71,11 @@ board.enableMoveInput(inputHandler, COLOR.white)
     function inputHandler(event) {
         console.log("event", event)
         event.chessboard.removeMarkers(undefined, MARKER_TYPE.dot)
+        event.chessboard.removeMarkers(undefined, MARKER_TYPE.square)
         if (event.type === INPUT_EVENT_TYPE.moveStart) {
             const moves = chess.moves({square: event.square, verbose: true});
-            for (const move of moves) {
+            event.chessboard.addMarker(event.square, MARKER_TYPE.square)
+            for (const move of moves) { // draw dots on possible moves
                 event.chessboard.addMarker(move.to, MARKER_TYPE.dot)
             }
             return moves.length > 0
@@ -101,7 +105,7 @@ board.enableMoveInput(inputHandler, COLOR.white)
     const board = new Chessboard(document.getElementById("board"), {
         position: chess.fen(),
         sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
-        style: {moveMarker: MARKER_TYPE.square, hoverMarker: undefined},
+        style: {moveFromMarker: undefined, moveToMarker: undefined}, // disable standard markers
         orientation: COLOR.white
     })
     board.enableMoveInput(inputHandler, COLOR.white)

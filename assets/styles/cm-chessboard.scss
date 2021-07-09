@@ -11,38 +11,39 @@
   }
   .markers {
     .marker {
-      &.markerFrame {
+      // use the second, the hyphens syntax
+      &.markerFrame, &.marker-frame {
         stroke: black;
         stroke-width: 1.8px;
         opacity: 0.5;
       }
-      &.markerFrameRed {
+      &.markerFrameRed, &.marker-frame-red {
         stroke: #aa0000;
         stroke-width: 1.8px;
         opacity: 0.4;
       }
-      &.markerSquare {
+      &.markerSquare, &.marker-square {
         fill: black;
         opacity: 0.11;
       }
-      &.markerDot {
+      &.markerDot, &.marker-dot {
         fill: black;
         opacity: 0.3;
       }
-      &.markerCircle {
+      &.markerCircle, &.marker-circle {
         stroke: #000055;
         stroke-width: 3px;
         opacity: 0.4;
       }
-      &.markerCircleRed {
+      &.markerCircleRed, &.marker-circle-red {
         stroke: #aa0000;
         stroke-width: 3px;
         opacity: 0.4;
       }
     }
   }
-
   .pieces, .markers {
+    // important for the proper function
     pointer-events: none;
   }
 }
