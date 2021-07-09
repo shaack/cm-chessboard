@@ -74,7 +74,6 @@ export class ChessboardView {
         }
         this.chessboard.element.removeEventListener("mousedown", this.pointerDownListener)
         this.chessboard.element.removeEventListener("touchstart", this.pointerDownListener)
-        window.clearTimeout(this.resizeDebounce)
         Svg.removeElement(this.svg)
         this.animationQueue = []
         if (this.currentAnimation) {
