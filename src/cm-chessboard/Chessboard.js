@@ -105,7 +105,7 @@ export class Chessboard {
     }
 
     setPosition(fen, animated = true) {
-        let promise = new Promise((resolve) => {
+        return new Promise((resolve) => {
             if (fen === "start") {
                 fen = FEN_START_POSITION
             } else if (fen === "empty") {
@@ -130,17 +130,6 @@ export class Chessboard {
                 resolve()
             }
         })
-
-        // If there was a previous promise, wait for it to resolve before resolving the current
-        // promise.
-        if (this.previousPromise) {
-            promise = this.previousPromise.then(promise)
-        }
-
-        // Store the promise so it can be accessed by subsequent calls to this method.
-        this.previousPromise = promise;
-
-        return promise
     }
 
     getPosition() {
