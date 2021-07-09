@@ -13,10 +13,9 @@ describe("TestPosition", () => {
         const chessboard = new Chessboard(document.getElementById("TestPosition"), {
             sprite: {url: "../assets/images/chessboard-sprite.svg"},
             position: "start"
-        }, () => {
-            assert.equals(chessboard.getPosition(), "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR")
-            chessboard.destroy()
         })
+        assert.equals(chessboard.getPosition(), "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR")
+        chessboard.destroy()
     })
 
     it("should set and get the position", () => {
@@ -48,9 +47,7 @@ describe("TestPosition", () => {
         assert.equals(chessboard.getPiece("a1"), "bk")
         chessboard.setPiece("e5", PIECE.wk)
         assert.equals(chessboard.getPiece("e5"), "wk")
-        setTimeout(() => {
-            chessboard.destroy()
-        }, 100)
+        chessboard.destroy()
     })
 
 })
