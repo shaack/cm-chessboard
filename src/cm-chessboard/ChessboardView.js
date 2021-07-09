@@ -134,20 +134,16 @@ export class ChessboardView {
     }
 
     handleResize() {
-        window.clearTimeout(this.resizeDebounce)
-        this.resizeDebounce = setTimeout(() => {
-            if (this.chessboard.props.style.aspectRatio) {
-                this.chessboard.element.style.height = (this.chessboard.element.clientWidth * this.chessboard.props.style.aspectRatio) + "px"
-            }
-            if (this.chessboard.element.clientWidth !== this.width ||
-                this.chessboard.element.clientHeight !== this.height) {
-                this.updateMetrics()
-                // noinspection JSIgnoredPromiseFromCall
-                this.redraw()
-            }
-            this.svg.setAttribute("width", "100%") // safari bugfix
-            this.svg.setAttribute("height", "100%")
-        })
+        if (this.chessboard.props.style.aspectRatio) {
+            this.chessboard.element.style.height = (this.chessboard.element.clientWidth * this.chessboard.props.style.aspectRatio) + "px"
+        }
+        if (this.chessboard.element.clientWidth !== this.width ||
+            this.chessboard.element.clientHeight !== this.height) {
+            this.updateMetrics()
+            this.redraw()
+        }
+        this.svg.setAttribute("width", "100%") // safari bugfix
+        this.svg.setAttribute("height", "100%")
     }
 
     redraw() {
