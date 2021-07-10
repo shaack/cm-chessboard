@@ -44,7 +44,7 @@ dependencies.
 
 Preconditions for using cm-chessboard in a web page:
 
-1. **include the css:** `styles/cm-chessboard.css`
+1. **include the css:** `assets/styles/cm-chessboard.css`
 2. **import the ES6 module:** `import {Chessboard} from "PATH/TO/src/cm-chessboard/Chessboard.js"`
 
 Example, showing a FEN:
