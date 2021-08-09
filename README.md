@@ -270,7 +270,7 @@ also demonstrated in the [mark squares example](https://shaack.com/projekte/cm-c
 The color and stroke-width of the marker is defined in the css (or scss). You could also define your marker completely
 in the sprite, but then that is not so flexible.
 
-These are the css styles of the markers "emphasize" and "danger".
+These are the css styles of the markers "markerSquare" and "markerCircleRed".
 
 ```css
 marker.markerSquare {
