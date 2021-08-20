@@ -45,6 +45,7 @@ function inputHandler(event) {
     })
     window.board.enableMoveInput(inputHandler)
     function inputHandler(event) {
+        console.log(event)
         switch (event.type) {
             case INPUT_EVENT_TYPE.moveStart:
                 log(`moveStart: ${event.square}`)

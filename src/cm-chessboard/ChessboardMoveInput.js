@@ -21,7 +21,7 @@ export const MOVE_CANCELED_REASON = {
     secondClick: "secondClick",
     movedOutOfBoard: "movedOutOfBoard",
     draggedBack: "draggedBack",
-    clickedAnother: "clickedAnother"
+    clickedAnotherPiece: "clickedAnotherPiece"
 }
 
 const DRAG_THRESHOLD = 4
@@ -254,7 +254,7 @@ export class ChessboardMoveInput {
                             const startPieceName = this.chessboard.getPiece(SQUARE_COORDINATES[this.startIndex])
                             const startPieceColor = startPieceName ? startPieceName.substr(0, 1) : undefined
                             if (color && startPieceColor === pieceColor) { // https://github.com/shaack/cm-chessboard/issues/40
-                                this.moveCanceledCallback(MOVE_CANCELED_REASON.clickedAnother, index)
+                                this.moveCanceledCallback(MOVE_CANCELED_REASON.clickedAnotherPiece, index)
                                 if (this.moveStartCallback(index)) {
                                     this.setMoveInputState(STATE.pieceClickedThreshold, {
                                         index: index,
@@ -355,8 +355,9 @@ export class ChessboardMoveInput {
                 }
             } else {
                 this.view.drawPieces()
+                const moveStartIndex = this.startIndex
                 this.setMoveInputState(STATE.reset)
-                this.moveCanceledCallback(MOVE_CANCELED_REASON.movedOutOfBoard, undefined)
+                this.moveCanceledCallback(MOVE_CANCELED_REASON.movedOutOfBoard, moveStartIndex)
             }
         } else {
             this.view.drawPieces()
