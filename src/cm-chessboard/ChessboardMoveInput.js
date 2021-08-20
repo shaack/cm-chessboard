@@ -254,7 +254,7 @@ export class ChessboardMoveInput {
                             const startPieceName = this.chessboard.getPiece(SQUARE_COORDINATES[this.startIndex])
                             const startPieceColor = startPieceName ? startPieceName.substr(0, 1) : undefined
                             if (color && startPieceColor === pieceColor) { // https://github.com/shaack/cm-chessboard/issues/40
-                                this.moveCanceledCallback(MOVE_CANCELED_REASON.clickedAnotherPiece, index)
+                                this.moveCanceledCallback(MOVE_CANCELED_REASON.clickedAnotherPiece, this.startIndex, index)
                                 if (this.moveStartCallback(index)) {
                                     this.setMoveInputState(STATE.pieceClickedThreshold, {
                                         index: index,
@@ -339,7 +339,7 @@ export class ChessboardMoveInput {
                         if (this.moveInputState === STATE.clickDragTo) {
                             this.chessboard.state.setPiece(this.startIndex, this.movedPiece)
                             this.view.setPieceVisibility(this.startIndex)
-                            this.moveCanceledCallback(MOVE_CANCELED_REASON.draggedBack, index)
+                            this.moveCanceledCallback(MOVE_CANCELED_REASON.draggedBack, index, index)
                             this.setMoveInputState(STATE.reset)
                         } else {
                             this.setMoveInputState(STATE.clickTo, {index: index})
@@ -351,13 +351,13 @@ export class ChessboardMoveInput {
                     this.setMoveInputState(STATE.clickTo, {index: index})
                 } else if (this.moveInputState === STATE.secondClickThreshold) {
                     this.setMoveInputState(STATE.reset)
-                    this.moveCanceledCallback(MOVE_CANCELED_REASON.secondClick, index)
+                    this.moveCanceledCallback(MOVE_CANCELED_REASON.secondClick, index, index)
                 }
             } else {
                 this.view.drawPieces()
                 const moveStartIndex = this.startIndex
                 this.setMoveInputState(STATE.reset)
-                this.moveCanceledCallback(MOVE_CANCELED_REASON.movedOutOfBoard, moveStartIndex)
+                this.moveCanceledCallback(MOVE_CANCELED_REASON.movedOutOfBoard, moveStartIndex, undefined)
             }
         } else {
             this.view.drawPieces()
