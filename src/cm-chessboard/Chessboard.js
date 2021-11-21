@@ -114,6 +114,27 @@ export class Chessboard {
         return this.state.squares[this.state.squareToIndex(square)]
     }
 
+    movePiece(squareFrom, squareTo, animated = true) {
+        return new Promise((resolve, reject) => {
+            const prevSquares = this.state.squares.slice(0) // clone
+            const pieceFrom = this.getPiece(squareFrom)
+            if(!pieceFrom) {
+                reject("no piece on square " + squareFrom)
+                return
+            }
+            this.state.squares[this.state.squareToIndex(squareFrom)] = undefined
+            this.state.squares[this.state.squareToIndex(squareTo)] = pieceFrom
+            if (animated) {
+                this.view.animatePieces(prevSquares, this.state.squares, () => {
+                    resolve()
+                })
+            } else {
+                this.view.drawPieces(this.state.squares)
+                resolve()
+            }
+        })
+    }
+
     setPosition(fen, animated = true) {
         return new Promise((resolve) => {
             if (fen === "start") {

@@ -7,7 +7,7 @@
 export class ChessboardState {
 
     constructor() {
-        this.squares = new Array(64).fill(undefined)
+        this.squares = new Array(64).fill(null)
         this.orientation = undefined
         this.markers = []
         this.inputWhiteEnabled = false
@@ -59,7 +59,7 @@ export class ChessboardState {
                 })
                 for (let c = 0; c < 8; c++) {
                     const char = row.substr(c, 1)
-                    let piece = undefined
+                    let piece = null
                     if (char !== '-') {
                         if (char.toUpperCase() === char) {
                             piece = `w${char.toLowerCase()}`

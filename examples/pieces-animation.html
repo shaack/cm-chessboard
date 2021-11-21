@@ -18,9 +18,12 @@
 <button onclick="setPosition('rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR')">Position 1</button>
 <button onclick="setPosition('rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R')">Position 2</button>
 <button onclick="setPosition('rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR')">Position 3</button>
-<button onclick="switchOrientation()">Switch Orientation
-</button>
+<button onclick="switchOrientation()">Switch Orientation</button>
 <pre>&lt;button onclick="window.board.setPosition('rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR')"&gt;Position 3&lt;/button&gt;</pre>
+<br/>
+Move piece from: <input id="moveFrom" type="text" size="2" value="e2"/> to:  <input id="moveTo" type="text" size="2" value="e4"/>
+<button onclick="movePiece()">Do move</button>
+<pre>board.movePiece(squareFrom, squareTo)</pre>
 <script type="module">
     import {Chessboard} from "../src/cm-chessboard/Chessboard.js"
 
@@ -39,6 +42,12 @@
     }
     window.switchOrientation = () => {
         board.setOrientation(board.getOrientation() === 'w' ? 'b' : 'w')
+    }
+    window.movePiece = () => {
+        const squareFrom = document.getElementById("moveFrom").value
+        const squareTo = document.getElementById("moveTo").value
+        console.log("movePiece", squareFrom, squareTo)
+        board.movePiece(squareFrom, squareTo)
     }
 </script>
 </body>

@@ -106,12 +106,18 @@ Sets a piece on a square. Example: `board.setPiece("e4", PIECE.blackKnight)` or
 
 Returns the piece on a square or `undefined` if the square is empty.
 
+### movePiece(squareFrom, squareTo, animated = true)
+
+Move a piece from `squareFrom` to `squareTo`. Returns a **Promise**, which is resolved, when the animation finished.
+
+[Example for **movePiece**](https://shaack.com/projekte/cm-chessboard/examples/pieces-animation.html)
+
 ### setPosition(fen, animated = true)
 
 Sets the position as `fen`. Special values are `"start"`, sets the chess start position and
 `"empty"`, sets an empty board. When `animated` is set `false`, the new position will be shown instant.
 
-Returns a **Promise** which will be resolved, after the Animation has finished.
+Returns a **Promise**, which is resolved, when the animation finished.
 
 [Example for **setPosition**](https://shaack.com/projekte/cm-chessboard/examples/pieces-animation.html)
 
