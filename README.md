@@ -100,7 +100,7 @@ props = {
 ### setPiece(square, piece)
 
 Sets a piece on a square. Example: `board.setPiece("e4", PIECE.blackKnight)` or
-`board.setPiece("e4", "bn")`.
+`board.setPiece("e4", "bn")`. Remove a Piece with `board.setPiece("e4", null)`.
 
 ### getPiece(square)
 
