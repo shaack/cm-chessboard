@@ -122,7 +122,7 @@ export class Chessboard {
                 reject("no piece on square " + squareFrom)
                 return
             }
-            this.state.squares[this.state.squareToIndex(squareFrom)] = undefined
+            this.state.squares[this.state.squareToIndex(squareFrom)] = null
             this.state.squares[this.state.squareToIndex(squareTo)] = pieceFrom
             if (animated) {
                 this.view.animatePieces(prevSquares, this.state.squares, () => {
