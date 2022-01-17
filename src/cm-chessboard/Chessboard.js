@@ -40,7 +40,7 @@ export const FEN_EMPTY_POSITION = "8/8/8/8/8/8/8/8"
 
 export class Chessboard {
 
-    constructor(element, props = {}) {
+    constructor(element, props = {}) { // TODO rename element to context
         if (!element) {
             throw new Error("container element is " + element)
         }
@@ -112,6 +112,27 @@ export class Chessboard {
 
     getPiece(square) {
         return this.state.squares[this.state.squareToIndex(square)]
+    }
+
+    movePiece(squareFrom, squareTo, animated = true) {
+        return new Promise((resolve, reject) => {
+            const prevSquares = this.state.squares.slice(0) // clone
+            const pieceFrom = this.getPiece(squareFrom)
+            if(!pieceFrom) {
+                reject("no piece on square " + squareFrom)
+            } else {
+                this.state.squares[this.state.squareToIndex(squareFrom)] = null
+                this.state.squares[this.state.squareToIndex(squareTo)] = pieceFrom
+                if (animated) {
+                    this.view.animatePieces(prevSquares, this.state.squares, () => {
+                        resolve()
+                    })
+                } else {
+                    this.view.drawPieces(this.state.squares)
+                    resolve()
+                }
+            }
+        })
     }
 
     setPosition(fen, animated = true) {
