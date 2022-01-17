@@ -51,7 +51,7 @@ export class Chessboard {
             style: {
                 cssClass: "default",
                 showCoordinates: true, // show ranks and files
-                borderType: BORDER_TYPE.thin, // thin: thin border, frame: wide border with coordinates in it, none: no border
+                borderType: BORDER_TYPE.none, // thin: thin border, frame: wide border with coordinates in it, none: no border
                 aspectRatio: 1, // height/width. Set to `undefined`, if you want to define it only in the css.
                 moveFromMarker: MARKER_TYPE.frame, // the marker used to mark the start square
                 moveToMarker: MARKER_TYPE.frame, // the marker used to mark the square where the figure is moving to
@@ -61,7 +61,7 @@ export class Chessboard {
             responsive: true, // resizes the board based on element size
             animationDuration: 300, // pieces animation duration in milliseconds
             sprite: {
-                url: "./assets/images/chessboard-sprite-staunty.svg", // pieces and markers are stored as svg sprite
+                url: "./assets/images/chessboard-sprite.svg", // pieces and markers are stored as svg sprite
                 size: 40, // the sprite size, defaults to 40x40px
                 cache: true // cache the sprite inline, in the HTML
             }

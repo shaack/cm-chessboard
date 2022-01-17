@@ -33,7 +33,8 @@
     new Chessboard(document.getElementById("board2"), {
         position: "start",
         style: {
-            cssClass: "chessboard-js"
+            cssClass: "chessboard-js",
+            borderType: BORDER_TYPE.thin
         },
         sprite: {url: "../assets/images/chessboard-sprite.svg", cache: false}
     })
@@ -49,7 +50,7 @@
         position: "start",
         style: {
             cssClass: "blue",
-            borderType: BORDER_TYPE.none,
+            borderType: BORDER_TYPE.thin,
             showCoordinates: false,
         },
         sprite: {url: "../assets/images/chessboard-sprite.svg", cache: false}
