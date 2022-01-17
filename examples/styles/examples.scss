@@ -1,7 +1,9 @@
-$link: #068cdf;
-$background: #f8f9fa;
-$default: #333;
-$code-background: #555;
+$link: #516CD4;
+$link-hover: #E2FEDE;
+$background: #222;
+$default: #fff;
+$color2: #CD7338;
+$code-background: #111;
 $code: #eee;
 $font-size: 17px;
 
@@ -21,16 +23,17 @@ body {
 a {
   color: $link;
   &:visited {
-    color: $default;
+    color: #929292;
   }
   &:hover {
-    color: darken($link, 10%);
+    color: $link-hover;
   }
 }
 
 h1, h1 a {
   margin-top: 0;
   font-size: $font-size * 2;
+  color: $color2;
 }
 
 h1 {
@@ -40,6 +43,7 @@ h1 {
 h2 {
   margin-bottom: 15px;
   font-size: $font-size * 1.4;
+  color: $color2;
 }
 
 pre {
@@ -69,4 +73,8 @@ button {
   padding: 4px 20px;
   margin-right: 10px;
   margin-bottom: 10px;
+  background-color: #999;
+  &:hover {
+    background-color: #777;
+  }
 }
