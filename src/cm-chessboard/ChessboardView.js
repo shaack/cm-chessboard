@@ -336,6 +336,7 @@ export class ChessboardView {
         const nextAnimation = this.animationQueue.shift()
         if (nextAnimation !== undefined) {
             this.animationRunning = true
+            this.drawPieces(nextAnimation.fromSquares);
             this.currentAnimation = new ChessboardPiecesAnimation(this, nextAnimation.fromSquares, nextAnimation.toSquares, this.chessboard.props.animationDuration / (this.animationQueue.length + 1), () => {
                 if (!this.moveInput.draggablePiece) {
                     this.animationRunning = false
