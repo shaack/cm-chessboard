@@ -148,6 +148,7 @@ export class ChessboardMoveInput {
                         })
                     } else {
                         this.view.drawPieces(this.chessboard.state.squares)
+                        this.view.animationQueue.shift()
                         this.setMoveInputState(STATE.reset)
                     }
                 } else {

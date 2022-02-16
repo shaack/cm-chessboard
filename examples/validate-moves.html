@@ -105,6 +105,7 @@ board.enableMoveInput(inputHandler, COLOR.white)
 
     const board = new Chessboard(document.getElementById("board"), {
         position: chess.fen(),
+        // animationDuration: 2000,
         sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
         style: {moveFromMarker: undefined, moveToMarker: undefined}, // disable standard markers
         orientation: COLOR.white

@@ -67,7 +67,7 @@ export class ChessboardView {
     destroy() {
         this.moveInput.destroy()
         if (this.resizeObserver) {
-            this.resizeObserver.unobserve(this.chessboard.element);
+            this.resizeObserver.unobserve(this.chessboard.element)
         }
         if (this.resizeListener) {
             window.removeEventListener("resize", this.resizeListener)
@@ -335,8 +335,8 @@ export class ChessboardView {
     nextPieceAnimationInQueue() {
         const nextAnimation = this.animationQueue.shift()
         if (nextAnimation !== undefined) {
+            this.drawPieces(nextAnimation.fromSquares)
             this.animationRunning = true
-            this.drawPieces(nextAnimation.fromSquares);
             this.currentAnimation = new ChessboardPiecesAnimation(this, nextAnimation.fromSquares, nextAnimation.toSquares, this.chessboard.props.animationDuration / (this.animationQueue.length + 1), () => {
                 this.animationRunning = false
                 this.nextPieceAnimationInQueue()
