@@ -148,7 +148,7 @@ export class ChessboardMoveInput {
                         })
                     } else {
                         this.view.drawPieces(this.chessboard.state.squares)
-                        this.view.animationQueue = [] // remove all animations (See PR #59)
+                        // this.view.animationQueue = [] // todo remove all animations (See PR #59)
                         this.setMoveInputState(STATE.reset)
                     }
                 } else {
