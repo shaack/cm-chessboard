@@ -104,8 +104,14 @@ export class ChessboardView {
             Svg.removeElement(this.svg)
         }
         this.svg = Svg.createSvg(this.chessboard.element)
+        let description = document.createElement("description")
+        description.innerText = "Chessboard"
+        description.id = "svg-description"
+        this.svg.appendChild(description)
         let cssClass = this.chessboard.props.style.cssClass ? this.chessboard.props.style.cssClass : "default"
         this.svg.setAttribute("class", "cm-chessboard border-type-" + this.chessboard.props.style.borderType + " " + cssClass)
+        this.svg.setAttribute("aria-describedby", "svg-description")
+        this.svg.setAttribute("role", "img")
         this.updateMetrics()
         this.boardGroup = Svg.addElement(this.svg, "g", {class: "board"})
         this.coordinatesGroup = Svg.addElement(this.svg, "g", {class: "coordinates"})
