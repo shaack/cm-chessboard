@@ -16,6 +16,26 @@ export class ChessboardState {
         this.squareSelectEnabled = false
     }
 
+    getPieces() {
+        const pieces = []
+        const sortBy = ['k', 'q', 'r', 'b', 'n', 'p']
+        const sort = (a, b) => {
+            return sortBy.indexOf(a.piece) - sortBy.indexOf(b.piece)
+        }
+        for(let i=0; i<64; i++) {
+            const piece = this.squares[i]
+            if(piece) {
+                pieces.push({
+                    piece: piece.charAt(1),
+                    color:  piece.charAt(0),
+                    position: this.indexToSquare(i)
+                })
+            }
+        }
+        pieces.sort(sort)
+        return pieces
+    }
+
     setPiece(index, piece) {
         this.squares[index] = piece
     }
@@ -107,6 +127,12 @@ export class ChessboardState {
         const file = square.substr(0, 1).charCodeAt(0) - 97
         const rank = square.substr(1, 1) - 1
         return 8 * rank + file
+    }
+
+    indexToSquare(index) {
+        const file = String.fromCharCode(index % 8 + 97)
+        const rank = Math.floor(index / 8) + 1
+        return file + rank
     }
 
 }

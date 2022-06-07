@@ -6,6 +6,7 @@
 
 import {SQUARE_COORDINATES, ChessboardView} from "./ChessboardView.js"
 import {ChessboardState} from "./ChessboardState.js"
+import {ChessboardViewAccessible} from "./ChessboardViewAccessible.js"
 
 export const COLOR = {
     white: "w",
@@ -48,6 +49,7 @@ export class Chessboard {
         let defaultProps = {
             position: "empty", // set as fen, "start" or "empty"
             orientation: COLOR.white, // white on bottom
+            accessible: false, // render additional information to allow the usage for people using screen readers (beta)
             style: {
                 cssClass: "default",
                 showCoordinates: true, // show ranks and files
@@ -91,7 +93,8 @@ export class Chessboard {
         this.state = new ChessboardState()
         this.state.orientation = this.props.orientation
 
-        this.view = new ChessboardView(this, (view) => {
+        const viewType = this.props.accessible ? ChessboardViewAccessible : ChessboardView
+        this.view = new viewType(this, (view) => {
             if (this.props.position === "start") {
                 this.state.setPosition(FEN_START_POSITION)
             } else if (this.props.position === "empty" || this.props.position === undefined) {
