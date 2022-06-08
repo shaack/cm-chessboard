@@ -41,6 +41,14 @@
   .cm-chessboard-content .list-inline-item:not(:last-child) {
     margin-right: 1rem; }
 
+.cm-chessboard-content.visually-hidden {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden; }
+
 .cm-chessboard.default .board .square.white {
   fill: #ecdab9; }
 

@@ -9,6 +9,7 @@
       }
     }
   }
+
   .markers {
     .marker {
       // use the second, the hyphens syntax
@@ -17,24 +18,29 @@
         stroke-width: 1.8px;
         opacity: 0.5;
       }
+
       &.markerFrameRed, &.marker-frame-red {
         stroke: #aa0000;
         stroke-width: 1.8px;
         opacity: 0.4;
       }
+
       &.markerSquare, &.marker-square {
         fill: black;
         opacity: 0.11;
       }
+
       &.markerDot, &.marker-dot {
         fill: black;
         opacity: 0.3;
       }
+
       &.markerCircle, &.marker-circle {
         stroke: #000055;
         stroke-width: 3px;
         opacity: 0.4;
       }
+
       &.markerCircleRed, &.marker-circle-red {
         stroke: #aa0000;
         stroke-width: 3px;
@@ -42,22 +48,34 @@
       }
     }
   }
+
   .pieces, .markers {
     // important for the proper function
     pointer-events: none;
   }
 }
+
 .cm-chessboard-content {
   .list-inline {
     padding-left: 0;
     list-style: none;
   }
+
   .list-inline-item {
     display: inline-block;
 
     &:not(:last-child) {
       margin-right: 1rem;
     }
+  }
+
+  &.visually-hidden {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
   }
 }
 
