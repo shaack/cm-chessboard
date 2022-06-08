@@ -20,13 +20,13 @@ export class ChessboardState {
         const pieces = []
         const sortBy = ['k', 'q', 'r', 'b', 'n', 'p']
         const sort = (a, b) => {
-            return sortBy.indexOf(a.piece) - sortBy.indexOf(b.piece)
+            return sortBy.indexOf(a.name) - sortBy.indexOf(b.name)
         }
         for(let i=0; i<64; i++) {
             const piece = this.squares[i]
             if(piece) {
                 pieces.push({
-                    piece: piece.charAt(1),
+                    name: piece.charAt(1),
                     color:  piece.charAt(0),
                     position: this.indexToSquare(i)
                 })

@@ -12,12 +12,18 @@ export class ChessboardViewAccessible extends ChessboardView {
         this.translations = {
             en: {
                 pieces_lists: "Pieces lists",
-                board_as_table: "Board as table",
+                board_as_table: "Chessboard as table",
                 colors: {
                     w: "w", b: "b"
                 },
+                colors_long: {
+                    w: "White", b: "Black"
+                },
                 pieces: {
                     p: "p", n: "n", b: "b", r: "r", q: "q", k: "k"
+                },
+                pieces_long: {
+                    p: "Pawn", n: "Knight", b: "Bishop", r: "Rook", q: "Queen", k: "King"
                 }
             },
             de: {
@@ -26,8 +32,14 @@ export class ChessboardViewAccessible extends ChessboardView {
                 colors: {
                     w: "w", b: "s"
                 },
+                colors_long: {
+                    w: "Weiß", b: "Schwarz"
+                },
                 pieces: {
                     p: "b", n: "s", b: "l", r: "t", q: "d", k: "k"
+                },
+                pieces_long: {
+                    p: "Bauer", n: "Springer", b: "Läufer", r: "Turm", q: "Dame", k: "König"
                 }
             }
         }
@@ -36,10 +48,10 @@ export class ChessboardViewAccessible extends ChessboardView {
             this.lang = "en"
         }
         this.t = this.translations[this.lang]
-        this.piecesListContainer = this.createElement(`<div><h3>${this.t.pieces_lists}</h3><div class="list"></div></div>`)
+        this.piecesListContainer = this.createElement(`<div class="cm-chessboard-content"><h3>${this.t.pieces_lists}</h3><div class="list"></div></div>`)
         this.piecesList = this.piecesListContainer.querySelector(".list")
         this.chessboard.element.appendChild(this.piecesListContainer)
-        this.boardAsTableContainer = this.createElement(`<div><h3>${this.t.board_as_table}</h3><div class="table"></div></div>`)
+        this.boardAsTableContainer = this.createElement(`<div class="cm-chessboard-content"><h3>${this.t.board_as_table}</h3><div class="table"></div></div>`)
         this.boardAsTable = this.boardAsTableContainer.querySelector(".table")
         this.chessboard.element.appendChild(this.boardAsTableContainer)
     }
@@ -54,9 +66,22 @@ export class ChessboardViewAccessible extends ChessboardView {
 
     redrawPiecesLists() {
         const pieces = this.chessboard.state.getPieces()
-        let piecesW = `<ul title="${this.t.colors.w}" aria-label="${this.t.colors.w}">`
-        piecesW += "</ul>"
-        this.piecesList.innerHTML = piecesW
+        let listW = ""
+        let listB = ""
+        console.log(pieces)
+        for (const piece of pieces) {
+            if(piece.color === "w") {
+                listW += `<li class="list-inline-item">${this.t.pieces_long[piece.name]} ${piece.position}</li>`
+            } else {
+                listB += `<li class="list-inline-item">${this.t.pieces_long[piece.name]} ${piece.position}</li>`
+            }
+        }
+        // let piecesW = `<ul title="${this.t.colors.w}" aria-label="${this.t.colors.w}">`
+
+        // piecesW += "</ul>"
+        this.piecesList.innerHTML = `
+        <ul aria-label="${this.t.colors_long.w}" class="list-inline">${listW}</ul>
+        <ul aria-label="${this.t.colors_long.b}" class="list-inline">${listB}</ul>`
     }
 
     redrawBoardAsTable() {
