@@ -32,6 +32,7 @@
         boardDiv.setAttribute("class", "board")
         boardsDiv.appendChild(boardDiv)
         new Chessboard(boardDiv, {
+            accessible: true,
             responsive: false,
             position: game.fen(),
             sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
