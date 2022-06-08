@@ -54,6 +54,19 @@
     pointer-events: none;
   }
 }
+.cm-chessboard-content {
+  .list-inline {
+    padding-left: 0;
+    list-style: none;
+  }
+  .list-inline-item {
+    display: inline-block;
+
+    &:not(:last-child) {
+      margin-right: 1rem;
+    }
+  }
+}
 
 .cm-chessboard-content {
   .list-inline {
