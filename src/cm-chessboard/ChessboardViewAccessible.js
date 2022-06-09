@@ -88,7 +88,6 @@ export class ChessboardViewAccessible extends ChessboardView {
 
     redrawBoardAsTable() {
         const squares = this.chessboard.state.squares.slice()
-        console.log(squares)
         const ranks = ["a", "b", "c", "d", "e", "f", "g", "h"]
         const files = ["1", "2", "3", "4", "5", "6", "7", "8"]
         if (this.chessboard.state.orientation === COLOR.black) {
