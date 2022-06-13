@@ -3,7 +3,7 @@
  * Repository: https://github.com/shaack/cm-chessboard
  * License: MIT, see file 'LICENSE'
  */
-import {ChessboardView} from "./ChessboardView.js"
+import {ChessboardView, renderPieceTitle} from "./ChessboardView.js"
 import {COLOR} from "./Chessboard.js"
 import {piecesTranslations} from "./ChessboardView.js"
 
@@ -54,9 +54,9 @@ export class ChessboardViewAccessible extends ChessboardView {
         let listB = ""
         for (const piece of pieces) {
             if (piece.color === "w") {
-                listW += `<li class="list-inline-item">${this.t.pieces_long[piece.name]} ${piece.position}</li>`
+                listW += `<li class="list-inline-item">${renderPieceTitle(this.lang, piece.name)} ${piece.position}</li>`
             } else {
-                listB += `<li class="list-inline-item">${this.t.pieces_long[piece.name]} ${piece.position}</li>`
+                listB += `<li class="list-inline-item">${renderPieceTitle(this.lang, piece.name)} ${piece.position}</li>`
             }
         }
         count++
@@ -89,7 +89,7 @@ export class ChessboardViewAccessible extends ChessboardView {
                 if(pieceCode) {
                     color = pieceCode.charAt(0)
                     name = pieceCode.charAt(1)
-                    html += `<td>${this.t.pieces_long[name]} ${this.t.colors_long[color]}</td>`
+                    html += `<td>${renderPieceTitle(this.lang, name, color)}</td>`
                 } else {
                     html += `<td></td>`
                 }

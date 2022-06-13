@@ -39,6 +39,14 @@ export const piecesTranslations = {
     }
 }
 
+export function renderPieceTitle(lang, name, color = undefined) {
+    let title = piecesTranslations[lang].pieces_long[name]
+    if(color) {
+        title += " " + piecesTranslations[lang].colors_long[color]
+    }
+    return title
+}
+
 export const SQUARE_COORDINATES = [
     "a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1",
     "a2", "b2", "c2", "d2", "e2", "f2", "g2", "h2",
