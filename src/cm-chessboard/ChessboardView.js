@@ -10,8 +10,6 @@ import {ChessboardPiecesAnimation} from "./ChessboardPiecesAnimation.js"
 
 export const piecesTranslations = {
     en: {
-        pieces_lists: "Pieces lists",
-        board_as_table: "Chessboard as table",
         colors: {
             w: "w", b: "b"
         },
@@ -26,8 +24,6 @@ export const piecesTranslations = {
         }
     },
     de: {
-        pieces_lists: "Figurenlisten",
-        board_as_table: "Schachbrett als Tabelle",
         colors: {
             w: "w", b: "s"
         },

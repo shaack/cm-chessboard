@@ -9,6 +9,18 @@ import {piecesTranslations} from "./ChessboardView.js"
 
 let count = 0
 
+
+const hlTranslations = {
+    en: {
+        pieces_lists: "Pieces lists",
+        board_as_table: "Chessboard as table"
+    },
+    de: {
+        pieces_lists: "Figurenlisten",
+        board_as_table: "Schachbrett als Tabelle"
+    }
+}
+
 export class ChessboardViewAccessible extends ChessboardView {
 
     constructor(chessboard, callbackAfterCreation) {
@@ -19,10 +31,11 @@ export class ChessboardViewAccessible extends ChessboardView {
         }
         this.translations = piecesTranslations
         this.t = this.translations[this.lang]
-        this.piecesListContainer = this.createElement(`<div class="cm-chessboard-content visually-hidden"><h3>${this.t.pieces_lists}</h3><div class="list"></div></div>`)
+        this.th = hlTranslations[this.lang]
+        this.piecesListContainer = this.createElement(`<div class="cm-chessboard-content visually-hidden"><h3>${this.th.pieces_lists}</h3><div class="list"></div></div>`)
         this.piecesList = this.piecesListContainer.querySelector(".list")
         this.chessboard.element.appendChild(this.piecesListContainer)
-        this.boardAsTableContainer = this.createElement(`<div class="cm-chessboard-content visually-hidden"><h3>${this.t.board_as_table}</h3><div class="table"></div></div>`)
+        this.boardAsTableContainer = this.createElement(`<div class="cm-chessboard-content visually-hidden"><h3>${this.th.board_as_table}</h3><div class="table"></div></div>`)
         this.boardAsTable = this.boardAsTableContainer.querySelector(".table")
         this.chessboard.element.appendChild(this.boardAsTableContainer)
     }
