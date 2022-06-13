@@ -49,7 +49,7 @@ export class Chessboard {
         let defaultProps = {
             position: "empty", // set as fen, "start" or "empty"
             orientation: COLOR.white, // white on bottom
-            accessible: false, // render additional information to allow the usage for people using screen readers (beta)
+            accessible: false, // render additional information to improve the usage for people using screen readers (beta)
             style: {
                 cssClass: "default",
                 showCoordinates: true, // show ranks and files

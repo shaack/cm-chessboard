@@ -5,6 +5,7 @@
  */
 import {ChessboardView} from "./ChessboardView.js"
 import {COLOR} from "./Chessboard.js"
+import {piecesTranslations} from "./ChessboardView.js"
 
 let count = 0
 
@@ -12,44 +13,11 @@ export class ChessboardViewAccessible extends ChessboardView {
 
     constructor(chessboard, callbackAfterCreation) {
         super(chessboard, callbackAfterCreation)
-        this.translations = {
-            en: {
-                pieces_lists: "Pieces lists",
-                board_as_table: "Chessboard as table",
-                colors: {
-                    w: "w", b: "b"
-                },
-                colors_long: {
-                    w: "White", b: "Black"
-                },
-                pieces: {
-                    p: "p", n: "n", b: "b", r: "r", q: "q", k: "k"
-                },
-                pieces_long: {
-                    p: "Pawn", n: "Knight", b: "Bishop", r: "Rook", q: "Queen", k: "King"
-                }
-            },
-            de: {
-                pieces_lists: "Figurenlisten",
-                board_as_table: "Schachbrett als Tabelle",
-                colors: {
-                    w: "w", b: "s"
-                },
-                colors_long: {
-                    w: "Weiß", b: "Schwarz"
-                },
-                pieces: {
-                    p: "b", n: "s", b: "l", r: "t", q: "d", k: "k"
-                },
-                pieces_long: {
-                    p: "Bauer", n: "Springer", b: "Läufer", r: "Turm", q: "Dame", k: "König"
-                }
-            }
-        }
         this.lang = document.documentElement.getAttribute("lang")
         if (this.lang !== "de" && this.lang !== "en") {
             this.lang = "en"
         }
+        this.translations = piecesTranslations
         this.t = this.translations[this.lang]
         this.piecesListContainer = this.createElement(`<div class="cm-chessboard-content visually-hidden"><h3>${this.t.pieces_lists}</h3><div class="list"></div></div>`)
         this.piecesList = this.piecesListContainer.querySelector(".list")

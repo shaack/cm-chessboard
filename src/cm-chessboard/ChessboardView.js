@@ -8,6 +8,41 @@ import {ChessboardMoveInput} from "./ChessboardMoveInput.js"
 import {COLOR, INPUT_EVENT_TYPE, BORDER_TYPE} from "./Chessboard.js"
 import {ChessboardPiecesAnimation} from "./ChessboardPiecesAnimation.js"
 
+export const piecesTranslations = {
+    en: {
+        pieces_lists: "Pieces lists",
+        board_as_table: "Chessboard as table",
+        colors: {
+            w: "w", b: "b"
+        },
+        colors_long: {
+            w: "White", b: "Black"
+        },
+        pieces: {
+            p: "p", n: "n", b: "b", r: "r", q: "q", k: "k"
+        },
+        pieces_long: {
+            p: "Pawn", n: "Knight", b: "Bishop", r: "Rook", q: "Queen", k: "King"
+        }
+    },
+    de: {
+        pieces_lists: "Figurenlisten",
+        board_as_table: "Schachbrett als Tabelle",
+        colors: {
+            w: "w", b: "s"
+        },
+        colors_long: {
+            w: "Weiß", b: "Schwarz"
+        },
+        pieces: {
+            p: "b", n: "s", b: "l", r: "t", q: "d", k: "k"
+        },
+        pieces_long: {
+            p: "Bauer", n: "Springer", b: "Läufer", r: "Turm", q: "Dame", k: "König"
+        }
+    }
+}
+
 export const SQUARE_COORDINATES = [
     "a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1",
     "a2", "b2", "c2", "d2", "e2", "f2", "g2", "h2",
