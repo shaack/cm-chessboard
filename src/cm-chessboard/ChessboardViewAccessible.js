@@ -76,7 +76,7 @@ export class ChessboardViewAccessible extends ChessboardView {
             files.reverse()
             squares.reverse()
         }
-        let html = `<table><caption>${this.t.board_as_table}</caption><tr><th></th>`
+        let html = `<table><caption>${this.th.board_as_table}</caption><tr><th></th>`
         for (const rank of ranks) {
             html += `<th scope='col'>${rank}</th>`
         }
