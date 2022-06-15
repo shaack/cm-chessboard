@@ -66,7 +66,7 @@ export class ChessboardViewAccessible extends ChessboardView {
         this.boardAsTableContainer = this.createElement(`<div><h3>${this.th.board_as_table}</h3><div class="table"></div></div>`)
         this.boardAsTable = this.boardAsTableContainer.querySelector(".table")
         this.accessibleContainer.appendChild(this.boardAsTableContainer)
-        this.chessboard.element.appendChild(this.accessibleContainer)
+        this.chessboard.context.appendChild(this.accessibleContainer)
         this.updateFormInputs()
     }
 

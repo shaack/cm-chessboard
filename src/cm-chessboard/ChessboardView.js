@@ -80,7 +80,7 @@ export class ChessboardView {
                 this.resizeObserver = new ResizeObserver(() => {
                     this.handleResize()
                 })
-                this.resizeObserver.observe(this.chessboard.element)
+                this.resizeObserver.observe(this.chessboard.context)
             } else {
                 this.resizeListener = this.handleResize.bind(this)
                 window.addEventListener("resize", this.resizeListener)
@@ -88,8 +88,8 @@ export class ChessboardView {
         }
 
         this.pointerDownListener = this.pointerDownHandler.bind(this)
-        this.chessboard.element.addEventListener("mousedown", this.pointerDownListener)
-        this.chessboard.element.addEventListener("touchstart", this.pointerDownListener)
+        this.chessboard.context.addEventListener("mousedown", this.pointerDownListener)
+        this.chessboard.context.addEventListener("touchstart", this.pointerDownListener)
 
         this.createSvgAndGroups()
         this.updateMetrics()
@@ -106,13 +106,13 @@ export class ChessboardView {
     destroy() {
         this.moveInput.destroy()
         if (this.resizeObserver) {
-            this.resizeObserver.unobserve(this.chessboard.element)
+            this.resizeObserver.unobserve(this.chessboard.context)
         }
         if (this.resizeListener) {
             window.removeEventListener("resize", this.resizeListener)
         }
-        this.chessboard.element.removeEventListener("mousedown", this.pointerDownListener)
-        this.chessboard.element.removeEventListener("touchstart", this.pointerDownListener)
+        this.chessboard.context.removeEventListener("mousedown", this.pointerDownListener)
+        this.chessboard.context.removeEventListener("touchstart", this.pointerDownListener)
         Svg.removeElement(this.svg)
         this.animationQueue = []
         if (this.currentAnimation) {
@@ -142,7 +142,7 @@ export class ChessboardView {
         if (this.svg) {
             Svg.removeElement(this.svg)
         }
-        this.svg = Svg.createSvg(this.chessboard.element)
+        this.svg = Svg.createSvg(this.chessboard.context)
         let description = document.createElement("description")
         description.innerText = "Chessboard"
         description.id = "svg-description"
@@ -159,8 +159,8 @@ export class ChessboardView {
     }
 
     updateMetrics() {
-        this.width = this.chessboard.element.clientWidth
-        this.height = this.chessboard.element.clientHeight
+        this.width = this.chessboard.context.clientWidth
+        this.height = this.chessboard.context.clientHeight
         if (this.chessboard.props.style.borderType === BORDER_TYPE.frame) {
             this.borderSize = this.width / 25
         } else if (this.chessboard.props.style.borderType === BORDER_TYPE.thin) {
@@ -179,10 +179,10 @@ export class ChessboardView {
 
     handleResize() {
         if (this.chessboard.props.style.aspectRatio) {
-            this.chessboard.element.style.height = (this.chessboard.element.clientWidth * this.chessboard.props.style.aspectRatio) + "px"
+            this.chessboard.context.style.height = (this.chessboard.context.clientWidth * this.chessboard.props.style.aspectRatio) + "px"
         }
-        if (this.chessboard.element.clientWidth !== this.width ||
-            this.chessboard.element.clientHeight !== this.height) {
+        if (this.chessboard.context.clientWidth !== this.width ||
+            this.chessboard.context.clientHeight !== this.height) {
             this.updateMetrics()
             this.redraw()
         }

@@ -45,7 +45,7 @@ export class Chessboard {
         if (!context) {
             throw new Error("container element is " + context)
         }
-        this.element = context
+        this.context = context
         this.id = (Math.random() + 1).toString(36).substr(2, 6)
         let defaultProps = {
             position: "empty", // set as fen, "start" or "empty"
@@ -79,7 +79,7 @@ export class Chessboard {
             Object.assign(this.props.style, props.style)
         }
         if (this.props.style.aspectRatio) {
-            this.element.style.height = (this.element.offsetWidth * this.props.style.aspectRatio) + "px"
+            this.context.style.height = (this.context.offsetWidth * this.props.style.aspectRatio) + "px"
         }
         this.state = new ChessboardState()
         if (this.props.position === "start") {
@@ -199,9 +199,9 @@ export class Chessboard {
         this.view = undefined
         this.state = undefined
         if (this.squareSelectListener) {
-            this.element.removeEventListener("contextmenu", this.squareSelectListener)
-            this.element.removeEventListener("mouseup", this.squareSelectListener)
-            this.element.removeEventListener("touchend", this.squareSelectListener)
+            this.context.removeEventListener("contextmenu", this.squareSelectListener)
+            this.context.removeEventListener("mouseup", this.squareSelectListener)
+            this.context.removeEventListener("touchend", this.squareSelectListener)
         }
     }
 
@@ -248,17 +248,17 @@ export class Chessboard {
                 square: SQUARE_COORDINATES[index]
             })
         }
-        this.element.addEventListener("contextmenu", this.squareSelectListener)
-        this.element.addEventListener("mouseup", this.squareSelectListener)
-        this.element.addEventListener("touchend", this.squareSelectListener)
+        this.context.addEventListener("contextmenu", this.squareSelectListener)
+        this.context.addEventListener("mouseup", this.squareSelectListener)
+        this.context.addEventListener("touchend", this.squareSelectListener)
         this.state.squareSelectEnabled = true
         this.view.visualizeInputState()
     }
 
     disableSquareSelect() {
-        this.element.removeEventListener("contextmenu", this.squareSelectListener)
-        this.element.removeEventListener("mouseup", this.squareSelectListener)
-        this.element.removeEventListener("touchend", this.squareSelectListener)
+        this.context.removeEventListener("contextmenu", this.squareSelectListener)
+        this.context.removeEventListener("mouseup", this.squareSelectListener)
+        this.context.removeEventListener("touchend", this.squareSelectListener)
         this.squareSelectListener = undefined
         this.state.squareSelectEnabled = false
         this.view.visualizeInputState()
