@@ -41,11 +41,11 @@ export const FEN_EMPTY_POSITION = "8/8/8/8/8/8/8/8"
 
 export class Chessboard {
 
-    constructor(element, props = {}) { // TODO rename "element" to "context"
-        if (!element) {
-            throw new Error("container element is " + element)
+    constructor(context, props = {}) {
+        if (!context) {
+            throw new Error("container element is " + context)
         }
-        this.element = element
+        this.element = context
         this.id = (Math.random() + 1).toString(36).substr(2, 6)
         let defaultProps = {
             position: "empty", // set as fen, "start" or "empty"
@@ -58,8 +58,6 @@ export class Chessboard {
                 aspectRatio: 1, // height/width. Set to `undefined`, if you want to define it only in the css.
                 moveFromMarker: MARKER_TYPE.frame, // the marker used to mark the start square
                 moveToMarker: MARKER_TYPE.frame, // the marker used to mark the square where the figure is moving to
-                moveMarker: MARKER_TYPE.frame, // deprecated => moveFromMarker // TODO remove in future
-                hoverMarker: MARKER_TYPE.frame // deprecated => moveToMarker // TODO remove in future
             },
             responsive: true, // resizes the board based on element size
             animationDuration: 300, // pieces animation duration in milliseconds
@@ -79,14 +77,6 @@ export class Chessboard {
         }
         if (props.style) {
             Object.assign(this.props.style, props.style)
-        }
-        if(this.props.style.moveMarker !== MARKER_TYPE.frame) { // TODO remove in future 2022-06-14
-            console.warn("this.props.style.moveMarker is deprecated, use this.props.style.moveFromMarker")
-            this.props.style.moveFromMarker = this.props.style.moveMarker
-        }
-        if(this.props.style.hoverMarker !== MARKER_TYPE.frame) { // TODO remove in future 2022-06-14
-            console.warn("this.props.style.hoverMarker is deprecated, use this.props.style.moveToMarker")
-            this.props.style.moveToMarker = this.props.style.hoverMarker
         }
         if (this.props.style.aspectRatio) {
             this.element.style.height = (this.element.offsetWidth * this.props.style.aspectRatio) + "px"
