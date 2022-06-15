@@ -41,11 +41,12 @@ export const FEN_EMPTY_POSITION = "8/8/8/8/8/8/8/8"
 
 export class Chessboard {
 
-    constructor(element, props = {}) { // TODO rename element to context
+    constructor(element, props = {}) { // TODO rename "element" to "context"
         if (!element) {
             throw new Error("container element is " + element)
         }
         this.element = element
+        this.id = (Math.random() + 1).toString(36).substr(2, 6)
         let defaultProps = {
             position: "empty", // set as fen, "start" or "empty"
             orientation: COLOR.white, // white on bottom
@@ -79,11 +80,11 @@ export class Chessboard {
         if (props.style) {
             Object.assign(this.props.style, props.style)
         }
-        if(this.props.style.moveMarker !== MARKER_TYPE.frame) { // TODO remove in future
+        if(this.props.style.moveMarker !== MARKER_TYPE.frame) { // TODO remove in future 2022-06-14
             console.warn("this.props.style.moveMarker is deprecated, use this.props.style.moveFromMarker")
             this.props.style.moveFromMarker = this.props.style.moveMarker
         }
-        if(this.props.style.hoverMarker !== MARKER_TYPE.frame) { // TODO remove in future
+        if(this.props.style.hoverMarker !== MARKER_TYPE.frame) { // TODO remove in future 2022-06-14
             console.warn("this.props.style.hoverMarker is deprecated, use this.props.style.moveToMarker")
             this.props.style.moveToMarker = this.props.style.hoverMarker
         }
@@ -91,19 +92,16 @@ export class Chessboard {
             this.element.style.height = (this.element.offsetWidth * this.props.style.aspectRatio) + "px"
         }
         this.state = new ChessboardState()
+        if (this.props.position === "start") {
+            this.state.setPosition(FEN_START_POSITION)
+        } else if (this.props.position === "empty" || this.props.position === undefined) {
+            this.state.setPosition(FEN_EMPTY_POSITION)
+        } else {
+            this.state.setPosition(this.props.position)
+        }
         this.state.orientation = this.props.orientation
-
         const viewType = this.props.accessible ? ChessboardViewAccessible : ChessboardView
-        this.view = new viewType(this, (view) => {
-            if (this.props.position === "start") {
-                this.state.setPosition(FEN_START_POSITION)
-            } else if (this.props.position === "empty" || this.props.position === undefined) {
-                this.state.setPosition(FEN_EMPTY_POSITION)
-            } else {
-                this.state.setPosition(this.props.position)
-            }
-            view.redraw()
-        })
+        this.view = new viewType(this)
     }
 
     // API //
@@ -264,7 +262,7 @@ export class Chessboard {
         this.element.addEventListener("mouseup", this.squareSelectListener)
         this.element.addEventListener("touchend", this.squareSelectListener)
         this.state.squareSelectEnabled = true
-        this.view.setCursor()
+        this.view.visualizeInputState()
     }
 
     disableSquareSelect() {
@@ -273,7 +271,7 @@ export class Chessboard {
         this.element.removeEventListener("touchend", this.squareSelectListener)
         this.squareSelectListener = undefined
         this.state.squareSelectEnabled = false
-        this.view.setCursor()
+        this.view.visualizeInputState()
     }
 
 }

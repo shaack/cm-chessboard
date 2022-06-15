@@ -60,7 +60,7 @@ export const SQUARE_COORDINATES = [
 
 export class ChessboardView {
 
-    constructor(chessboard, callbackAfterCreation) {
+    constructor(chessboard) {
         this.animationRunning = false
         this.currentAnimation = undefined
         this.chessboard = chessboard
@@ -93,10 +93,10 @@ export class ChessboardView {
 
         this.createSvgAndGroups()
         this.updateMetrics()
-        callbackAfterCreation(this)
         if (chessboard.props.responsive) {
             this.handleResize()
         }
+        this.redraw()
     }
 
     pointerDownHandler(e) {
@@ -194,7 +194,7 @@ export class ChessboardView {
         this.drawBoard()
         this.drawCoordinates()
         this.drawMarkers()
-        this.setCursor()
+        this.visualizeInputState()
         this.drawPieces(this.chessboard.state.squares)
     }
 
@@ -413,7 +413,7 @@ export class ChessboardView {
         }
         this.chessboard.state.inputEnabled = true
         this.moveInputCallback = eventHandler
-        this.setCursor()
+        this.visualizeInputState()
     }
 
     disableMoveInput() {
@@ -421,7 +421,7 @@ export class ChessboardView {
         this.chessboard.state.inputBlackEnabled = false
         this.chessboard.state.inputEnabled = false
         this.moveInputCallback = undefined
-        this.setCursor()
+        this.visualizeInputState()
     }
 
     // callbacks //
@@ -465,7 +465,7 @@ export class ChessboardView {
 
     // Helpers //
 
-    setCursor() {
+    visualizeInputState() {
         if (this.chessboard.state) { // fix https://github.com/shaack/cm-chessboard/issues/47
             if (this.chessboard.state.inputWhiteEnabled || this.chessboard.state.inputBlackEnabled || this.chessboard.state.squareSelectEnabled) {
                 this.boardGroup.setAttribute("class", "board input-enabled")
