@@ -33,6 +33,8 @@ aspects of chess games.
 
 **Option 2:** Download the code from [GitHub](https://github.com/shaack/cm-chessboard).
 
+**OPtion 3:** Use it via CDN https://cdn.jsdelivr.net/npm/cm-chessboard@3.18.0/src/cm-chessboard/Chessboard.js
+
 After installation, copy the sprite in `cm-chessboard/assets/images/` to your projects `assets/images/`
 folder. If you put the sprite somewhere else you have to configure the location with `{sprite.url: "./url/of/chessboard-sprite.svg"}`
 (see section 'Configuration' below).
