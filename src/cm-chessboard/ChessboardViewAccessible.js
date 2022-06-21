@@ -59,13 +59,14 @@ export class ChessboardViewAccessible extends ChessboardView {
         })
         this.accessibleContainer.appendChild(this.movePieceFormContainer)
 
+        this.boardAsTableContainer = this.createElement(`<div><h3>${this.th.board_as_table}</h3><div class="table"></div></div>`)
+        this.boardAsTable = this.boardAsTableContainer.querySelector(".table")
+        this.accessibleContainer.appendChild(this.boardAsTableContainer)
+
         this.piecesListContainer = this.createElement(`<div><h3>${this.th.pieces_lists}</h3><div class="list"></div></div>`)
         this.piecesList = this.piecesListContainer.querySelector(".list")
         this.accessibleContainer.appendChild(this.piecesListContainer)
 
-        this.boardAsTableContainer = this.createElement(`<div><h3>${this.th.board_as_table}</h3><div class="table"></div></div>`)
-        this.boardAsTable = this.boardAsTableContainer.querySelector(".table")
-        this.accessibleContainer.appendChild(this.boardAsTableContainer)
         this.chessboard.context.appendChild(this.accessibleContainer)
         this.updateFormInputs()
     }
@@ -92,8 +93,8 @@ export class ChessboardViewAccessible extends ChessboardView {
     drawPieces(squares = this.chessboard.state.squares) {
         super.drawPieces(squares)
         setTimeout(() => {
-            this.redrawPiecesLists()
             this.redrawBoardAsTable()
+            this.redrawPiecesLists()
         })
     }
 
