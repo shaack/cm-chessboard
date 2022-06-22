@@ -4,7 +4,7 @@
  * License: MIT, see file 'LICENSE'
  */
 import {ChessboardView, renderPieceTitle} from "./ChessboardView.js"
-import {COLOR} from "./Chessboard.js"
+import {COLOR, INPUT_EVENT_TYPE} from "./Chessboard.js"
 import {piecesTranslations} from "./ChessboardView.js"
 
 const hlTranslations = {
@@ -55,17 +55,26 @@ export class ChessboardViewAccessible extends ChessboardView {
         this.inputTo = this.movePieceFormContainer.querySelector(".input-to")
         this.moveButton = this.movePieceFormContainer.querySelector(".button-move")
         this.moveButton.addEventListener("click", () => {
-            this.chessboard.movePiece(this.inputFrom.value, this.inputTo.value, true)
+            if (this.moveInputCallback({
+                chessboard: this.chessboard,
+                type: INPUT_EVENT_TYPE.moveDone,
+                squareFrom: this.inputFrom.value,
+                squareTo: this.inputTo.value
+            })) {
+                this.inputFrom.value = ""
+                this.inputTo.value = ""
+            }
         })
         this.accessibleContainer.appendChild(this.movePieceFormContainer)
+
+        this.boardAsTableContainer = this.createElement(`<div><h3>${this.th.board_as_table}</h3><div class="table"></div></div>`)
+        this.boardAsTable = this.boardAsTableContainer.querySelector(".table")
+        this.accessibleContainer.appendChild(this.boardAsTableContainer)
 
         this.piecesListContainer = this.createElement(`<div><h3>${this.th.pieces_lists}</h3><div class="list"></div></div>`)
         this.piecesList = this.piecesListContainer.querySelector(".list")
         this.accessibleContainer.appendChild(this.piecesListContainer)
 
-        this.boardAsTableContainer = this.createElement(`<div><h3>${this.th.board_as_table}</h3><div class="table"></div></div>`)
-        this.boardAsTable = this.boardAsTableContainer.querySelector(".table")
-        this.accessibleContainer.appendChild(this.boardAsTableContainer)
         this.chessboard.context.appendChild(this.accessibleContainer)
         this.updateFormInputs()
     }
@@ -92,8 +101,8 @@ export class ChessboardViewAccessible extends ChessboardView {
     drawPieces(squares = this.chessboard.state.squares) {
         super.drawPieces(squares)
         setTimeout(() => {
-            this.redrawPiecesLists()
             this.redrawBoardAsTable()
+            this.redrawPiecesLists()
         })
     }
 
@@ -134,7 +143,7 @@ export class ChessboardViewAccessible extends ChessboardView {
             for (let y = 0; y < 8; y++) {
                 const pieceCode = squares[y % 8 + x * 8]
                 let color, name
-                if(pieceCode) {
+                if (pieceCode) {
                     color = pieceCode.charAt(0)
                     name = pieceCode.charAt(1)
                     html += `<td>${renderPieceTitle(this.lang, name, color)}</td>`
