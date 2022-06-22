@@ -4,7 +4,7 @@
  * License: MIT, see file 'LICENSE'
  */
 import {ChessboardView, renderPieceTitle} from "./ChessboardView.js"
-import {COLOR} from "./Chessboard.js"
+import {COLOR, INPUT_EVENT_TYPE} from "./Chessboard.js"
 import {piecesTranslations} from "./ChessboardView.js"
 
 const hlTranslations = {
@@ -55,7 +55,15 @@ export class ChessboardViewAccessible extends ChessboardView {
         this.inputTo = this.movePieceFormContainer.querySelector(".input-to")
         this.moveButton = this.movePieceFormContainer.querySelector(".button-move")
         this.moveButton.addEventListener("click", () => {
-            this.chessboard.movePiece(this.inputFrom.value, this.inputTo.value, true)
+            if (this.moveInputCallback({
+                chessboard: this.chessboard,
+                type: INPUT_EVENT_TYPE.moveDone,
+                squareFrom: this.inputFrom.value,
+                squareTo: this.inputTo.value
+            })) {
+                this.inputFrom.value = ""
+                this.inputTo.value = ""
+            }
         })
         this.accessibleContainer.appendChild(this.movePieceFormContainer)
 
@@ -135,7 +143,7 @@ export class ChessboardViewAccessible extends ChessboardView {
             for (let y = 0; y < 8; y++) {
                 const pieceCode = squares[y % 8 + x * 8]
                 let color, name
-                if(pieceCode) {
+                if (pieceCode) {
                     color = pieceCode.charAt(0)
                     name = pieceCode.charAt(1)
                     html += `<td>${renderPieceTitle(this.lang, name, color)}</td>`
