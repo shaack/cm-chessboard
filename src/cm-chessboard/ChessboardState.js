@@ -3,11 +3,12 @@
  * Repository: https://github.com/shaack/cm-chessboard
  * License: MIT, see file 'LICENSE'
  */
+import {Position} from "./Position.js"
 
 export class ChessboardState {
 
     constructor() {
-        this.squares = new Array(64).fill(null)
+        this.position = new Position()
         this.orientation = undefined
         this.markers = []
         this.inputWhiteEnabled = false
@@ -15,124 +16,46 @@ export class ChessboardState {
         this.inputEnabled = false
         this.squareSelectEnabled = false
     }
-
+/*
     getPieces() {
-        const pieces = []
-        const sortBy = ['k', 'q', 'r', 'b', 'n', 'p']
-        const sort = (a, b) => {
-            return sortBy.indexOf(a.name) - sortBy.indexOf(b.name)
-        }
-        for(let i=0; i<64; i++) {
-            const piece = this.squares[i]
-            if(piece) {
-                pieces.push({
-                    name: piece.charAt(1),
-                    color:  piece.charAt(0),
-                    position: this.indexToSquare(i)
-                })
-            }
-        }
-        pieces.sort(sort)
-        return pieces
+        return this.position.getPieces()
     }
 
-    setPiece(index, piece) {
-        this.squares[index] = piece
+    setPiece(square, piece) {
+        this.position.setPiece(square, piece)
+    }
+*/
+    setPosition(fen) {
+        this.position.setFen(fen)
     }
 
-    addMarker(index, type) {
-        this.markers.push({index: index, type: type})
+    getPosition() {
+        return this.position.getFen()
     }
 
-    removeMarkers(index = undefined, type = undefined) {
-        if (!index && !type) {
+    addMarker(square, type) {
+        this.markers.push({square: square, type: type})
+    }
+
+    removeMarkers(square = undefined, type = undefined) {
+        if (!square && !type) {
             this.markers = []
         } else {
             this.markers = this.markers.filter((marker) => {
                 if (!marker.type) {
-                    if (index === marker.index) {
+                    if (square === marker.square) {
                         return false
                     }
-                } else if (!index) {
+                } else if (!square) {
                     if (marker.type === type) {
                         return false
                     }
-                } else if (marker.type === type && index === marker.index) {
+                } else if (marker.type === type && square === marker.square) {
                     return false
                 }
                 return true
             })
         }
-    }
-
-    setPosition(fen) {
-        if (fen) {
-            const parts = fen.replace(/^\s*/, "").replace(/\s*$/, "").split(/\/|\s/)
-            for (let part = 0; part < 8; part++) {
-                const row = parts[7 - part].replace(/\d/g, (str) => {
-                    const numSpaces = parseInt(str)
-                    let ret = ''
-                    for (let i = 0; i < numSpaces; i++) {
-                        ret += '-'
-                    }
-                    return ret
-                })
-                for (let c = 0; c < 8; c++) {
-                    const char = row.substr(c, 1)
-                    let piece = null
-                    if (char !== '-') {
-                        if (char.toUpperCase() === char) {
-                            piece = `w${char.toLowerCase()}`
-                        } else {
-                            piece = `b${char}`
-                        }
-                    }
-                    this.squares[part * 8 + c] = piece
-                }
-            }
-        }
-    }
-
-    getPosition() {
-        let parts = new Array(8).fill("")
-        for (let part = 0; part < 8; part++) {
-            let spaceCounter = 0
-            for (let i = 0; i < 8; i++) {
-                const piece = this.squares[part * 8 + i]
-                if (!piece) {
-                    spaceCounter++
-                } else {
-                    if (spaceCounter > 0) {
-                        parts[7 - part] += spaceCounter
-                        spaceCounter = 0
-                    }
-                    const color = piece.substr(0, 1)
-                    const name = piece.substr(1, 1)
-                    if (color === "w") {
-                        parts[7 - part] += name.toUpperCase()
-                    } else {
-                        parts[7 - part] += name
-                    }
-                }
-            }
-            if (spaceCounter > 0) {
-                parts[7 - part] += spaceCounter
-                spaceCounter = 0
-            }
-        }
-        return parts.join("/")
-    }
-
-    squareToIndex(square) {
-        const file = square.substr(0, 1).charCodeAt(0) - 97
-        const rank = square.substr(1, 1) - 1
-        return 8 * rank + file
-    }
-
-    indexToSquare(index) {
-        const file = String.fromCharCode(index % 8 + 97)
-        const rank = Math.floor(index / 8) + 1
-        return file + rank
     }
 
 }

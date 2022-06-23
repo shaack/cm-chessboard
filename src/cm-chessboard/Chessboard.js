@@ -4,7 +4,7 @@
  * License: MIT, see file 'LICENSE'
  */
 
-import {SQUARE_COORDINATES, ChessboardView} from "./ChessboardView.js"
+import {ChessboardView} from "./ChessboardView.js"
 import {ChessboardState} from "./ChessboardState.js"
 import {ChessboardViewAccessible} from "./ChessboardViewAccessible.js"
 
@@ -81,7 +81,17 @@ export class Chessboard {
         if (this.props.style.aspectRatio) {
             this.context.style.height = (this.context.offsetWidth * this.props.style.aspectRatio) + "px"
         }
+
         this.state = new ChessboardState()
+        const viewType = this.props.accessible ? ChessboardViewAccessible : ChessboardView
+        this.view = new viewType(this)
+        /*
+        this.state.addObserver(() => {
+            if(this.view) {
+                this.view.drawPieces()
+            }
+        })
+         */
         if (this.props.position === "start") {
             this.state.setPosition(FEN_START_POSITION)
         } else if (this.props.position === "empty" || this.props.position === undefined) {
@@ -90,36 +100,34 @@ export class Chessboard {
             this.state.setPosition(this.props.position)
         }
         this.state.orientation = this.props.orientation
-        const viewType = this.props.accessible ? ChessboardViewAccessible : ChessboardView
-        this.view = new viewType(this)
+        this.view.redraw()
     }
-
     // API //
 
     setPiece(square, piece) {
-        this.state.setPiece(this.state.squareToIndex(square), piece)
-        this.view.drawPieces(this.state.squares)
+        this.state.position.setPiece(square, piece)
+        this.view.drawPieces(this.state.position.squares)
     }
 
     getPiece(square) {
-        return this.state.squares[this.state.squareToIndex(square)]
+        return this.state.position.getPiece(square)
     }
 
     movePiece(squareFrom, squareTo, animated = true) {
         return new Promise((resolve, reject) => {
-            const prevSquares = this.state.squares.slice(0) // clone
+            const prevSquares = this.state.position.clone().squares
             const pieceFrom = this.getPiece(squareFrom)
             if(!pieceFrom) {
                 reject("no piece on square " + squareFrom)
             } else {
-                this.state.squares[this.state.squareToIndex(squareFrom)] = null
-                this.state.squares[this.state.squareToIndex(squareTo)] = pieceFrom
+                this.state.position.setPiece(squareFrom, null)
+                this.state.position.setPiece(squareTo, pieceFrom)
                 if (animated) {
-                    this.view.animatePieces(prevSquares, this.state.squares, () => {
+                    this.view.animatePieces(prevSquares, this.state.position.squares, () => {
                         resolve()
                     })
                 } else {
-                    this.view.drawPieces(this.state.squares)
+                    this.view.drawPieces(this.state.position.squares)
                     resolve()
                 }
             }
@@ -138,14 +146,14 @@ export class Chessboard {
             const fenNormalized = fenParts[0]
 
             if (fenNormalized !== currentFen) {
-                const prevSquares = this.state.squares.slice(0) // clone
+                const prevSquares = this.state.position.squares.slice(0) // clone
                 this.state.setPosition(fen)
                 if (animated) {
-                    this.view.animatePieces(prevSquares, this.state.squares.slice(0), () => {
+                    this.view.animatePieces(prevSquares, this.state.position.squares.slice(0), () => {
                         resolve()
                     })
                 } else {
-                    this.view.drawPieces(this.state.squares)
+                    this.view.drawPieces(this.state.position.squares)
                     resolve()
                 }
             } else {
@@ -162,18 +170,18 @@ export class Chessboard {
         if (!type) {
             console.error("Error addMarker(), type is " + type)
         }
-        this.state.addMarker(this.state.squareToIndex(square), type)
+        this.state.addMarker(square, type)
         this.view.drawMarkers()
     }
 
     getMarkers(square = undefined, type = undefined) {
         const markersFound = []
         this.state.markers.forEach((marker) => {
-            const markerSquare = SQUARE_COORDINATES[marker.index]
+            const markerSquare = marker.square
             if (!square && (!type || type === marker.type) ||
                 !type && square === markerSquare ||
                 type === marker.type && square === markerSquare) {
-                markersFound.push({square: SQUARE_COORDINATES[marker.index], type: marker.type})
+                markersFound.push({square: marker.square, type: marker.type})
             }
         })
         return markersFound
@@ -236,7 +244,7 @@ export class Chessboard {
             return
         }
         this.squareSelectListener = function (e) {
-            const index = e.target.getAttribute("data-index")
+            const square = e.target.getAttribute("data-square")
             if (e.type === "contextmenu") {
                 // disable context menu
                 e.preventDefault()
@@ -245,7 +253,7 @@ export class Chessboard {
             eventHandler({
                 chessboard: this,
                 type: e.button === 2 ? SQUARE_SELECT_TYPE.secondary : SQUARE_SELECT_TYPE.primary,
-                square: SQUARE_COORDINATES[index]
+                square: square
             })
         }
         this.context.addEventListener("contextmenu", this.squareSelectListener)

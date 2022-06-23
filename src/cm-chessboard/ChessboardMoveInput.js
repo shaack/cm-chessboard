@@ -4,7 +4,8 @@
  * License: MIT, see file 'LICENSE'
  */
 
-import {SQUARE_COORDINATES, Svg} from "./ChessboardView.js"
+import {Svg} from "./ChessboardView.js"
+// import {Position} from "./Position.js"
 
 const STATE = {
     waitForInputStart: 0,
@@ -61,8 +62,8 @@ export class ChessboardMoveInput {
                     removeEventListener(this.pointerUpListener.type, this.pointerUpListener)
                     this.pointerUpListener = undefined
                 }
-                this.startIndex = params.index
-                this.endIndex = undefined
+                this.fromSquare = params.square
+                this.toSquare = undefined
                 this.movedPiece = params.piece
                 this.updateStartEndMarkers()
                 this.startPoint = params.point
@@ -101,7 +102,7 @@ export class ChessboardMoveInput {
                     this.draggablePiece = undefined
                 }
                 if (prevState === STATE.dragTo) {
-                    this.view.setPieceVisibility(params.index)
+                    this.view.setPieceVisibility(params.square)
                 }
                 break
 
@@ -117,7 +118,7 @@ export class ChessboardMoveInput {
                     throw new Error("moveInputState")
                 }
                 if (this.view.chessboard.state.inputEnabled) {
-                    this.view.setPieceVisibility(params.index, false)
+                    this.view.setPieceVisibility(params.square, false)
                     this.createDraggablePiece(params.piece)
                 }
                 break
@@ -127,7 +128,7 @@ export class ChessboardMoveInput {
                     throw new Error("moveInputState")
                 }
                 if (this.view.chessboard.state.inputEnabled) {
-                    this.view.setPieceVisibility(params.index, false)
+                    this.view.setPieceVisibility(params.square, false)
                     this.createDraggablePiece(params.piece)
                 }
                 break
@@ -136,18 +137,18 @@ export class ChessboardMoveInput {
                 if ([STATE.dragTo, STATE.clickTo, STATE.clickDragTo].indexOf(prevState) === -1) {
                     throw new Error("moveInputState")
                 }
-                this.endIndex = params.index
-                if (this.endIndex && this.moveDoneCallback(this.startIndex, this.endIndex)) {
-                    const prevSquares = this.chessboard.state.squares.slice(0)
-                    this.chessboard.state.setPiece(this.startIndex, undefined)
-                    this.chessboard.state.setPiece(this.endIndex, this.movedPiece)
+                this.toSquare = params.square
+                if (this.toSquare && this.moveDoneCallback(this.fromSquare, this.toSquare)) {
+                    const prevSquares = this.chessboard.state.position.clone().squares
+                    this.chessboard.state.position.setPiece(this.fromSquare, undefined)
+                    this.chessboard.state.position.setPiece(this.toSquare, this.movedPiece)
                     if (prevState === STATE.clickTo) {
                         this.updateStartEndMarkers()
-                        this.view.animatePieces(prevSquares, this.chessboard.state.squares.slice(0), () => {
+                        this.view.animatePieces(prevSquares, this.chessboard.state.position.clone().squares, () => {
                             this.setMoveInputState(STATE.reset)
                         })
                     } else {
-                        this.view.drawPieces(this.chessboard.state.squares)
+                        this.view.drawPieces(this.chessboard.state.position.squares)
                         // this.view.animationQueue = [] // todo remove all animations (See PR #59)
                         this.setMoveInputState(STATE.reset)
                     }
@@ -158,11 +159,11 @@ export class ChessboardMoveInput {
                 break
 
             case STATE.reset:
-                if (this.startIndex && !this.endIndex && this.movedPiece) {
-                    this.chessboard.state.setPiece(this.startIndex, this.movedPiece)
+                if (this.fromSquare && !this.toSquare && this.movedPiece) {
+                    this.chessboard.state.position.setPiece(this.fromSquare, this.movedPiece)
                 }
-                this.startIndex = undefined
-                this.endIndex = undefined
+                this.fromSquare = undefined
+                this.toSquare = undefined
                 this.movedPiece = undefined
                 this.updateStartEndMarkers()
                 if (this.draggablePiece) {
@@ -212,19 +213,19 @@ export class ChessboardMoveInput {
 
     onPointerDown(e) {
         if (e.type === "mousedown" && e.button === 0 || e.type === "touchstart") {
-            const index = e.target.getAttribute("data-index")
-            const pieceElement = this.view.getPiece(index)
-            let pieceName, color
-            if (pieceElement) {
-                pieceName = pieceElement.getAttribute("data-piece")
-                color = pieceName ? pieceName.substr(0, 1) : undefined
+            const square = e.target.getAttribute("data-square")
+            const pieceName = this.chessboard.getPiece(square)
+            console.log("onPointerDown", square, pieceName)
+            let color
+            if (pieceName) {
+                color = pieceName ? pieceName.substring(0, 1) : undefined
                 // allow scrolling, if not pointed on draggable piece
                 if (color === "w" && this.chessboard.state.inputWhiteEnabled ||
                     color === "b" && this.chessboard.state.inputBlackEnabled) {
                     e.preventDefault()
                 }
             }
-            if (index) { // pointer on square
+            if (square) { // pointer on square
                 if (this.moveInputState !== STATE.waitForInputStart ||
                     this.chessboard.state.inputWhiteEnabled && color === "w" ||
                     this.chessboard.state.inputBlackEnabled && color === "b") {
@@ -234,31 +235,31 @@ export class ChessboardMoveInput {
                     } else if (e.type === "touchstart") {
                         point = {x: e.touches[0].clientX, y: e.touches[0].clientY}
                     }
-                    if (this.moveInputState === STATE.waitForInputStart && pieceName && this.moveStartCallback(index)) {
+                    if (this.moveInputState === STATE.waitForInputStart && pieceName && this.moveStartCallback(square)) {
                         this.setMoveInputState(STATE.pieceClickedThreshold, {
-                            index: index,
+                            square: square,
                             piece: pieceName,
                             point: point,
                             type: e.type
                         })
                     } else if (this.moveInputState === STATE.clickTo) {
-                        if (index === this.startIndex) {
+                        if (square === this.fromSquare) {
                             this.setMoveInputState(STATE.secondClickThreshold, {
-                                index: index,
+                                square: square,
                                 piece: pieceName,
                                 point: point,
                                 type: e.type
                             })
                         } else {
-                            const pieceName = this.chessboard.getPiece(SQUARE_COORDINATES[index])
-                            const pieceColor = pieceName ? pieceName.substr(0, 1) : undefined
-                            const startPieceName = this.chessboard.getPiece(SQUARE_COORDINATES[this.startIndex])
-                            const startPieceColor = startPieceName ? startPieceName.substr(0, 1) : undefined
+                            const pieceName = this.chessboard.getPiece(square)
+                            const pieceColor = pieceName ? pieceName.substring(0, 1) : undefined
+                            const startPieceName = this.chessboard.getPiece(this.fromSquare)
+                            const startPieceColor = startPieceName ? startPieceName.substring(0, 1) : undefined
                             if (color && startPieceColor === pieceColor) { // https://github.com/shaack/cm-chessboard/issues/40
-                                this.moveCanceledCallback(MOVE_CANCELED_REASON.clickedAnotherPiece, this.startIndex, index)
-                                if (this.moveStartCallback(index)) {
+                                this.moveCanceledCallback(MOVE_CANCELED_REASON.clickedAnotherPiece, this.fromSquare, square)
+                                if (this.moveStartCallback(square)) {
                                     this.setMoveInputState(STATE.pieceClickedThreshold, {
-                                        index: index,
+                                        square: square,
                                         piece: pieceName,
                                         point: point,
                                         type: e.type
@@ -267,7 +268,7 @@ export class ChessboardMoveInput {
                                     this.setMoveInputState(STATE.reset)
                                 }
                             } else {
-                                this.setMoveInputState(STATE.moveDone, {index: index})
+                                this.setMoveInputState(STATE.moveDone, {square: square})
                             }
                         }
                     }
@@ -294,9 +295,9 @@ export class ChessboardMoveInput {
         if (this.moveInputState === STATE.pieceClickedThreshold || this.moveInputState === STATE.secondClickThreshold) {
             if (Math.abs(this.startPoint.x - clientX) > DRAG_THRESHOLD || Math.abs(this.startPoint.y - clientY) > DRAG_THRESHOLD) {
                 if (this.moveInputState === STATE.secondClickThreshold) {
-                    this.setMoveInputState(STATE.clickDragTo, {index: this.startIndex, piece: this.movedPiece})
+                    this.setMoveInputState(STATE.clickDragTo, {square: this.fromSquare, piece: this.movedPiece})
                 } else {
-                    this.setMoveInputState(STATE.dragTo, {index: this.startIndex, piece: this.movedPiece})
+                    this.setMoveInputState(STATE.dragTo, {square: this.fromSquare, piece: this.movedPiece})
                 }
                 if (this.view.chessboard.state.inputEnabled) {
                     this.moveDraggablePiece(pageX, pageY)
@@ -304,17 +305,17 @@ export class ChessboardMoveInput {
             }
         } else if (this.moveInputState === STATE.dragTo || this.moveInputState === STATE.clickDragTo || this.moveInputState === STATE.clickTo) {
             if (target && target.getAttribute && target.parentElement === this.view.boardGroup) {
-                const index = target.getAttribute("data-index")
-                if (index !== this.startIndex && index !== this.endIndex) {
-                    this.endIndex = index
+                const square = target.getAttribute("data-square")
+                if (square !== this.fromSquare && square !== this.toSquare) {
+                    this.toSquare = square
                     this.updateStartEndMarkers()
-                } else if (index === this.startIndex && this.endIndex !== undefined) {
-                    this.endIndex = undefined
+                } else if (square === this.fromSquare && this.toSquare !== undefined) {
+                    this.toSquare = undefined
                     this.updateStartEndMarkers()
                 }
             } else {
-                if (this.endIndex !== undefined) {
-                    this.endIndex = undefined
+                if (this.toSquare !== undefined) {
+                    this.toSquare = undefined
                     this.updateStartEndMarkers()
                 }
             }
@@ -332,33 +333,33 @@ export class ChessboardMoveInput {
             target = document.elementFromPoint(e.changedTouches[0].clientX, e.changedTouches[0].clientY)
         }
         if (target && target.getAttribute) {
-            const index = target.getAttribute("data-index")
+            const square = target.getAttribute("data-square")
 
-            if (index) {
+            if (square) {
                 if (this.moveInputState === STATE.dragTo || this.moveInputState === STATE.clickDragTo) {
-                    if (this.startIndex === index) {
+                    if (this.fromSquare === square) {
                         if (this.moveInputState === STATE.clickDragTo) {
-                            this.chessboard.state.setPiece(this.startIndex, this.movedPiece)
-                            this.view.setPieceVisibility(this.startIndex)
-                            this.moveCanceledCallback(MOVE_CANCELED_REASON.draggedBack, index, index)
+                            this.chessboard.state.setPiece(this.fromSquare, this.movedPiece)
+                            this.view.setPieceVisibility(this.fromSquare)
+                            this.moveCanceledCallback(MOVE_CANCELED_REASON.draggedBack, square, square)
                             this.setMoveInputState(STATE.reset)
                         } else {
-                            this.setMoveInputState(STATE.clickTo, {index: index})
+                            this.setMoveInputState(STATE.clickTo, {square: square})
                         }
                     } else {
-                        this.setMoveInputState(STATE.moveDone, {index: index})
+                        this.setMoveInputState(STATE.moveDone, {square: square})
                     }
                 } else if (this.moveInputState === STATE.pieceClickedThreshold) {
-                    this.setMoveInputState(STATE.clickTo, {index: index})
+                    this.setMoveInputState(STATE.clickTo, {square: square})
                 } else if (this.moveInputState === STATE.secondClickThreshold) {
                     this.setMoveInputState(STATE.reset)
-                    this.moveCanceledCallback(MOVE_CANCELED_REASON.secondClick, index, index)
+                    this.moveCanceledCallback(MOVE_CANCELED_REASON.secondClick, square, square)
                 }
             } else {
                 this.view.drawPieces()
-                const moveStartIndex = this.startIndex
+                const moveStartSquare = this.fromSquare
                 this.setMoveInputState(STATE.reset)
-                this.moveCanceledCallback(MOVE_CANCELED_REASON.movedOutOfBoard, moveStartIndex, undefined)
+                this.moveCanceledCallback(MOVE_CANCELED_REASON.movedOutOfBoard, moveStartSquare, undefined)
             }
         } else {
             this.view.drawPieces()
@@ -374,13 +375,13 @@ export class ChessboardMoveInput {
             this.chessboard.state.removeMarkers(undefined, this.chessboard.props.style.moveToMarker)
         }
         if (this.chessboard.props.style.moveFromMarker) {
-            if (this.startIndex) {
-                this.chessboard.state.addMarker(this.startIndex, this.chessboard.props.style.moveFromMarker)
+            if (this.fromSquare) {
+                this.chessboard.state.addMarker(this.fromSquare, this.chessboard.props.style.moveFromMarker)
             }
         }
         if (this.chessboard.props.style.moveToMarker) {
-            if (this.endIndex) {
-                this.chessboard.state.addMarker(this.endIndex, this.chessboard.props.style.moveToMarker)
+            if (this.toSquare) {
+                this.chessboard.state.addMarker(this.toSquare, this.chessboard.props.style.moveToMarker)
             }
         }
         this.view.drawMarkers()

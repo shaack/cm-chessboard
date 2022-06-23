@@ -3,6 +3,7 @@
  * Repository: https://github.com/shaack/cm-chessboard
  * License: MIT, see file 'LICENSE'
  */
+import {Position} from "./Position.js"
 
 const CHANGE_TYPE = {
     move: 0,
@@ -75,16 +76,16 @@ export class ChessboardPiecesAnimation {
             }
             switch (change.type) {
                 case CHANGE_TYPE.move:
-                    animatedItem.element = this.view.getPiece(change.atIndex)
-                    animatedItem.atPoint = this.view.squareIndexToPoint(change.atIndex)
-                    animatedItem.toPoint = this.view.squareIndexToPoint(change.toIndex)
+                    animatedItem.element = this.view.getPiece(Position.indexToSquare(change.atIndex))
+                    animatedItem.atPoint = this.view.indexToPoint(change.atIndex)
+                    animatedItem.toPoint = this.view.indexToPoint(change.toIndex)
                     break
                 case CHANGE_TYPE.appear:
-                    animatedItem.element = this.view.drawPiece(change.atIndex, change.piece)
+                    animatedItem.element = this.view.drawPiece(Position.indexToSquare(change.atIndex), change.piece)
                     animatedItem.element.style.opacity = 0
                     break
                 case CHANGE_TYPE.disappear:
-                    animatedItem.element = this.view.getPiece(change.atIndex)
+                    animatedItem.element = this.view.getPiece(Position.indexToSquare(change.atIndex))
                     break
             }
             animatedElements.push(animatedItem)

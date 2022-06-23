@@ -28,8 +28,8 @@ describe("TestPiecesAnimation", () => {
         state1.setPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR")
         const state2 = new ChessboardState()
         state2.setPosition("rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR")
-        const previousBoard1 = state1.squares
-        const newBoard1 = state2.squares
+        const previousBoard1 = state1.position.squares
+        const newBoard1 = state2.position.squares
         const changes = cfa.seekChanges(previousBoard1, newBoard1)
 
         assert.equals(changes[0].type,0 )

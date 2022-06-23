@@ -7,6 +7,7 @@
 import {ChessboardMoveInput} from "./ChessboardMoveInput.js"
 import {COLOR, INPUT_EVENT_TYPE, BORDER_TYPE} from "./Chessboard.js"
 import {ChessboardPiecesAnimation} from "./ChessboardPiecesAnimation.js"
+import {Position} from "./Position.js"
 
 export const piecesTranslations = {
     en: {
@@ -46,7 +47,7 @@ export function renderPieceTitle(lang, name, color = undefined) {
     }
     return title
 }
-
+/*
 export const SQUARE_COORDINATES = [
     "a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1",
     "a2", "b2", "c2", "d2", "e2", "f2", "g2", "h2",
@@ -57,7 +58,7 @@ export const SQUARE_COORDINATES = [
     "a7", "b7", "c7", "d7", "e7", "f7", "g7", "h7",
     "a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8"
 ]
-
+*/
 export class ChessboardView {
 
     constructor(chessboard) {
@@ -195,7 +196,7 @@ export class ChessboardView {
         this.drawCoordinates()
         this.drawMarkers()
         this.visualizeInputState()
-        this.drawPieces(this.chessboard.state.squares)
+        this.drawPieces(this.chessboard.state.position.squares)
     }
 
     // Board //
@@ -222,12 +223,12 @@ export class ChessboardView {
             const index = this.chessboard.state.orientation === COLOR.white ? i : 63 - i
             const squareColor = ((9 * index) & 8) === 0 ? 'black' : 'white'
             const fieldClass = `square ${squareColor}`
-            const point = this.squareIndexToPoint(index)
+            const point = this.squareToPoint(Position.indexToSquare(index))
             const squareRect = Svg.addElement(this.boardGroup, "rect", {
                 x: point.x, y: point.y, width: this.squareWidth, height: this.squareHeight
             })
             squareRect.setAttribute("class", fieldClass)
-            squareRect.setAttribute("data-index", "" + index)
+            squareRect.setAttribute("data-square", Position.indexToSquare(index))
         }
     }
 
@@ -289,12 +290,12 @@ export class ChessboardView {
 
     // Pieces //
 
-    drawPieces(squares = this.chessboard.state.squares) {
+    drawPieces(squares = this.chessboard.state.position.squares) {
         const childNodes = Array.from(this.piecesGroup.childNodes)
         for (let i = 0; i < 64; i++) {
             const pieceName = squares[i]
             if (pieceName) {
-                this.drawPiece(i, pieceName)
+                this.drawPiece(Position.indexToSquare(i), pieceName)
             }
         }
         for (const childNode of childNodes) {
@@ -302,11 +303,11 @@ export class ChessboardView {
         }
     }
 
-    drawPiece(index, pieceName) {
+    drawPiece(square, pieceName) {
         const pieceGroup = Svg.addElement(this.piecesGroup, "g")
         pieceGroup.setAttribute("data-piece", pieceName)
-        pieceGroup.setAttribute("data-index", index)
-        const point = this.squareIndexToPoint(index)
+        pieceGroup.setAttribute("data-square", square)
+        const point = this.squareToPoint(square)
         const transform = (this.svg.createSVGTransform())
         transform.setTranslate(point.x, point.y)
         pieceGroup.transform.baseVal.appendItem(transform)
@@ -326,18 +327,20 @@ export class ChessboardView {
         return pieceGroup
     }
 
-    setPieceVisibility(index, visible = true) {
-        const piece = this.getPiece(index)
+    setPieceVisibility(square, visible = true) {
+        const piece = this.getPiece(square)
         if (visible) {
             piece.setAttribute("visibility", "visible")
         } else {
             piece.setAttribute("visibility", "hidden")
         }
-
     }
 
-    getPiece(index) {
-        return this.piecesGroup.querySelector(`g[data-index='${index}']`)
+    getPiece(square) {
+        if(square.length < 2) {
+            throw new Error("980e03")
+        }
+        return this.piecesGroup.querySelector(`g[data-square='${square}']`)
     }
 
     // Markers //
@@ -353,9 +356,10 @@ export class ChessboardView {
     }
 
     drawMarker(marker) {
+        // console.log("drawMarker", marker)
         const markerGroup = Svg.addElement(this.markersGroup, "g")
-        markerGroup.setAttribute("data-index", marker.index)
-        const point = this.squareIndexToPoint(marker.index)
+        markerGroup.setAttribute("data-square", marker.square)
+        const point = this.squareToPoint(marker.square)
         const transform = (this.svg.createSVGTransform())
         transform.setTranslate(point.x, point.y)
         markerGroup.transform.baseVal.appendItem(transform)
@@ -426,39 +430,39 @@ export class ChessboardView {
 
     // callbacks //
 
-    moveStartCallback(index) {
+    moveStartCallback(square) {
         if (this.moveInputCallback) {
             return this.moveInputCallback({
                 chessboard: this.chessboard,
                 type: INPUT_EVENT_TYPE.moveStart,
-                square: SQUARE_COORDINATES[index]
+                square: square
             })
         } else {
             return true
         }
     }
 
-    moveDoneCallback(fromIndex, toIndex) {
+    moveDoneCallback(squareFrom, squareTo) {
         if (this.moveInputCallback) {
             return this.moveInputCallback({
                 chessboard: this.chessboard,
                 type: INPUT_EVENT_TYPE.moveDone,
-                squareFrom: SQUARE_COORDINATES[fromIndex],
-                squareTo: SQUARE_COORDINATES[toIndex]
+                squareFrom: squareFrom,
+                squareTo: squareTo
             })
         } else {
             return true
         }
     }
 
-    moveCanceledCallback(reason, fromIndex, toIndex) {
+    moveCanceledCallback(reason, squareFrom, squareTo) {
         if (this.moveInputCallback) {
             this.moveInputCallback({
                 chessboard: this.chessboard,
                 type: INPUT_EVENT_TYPE.moveCanceled,
                 reason: reason,
-                squareFrom: SQUARE_COORDINATES[fromIndex],
-                squareTo: toIndex ? SQUARE_COORDINATES[toIndex] : undefined
+                squareFrom: squareFrom,
+                squareTo: squareTo
             })
         }
     }
@@ -475,7 +479,7 @@ export class ChessboardView {
         }
     }
 
-    squareIndexToPoint(index) {
+    indexToPoint(index) {
         let x, y
         if (this.chessboard.state.orientation === COLOR.white) {
             x = this.borderSize + (index % 8) * this.squareWidth
@@ -485,6 +489,11 @@ export class ChessboardView {
             y = this.borderSize + (Math.floor(index / 8)) * this.squareHeight
         }
         return {x: x, y: y}
+    }
+
+    squareToPoint(square) {
+        const index = Position.squareToIndex(square)
+        return this.indexToPoint(index)
     }
 
 }

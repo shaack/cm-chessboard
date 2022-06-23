@@ -5,49 +5,21 @@
  */
 
 import {describe, it, assert} from "../node_modules/teevi/src/teevi.js"
-import {PIECE, Chessboard} from "../src/cm-chessboard/Chessboard.js"
+import {Position} from "../src/cm-chessboard/Position.js"
 
 describe("TestPosition", () => {
-
-    it("should create and destroy a chessboard", () => {
-        const chessboard = new Chessboard(document.getElementById("TestPosition"), {
-            sprite: {url: "../assets/images/chessboard-sprite.svg"},
-            position: "start"
-        })
-        assert.equals(chessboard.getPosition(), "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR")
-        chessboard.destroy()
+    it("should convert square to index", () => {
+        assert.equals(Position.squareToIndex("a1"), 0)
+        assert.equals(Position.squareToIndex("h1"), 7)
+        assert.equals(Position.squareToIndex("a8"), 56)
+        assert.equals(Position.squareToIndex("g5"), 38)
+        assert.equals(Position.squareToIndex("h8"), 63)
     })
-
-    it("should set and get the position", () => {
-        const chessboard = new Chessboard(document.getElementById("TestPosition"),
-            {sprite: {url: "../assets/images/chessboard-sprite.svg"},})
-        chessboard.setPosition("rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR w Gkq - 4 11", false).then(() => {
-            assert.equals(chessboard.getPosition(), "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR")
-            chessboard.destroy()
-        })
+    it("should convert index to square", () => {
+        assert.equals(Position.indexToSquare(0), "a1")
+        assert.equals(Position.indexToSquare(7), "h1")
+        assert.equals(Position.indexToSquare(56), "a8")
+        assert.equals(Position.indexToSquare(38), "g5")
+        assert.equals(Position.indexToSquare(63), "h8")
     })
-
-    it("should get pieces on squares", () => {
-        const chessboard = new Chessboard(document.getElementById("TestPosition"), {
-            sprite: {url: "../assets/images/chessboard-sprite.svg"},
-            position: "start"
-        })
-        assert.equals(chessboard.getPiece("d1"), "wq")
-        assert.equals(chessboard.getPiece("d8"), "bq")
-        assert.equals(chessboard.getPiece("a2"), "wp")
-        chessboard.destroy()
-    })
-
-    it("should set pieces on squares", () => {
-        const chessboard = new Chessboard(document.getElementById("TestPosition"), {
-            position: "empty",
-            sprite: {url: "../assets/images/chessboard-sprite.svg"},
-        })
-        chessboard.setPiece("a1", PIECE.bk)
-        assert.equals(chessboard.getPiece("a1"), "bk")
-        chessboard.setPiece("e5", PIECE.wk)
-        assert.equals(chessboard.getPiece("e5"), "wk")
-        chessboard.destroy()
-    })
-
 })

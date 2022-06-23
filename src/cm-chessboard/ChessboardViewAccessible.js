@@ -98,7 +98,7 @@ export class ChessboardViewAccessible extends ChessboardView {
         }
     }
 
-    drawPieces(squares = this.chessboard.state.squares) {
+    drawPieces(squares = this.chessboard.state.position.squares) {
         super.drawPieces(squares)
         setTimeout(() => {
             this.redrawBoardAsTable()
@@ -107,7 +107,7 @@ export class ChessboardViewAccessible extends ChessboardView {
     }
 
     redrawPiecesLists() {
-        const pieces = this.chessboard.state.getPieces()
+        const pieces = this.chessboard.state.position.getPieces()
         let listW = ""
         let listB = ""
         for (const piece of pieces) {
@@ -125,7 +125,7 @@ export class ChessboardViewAccessible extends ChessboardView {
     }
 
     redrawBoardAsTable() {
-        const squares = this.chessboard.state.squares.slice()
+        const squares = this.chessboard.state.position.squares.slice()
         const ranks = ["a", "b", "c", "d", "e", "f", "g", "h"]
         const files = ["1", "2", "3", "4", "5", "6", "7", "8"]
         if (this.chessboard.state.orientation === COLOR.black) {
