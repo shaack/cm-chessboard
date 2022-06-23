@@ -69,6 +69,7 @@
 }
 
 .cm-chessboard-content {
+
   .list-inline {
     padding-left: 0;
     list-style: none;
@@ -82,21 +83,30 @@
     }
   }
 
-  &.visually-hidden {
-    position: absolute;
-    left: -10000px;
-    top: auto;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-  }
+}
 
+.visually-hidden {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+body * {
+  outline: 1px rgba(255, 255, 255, 0.1) solid;
 }
 
 // define themes
 @include cm-chessboard-theme(
                 "default", // name
                 #ecdab9, #c5a076 // squares
+)
+@include cm-chessboard-theme(
+                "default-contrast", // name
+                #ecdab9, #c5a076, // squares
+                #333, #333, // coordinates in squares (white, black)
 )
 @include cm-chessboard-theme(
                 "green", // name

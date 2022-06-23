@@ -44,38 +44,43 @@ export class ChessboardViewAccessible extends ChessboardView {
         this.t = this.translations[this.lang]
         this.th = hlTranslations[this.lang]
 
-        this.accessibleContainer = this.createElement(`<div class="cm-chessboard-content visually-hidden"></div>`)
-
-        this.movePieceFormContainer = this.createElement(`<div><h3>${this.th.move_piece}</h3><form>
+        const accessibilityProps = chessboard.props.accessibility
+        if(accessibilityProps.movePieceForm) {
+            this.movePieceFormContainer = this.createElement(`<div><h3>${this.th.move_piece}</h3><form>
             <label for="move_piece_input_from_${chessboard.id}">${this.th.from}</label><input class="input-from" type="text" size="2" id="move_piece_input_from_${chessboard.id}"/>
             <label for="move_piece_input_to_${chessboard.id}">${this.th.to}</label><input class="input-to" type="text" size="2" id="move_piece_input_to_${chessboard.id}"/>
             <button type="button" class="button-move">${this.th.move}</button>
             </form><div class="input-status" aria-live="polite"></div></div>`)
-        this.inputFrom = this.movePieceFormContainer.querySelector(".input-from")
-        this.inputTo = this.movePieceFormContainer.querySelector(".input-to")
-        this.moveButton = this.movePieceFormContainer.querySelector(".button-move")
-        this.moveButton.addEventListener("click", () => {
-            if (this.moveInputCallback({
-                chessboard: this.chessboard,
-                type: INPUT_EVENT_TYPE.moveDone,
-                squareFrom: this.inputFrom.value,
-                squareTo: this.inputTo.value
-            })) {
-                this.inputFrom.value = ""
-                this.inputTo.value = ""
+            this.inputFrom = this.movePieceFormContainer.querySelector(".input-from")
+            this.inputTo = this.movePieceFormContainer.querySelector(".input-to")
+            this.moveButton = this.movePieceFormContainer.querySelector(".button-move")
+            if(accessibilityProps.visuallyHidden) {
+                this.movePieceFormContainer.classList.add("visually-hidden")
             }
-        })
-        this.accessibleContainer.appendChild(this.movePieceFormContainer)
+            this.moveButton.addEventListener("click", () => {
+                if (this.moveInputCallback({
+                    chessboard: this.chessboard,
+                    type: INPUT_EVENT_TYPE.moveDone,
+                    squareFrom: this.inputFrom.value,
+                    squareTo: this.inputTo.value
+                })) {
+                    this.inputFrom.value = ""
+                    this.inputTo.value = ""
+                }
+            })
+            this.chessboard.context.appendChild(this.movePieceFormContainer)
+        }
 
-        this.boardAsTableContainer = this.createElement(`<div><h3>${this.th.board_as_table}</h3><div class="table"></div></div>`)
-        this.boardAsTable = this.boardAsTableContainer.querySelector(".table")
-        this.accessibleContainer.appendChild(this.boardAsTableContainer)
-
-        this.piecesListContainer = this.createElement(`<div><h3>${this.th.pieces_lists}</h3><div class="list"></div></div>`)
-        this.piecesList = this.piecesListContainer.querySelector(".list")
-        this.accessibleContainer.appendChild(this.piecesListContainer)
-
-        this.chessboard.context.appendChild(this.accessibleContainer)
+        if(accessibilityProps.boardAsTable) {
+            this.boardAsTableContainer = this.createElement(`<div><h3>${this.th.board_as_table}</h3><div class="table"></div></div>`)
+            this.boardAsTable = this.boardAsTableContainer.querySelector(".table")
+            this.chessboard.context.appendChild(this.boardAsTableContainer)
+        }
+        if(accessibilityProps.piecesListContainer) {
+            this.piecesListContainer = this.createElement(`<div><h3>${this.th.pieces_lists}</h3><div class="list"></div></div>`)
+            this.piecesList = this.piecesListContainer.querySelector(".list")
+            this.chessboard.context.appendChild(this.piecesListContainer)
+        }
         this.updateFormInputs()
     }
 
@@ -101,8 +106,12 @@ export class ChessboardViewAccessible extends ChessboardView {
     drawPieces(squares = this.chessboard.state.position.squares) {
         super.drawPieces(squares)
         setTimeout(() => {
-            this.redrawBoardAsTable()
-            this.redrawPiecesLists()
+            if(this.chessboard.props.accessibility.boardAsTable) {
+                this.redrawBoardAsTable()
+            }
+            if(this.chessboard.props.accessibility.piecesAsList) {
+                this.redrawPiecesLists()
+            }
         })
     }
 

@@ -4,7 +4,6 @@
  * License: MIT, see file 'LICENSE'
  */
 
-import {ChessboardView} from "./ChessboardView.js"
 import {ChessboardState} from "./ChessboardState.js"
 import {ChessboardViewAccessible} from "./ChessboardViewAccessible.js"
 
@@ -50,21 +49,27 @@ export class Chessboard {
         let defaultProps = {
             position: "empty", // set as fen, "start" or "empty"
             orientation: COLOR.white, // white on bottom
-            accessible: false, // render additional information to improve the usage for people using screen readers (beta)
+            animationDuration: 300, // pieces animation duration in milliseconds
+            responsive: true, // resizes the board based on element size
             style: {
                 cssClass: "default",
                 showCoordinates: true, // show ranks and files
                 borderType: BORDER_TYPE.none, // thin: thin border, frame: wide border with coordinates in it, none: no border
-                aspectRatio: 1, // height/width. Set to `undefined`, if you want to define it only in the css.
+                aspectRatio: 1, // height/width of the board
                 moveFromMarker: MARKER_TYPE.frame, // the marker used to mark the start square
                 moveToMarker: MARKER_TYPE.frame, // the marker used to mark the square where the figure is moving to
             },
-            responsive: true, // resizes the board based on element size
-            animationDuration: 300, // pieces animation duration in milliseconds
             sprite: {
                 url: "./assets/images/chessboard-sprite.svg", // pieces and markers are stored as svg sprite
                 size: 40, // the sprite size, defaults to 40x40px
-                cache: true // cache the sprite inline, in the HTML
+                cache: true // cache the sprite
+            },
+            accessibility: {
+                brailleNotationInAlt: true, // show the braille notation of the game in the alt attribute of the svg
+                boardAsTable: false, // display the board additionally as HTML table
+                movePieceForm: false, // display a form to move a piece (from, to, move)
+                piecesAsList: false, // display the pieces additionally as List
+                visuallyHidden: true // hide all those extra outputs visually but keep them accessible for screen readers and braille displays
             }
         }
         this.props = {}
@@ -72,26 +77,30 @@ export class Chessboard {
         Object.assign(this.props, props)
         this.props.sprite = defaultProps.sprite
         this.props.style = defaultProps.style
+        this.props.accessibility = defaultProps.accessibility
         if (props.sprite) {
             Object.assign(this.props.sprite, props.sprite)
         }
         if (props.style) {
             Object.assign(this.props.style, props.style)
         }
+        if (props.accessibility) {
+            Object.assign(this.props.accessibility, props.accessibility)
+        }
+/*
         if (this.props.style.aspectRatio) {
             this.context.style.height = (this.context.offsetWidth * this.props.style.aspectRatio) + "px"
         }
-
+*/
         this.state = new ChessboardState()
-        const viewType = this.props.accessible ? ChessboardViewAccessible : ChessboardView
-        this.view = new viewType(this)
+        this.view = new ChessboardViewAccessible(this)
         /*
         this.state.addObserver(() => {
             if(this.view) {
                 this.view.drawPieces()
             }
         })
-         */
+        */
         if (this.props.position === "start") {
             this.state.setPosition(FEN_START_POSITION)
         } else if (this.props.position === "empty" || this.props.position === undefined) {
@@ -102,6 +111,7 @@ export class Chessboard {
         this.state.orientation = this.props.orientation
         this.view.redraw()
     }
+
     // API //
 
     setPiece(square, piece) {
@@ -219,23 +229,6 @@ export class Chessboard {
 
     disableMoveInput() {
         this.view.disableMoveInput()
-    }
-
-    // TODO remove deprecated function
-    // noinspection JSUnusedGlobalSymbols
-    enableContextInput(eventHandler) {
-        console.warn("enableContextInput() is deprecated, use enableSquareSelect()")
-        this.enableSquareSelect(function (event) {
-            if (event.type === SQUARE_SELECT_TYPE.secondary) {
-                eventHandler(event)
-            }
-        })
-    }
-
-    // TODO remove deprecated function
-    // noinspection JSUnusedGlobalSymbols
-    disableContextInput() {
-        this.disableSquareSelect()
     }
 
     enableSquareSelect(eventHandler) {
