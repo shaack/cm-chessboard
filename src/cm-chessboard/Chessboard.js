@@ -87,11 +87,7 @@ export class Chessboard {
         if (props.accessibility) {
             Object.assign(this.props.accessibility, props.accessibility)
         }
-/*
-        if (this.props.style.aspectRatio) {
-            this.context.style.height = (this.context.offsetWidth * this.props.style.aspectRatio) + "px"
-        }
-*/
+
         this.state = new ChessboardState()
         this.view = new ChessboardViewAccessible(this)
         /*

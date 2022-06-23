@@ -215,7 +215,7 @@ export class ChessboardMoveInput {
         if (e.type === "mousedown" && e.button === 0 || e.type === "touchstart") {
             const square = e.target.getAttribute("data-square")
             const pieceName = this.chessboard.getPiece(square)
-            console.log("onPointerDown", square, pieceName)
+            // console.log("onPointerDown", square, pieceName)
             let color
             if (pieceName) {
                 color = pieceName ? pieceName.substring(0, 1) : undefined
@@ -339,7 +339,7 @@ export class ChessboardMoveInput {
                 if (this.moveInputState === STATE.dragTo || this.moveInputState === STATE.clickDragTo) {
                     if (this.fromSquare === square) {
                         if (this.moveInputState === STATE.clickDragTo) {
-                            this.chessboard.state.setPiece(this.fromSquare, this.movedPiece)
+                            this.chessboard.state.position.setPiece(this.fromSquare, this.movedPiece)
                             this.view.setPieceVisibility(this.fromSquare)
                             this.moveCanceledCallback(MOVE_CANCELED_REASON.draggedBack, square, square)
                             this.setMoveInputState(STATE.reset)
