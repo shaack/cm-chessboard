@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="styles/examples.css"/>
     <link rel="stylesheet" href="../assets/styles/cm-chessboard.css"/>
     <!--suppress CssUnusedSymbol -->
-    <style type="text/css">
+    <style>
         div.board {
             float: left;
             width: 4.2vw;
@@ -47,10 +47,7 @@
             const board = new Chessboard(boardDiv, {
                 position: Math.round(Math.random()) ? "start" : "empty",
                 orientation: Math.round(Math.random()) ? COLOR.white : COLOR.black,
-                sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
-                style: {
-                    aspectRatio: undefined
-                }
+                sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"}
             })
             setTimeout(() => {
                 board.destroy()

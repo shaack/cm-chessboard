@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>cm-chessboard</title>
+    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"/>
+    <link rel="stylesheet" href="styles/examples.css"/>
+    <link rel="stylesheet" href="../assets/styles/cm-chessboard.css"/>
+</head>
+<body>
+<h1><a href="../">cm-chessboard</a></h1>
+<h2>Example: Accessibility features enabled</h2>
+<p>
+    This example shows, how the accessibility features from cm-chessboard work.
+    They allow a better usage of the board for visually impaired
+    people. You can enable these features via configuration.
+</p>
+
+<div class="board green" id="board"></div>
+<button style="margin-bottom: 10px"
+        onclick="window.board.setOrientation(window.board.getOrientation() === 'w' ? 'b' : 'w')">Switch Orientation
+</button>
+<script type="module">
+    import {Chessboard} from "../src/cm-chessboard/Chessboard.js"
+
+    window.board = new Chessboard(document.getElementById("board"), {
+        position: "start",
+        sprite: {url: "../assets/images/chessboard-sprite.svg"},
+        style: {
+            cssClass: "default-contrast"
+        },
+        accessibility: {
+            brailleNotationInAlt: true, // show the braille notation of the game in the alt attribute of the svg
+            boardAsTable: false, // display the board additionally as HTML table
+            movePieceForm: true, // display a form to move a piece (from, to, move)
+            positionAsList: false, // display the pieces additionally as List
+            enableAnimations: true, // set to false to disable all animations
+            visuallyHidden: false // hide all those extra outputs visually but keep them accessible for screen readers and braille displays
+        }
+    })
+
+    window.board.enableMoveInput(inputHandler)
+
+    function inputHandler(event) {
+        console.log(event)
+        return true
+    }
+
+    const output = document.getElementById("output")
+
+    function log(text) {
+        const log = document.createElement("div")
+        log.innerText = text
+        output.appendChild(log)
+    }
+</script>
+</body>
+</html>

@@ -23,7 +23,7 @@ describe("TestBoard", () => {
             sprite: {url: "../assets/images/chessboard-sprite.svg"},
             position: "start"
         })
-        assert.equals(chessboard.context.childNodes.length, 1)
+        assert.equals(chessboard.view.context.childNodes.length, 1)
         chessboard.destroy()
         assert.equals(chessboard.state, undefined)
     })

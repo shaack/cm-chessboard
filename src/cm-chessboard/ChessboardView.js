@@ -47,18 +47,7 @@ export function renderPieceTitle(lang, name, color = undefined) {
     }
     return title
 }
-/*
-export const SQUARE_COORDINATES = [
-    "a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1",
-    "a2", "b2", "c2", "d2", "e2", "f2", "g2", "h2",
-    "a3", "b3", "c3", "d3", "e3", "f3", "g3", "h3",
-    "a4", "b4", "c4", "d4", "e4", "f4", "g4", "h4",
-    "a5", "b5", "c5", "d5", "e5", "f5", "g5", "h5",
-    "a6", "b6", "c6", "d6", "e6", "f6", "g6", "h6",
-    "a7", "b7", "c7", "d7", "e7", "f7", "g7", "h7",
-    "a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8"
-]
-*/
+
 export class ChessboardView {
 
     constructor(chessboard) {
@@ -74,6 +63,8 @@ export class ChessboardView {
         if (chessboard.props.sprite.cache) {
             this.cacheSprite()
         }
+        this.context = document.createElement("div")
+        this.chessboard.context.appendChild(this.context)
         if (chessboard.props.responsive) {
             // noinspection JSUnresolvedVariable
             if (typeof ResizeObserver !== "undefined") {
@@ -89,14 +80,13 @@ export class ChessboardView {
         }
 
         this.pointerDownListener = this.pointerDownHandler.bind(this)
-        this.chessboard.context.addEventListener("mousedown", this.pointerDownListener)
-        this.chessboard.context.addEventListener("touchstart", this.pointerDownListener)
+        this.pointerDownListener = this.pointerDownHandler.bind(this)
+        this.context.addEventListener("mousedown", this.pointerDownListener)
+        this.context.addEventListener("touchstart", this.pointerDownListener)
 
         this.createSvgAndGroups()
         this.updateMetrics()
-        if (chessboard.props.responsive) {
-            this.handleResize()
-        }
+        this.handleResize()
         this.redraw()
     }
 
@@ -140,17 +130,14 @@ export class ChessboardView {
     }
 
     createSvgAndGroups() {
-        if (this.svg) {
-            Svg.removeElement(this.svg)
-        }
-        this.svg = Svg.createSvg(this.chessboard.context)
-        let description = document.createElement("description")
-        description.innerText = "Chessboard"
-        description.id = "svg-description"
-        this.svg.appendChild(description)
+        this.svg = Svg.createSvg(this.context)
+        // let description = document.createElement("description")
+        // description.innerText = "Chessboard"
+        // description.id = "svg-description"
+        // this.svg.appendChild(description)
         let cssClass = this.chessboard.props.style.cssClass ? this.chessboard.props.style.cssClass : "default"
         this.svg.setAttribute("class", "cm-chessboard border-type-" + this.chessboard.props.style.borderType + " " + cssClass)
-        this.svg.setAttribute("aria-describedby", "svg-description")
+        // this.svg.setAttribute("aria-describedby", "svg-description")
         this.svg.setAttribute("role", "img")
         this.updateMetrics()
         this.boardGroup = Svg.addElement(this.svg, "g", {class: "board"})
@@ -160,8 +147,8 @@ export class ChessboardView {
     }
 
     updateMetrics() {
-        this.width = this.chessboard.context.clientWidth
-        this.height = this.chessboard.context.clientHeight
+        this.width = this.context.clientWidth
+        this.height = this.context.clientWidth * (this.chessboard.props.style.aspectRatio || 1)
         if (this.chessboard.props.style.borderType === BORDER_TYPE.frame) {
             this.borderSize = this.width / 25
         } else if (this.chessboard.props.style.borderType === BORDER_TYPE.thin) {
@@ -179,11 +166,10 @@ export class ChessboardView {
     }
 
     handleResize() {
-        if (this.chessboard.props.style.aspectRatio) {
-            this.chessboard.context.style.height = (this.chessboard.context.clientWidth * this.chessboard.props.style.aspectRatio) + "px"
-        }
-        if (this.chessboard.context.clientWidth !== this.width ||
-            this.chessboard.context.clientHeight !== this.height) {
+        this.context.style.width = this.chessboard.context.clientWidth + "px"
+        this.context.style.height = (this.chessboard.context.clientWidth * this.chessboard.props.style.aspectRatio) + "px"
+        if (this.context.clientWidth !== this.width ||
+            this.context.clientHeight !== this.height) {
             this.updateMetrics()
             this.redraw()
         }
