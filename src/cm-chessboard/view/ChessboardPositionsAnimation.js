@@ -17,7 +17,7 @@ export class ChessboardPositionsAnimation {
     async renderPosition(position) {
         const positionFrom = this.currentPosition
         this.currentPosition = position
-        console.log("renderPosition", positionFrom.getFen(), position.getFen())
+        // console.log("renderPosition", positionFrom.getFen(), position.getFen())
         this.finished = this.finished.then(() => {
             return new Promise((resolve) => {
                 new ChessboardPiecesAnimation(this.chessboard.view,

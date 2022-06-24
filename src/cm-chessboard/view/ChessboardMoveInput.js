@@ -40,7 +40,7 @@ export class ChessboardMoveInput {
 
     setMoveInputState(newState, params = undefined) {
 
-        // console.log("setMoveInputState", Object.keys(STATE)[this.moveInputState], "=>", Object.keys(STATE)[newState]);
+        console.log("setMoveInputState", Object.keys(STATE)[this.moveInputState], "=>", Object.keys(STATE)[newState]);
 
         const prevState = this.moveInputState
         this.moveInputState = newState
@@ -139,21 +139,17 @@ export class ChessboardMoveInput {
                 }
                 this.toSquare = params.square
                 if (this.toSquare && this.moveDoneCallback(this.fromSquare, this.toSquare)) {
-                    const prevSquares = this.chessboard.state.position.clone().squares
-                    this.chessboard.state.position.setPiece(this.fromSquare, undefined)
-                    this.chessboard.state.position.setPiece(this.toSquare, this.movedPiece)
-                    if (prevState === STATE.clickTo) {
-                        this.updateStartEndMarkers()
-                        this.view.animatePieces(prevSquares, this.chessboard.state.position.clone().squares, () => {
+                    if(prevState === STATE.clickTo) {
+                        this.chessboard.movePiece(this.fromSquare, this.toSquare, true).then(() => {
                             this.setMoveInputState(STATE.reset)
                         })
                     } else {
-                        this.view.drawPieces(this.chessboard.state.position.squares)
-                        // this.view.animationQueue = [] // todo remove all animations (See PR #59)
-                        this.setMoveInputState(STATE.reset)
+                        this.chessboard.movePiece(this.fromSquare, this.toSquare, false).then(() => {
+                            this.view.setPieceVisibility(this.toSquare, true)
+                            this.setMoveInputState(STATE.reset)
+                        })
                     }
                 } else {
-                    this.view.drawPieces()
                     this.setMoveInputState(STATE.reset)
                 }
                 break

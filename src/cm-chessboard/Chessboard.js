@@ -97,8 +97,7 @@ export class Chessboard {
         this.state.orientation = this.props.orientation
         this.view.redraw()
 
-        this.state.addObserver((a, b, c) => {
-            console.log("OBSERVER CALLBACK", a, b, c)
+        this.state.addObserver(() => {
             this.chessboardPositionsAnimation.renderPosition(this.state.position).then(() => {
                 console.log("position rendering finished", this.state.position.getFen())
             })
@@ -109,31 +108,52 @@ export class Chessboard {
 
     // API //
 
-    setPiece(square, piece, animated) {
+    async setPiece(square, piece, animated) {
         const position = this.state.position.clone()
         position.setPiece(square, piece)
         position.animated = animated
         this.state.position = position
+        return this.chessboardPositionsAnimation.finished
+    }
+
+    async movePiece(squareFrom, squareTo, animated = false) {
+        const position = this.state.position.clone()
+        position.movePiece(squareFrom, squareTo)
+        position.animated = animated
+        this.state.position = position
+        return this.chessboardPositionsAnimation.finished
+    }
+
+    async setPosition(fen, animated = false) {
+        // console.log("Chessboard.setPosition", this.state.position, animated)
+        this.state.position = new Position(fen, animated)
+        return this.chessboardPositionsAnimation.finished
+    }
+
+    async setOrientation(color, animated = false) {
+        return new Promise((resolve) => {
+            const position = this.state.position.clone()
+            position.animated = animated
+            this.chessboardPositionsAnimation.renderPosition(new Position(FEN_EMPTY_POSITION, animated)).then(() => {
+                this.state.orientation = color
+                this.view.redraw()
+                this.chessboardPositionsAnimation.renderPosition(position, animated).then(() => {
+                    resolve()
+                })
+            })
+        })
     }
 
     getPiece(square) {
         return this.state.position.getPiece(square)
     }
 
-    movePiece(squareFrom, squareTo, animated = false) {
-        const position = this.state.position.clone()
-        position.movePiece(squareFrom, squareTo)
-        position.animated = animated
-        this.state.position = position
-    }
-
-    setPosition(fen, animated = false) {
-        console.log("Chessboard.setPosition", this.state.position, animated)
-        this.state.position = new Position(fen, animated)
-    }
-
     getPosition() {
         return this.state.position.getFen()
+    }
+
+    getOrientation() {
+        return this.state.orientation
     }
 
     addMarker(square, type) {
@@ -161,24 +181,6 @@ export class Chessboard {
         const index = square ? this.state.squareToIndex(square) : undefined
         this.state.removeMarkers(index, type)
         this.view.drawMarkers()
-    }
-
-    async setOrientation(color, animated = false) {
-        return new Promise((resolve) => {
-            const position = this.state.position.clone()
-            position.animated = animated
-            this.chessboardPositionsAnimation.renderPosition(new Position(FEN_EMPTY_POSITION, animated)).then(() => {
-                this.view.redraw()
-                this.state.orientation = color
-                this.chessboardPositionsAnimation.renderPosition(position, animated).then(() => {
-                    resolve()
-                })
-            })
-        })
-    }
-
-    getOrientation() {
-        return this.state.orientation
     }
 
     destroy() {

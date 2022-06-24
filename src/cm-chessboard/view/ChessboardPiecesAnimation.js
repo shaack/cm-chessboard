@@ -16,13 +16,11 @@ export class ChessboardPiecesAnimation {
 
     constructor(view, fromPosition, toPosition, duration, callback) {
         this.view = view
-        console.log("new ChessboardPiecesAnimation", fromPosition.getFen(), toPosition.getFen())
         if (fromPosition && toPosition) {
             this.animatedElements = this.createAnimation(fromPosition.squares, toPosition.squares)
             this.duration = duration
             this.callback = callback
             this.frameHandle = requestAnimationFrame(this.animationStep.bind(this))
-            console.log(this.animatedElements)
         } else {
             console.error("fromPosition", fromPosition, "toPosition", toPosition)
         }
@@ -74,7 +72,6 @@ export class ChessboardPiecesAnimation {
 
     createAnimation(fromSquares, toSquares) {
         const changes = this.seekChanges(fromSquares, toSquares)
-        console.log("changes", changes)
         const animatedElements = []
         changes.forEach((change) => {
             const animatedItem = {
