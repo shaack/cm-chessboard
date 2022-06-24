@@ -5,7 +5,10 @@
  */
 
 import {ChessboardState} from "./ChessboardState.js"
-import {ChessboardViewAccessible} from "./ChessboardViewAccessible.js"
+import {ChessboardViewAccessible} from "./view/ChessboardViewAccessible.js"
+import {Position} from "./model/Position.js"
+import {Observed} from "./utils/Observed.js"
+import {ChessboardPositionsAnimation} from "./view/ChessboardPositionsAnimation.js"
 
 export const COLOR = {
     white: "w",
@@ -35,8 +38,8 @@ export const PIECE = {
     wp: "wp", wb: "wb", wn: "wn", wr: "wr", wq: "wq", wk: "wk",
     bp: "bp", bb: "bb", bn: "bn", br: "br", bq: "bq", bk: "bk",
 }
-export const FEN_START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
-export const FEN_EMPTY_POSITION = "8/8/8/8/8/8/8/8"
+export const FEN_START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" // todo 2022-06-24 deprecated, dont use
+export const FEN_EMPTY_POSITION = "8/8/8/8/8/8/8/8" // todo 2022-06-24 deprecated, dont use
 
 export class Chessboard {
 
@@ -45,11 +48,11 @@ export class Chessboard {
             throw new Error("container element is " + context)
         }
         this.context = context
-        this.id = (Math.random() + 1).toString(36).substr(2, 6)
+        this.id = (Math.random() + 1).toString(36).substring(2, 8)
         let defaultProps = {
             position: "empty", // set as fen, "start" or "empty"
             orientation: COLOR.white, // white on bottom
-            animationDuration: 300, // pieces animation duration in milliseconds
+            animationDuration: 300, // pieces animation duration in milliseconds. Disable all animation with `0`.
             responsive: true, // resizes the board based on element size
             style: {
                 cssClass: "default",
@@ -60,14 +63,14 @@ export class Chessboard {
                 moveToMarker: MARKER_TYPE.frame, // the marker used to mark the square where the figure is moving to
             },
             sprite: {
-                url: "./assets/images/chessboard-sprite.svg", // pieces and markers are stored as svg sprite
-                size: 40, // the sprite size, defaults to 40x40px
+                url: "./assets/images/chessboard-sprite.svg", // pieces and markers are stored in a sprite file
+                size: 40, // the sprite tiles size, defaults to 40x40px
                 cache: true // cache the sprite
             },
             accessibility: {
                 brailleNotationInAlt: true, // show the braille notation of the game in the alt attribute of the svg
-                boardAsTable: false, // display the board additionally as HTML table
                 movePieceForm: false, // display a form to move a piece (from, to, move)
+                boardAsTable: false, // display the board additionally as HTML table
                 piecesAsList: false, // display the pieces additionally as List
                 visuallyHidden: true // hide all those extra outputs visually but keep them accessible for screen readers and braille displays
             }
@@ -88,29 +91,28 @@ export class Chessboard {
             Object.assign(this.props.accessibility, props.accessibility)
         }
 
-        this.state = new ChessboardState()
+        this.state = new Observed(new ChessboardState())
         this.view = new ChessboardViewAccessible(this)
-        /*
-        this.state.addObserver(() => {
-            if(this.view) {
-                this.view.drawPieces()
-            }
-        })
-        */
-        if (this.props.position === "start") {
-            this.state.setPosition(FEN_START_POSITION)
-        } else if (this.props.position === "empty" || this.props.position === undefined) {
-            this.state.setPosition(FEN_EMPTY_POSITION)
-        } else {
-            this.state.setPosition(this.props.position)
-        }
+        this.chessboardPositionsAnimation = new ChessboardPositionsAnimation(this)
         this.state.orientation = this.props.orientation
         this.view.redraw()
+
+        this.state.addObserver((a, b, c) => {
+            console.log("OBSERVER CALLBACK", a, b, c)
+            this.chessboardPositionsAnimation.renderPosition(this.state.position).then(() => {
+                console.log("position rendering finished", this.state.position.getFen())
+            })
+        }, "position")
+
+        this.setPosition(this.props.position).then(() => {
+            console.log("position", this.props.position, "was set")
+        })
     }
 
     // API //
 
     setPiece(square, piece) {
+        // todo dont draw pieces => AnimationQueue
         this.state.position.setPiece(square, piece)
         this.view.drawPieces(this.state.position.squares)
     }
@@ -120,10 +122,11 @@ export class Chessboard {
     }
 
     movePiece(squareFrom, squareTo, animated = true) {
+        // todo dont draw pieces => AnimationQueue
         return new Promise((resolve, reject) => {
             const prevSquares = this.state.position.clone().squares
             const pieceFrom = this.getPiece(squareFrom)
-            if(!pieceFrom) {
+            if (!pieceFrom) {
                 reject("no piece on square " + squareFrom)
             } else {
                 this.state.position.setPiece(squareFrom, null)
@@ -140,36 +143,14 @@ export class Chessboard {
         })
     }
 
-    setPosition(fen, animated = true) {
-        return new Promise((resolve) => {
-            if (fen === "start") {
-                fen = FEN_START_POSITION
-            } else if (fen === "empty") {
-                fen = FEN_EMPTY_POSITION
-            }
-            const currentFen = this.state.getPosition()
-            const fenParts = fen.split(" ")
-            const fenNormalized = fenParts[0]
-
-            if (fenNormalized !== currentFen) {
-                const prevSquares = this.state.position.squares.slice(0) // clone
-                this.state.setPosition(fen)
-                if (animated) {
-                    this.view.animatePieces(prevSquares, this.state.position.squares.slice(0), () => {
-                        resolve()
-                    })
-                } else {
-                    this.view.drawPieces(this.state.position.squares)
-                    resolve()
-                }
-            } else {
-                resolve()
-            }
-        })
+    async setPosition(fen, animated = false) {
+        console.log("Chessboard.setPosition", this.state.position, animated)
+        this.state.position = new Position(fen, animated)
+        return this.chessboardPositionsAnimation.finished
     }
 
     getPosition() {
-        return this.state.getPosition()
+        return this.state.position.getFen()
     }
 
     addMarker(square, type) {

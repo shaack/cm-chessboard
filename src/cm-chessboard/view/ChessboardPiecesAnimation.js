@@ -3,7 +3,8 @@
  * Repository: https://github.com/shaack/cm-chessboard
  * License: MIT, see file 'LICENSE'
  */
-import {Position} from "./Position.js"
+import {Position} from "../model/Position.js"
+import {Svg} from "./ChessboardView.js"
 
 const CHANGE_TYPE = {
     move: 0,
@@ -13,13 +14,17 @@ const CHANGE_TYPE = {
 
 export class ChessboardPiecesAnimation {
 
-    constructor(view, fromSquares, toSquares, duration, callback) {
+    constructor(view, fromPosition, toPosition, duration, callback) {
         this.view = view
-        if (fromSquares && toSquares) {
-            this.animatedElements = this.createAnimation(fromSquares, toSquares)
+        console.log("new ChessboardPiecesAnimation", fromPosition.getFen(), toPosition.getFen())
+        if (fromPosition && toPosition) {
+            this.animatedElements = this.createAnimation(fromPosition.squares, toPosition.squares)
             this.duration = duration
             this.callback = callback
             this.frameHandle = requestAnimationFrame(this.animationStep.bind(this))
+            console.log(this.animatedElements)
+        } else {
+            console.error("fromPosition", fromPosition, "toPosition", toPosition)
         }
     }
 
@@ -69,6 +74,7 @@ export class ChessboardPiecesAnimation {
 
     createAnimation(fromSquares, toSquares) {
         const changes = this.seekChanges(fromSquares, toSquares)
+        console.log("changes", changes)
         const animatedElements = []
         changes.forEach((change) => {
             const animatedItem = {
@@ -76,7 +82,8 @@ export class ChessboardPiecesAnimation {
             }
             switch (change.type) {
                 case CHANGE_TYPE.move:
-                    animatedItem.element = this.view.getPiece(Position.indexToSquare(change.atIndex))
+                    animatedItem.element = this.view.getPieceElement(Position.indexToSquare(change.atIndex))
+                    animatedItem.element.dataset.square = Position.indexToSquare(change.toIndex)
                     animatedItem.atPoint = this.view.indexToPoint(change.atIndex)
                     animatedItem.toPoint = this.view.indexToPoint(change.toIndex)
                     break
@@ -85,7 +92,7 @@ export class ChessboardPiecesAnimation {
                     animatedItem.element.style.opacity = 0
                     break
                 case CHANGE_TYPE.disappear:
-                    animatedItem.element = this.view.getPiece(Position.indexToSquare(change.atIndex))
+                    animatedItem.element = this.view.getPieceElement(Position.indexToSquare(change.atIndex))
                     break
             }
             animatedElements.push(animatedItem)
@@ -94,6 +101,7 @@ export class ChessboardPiecesAnimation {
     }
 
     animationStep(time) {
+        console.log("animationStep", time)
         if (!this.startTime) {
             this.startTime = time
         }
@@ -102,12 +110,22 @@ export class ChessboardPiecesAnimation {
             this.frameHandle = requestAnimationFrame(this.animationStep.bind(this))
         } else {
             cancelAnimationFrame(this.frameHandle)
+            console.log("ANIMATION FINISHED")
+            this.animatedElements.forEach((animatedItem) => {
+                if(animatedItem.type === CHANGE_TYPE.disappear) {
+                    Svg.removeElement(animatedItem.element)
+                }
+            })
             this.callback()
             return
         }
         const t = Math.min(1, timeDiff / this.duration)
-        const progress = t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t // easeInOut
+        let progress = t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t // easeInOut
+        if(isNaN(progress)) {
+            progress = 1
+        }
         this.animatedElements.forEach((animatedItem) => {
+            // console.log("animatedItem", animatedItem)
             if (animatedItem.element) {
                 switch (animatedItem.type) {
                     case CHANGE_TYPE.move:
@@ -120,6 +138,7 @@ export class ChessboardPiecesAnimation {
                         break
                     case CHANGE_TYPE.appear:
                         animatedItem.element.style.opacity = progress
+                        // console.log("animatedItem", animatedItem.element, progress)
                         break
                     case CHANGE_TYPE.disappear:
                         animatedItem.element.style.opacity = 1 - progress

@@ -6,37 +6,49 @@
 export const FEN_START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 export const FEN_EMPTY_POSITION = "8/8/8/8/8/8/8/8"
 
-export class Position {
-
-    constructor(fen = undefined) {
-        this.squares = new Array(64).fill(null)
-        this.setFen(fen)
-    }
-    setFen(fen = FEN_START_POSITION) {
-        const parts = fen.replace(/^\s*/, "").replace(/\s*$/, "").split(/\/|\s/)
-        for (let part = 0; part < 8; part++) {
-            const row = parts[7 - part].replace(/\d/g, (str) => {
-                const numSpaces = parseInt(str)
-                let ret = ''
-                for (let i = 0; i < numSpaces; i++) {
-                    ret += '-'
-                }
-                return ret
-            })
-            for (let c = 0; c < 8; c++) {
-                const char = row.substring(c, c + 1)
-                let piece = null
-                if (char !== '-') {
-                    if (char.toUpperCase() === char) {
-                        piece = `w${char.toLowerCase()}`
-                    } else {
-                        piece = `b${char}`
-                    }
-                }
-                this.squares[part * 8 + c] = piece
+function setFen(fen = FEN_START_POSITION) {
+    // console.log("Position.setFen", fen)
+    const parts = fen.replace(/^\s*/, "").replace(/\s*$/, "").split(/\/|\s/)
+    for (let part = 0; part < 8; part++) {
+        const row = parts[7 - part].replace(/\d/g, (str) => {
+            const numSpaces = parseInt(str)
+            let ret = ''
+            for (let i = 0; i < numSpaces; i++) {
+                ret += '-'
             }
+            return ret
+        })
+        for (let c = 0; c < 8; c++) {
+            const char = row.substring(c, c + 1)
+            let piece = null
+            if (char !== '-') {
+                if (char.toUpperCase() === char) {
+                    piece = `w${char.toLowerCase()}`
+                } else {
+                    piece = `b${char}`
+                }
+            }
+            this.squares[part * 8 + c] = piece
         }
     }
+}
+
+export class Position {
+
+    constructor(fen = undefined, animated = false) {
+        let fenNormalized
+        if (fen === "start") {
+            fenNormalized = FEN_START_POSITION
+        } else if (fen === "empty" || fen === undefined) {
+            fenNormalized = FEN_EMPTY_POSITION
+        } else {
+            fenNormalized = fen
+        }
+        this.animated = animated
+        this.squares = new Array(64).fill(null)
+        setFen.bind(this)(fenNormalized)
+    }
+
     getFen() {
         let parts = new Array(8).fill("")
         for (let part = 0; part < 8; part++) {

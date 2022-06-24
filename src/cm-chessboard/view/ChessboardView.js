@@ -5,9 +5,9 @@
  */
 
 import {ChessboardMoveInput} from "./ChessboardMoveInput.js"
-import {COLOR, INPUT_EVENT_TYPE, BORDER_TYPE} from "./Chessboard.js"
+import {COLOR, INPUT_EVENT_TYPE, BORDER_TYPE} from "../Chessboard.js"
 import {ChessboardPiecesAnimation} from "./ChessboardPiecesAnimation.js"
-import {Position} from "./Position.js"
+import {Position} from "../model/Position.js"
 
 export const piecesTranslations = {
     en: {
@@ -51,8 +51,8 @@ export function renderPieceTitle(lang, name, color = undefined) {
 export class ChessboardView {
 
     constructor(chessboard) {
-        this.animationRunning = false
-        this.currentAnimation = undefined
+        // this.animationRunning = false
+        // this.currentAnimation = undefined
         this.chessboard = chessboard
         this.moveInput = new ChessboardMoveInput(this,
             this.moveStartCallback.bind(this),
@@ -182,7 +182,7 @@ export class ChessboardView {
         this.drawCoordinates()
         this.drawMarkers()
         this.visualizeInputState()
-        this.drawPieces(this.chessboard.state.position.squares)
+        // this.drawPieces(this.chessboard.state.position.squares)
     }
 
     // Board //
@@ -314,7 +314,7 @@ export class ChessboardView {
     }
 
     setPieceVisibility(square, visible = true) {
-        const piece = this.getPiece(square)
+        const piece = this.getPieceElement(square)
         if (visible) {
             piece.setAttribute("visibility", "visible")
         } else {
@@ -322,11 +322,15 @@ export class ChessboardView {
         }
     }
 
-    getPiece(square) {
+    getPieceElement(square) {
         if(square.length < 2) {
             throw new Error("980e03")
         }
-        return this.piecesGroup.querySelector(`g[data-square='${square}']`)
+        const piece = this.piecesGroup.querySelector(`g[data-square='${square}']`)
+        if(!piece) {
+            console.error("no piece found on", square)
+        }
+        return piece
     }
 
     // Markers //
@@ -359,14 +363,14 @@ export class ChessboardView {
     }
 
     // animation queue //
-
+/*
     animatePieces(fromSquares, toSquares, callback) {
         this.animationQueue.push({fromSquares: fromSquares, toSquares: toSquares, callback: callback})
         if (!this.animationRunning) {
             this.nextPieceAnimationInQueue()
         }
     }
-
+*/
     nextPieceAnimationInQueue() {
         const nextAnimation = this.animationQueue.shift()
         if (nextAnimation !== undefined) {

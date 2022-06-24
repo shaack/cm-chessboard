@@ -4,7 +4,7 @@
  * License: MIT, see file 'LICENSE'
  */
 import {ChessboardView, renderPieceTitle} from "./ChessboardView.js"
-import {COLOR, INPUT_EVENT_TYPE} from "./Chessboard.js"
+import {COLOR, INPUT_EVENT_TYPE} from "../Chessboard.js"
 import {piecesTranslations} from "./ChessboardView.js"
 
 const hlTranslations = {

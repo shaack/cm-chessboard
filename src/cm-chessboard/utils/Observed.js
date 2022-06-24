@@ -21,17 +21,14 @@ export function Observed(target) {
             target[property] = value
             // console.log("set", "property", property, "value", value)
             for (const observer of self.observers) {
-                clearTimeout(observer.callbackDebounce)
-                observer.callbackDebounce = setTimeout(() => {
-                    if (!observer.property || observer.property === property) {
-                        observer.callback({
-                            target: target,
-                            property: property,
-                            value: value,
-                            oldValue: oldValue
-                        })
-                    }
-                })
+                if (!observer.property || observer.property === property) {
+                    observer.callback({
+                        target: target,
+                        property: property,
+                        value: value,
+                        oldValue: oldValue
+                    })
+                }
             }
             return true
         }

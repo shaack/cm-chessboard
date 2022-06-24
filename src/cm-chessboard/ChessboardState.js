@@ -3,7 +3,7 @@
  * Repository: https://github.com/shaack/cm-chessboard
  * License: MIT, see file 'LICENSE'
  */
-import {Position} from "./Position.js"
+import {Position} from "./model/Position.js"
 
 export class ChessboardState {
 
@@ -16,21 +16,28 @@ export class ChessboardState {
         this.inputEnabled = false
         this.squareSelectEnabled = false
     }
-/*
-    getPieces() {
-        return this.position.getPieces()
+
+    setPosition(fen, animated = false) {
+        this.position = new Position(fen, animated)
     }
 
-    setPiece(square, piece) {
-        this.position.setPiece(square, piece)
-    }
-*/
-    setPosition(fen) {
-        this.position.setFen(fen)
+    movePiece(fromSquare, toSquare, animated = false) {
+        const position = this._position.clone()
+        position.animated = animated
+        const piece = position.getPiece(fromSquare)
+        if(!piece) {
+            console.error("no piece on", fromSquare)
+        }
+        position.setPiece(fromSquare, undefined)
+        position.setPiece(toSquare, piece)
+        this._position = position
     }
 
-    getPosition() {
-        return this.position.getFen()
+    setPiece(square, piece, animated = false) {
+        const position = this._position.clone()
+        position.animated = animated
+        position.setPiece(square, piece)
+        this._position = position
     }
 
     addMarker(square, type) {
