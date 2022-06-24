@@ -172,6 +172,7 @@ export class ChessboardView {
             this.context.clientHeight !== this.height) {
             this.updateMetrics()
             this.redraw()
+            this.drawPieces()
         }
         this.svg.setAttribute("width", "100%") // safari bugfix
         this.svg.setAttribute("height", "100%")
@@ -182,7 +183,6 @@ export class ChessboardView {
         this.drawCoordinates()
         this.drawMarkers()
         this.visualizeInputState()
-        // this.drawPieces(this.chessboard.state.position.squares)
     }
 
     // Board //

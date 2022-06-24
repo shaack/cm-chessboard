@@ -98,6 +98,15 @@ export class Position {
         return pieces
     }
 
+    movePiece(squareFrom, squareTo) {
+        if(!this.squares[Position.squareToIndex(squareFrom)]) {
+            console.error("movePiece, no piece on square", squareFrom)
+            return
+        }
+        this.squares[Position.squareToIndex(squareTo)] = this.squares[Position.squareToIndex(squareFrom)]
+        this.squares[Position.squareToIndex(squareFrom)] = undefined
+    }
+
     setPiece(square, piece) {
         this.squares[Position.squareToIndex(square)] = piece
     }

@@ -104,49 +104,32 @@ export class Chessboard {
             })
         }, "position")
 
-        this.setPosition(this.props.position).then(() => {
-            console.log("position", this.props.position, "was set")
-        })
+        this.setPosition(this.props.position)
     }
 
     // API //
 
-    setPiece(square, piece) {
-        // todo dont draw pieces => AnimationQueue
-        this.state.position.setPiece(square, piece)
-        this.view.drawPieces(this.state.position.squares)
+    setPiece(square, piece, animated) {
+        const position = this.state.position.clone()
+        position.setPiece(square, piece)
+        position.animated = animated
+        this.state.position = position
     }
 
     getPiece(square) {
         return this.state.position.getPiece(square)
     }
 
-    movePiece(squareFrom, squareTo, animated = true) {
-        // todo dont draw pieces => AnimationQueue
-        return new Promise((resolve, reject) => {
-            const prevSquares = this.state.position.clone().squares
-            const pieceFrom = this.getPiece(squareFrom)
-            if (!pieceFrom) {
-                reject("no piece on square " + squareFrom)
-            } else {
-                this.state.position.setPiece(squareFrom, null)
-                this.state.position.setPiece(squareTo, pieceFrom)
-                if (animated) {
-                    this.view.animatePieces(prevSquares, this.state.position.squares, () => {
-                        resolve()
-                    })
-                } else {
-                    this.view.drawPieces(this.state.position.squares)
-                    resolve()
-                }
-            }
-        })
+    movePiece(squareFrom, squareTo, animated = false) {
+        const position = this.state.position.clone()
+        position.movePiece(squareFrom, squareTo)
+        position.animated = animated
+        this.state.position = position
     }
 
-    async setPosition(fen, animated = false) {
+    setPosition(fen, animated = false) {
         console.log("Chessboard.setPosition", this.state.position, animated)
         this.state.position = new Position(fen, animated)
-        return this.chessboardPositionsAnimation.finished
     }
 
     getPosition() {

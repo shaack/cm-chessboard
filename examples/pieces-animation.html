@@ -30,8 +30,9 @@
 
 <pre>&lt;button onclick="window.board.setPosition('rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR')"&gt;Position 3&lt;/button&gt;</pre>
 <br/>
-Move piece <label for="moveFrom">from</label> <input id="moveFrom" type="text" size="2" value="e2"/> <label for="moveTo">to</label> <input id="moveTo" type="text" size="2"
-                                                                                   value="e4"/>
+Move piece <label for="moveFrom">from</label> <input id="moveFrom" type="text" size="2" value="e2"/> <label
+        for="moveTo">to</label> <input id="moveTo" type="text" size="2"
+                                       value="e4"/>
 <button onclick="movePiece()">Do move</button>
 <pre>board.movePiece(squareFrom, squareTo)</pre>
 <br/>
@@ -54,9 +55,7 @@ await board.movePiece("d5", "f4")
     let i = 0
     window.setPosition = (position, animated) => {
         i++
-        board.setPosition(position, animated).then(() => {
-            console.log("setPosition resolved", position, i)
-        })
+        board.setPosition(position, animated)
     }
     window.switchOrientation = (animated) => {
         board.setOrientation(board.getOrientation() === 'w' ? 'b' : 'w', animated)
@@ -65,14 +64,16 @@ await board.movePiece("d5", "f4")
         const squareFrom = document.getElementById("moveFrom").value
         const squareTo = document.getElementById("moveTo").value
         console.log("movePiece", squareFrom, squareTo)
-        board.movePiece(squareFrom, squareTo)
+        board.movePiece(squareFrom, squareTo, true)
     }
     window.knightMove = async () => {
-        await board.setPosition("empty")
-        board.setPiece("e4", PIECE.wn)
-        await board.movePiece("e4", "c3")
-        await board.movePiece("c3", "d5")
-        await board.movePiece("d5", "f4")
+        board.setPiece("e5", PIECE.wn)
+        board.movePiece("e5", "c4", true)
+        board.movePiece("c4", "d6", true)
+        board.movePiece("d6", "f5", true)
+        board.movePiece("f5", "h4", true)
+        board.movePiece("h4", "g6", true)
+        board.movePiece("g6", "e5", true)
     }
 </script>
 </body>
