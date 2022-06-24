@@ -101,7 +101,7 @@ export class ChessboardPiecesAnimation {
     }
 
     animationStep(time) {
-        console.log("animationStep", time)
+        // console.log("animationStep", time)
         if (!this.startTime) {
             this.startTime = time
         }
@@ -110,7 +110,7 @@ export class ChessboardPiecesAnimation {
             this.frameHandle = requestAnimationFrame(this.animationStep.bind(this))
         } else {
             cancelAnimationFrame(this.frameHandle)
-            console.log("ANIMATION FINISHED")
+            // console.log("ANIMATION FINISHED")
             this.animatedElements.forEach((animatedItem) => {
                 if(animatedItem.type === CHANGE_TYPE.disappear) {
                     Svg.removeElement(animatedItem.element)

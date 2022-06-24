@@ -52,14 +52,14 @@ await board.movePiece("d5", "f4")
             animationDuration: 500
         })
     let i = 0
-    window.setPosition = (position) => {
+    window.setPosition = (position, animated) => {
         i++
-        board.setPosition(position).then(() => {
+        board.setPosition(position, animated).then(() => {
             console.log("setPosition resolved", position, i)
         })
     }
-    window.switchOrientation = () => {
-        board.setOrientation(board.getOrientation() === 'w' ? 'b' : 'w')
+    window.switchOrientation = (animated) => {
+        board.setOrientation(board.getOrientation() === 'w' ? 'b' : 'w', animated)
     }
     window.movePiece = () => {
         const squareFrom = document.getElementById("moveFrom").value

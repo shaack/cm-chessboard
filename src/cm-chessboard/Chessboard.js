@@ -180,9 +180,18 @@ export class Chessboard {
         this.view.drawMarkers()
     }
 
-    setOrientation(color) {
-        this.state.orientation = color
-        return this.view.redraw()
+    async setOrientation(color, animated = false) {
+        return new Promise((resolve) => {
+            const position = this.state.position.clone()
+            position.animated = animated
+            this.chessboardPositionsAnimation.renderPosition(new Position(FEN_EMPTY_POSITION, animated)).then(() => {
+                this.view.redraw()
+                this.state.orientation = color
+                this.chessboardPositionsAnimation.renderPosition(position, animated).then(() => {
+                    resolve()
+                })
+            })
+        })
     }
 
     getOrientation() {
