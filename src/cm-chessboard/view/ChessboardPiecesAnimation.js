@@ -18,6 +18,7 @@ export class ChessboardPiecesAnimation {
         this.view = view
         if (fromPosition && toPosition) {
             this.animatedElements = this.createAnimation(fromPosition.squares, toPosition.squares)
+            console.log("elements", this.animatedElements)
             this.duration = duration
             this.callback = callback
             this.frameHandle = requestAnimationFrame(this.animationStep.bind(this))
@@ -72,6 +73,7 @@ export class ChessboardPiecesAnimation {
 
     createAnimation(fromSquares, toSquares) {
         const changes = this.seekChanges(fromSquares, toSquares)
+        console.log("changes", changes)
         const animatedElements = []
         changes.forEach((change) => {
             const animatedItem = {
@@ -80,7 +82,7 @@ export class ChessboardPiecesAnimation {
             switch (change.type) {
                 case CHANGE_TYPE.move:
                     animatedItem.element = this.view.getPieceElement(Position.indexToSquare(change.atIndex))
-                    animatedItem.element.dataset.square = Position.indexToSquare(change.toIndex)
+                    animatedItem.element.parentNode.appendChild(animatedItem.element) // move element to top layer
                     animatedItem.atPoint = this.view.indexToPoint(change.atIndex)
                     animatedItem.toPoint = this.view.indexToPoint(change.toIndex)
                     break
@@ -134,11 +136,10 @@ export class ChessboardPiecesAnimation {
                         animatedItem.element.transform.baseVal.appendItem(transform)
                         break
                     case CHANGE_TYPE.appear:
-                        animatedItem.element.style.opacity = progress
-                        // console.log("animatedItem", animatedItem.element, progress)
+                        animatedItem.element.style.opacity = Math.round(progress * 100) / 100
                         break
                     case CHANGE_TYPE.disappear:
-                        animatedItem.element.style.opacity = 1 - progress
+                        animatedItem.element.style.opacity = Math.round((1 - progress) * 100) / 100
                         break
                 }
             } else {

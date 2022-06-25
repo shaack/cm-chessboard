@@ -15,15 +15,15 @@ export class ChessboardPositionsAnimation {
     }
 
     async renderPosition(position) {
-        const positionFrom = this.currentPosition
-        this.currentPosition = position
         // console.log("renderPosition", positionFrom.getFen(), position.getFen())
         this.finished = this.finished.then(() => {
+            const positionFrom = this.currentPosition
+            this.currentPosition = position
             return new Promise((resolve) => {
                 new ChessboardPiecesAnimation(this.chessboard.view,
-                    positionFrom,
-                    position,
+                    positionFrom, position,
                     position.animated ? this.chessboard.props.animationDuration : 0, () => {
+                        this.chessboard.view.drawPieces(position.squares) // reset the view
                         resolve()
                     })
             })

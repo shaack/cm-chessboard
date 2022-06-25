@@ -97,7 +97,7 @@ export class Chessboard {
         this.state.orientation = this.props.orientation
         this.view.redraw()
 
-        this.state.addObserver(() => {
+        this.state.addObserver(() => { // todo wieder entfernen und den Promise direkt in der Methode zurück geben
             this.chessboardPositionsAnimation.renderPosition(this.state.position).then(() => {
                 console.log("position rendering finished", this.state.position.getFen())
             })
@@ -125,22 +125,16 @@ export class Chessboard {
     }
 
     async setPosition(fen, animated = false) {
-        // console.log("Chessboard.setPosition", this.state.position, animated)
         this.state.position = new Position(fen, animated)
         return this.chessboardPositionsAnimation.finished
     }
 
-    async setOrientation(color, animated = false) {
-        return new Promise((resolve) => {
-            const position = this.state.position.clone()
-            position.animated = animated
-            this.chessboardPositionsAnimation.renderPosition(new Position(FEN_EMPTY_POSITION, animated)).then(() => {
-                this.state.orientation = color
-                this.view.redraw()
-                this.chessboardPositionsAnimation.renderPosition(position, animated).then(() => {
-                    resolve()
-                })
-            })
+    async setOrientation(color) {
+        const position = this.state.position.clone()
+        this.chessboardPositionsAnimation.renderPosition(new Position(FEN_EMPTY_POSITION)).then(() => {
+            this.state.orientation = color
+            this.view.redraw()
+            this.chessboardPositionsAnimation.renderPosition(position)
         })
     }
 

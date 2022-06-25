@@ -26,7 +26,6 @@
 <button onclick="setPosition('rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR', true)">Position 1</button>
 <button onclick="setPosition('rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R', true)">Position 2</button>
 <button onclick="setPosition('rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR', true)">Position 3</button>
-<button onclick="switchOrientation(true)">Switch Orientation</button>
 
 <pre>&lt;button onclick="window.board.setPosition('rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR')"&gt;Position 3&lt;/button&gt;</pre>
 <br/>
@@ -50,7 +49,7 @@ await board.movePiece("d5", "f4")
         {
             position: "start",
             sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
-            animationDuration: 500
+            animationDuration: 1000
         })
     let i = 0
     window.setPosition = (position, animated) => {

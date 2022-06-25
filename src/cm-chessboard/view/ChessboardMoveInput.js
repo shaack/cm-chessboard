@@ -102,7 +102,7 @@ export class ChessboardMoveInput {
                     this.draggablePiece = undefined
                 }
                 if (prevState === STATE.dragTo) {
-                    this.view.setPieceVisibility(params.square)
+                    this.view.setPieceVisibility(params.square, true)
                 }
                 break
 
@@ -183,6 +183,7 @@ export class ChessboardMoveInput {
     }
 
     createDraggablePiece(pieceName) {
+        // TODO use the existing piece from the board and don't create an new one
         if (this.draggablePiece) {
             throw Error("draggablePiece exists")
         }
