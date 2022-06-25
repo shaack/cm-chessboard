@@ -7,6 +7,7 @@
 import {State} from "./core/State.js"
 import {ViewAccessible} from "./core/ViewAccessible.js"
 import {PositionAnimationsQueue} from "./core/PositionAnimationsQueue.js"
+import {Position} from "./core/Position.js"
 
 export const COLOR = {
     white: "w",
@@ -92,8 +93,8 @@ export class Chessboard {
         this.positionAnimationsQueue = new PositionAnimationsQueue(this)
         this.state.orientation = this.props.orientation
         this.view.redraw()
-        // noinspection JSUnusedGlobalSymbols
-        this.initialized = this.setPosition(this.props.position)
+        this.state.position = new Position(this.props.position)
+        this.view.redrawPieces()
     }
 
     // API //
