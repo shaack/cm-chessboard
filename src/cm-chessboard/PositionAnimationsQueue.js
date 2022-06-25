@@ -3,9 +3,71 @@
  * Repository: https://github.com/shaack/cm-chessboard
  * License: MIT, see file 'LICENSE'
  */
-import {FEN_EMPTY_POSITION, Position} from "../model/Position.js"
+import {FEN_EMPTY_POSITION, Position} from "./Position.js"
 import {Svg} from "./ChessboardView.js"
-import {PromiseQueue} from "../utils/PromiseQueue.js"
+
+/*
+* Thanks to markosyan for the idea to the PromiseQueue
+* https://medium.com/@karenmarkosyan/how-to-manage-promises-into-dynamic-queue-with-vanilla-javascript-9d0d1f8d4df5
+*/
+
+export class PromiseQueue {
+
+    constructor() {
+        this.queue = []
+        this.workingOnPromise = false
+        this.stop = false
+    }
+
+    async enqueue(promise) {
+        return new Promise((resolve, reject) => {
+            this.queue.push({
+                promise, resolve, reject,
+            })
+            this.dequeue()
+        })
+    }
+
+    dequeue() {
+        if (this.workingOnPromise) {
+            return
+        }
+        if (this.stop) {
+            this.queue = []
+            this.stop = false
+            return
+        }
+        const entry = this.queue.shift()
+        if (!entry) {
+            return
+        }
+        try {
+            this.workingOnPromise = true
+            entry.promise().then((value) => {
+                this.workingOnPromise = false
+                entry.resolve(value)
+                this.dequeue()
+            }).catch(err => {
+                this.workingOnPromise = false
+                entry.reject(err)
+                this.dequeue()
+            })
+        } catch (err) {
+            this.workingOnPromise = false
+            entry.reject(err)
+            this.dequeue()
+        }
+        return true
+    }
+
+    destroy() {
+        console.log("PAQ destroy")
+        this.stop = true
+    }
+
+
+}
+
 
 const CHANGE_TYPE = {
     move: 0,
@@ -13,7 +75,7 @@ const CHANGE_TYPE = {
     disappear: 2
 }
 
-class PositionsAnimation {
+export class PositionsAnimation {
 
     constructor(view, fromPosition, toPosition, duration, callback) {
         this.view = view
@@ -27,7 +89,7 @@ class PositionsAnimation {
         }
     }
 
-    seekChanges(fromSquares, toSquares) {
+    static seekChanges(fromSquares, toSquares) {
         const appearedList = [], disappearedList = [], changes = []
         for (let i = 0; i < 64; i++) {
             const previousSquare = fromSquares[i]
@@ -46,7 +108,7 @@ class PositionsAnimation {
             let foundMoved = undefined
             disappearedList.forEach((disappeared) => {
                 if (appeared.piece === disappeared.piece) {
-                    const moveDistance = this.squareDistance(appeared.index, disappeared.index)
+                    const moveDistance = PositionsAnimation.squareDistance(appeared.index, disappeared.index)
                     if (moveDistance < shortestDistance) {
                         foundMoved = disappeared
                         shortestDistance = moveDistance
@@ -72,7 +134,7 @@ class PositionsAnimation {
     }
 
     createAnimation(fromSquares, toSquares) {
-        const changes = this.seekChanges(fromSquares, toSquares)
+        const changes = PositionsAnimation.seekChanges(fromSquares, toSquares)
         // console.log("changes", changes)
         const animatedElements = []
         changes.forEach((change) => {
@@ -148,7 +210,7 @@ class PositionsAnimation {
         })
     }
 
-    squareDistance(index1, index2) {
+    static squareDistance(index1, index2) {
         const file1 = index1 % 8
         const rank1 = Math.floor(index1 / 8)
         const file2 = index2 % 8
@@ -175,7 +237,9 @@ export class PositionAnimationsQueue extends PromiseQueue {
             new PositionsAnimation(this.chessboard.view,
                 positionFrom, positionTo, animated ? duration : 0,
                 () => {
-                    this.chessboard.view.redrawPieces(positionTo.squares)
+                    if(this.chessboard.view) { // if destroyed, no view anymore
+                        this.chessboard.view.redrawPieces(positionTo.squares)
+                    }
                     resolve()
                 }
             )

@@ -5,8 +5,8 @@
  */
 
 import {ChessboardState} from "./ChessboardState.js"
-import {ChessboardViewAccessible} from "./view/ChessboardViewAccessible.js"
-import {PositionAnimationsQueue} from "./view/PositionAnimationsQueue.js"
+import {ChessboardViewAccessible} from "./ChessboardViewAccessible.js"
+import {PositionAnimationsQueue} from "./PositionAnimationsQueue.js"
 
 export const COLOR = {
     white: "w",
@@ -53,9 +53,9 @@ export class Chessboard {
             responsive: true, // resizes the board based on element size
             animationDuration: 300, // pieces animation duration in milliseconds. Disable all animation with `0`.
             style: {
-                cssClass: "default",
+                cssClass: "default", // set the css theme of the board, try "green", "blue" or "chess-club"
                 showCoordinates: true, // show ranks and files
-                borderType: BORDER_TYPE.none, // thin: thin border, frame: wide border with coordinates in it, none: no border
+                borderType: BORDER_TYPE.none, // "thin" thin border, "frame" wide border with coordinates in it, "none" no border
                 aspectRatio: 1, // height/width of the board
                 moveFromMarker: MARKER_TYPE.frame, // the marker used to mark the start square
                 moveToMarker: MARKER_TYPE.frame, // the marker used to mark the square where the figure is moving to
@@ -65,7 +65,7 @@ export class Chessboard {
                 size: 40, // the sprite tiles size, defaults to 40x40px
                 cache: true // cache the sprite
             },
-            accessibility: {
+            accessibility: { // accessibility functions are in "alpha" version for now, they might not work as expected
                 brailleNotationInAlt: true, // show the braille notation of the game in the alt attribute of the svg
                 movePieceForm: false, // display a form to move a piece (from, to, move)
                 boardAsTable: false, // display the board additionally as HTML table
@@ -170,6 +170,7 @@ export class Chessboard {
     }
 
     destroy() {
+        this.positionAnimationsQueue.destroy()
         this.view.destroy()
         this.view = undefined
         this.state = undefined

@@ -36,11 +36,21 @@ aspects of chess games.
 **Option 3:** Use it via CDN https://cdn.jsdelivr.net/npm/cm-chessboard@3.18.0/src/cm-chessboard/Chessboard.js
 
 After installation, copy the sprite in `cm-chessboard/assets/images/` to your projects `assets/images/`
-folder. If you put the sprite somewhere else you have to configure the location with `{sprite.url: "./url/of/chessboard-sprite.svg"}`
+folder. If you put the sprite somewhere else you have to configure the location
+with `{sprite.url: "./url/of/chessboard-sprite.svg"}`
 (see section 'Configuration' below).
 
 To run the unit tests in `/test` you first have to `npm install` the dev dependencies. Without tests there are no
 dependencies.
+
+## New Version 4.x
+
+With the new version 4 of cm-chessboard I made a huge step and completely redesigned the animation of positions with
+the use of promises. The animations are now smoother and less error-prone for race conditions.
+
+### Major changes in the 4.x
+
+- The function `chessboard.setPosition()` now is not animated as default.
 
 ## Example usage
 
@@ -69,23 +79,30 @@ examples.
 Below is the default configuration
 
 ```javascript
-props = {
+let defaultProps = {
     position: "empty", // set as fen, "start" or "empty"
     orientation: COLOR.white, // white on bottom
-    style: {
-        cssClass: "default",
-        showCoordinates: true, // show ranks and files
-        borderType: BORDER_TYPE.thin, // thin: thin border, frame: wide border with coordinates in it, none: no border
-        aspectRatio: 1, // height/width. Set to `undefined`, if you want to define it only in the css.
-        moveFromMarker: MARKER_TYPE.frame, // the marker used to mark the start square
-        moveToMarker: MARKER_TYPE.frame // the marker used to mark the square where the figure is moving to
-    },
     responsive: true, // resizes the board based on element size
-    animationDuration: 300, // pieces animation duration in milliseconds
+    animationDuration: 300, // pieces animation duration in milliseconds. Disable all animation with `0`.
+    style: {
+        cssClass: "default", // set the css theme of the board, try "green", "blue" or "chess-club"
+        showCoordinates: true, // show ranks and files
+        borderType: BORDER_TYPE.none, // "thin" thin border, "frame" wide border with coordinates in it, "none" no border
+        aspectRatio: 1, // height/width of the board
+        moveFromMarker: MARKER_TYPE.frame, // the marker used to mark the start square
+        moveToMarker: MARKER_TYPE.frame, // the marker used to mark the square where the figure is moving to
+    },
     sprite: {
-        url: "./assets/images/chessboard-sprite-staunty.svg", // pieces and markers are stored as svg sprite
-        size: 40, // the sprite size, defaults to 40x40px
-        cache: true // cache the sprite inline, in the HTML
+        url: "./assets/images/chessboard-sprite.svg", // pieces and markers are stored in a sprite file
+        size: 40, // the sprite tiles size, defaults to 40x40px
+        cache: true // cache the sprite
+    },
+    accessibility: { // accessibility functions are in "alpha" version for now, they might not work as expected
+        brailleNotationInAlt: true, // show the braille notation of the game in the alt attribute of the svg
+        movePieceForm: false, // display a form to move a piece (from, to, move)
+        boardAsTable: false, // display the board additionally as HTML table
+        piecesAsList: false, // display the pieces additionally as List
+        visuallyHidden: true // hide all those extra outputs visually but keep them accessible for screen readers and braille displays
     }
 }
 ```
@@ -94,32 +111,32 @@ props = {
 
 ### constructor
 
-`new Chessboard(containerElement, props = {})`
+`new Chessboard(context, props = {})`
 
-- **`containerElement`**: a HTML DOM element being the container of the widget
+- **`context`**: the HTML DOM element being the container of the widget
 - **`props`**: The board configuration (properties)
 
-### setPiece(square, piece)
+### setPiece(square, piece, animated = false)
 
-Sets a piece on a square. Example: `board.setPiece("e4", PIECE.blackKnight)` or
-`board.setPiece("e4", "bn")`. Remove a Piece with `board.setPiece("e4", null)`.
+Sets a piece on a square. Example: `board.setPiece("e4", PIECE.blackKnight, true)` or
+`board.setPiece("e4", "bn")`. Remove a Piece with `board.setPiece("e4", null)`. Returns a **Promise**, which is
+resolved,
+after the animation finished.
 
 ### getPiece(square)
 
 Returns the piece on a square or `undefined` if the square is empty.
 
-### movePiece(squareFrom, squareTo, animated = true)
+### movePiece(squareFrom, squareTo, animated = false)
 
-Move a piece from `squareFrom` to `squareTo`. Returns a **Promise**, which is resolved, when the animation finished.
+Move a piece from `squareFrom` to `squareTo`. Returns a **Promise**, which is resolved, after the animation finished.
 
 [Example for **movePiece**](https://shaack.com/projekte/cm-chessboard/examples/pieces-animation.html)
 
-### setPosition(fen, animated = true)
+### setPosition(fen, animated = false)
 
-Sets the position as `fen`. Special values are `"start"`, sets the chess start position and
-`"empty"`, sets an empty board. When `animated` is set `false`, the new position will be shown instant.
-
-Returns a **Promise**, which is resolved, when the animation finished.
+Sets the position as `fen`. Special values are "start", sets the chess start position and
+"empty", sets an empty board. Returns a **Promise**, which is resolved, after the animation finished.
 
 [Example for **setPosition**](https://shaack.com/projekte/cm-chessboard/examples/pieces-animation.html)
 
@@ -131,11 +148,13 @@ Returns the board position as `fen`.
 
 Adds a marker on a square.
 
-Default types are: `MARKER_TYPE.frame`, `MARKER_TYPE.square`, `MARKER_TYPE.dot`, `MARKER_TYPE.circle` exportet by `Chessboard.js`.
+Default types are: `MARKER_TYPE.frame`, `MARKER_TYPE.square`, `MARKER_TYPE.dot`, `MARKER_TYPE.circle` exportet
+by `Chessboard.js`.
 
 #### You can create your own marker types:
 
-Just create an object like `const myMarker = {class: "markerCssClass", slice: "markerSliceId"}`, where `class` is the css class of the marker for styling
+Just create an object like `const myMarker = {class: "markerCssClass", slice: "markerSliceId"}`, where `class` is the
+css class of the marker for styling
 and `slice` is the `id` in `sprite.svg`. See also [Create your own custom markers](#create-your-own-custom-markers)
 below.
 
@@ -271,7 +290,8 @@ It's a circle with the radius 18 and its center at 20/20.
 
 Important is the id "markerCircle". You can set the marker
 with `board.addMarker("e4", {class: "markerSquare", slice: "markerSquare"})`
-"emphasize" is the css class, which defines the color and opacity of the marker. "slice" is the id of the marker in the SVG. This is
+"emphasize" is the css class, which defines the color and opacity of the marker. "slice" is the id of the marker in the
+SVG. This is
 also demonstrated in the [mark squares example](https://shaack.com/projekte/cm-chessboard/examples/input-callbacks.html)
 .
 
@@ -282,14 +302,15 @@ These are the css styles of the markers "markerSquare" and "markerCircleRed".
 
 ```css
 marker.markerSquare {
-  fill: black;
-  opacity: 0.11;
+    fill: black;
+    opacity: 0.11;
 }
+
 marker.markerCircleRed {
-   stroke: #aa0000;
-   stroke-width: 3px;
-   opacity: 0.4;
- }
+    stroke: #aa0000;
+    stroke-width: 3px;
+    opacity: 0.4;
+}
 ```
 
 So you can simply add a marker with the id `myMarkerIdInSvg` to the SVG, and add the class `myMarkerCssClass` to the

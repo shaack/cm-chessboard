@@ -5,22 +5,19 @@
  */
 
 import {describe, it, assert} from "../node_modules/teevi/src/teevi.js"
-import {PositionAnimationsQueue} from "../src/cm-chessboard/view/PositionAnimationsQueue.js"
 import {ChessboardState} from "../src/cm-chessboard/ChessboardState.js"
-import {ViewMock} from "./mocks/ViewMock.js"
-
-const cfa = new PositionAnimationsQueue(new ViewMock())
+import {PositionsAnimation} from "../src/cm-chessboard/PositionAnimationsQueue.js"
 
 describe("TestPiecesAnimation", () => {
     it("should calculate square distances", () => {
-        assert.equals(cfa.squareDistance(0, 0), 0)
-        assert.equals(cfa.squareDistance(0, 1), 1)
-        assert.equals(cfa.squareDistance(0, 7), 7)
-        assert.equals(cfa.squareDistance(0, 8), 1)
-        assert.equals(cfa.squareDistance(10, 20), 2)
-        assert.equals(cfa.squareDistance(0, 63), 7)
-        assert.equals(cfa.squareDistance(8, 24), 2)
-        assert.equals(cfa.squareDistance(14, 24), 6)
+        assert.equals(PositionsAnimation.squareDistance(0, 0), 0)
+        assert.equals(PositionsAnimation.squareDistance(0, 1), 1)
+        assert.equals(PositionsAnimation.squareDistance(0, 7), 7)
+        assert.equals(PositionsAnimation.squareDistance(0, 8), 1)
+        assert.equals(PositionsAnimation.squareDistance(10, 20), 2)
+        assert.equals(PositionsAnimation.squareDistance(0, 63), 7)
+        assert.equals(PositionsAnimation.squareDistance(8, 24), 2)
+        assert.equals(PositionsAnimation.squareDistance(14, 24), 6)
     })
 
     it("should seek changes", () => {
@@ -30,7 +27,7 @@ describe("TestPiecesAnimation", () => {
         state2.setPosition("rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR")
         const previousBoard1 = state1.position.squares
         const newBoard1 = state2.position.squares
-        const changes = cfa.seekChanges(previousBoard1, newBoard1)
+        const changes = PositionsAnimation.seekChanges(previousBoard1, newBoard1)
 
         assert.equals(changes[0].type,0 )
         assert.equals(changes[0].piece, "wn")

@@ -5,7 +5,6 @@
  */
 
 import {Svg} from "./ChessboardView.js"
-// import {Position} from "./Position.js"
 
 const STATE = {
     waitForInputStart: 0,
@@ -353,13 +352,13 @@ export class ChessboardMoveInput {
                     this.moveCanceledCallback(MOVE_CANCELED_REASON.secondClick, square, square)
                 }
             } else {
-                this.view.drawPieces()
+                this.view.redrawPieces()
                 const moveStartSquare = this.fromSquare
                 this.setMoveInputState(STATE.reset)
                 this.moveCanceledCallback(MOVE_CANCELED_REASON.movedOutOfBoard, moveStartSquare, undefined)
             }
         } else {
-            this.view.drawPieces()
+            this.view.redrawPieces()
             this.setMoveInputState(STATE.reset)
         }
     }

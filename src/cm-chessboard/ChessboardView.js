@@ -5,8 +5,8 @@
  */
 
 import {ChessboardMoveInput} from "./ChessboardMoveInput.js"
-import {COLOR, INPUT_EVENT_TYPE, BORDER_TYPE} from "../Chessboard.js"
-import {Position} from "../model/Position.js"
+import {COLOR, INPUT_EVENT_TYPE, BORDER_TYPE} from "./Chessboard.js"
+import {Position} from "./Position.js"
 
 export const piecesTranslations = {
     en: {

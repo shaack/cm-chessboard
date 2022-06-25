@@ -38,7 +38,7 @@ function inputHandler(event) {
     if (event.type === INPUT_EVENT_TYPE.moveStart) {
         const moves = chess.moves({square: event.square, verbose: true});
         event.chessboard.addMarker(event.square, MARKER_TYPE.square)
-        for (const move of moves) {
+        for (const move of moves) { // draw dots on possible moves
             event.chessboard.addMarker(move.to, MARKER_TYPE.dot)
         }
         return moves.length > 0
@@ -46,9 +46,7 @@ function inputHandler(event) {
         const move = {from: event.squareFrom, to: event.squareTo}
         const result = chess.move(move)
         if (result) {
-            event.chessboard.removeMarkers(undefined, MARKER_TYPE.square)
             event.chessboard.disableMoveInput()
-            event.chessboard.setPosition(chess.fen())
             const possibleMoves = chess.moves({verbose: true})
             if (possibleMoves.length > 0) {
                 const randomIndex = Math.floor(Math.random() * possibleMoves.length)
@@ -56,7 +54,7 @@ function inputHandler(event) {
                 setTimeout(() => { // smoother with 500ms delay
                     chess.move({from: randomMove.from, to: randomMove.to})
                     event.chessboard.enableMoveInput(inputHandler, COLOR.white)
-                    event.chessboard.setPosition(chess.fen())
+                    event.chessboard.setPosition(chess.fen(), true)
                 }, 500)
             }
         } else {
@@ -97,7 +95,6 @@ board.enableMoveInput(inputHandler, COLOR.white)
             const result = chess.move(move)
             if (result) {
                 event.chessboard.disableMoveInput()
-                event.chessboard.setPosition(chess.fen())
                 const possibleMoves = chess.moves({verbose: true})
                 if (possibleMoves.length > 0) {
                     const randomIndex = Math.floor(Math.random() * possibleMoves.length)
@@ -105,7 +102,7 @@ board.enableMoveInput(inputHandler, COLOR.white)
                     setTimeout(() => { // smoother with 500ms delay
                         chess.move({from: randomMove.from, to: randomMove.to})
                         event.chessboard.enableMoveInput(inputHandler, COLOR.white)
-                        event.chessboard.setPosition(chess.fen())
+                        event.chessboard.setPosition(chess.fen(), true)
                     }, 500)
                 }
             } else {
@@ -119,7 +116,8 @@ board.enableMoveInput(inputHandler, COLOR.white)
         position: chess.fen(),
         sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
         style: {moveFromMarker: undefined, moveToMarker: undefined}, // disable standard markers
-        orientation: COLOR.white
+        orientation: COLOR.white,
+        animationDuration: 500
     })
     board.enableMoveInput(inputHandler, COLOR.white)
 </script>
