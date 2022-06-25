@@ -6,7 +6,6 @@
 
 import {ChessboardMoveInput} from "./ChessboardMoveInput.js"
 import {COLOR, INPUT_EVENT_TYPE, BORDER_TYPE} from "../Chessboard.js"
-import {ChessboardPiecesAnimation} from "./ChessboardPiecesAnimation.js"
 import {Position} from "../model/Position.js"
 
 export const piecesTranslations = {
@@ -172,7 +171,7 @@ export class ChessboardView {
             this.context.clientHeight !== this.height) {
             this.updateMetrics()
             this.redraw()
-            this.drawPieces()
+            this.redrawPieces()
         }
         this.svg.setAttribute("width", "100%") // safari bugfix
         this.svg.setAttribute("height", "100%")
@@ -276,7 +275,7 @@ export class ChessboardView {
 
     // Pieces //
 
-    drawPieces(squares = this.chessboard.state.position.squares) {
+    redrawPieces(squares = this.chessboard.state.position.squares) {
         const childNodes = Array.from(this.piecesGroup.childNodes)
         for (let i = 0; i < 64; i++) {
             const pieceName = squares[i]
@@ -362,15 +361,7 @@ export class ChessboardView {
         return markerGroup
     }
 
-    // animation queue //
-/*
-    animatePieces(fromSquares, toSquares, callback) {
-        this.animationQueue.push({fromSquares: fromSquares, toSquares: toSquares, callback: callback})
-        if (!this.animationRunning) {
-            this.nextPieceAnimationInQueue()
-        }
-    }
-*/
+    /*
     nextPieceAnimationInQueue() {
         const nextAnimation = this.animationQueue.shift()
         if (nextAnimation !== undefined) {
@@ -387,6 +378,7 @@ export class ChessboardView {
             })
         }
     }
+     */
 
     // enable and disable move input //
 

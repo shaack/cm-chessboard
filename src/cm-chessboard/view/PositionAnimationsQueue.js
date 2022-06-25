@@ -3,8 +3,9 @@
  * Repository: https://github.com/shaack/cm-chessboard
  * License: MIT, see file 'LICENSE'
  */
-import {Position} from "../model/Position.js"
+import {FEN_EMPTY_POSITION, Position} from "../model/Position.js"
 import {Svg} from "./ChessboardView.js"
+import {PromiseQueue} from "../utils/PromiseQueue.js"
 
 const CHANGE_TYPE = {
     move: 0,
@@ -12,13 +13,12 @@ const CHANGE_TYPE = {
     disappear: 2
 }
 
-export class ChessboardPiecesAnimation {
+class PositionsAnimation {
 
     constructor(view, fromPosition, toPosition, duration, callback) {
         this.view = view
         if (fromPosition && toPosition) {
             this.animatedElements = this.createAnimation(fromPosition.squares, toPosition.squares)
-            console.log("elements", this.animatedElements)
             this.duration = duration
             this.callback = callback
             this.frameHandle = requestAnimationFrame(this.animationStep.bind(this))
@@ -73,7 +73,7 @@ export class ChessboardPiecesAnimation {
 
     createAnimation(fromSquares, toSquares) {
         const changes = this.seekChanges(fromSquares, toSquares)
-        console.log("changes", changes)
+        // console.log("changes", changes)
         const animatedElements = []
         changes.forEach((change) => {
             const animatedItem = {
@@ -111,7 +111,7 @@ export class ChessboardPiecesAnimation {
             cancelAnimationFrame(this.frameHandle)
             // console.log("ANIMATION FINISHED")
             this.animatedElements.forEach((animatedItem) => {
-                if(animatedItem.type === CHANGE_TYPE.disappear) {
+                if (animatedItem.type === CHANGE_TYPE.disappear) {
                     Svg.removeElement(animatedItem.element)
                 }
             })
@@ -120,7 +120,7 @@ export class ChessboardPiecesAnimation {
         }
         const t = Math.min(1, timeDiff / this.duration)
         let progress = t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t // easeInOut
-        if(isNaN(progress)) {
+        if (isNaN(progress)) {
             progress = 1
         }
         this.animatedElements.forEach((animatedItem) => {
@@ -154,6 +154,57 @@ export class ChessboardPiecesAnimation {
         const file2 = index2 % 8
         const rank2 = Math.floor(index2 / 8)
         return Math.max(Math.abs(rank2 - rank1), Math.abs(file2 - file1))
+    }
+
+}
+
+export class PositionAnimationsQueue extends PromiseQueue {
+
+    constructor(chessboard) {
+        super()
+        this.chessboard = chessboard
+    }
+
+    async enqueuePositionChange(positionFrom, positionTo, animated) {
+        return super.enqueue(() => new Promise((resolve) => {
+            let duration = animated ? this.chessboard.props.animationDuration : 0
+            if(this.queue.length > 0) {
+                duration = duration / (1 + Math.pow(this.queue.length / 5, 2))
+            }
+            // console.log("duration", duration, animated, "this.chessboard.props.animationDuration", this.chessboard.props.animationDuration)
+            new PositionsAnimation(this.chessboard.view,
+                positionFrom, positionTo, animated ? duration : 0,
+                () => {
+                    this.chessboard.view.redrawPieces(positionTo.squares)
+                    resolve()
+                }
+            )
+        }))
+    }
+
+    async enqueueTurnBoard(position, color, animated) {
+        return super.enqueue(() => new Promise((resolve) => {
+            const emptyPosition = new Position(FEN_EMPTY_POSITION)
+            let duration = animated ? this.chessboard.props.animationDuration : 0
+            if(this.queue.length > 0) {
+                duration = duration / (1 + Math.pow(this.queue.length / 5, 2))
+            }
+            new PositionsAnimation(this.chessboard.view,
+                position, emptyPosition, animated ? duration : 0,
+                () => {
+                    this.chessboard.state.orientation = color
+                    this.chessboard.view.redraw()
+                    this.chessboard.view.redrawPieces(emptyPosition.squares)
+                    new PositionsAnimation(this.chessboard.view,
+                        emptyPosition, position, animated ? duration : 0,
+                        () => {
+                            this.chessboard.view.redrawPieces(position.squares)
+                            resolve()
+                        }
+                    )
+                }
+            )
+        }))
     }
 
 }

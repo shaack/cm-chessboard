@@ -6,9 +6,7 @@
 
 import {ChessboardState} from "./ChessboardState.js"
 import {ChessboardViewAccessible} from "./view/ChessboardViewAccessible.js"
-import {Position} from "./model/Position.js"
-import {Observed} from "./utils/Observed.js"
-import {ChessboardPositionsAnimation} from "./view/ChessboardPositionsAnimation.js"
+import {PositionAnimationsQueue} from "./view/PositionAnimationsQueue.js"
 
 export const COLOR = {
     white: "w",
@@ -52,8 +50,8 @@ export class Chessboard {
         let defaultProps = {
             position: "empty", // set as fen, "start" or "empty"
             orientation: COLOR.white, // white on bottom
-            animationDuration: 300, // pieces animation duration in milliseconds. Disable all animation with `0`.
             responsive: true, // resizes the board based on element size
+            animationDuration: 300, // pieces animation duration in milliseconds. Disable all animation with `0`.
             style: {
                 cssClass: "default",
                 showCoordinates: true, // show ranks and files
@@ -91,50 +89,44 @@ export class Chessboard {
             Object.assign(this.props.accessibility, props.accessibility)
         }
 
-        this.state = new Observed(new ChessboardState())
+        this.state = new ChessboardState()
         this.view = new ChessboardViewAccessible(this)
-        this.chessboardPositionsAnimation = new ChessboardPositionsAnimation(this)
+        this.positionAnimationsQueue = new PositionAnimationsQueue(this)
         this.state.orientation = this.props.orientation
         this.view.redraw()
-
-        this.state.addObserver(() => { // todo wieder entfernen und den Promise direkt in der Methode zurück geben
-            this.chessboardPositionsAnimation.renderPosition(this.state.position).then(() => {
-                console.log("position rendering finished", this.state.position.getFen())
-            })
-        }, "position")
-
-        this.setPosition(this.props.position)
+        // noinspection JSUnusedGlobalSymbols
+        this.initialized = this.setPosition(this.props.position)
     }
 
     // API //
 
-    async setPiece(square, piece, animated) {
-        const position = this.state.position.clone()
-        position.setPiece(square, piece)
-        position.animated = animated
-        this.state.position = position
-        return this.chessboardPositionsAnimation.finished
+    async setPiece(square, piece, animated = false) {
+        const positionFrom = this.state.position.clone()
+        this.state.position.setPiece(square, piece)
+        return this.positionAnimationsQueue.enqueuePositionChange(positionFrom, this.state.position.clone(), animated)
     }
 
     async movePiece(squareFrom, squareTo, animated = false) {
-        const position = this.state.position.clone()
-        position.movePiece(squareFrom, squareTo)
-        position.animated = animated
-        this.state.position = position
-        return this.chessboardPositionsAnimation.finished
+        const positionFrom = this.state.position.clone()
+        this.state.position.movePiece(squareFrom, squareTo)
+        return this.positionAnimationsQueue.enqueuePositionChange(positionFrom, this.state.position.clone(), animated)
     }
 
     async setPosition(fen, animated = false) {
-        this.state.position = new Position(fen, animated)
-        return this.chessboardPositionsAnimation.finished
+        const positionFrom = this.state.position.clone()
+        this.state.position.setFen(fen)
+        return this.positionAnimationsQueue.enqueuePositionChange(positionFrom, this.state.position.clone(), animated)
     }
 
-    async setOrientation(color) {
+    async setOrientation(color, animated = false) {
         const position = this.state.position.clone()
-        this.chessboardPositionsAnimation.renderPosition(new Position(FEN_EMPTY_POSITION)).then(() => {
-            this.state.orientation = color
-            this.view.redraw()
-            this.chessboardPositionsAnimation.renderPosition(position)
+        if(this.boardTurning) {
+            console.log("setOrientation is only once in queue allowed")
+            return
+        }
+        this.boardTurning = true
+        return this.positionAnimationsQueue.enqueueTurnBoard(position, color, animated).then(() => {
+            this.boardTurning = false
         })
     }
 

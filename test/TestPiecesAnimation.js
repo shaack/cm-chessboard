@@ -5,11 +5,11 @@
  */
 
 import {describe, it, assert} from "../node_modules/teevi/src/teevi.js"
-import {ChessboardPiecesAnimation} from "../src/cm-chessboard/ChessboardPiecesAnimation.js"
+import {PositionAnimationsQueue} from "../src/cm-chessboard/view/PositionAnimationsQueue.js"
 import {ChessboardState} from "../src/cm-chessboard/ChessboardState.js"
 import {ViewMock} from "./mocks/ViewMock.js"
 
-const cfa = new ChessboardPiecesAnimation(new ViewMock())
+const cfa = new PositionAnimationsQueue(new ViewMock())
 
 describe("TestPiecesAnimation", () => {
     it("should calculate square distances", () => {

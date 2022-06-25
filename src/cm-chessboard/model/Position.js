@@ -6,36 +6,15 @@
 export const FEN_START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 export const FEN_EMPTY_POSITION = "8/8/8/8/8/8/8/8"
 
-function setFen(fen = FEN_START_POSITION) {
-    // console.log("Position.setFen", fen)
-    const parts = fen.replace(/^\s*/, "").replace(/\s*$/, "").split(/\/|\s/)
-    for (let part = 0; part < 8; part++) {
-        const row = parts[7 - part].replace(/\d/g, (str) => {
-            const numSpaces = parseInt(str)
-            let ret = ''
-            for (let i = 0; i < numSpaces; i++) {
-                ret += '-'
-            }
-            return ret
-        })
-        for (let c = 0; c < 8; c++) {
-            const char = row.substring(c, c + 1)
-            let piece = null
-            if (char !== '-') {
-                if (char.toUpperCase() === char) {
-                    piece = `w${char.toLowerCase()}`
-                } else {
-                    piece = `b${char}`
-                }
-            }
-            this.squares[part * 8 + c] = piece
-        }
-    }
-}
-
 export class Position {
 
-    constructor(fen = undefined, animated = false) {
+    constructor(fen = undefined) {
+        this.squares = new Array(64).fill(null)
+        this.setFen(fen)
+    }
+
+    setFen(fen = FEN_EMPTY_POSITION) {
+        // console.log("Position.setFen", fen)
         let fenNormalized
         if (fen === "start") {
             fenNormalized = FEN_START_POSITION
@@ -44,9 +23,29 @@ export class Position {
         } else {
             fenNormalized = fen
         }
-        this.animated = animated
-        this.squares = new Array(64).fill(null)
-        setFen.bind(this)(fenNormalized)
+        const parts = fenNormalized.replace(/^\s*/, "").replace(/\s*$/, "").split(/\/|\s/)
+        for (let part = 0; part < 8; part++) {
+            const row = parts[7 - part].replace(/\d/g, (str) => {
+                const numSpaces = parseInt(str)
+                let ret = ''
+                for (let i = 0; i < numSpaces; i++) {
+                    ret += '-'
+                }
+                return ret
+            })
+            for (let c = 0; c < 8; c++) {
+                const char = row.substring(c, c + 1)
+                let piece = null
+                if (char !== '-') {
+                    if (char.toUpperCase() === char) {
+                        piece = `w${char.toLowerCase()}`
+                    } else {
+                        piece = `b${char}`
+                    }
+                }
+                this.squares[part * 8 + c] = piece
+            }
+        }
     }
 
     getFen() {
@@ -78,9 +77,9 @@ export class Position {
         }
         return parts.join("/")
     }
-    getPieces() {
+
+    getPieces(sortBy = ['k', 'q', 'r', 'b', 'n', 'p']) {
         const pieces = []
-        const sortBy = ['k', 'q', 'r', 'b', 'n', 'p']
         const sort = (a, b) => {
             return sortBy.indexOf(a.name) - sortBy.indexOf(b.name)
         }
@@ -94,7 +93,9 @@ export class Position {
                 })
             }
         }
-        pieces.sort(sort)
+        if(sortBy) {
+            pieces.sort(sort)
+        }
         return pieces
     }
 
