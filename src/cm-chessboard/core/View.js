@@ -4,8 +4,8 @@
  * License: MIT, see file 'LICENSE'
  */
 
-import {ChessboardMoveInput} from "./ChessboardMoveInput.js"
-import {COLOR, INPUT_EVENT_TYPE, BORDER_TYPE} from "./Chessboard.js"
+import {MoveInput} from "./MoveInput.js"
+import {COLOR, INPUT_EVENT_TYPE, BORDER_TYPE} from "../Chessboard.js"
 import {Position} from "./Position.js"
 
 export const piecesTranslations = {
@@ -47,13 +47,13 @@ export function renderPieceTitle(lang, name, color = undefined) {
     return title
 }
 
-export class ChessboardView {
+export class View {
 
     constructor(chessboard) {
         // this.animationRunning = false
         // this.currentAnimation = undefined
         this.chessboard = chessboard
-        this.moveInput = new ChessboardMoveInput(this,
+        this.moveInput = new MoveInput(this,
             this.moveStartCallback.bind(this),
             this.moveDoneCallback.bind(this),
             this.moveCanceledCallback.bind(this)
@@ -360,25 +360,6 @@ export class ChessboardView {
         markerUse.transform.baseVal.appendItem(transformScale)
         return markerGroup
     }
-
-    /*
-    nextPieceAnimationInQueue() {
-        const nextAnimation = this.animationQueue.shift()
-        if (nextAnimation !== undefined) {
-            this.animationRunning = true
-            this.currentAnimation = new ChessboardPiecesAnimation(this, nextAnimation.fromSquares, nextAnimation.toSquares, this.chessboard.props.animationDuration / (this.animationQueue.length + 1), () => {
-                if (!this.moveInput.draggablePiece) {
-                    this.drawPieces(nextAnimation.toSquares)
-                }
-                this.animationRunning = false
-                this.nextPieceAnimationInQueue()
-                if (nextAnimation.callback) {
-                    nextAnimation.callback()
-                }
-            })
-        }
-    }
-     */
 
     // enable and disable move input //
 

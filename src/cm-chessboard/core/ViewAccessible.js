@@ -3,9 +3,9 @@
  * Repository: https://github.com/shaack/cm-chessboard
  * License: MIT, see file 'LICENSE'
  */
-import {ChessboardView, renderPieceTitle} from "./ChessboardView.js"
-import {COLOR, INPUT_EVENT_TYPE} from "./Chessboard.js"
-import {piecesTranslations} from "./ChessboardView.js"
+import {View, renderPieceTitle} from "./View.js"
+import {COLOR, INPUT_EVENT_TYPE} from "../Chessboard.js"
+import {piecesTranslations} from "./View.js"
 
 const hlTranslations = {
     de: {
@@ -32,7 +32,7 @@ const hlTranslations = {
     }
 }
 
-export class ChessboardViewAccessible extends ChessboardView {
+export class ViewAccessible extends View {
 
     constructor(chessboard, callbackAfterCreation) {
         super(chessboard, callbackAfterCreation)

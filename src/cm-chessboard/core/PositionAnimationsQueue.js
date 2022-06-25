@@ -4,7 +4,7 @@
  * License: MIT, see file 'LICENSE'
  */
 import {FEN_EMPTY_POSITION, Position} from "./Position.js"
-import {Svg} from "./ChessboardView.js"
+import {Svg} from "./View.js"
 
 /*
 * Thanks to markosyan for the idea to the PromiseQueue

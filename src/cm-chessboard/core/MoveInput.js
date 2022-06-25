@@ -4,7 +4,7 @@
  * License: MIT, see file 'LICENSE'
  */
 
-import {Svg} from "./ChessboardView.js"
+import {Svg} from "./View.js"
 
 const STATE = {
     waitForInputStart: 0,
@@ -26,7 +26,7 @@ export const MOVE_CANCELED_REASON = {
 
 const DRAG_THRESHOLD = 4
 
-export class ChessboardMoveInput {
+export class MoveInput {
 
     constructor(view, moveStartCallback, moveDoneCallback, moveCanceledCallback) {
         this.view = view
@@ -149,6 +149,7 @@ export class ChessboardMoveInput {
                         })
                     }
                 } else {
+                    this.view.setPieceVisibility(this.fromSquare, true)
                     this.setMoveInputState(STATE.reset)
                 }
                 break
@@ -251,7 +252,7 @@ export class ChessboardMoveInput {
                             const pieceColor = pieceName ? pieceName.substring(0, 1) : undefined
                             const startPieceName = this.chessboard.getPiece(this.fromSquare)
                             const startPieceColor = startPieceName ? startPieceName.substring(0, 1) : undefined
-                            if (color && startPieceColor === pieceColor) { // https://github.com/shaack/cm-chessboard/issues/40
+                            if (color && startPieceColor === pieceColor) {
                                 this.moveCanceledCallback(MOVE_CANCELED_REASON.clickedAnotherPiece, this.fromSquare, square)
                                 if (this.moveStartCallback(square)) {
                                     this.setMoveInputState(STATE.pieceClickedThreshold, {

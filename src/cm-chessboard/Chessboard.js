@@ -4,9 +4,9 @@
  * License: MIT, see file 'LICENSE'
  */
 
-import {ChessboardState} from "./ChessboardState.js"
-import {ChessboardViewAccessible} from "./ChessboardViewAccessible.js"
-import {PositionAnimationsQueue} from "./PositionAnimationsQueue.js"
+import {State} from "./core/State.js"
+import {ViewAccessible} from "./core/ViewAccessible.js"
+import {PositionAnimationsQueue} from "./core/PositionAnimationsQueue.js"
 
 export const COLOR = {
     white: "w",
@@ -36,8 +36,6 @@ export const PIECE = {
     wp: "wp", wb: "wb", wn: "wn", wr: "wr", wq: "wq", wk: "wk",
     bp: "bp", bb: "bb", bn: "bn", br: "br", bq: "bq", bk: "bk",
 }
-export const FEN_START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" // todo 2022-06-24 deprecated, dont use
-export const FEN_EMPTY_POSITION = "8/8/8/8/8/8/8/8" // todo 2022-06-24 deprecated, dont use
 
 export class Chessboard {
 
@@ -89,8 +87,8 @@ export class Chessboard {
             Object.assign(this.props.accessibility, props.accessibility)
         }
 
-        this.state = new ChessboardState()
-        this.view = new ChessboardViewAccessible(this)
+        this.state = new State()
+        this.view = new ViewAccessible(this)
         this.positionAnimationsQueue = new PositionAnimationsQueue(this)
         this.state.orientation = this.props.orientation
         this.view.redraw()

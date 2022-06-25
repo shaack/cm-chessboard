@@ -43,16 +43,19 @@ with `{sprite.url: "./url/of/chessboard-sprite.svg"}`
 To run the unit tests in `/test` you first have to `npm install` the dev dependencies. Without tests there are no
 dependencies.
 
-## New Version 4.x
+## Version 4.x has many changes
 
-With the new version 4 of cm-chessboard I made a huge step and completely redesigned the animation of positions with
-the use of promises. The animations are now smoother and less error-prone for race conditions.
+> With the new version 4 of cm-chessboard I completely redesigned the animation of positions with
+> the use of promises.
+ 
+The pieces animations are now smoother and less error-prone for race conditions.
 
-### Major changes in the 4.x
+As of version 4.x, the API functions `setPosition()`, `setPiece()` and `movePiece()` are **not animated** as default.
+If you want some pieces animations you have to give the parameter `animated = true`.
 
-- The function `chessboard.setPosition()` now is not animated as default.
+Also in 4.x the chessboard will become more accessible for visually impaired people but this is in alpha stage for now.
 
-## Example usage
+## Usage
 
 Preconditions for using cm-chessboard in a web page:
 

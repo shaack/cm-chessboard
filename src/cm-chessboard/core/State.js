@@ -5,7 +5,7 @@
  */
 import {Position} from "./Position.js"
 
-export class ChessboardState {
+export class State {
 
     constructor() {
         this.position = new Position()

@@ -5,8 +5,8 @@
  */
 
 import {describe, it, assert} from "../node_modules/teevi/src/teevi.js"
-import {ChessboardState} from "../src/cm-chessboard/ChessboardState.js"
-import {PositionsAnimation} from "../src/cm-chessboard/PositionAnimationsQueue.js"
+import {State} from "../src/cm-chessboard/core/State.js"
+import {PositionsAnimation} from "../src/cm-chessboard/core/PositionAnimationsQueue.js"
 
 describe("TestPiecesAnimation", () => {
     it("should calculate square distances", () => {
@@ -21,9 +21,9 @@ describe("TestPiecesAnimation", () => {
     })
 
     it("should seek changes", () => {
-        const state1 = new ChessboardState()
+        const state1 = new State()
         state1.setPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR")
-        const state2 = new ChessboardState()
+        const state2 = new State()
         state2.setPosition("rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR")
         const previousBoard1 = state1.position.squares
         const newBoard1 = state2.position.squares

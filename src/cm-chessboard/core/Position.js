@@ -14,7 +14,6 @@ export class Position {
     }
 
     setFen(fen = FEN_EMPTY_POSITION) {
-        // console.log("Position.setFen", fen)
         let fenNormalized
         if (fen === "start") {
             fenNormalized = FEN_START_POSITION
