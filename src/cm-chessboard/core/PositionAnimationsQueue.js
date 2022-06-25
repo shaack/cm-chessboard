@@ -61,10 +61,8 @@ export class PromiseQueue {
     }
 
     destroy() {
-        console.log("PAQ destroy")
         this.stop = true
     }
-
 
 }
 

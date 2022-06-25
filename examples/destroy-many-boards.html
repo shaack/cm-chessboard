@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>cm-chessboard</title>
     <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
     <link rel="stylesheet" href="styles/examples.css"/>
     <link rel="stylesheet" href="../assets/styles/cm-chessboard.css"/>
     <!--suppress CssUnusedSymbol -->
@@ -34,26 +35,33 @@
     const boardDiv = document.createElement("div")
     boardDiv.setAttribute("class", "board1")
     boardsDiv.appendChild(boardDiv)
-    new Chessboard(boardDiv, {
+    const largeBoard = new Chessboard(boardDiv, {
         position: "start",
         sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
     })
-
+    const chess = new Chess()
     for (let i = 0; i < 5000; i++) {
         setTimeout(() => {
             const boardDiv = document.createElement("div")
             boardDiv.setAttribute("class", "board")
             boardsDiv.appendChild(boardDiv)
             const board = new Chessboard(boardDiv, {
-                position: Math.round(Math.random()) ? "start" : "empty",
-                orientation: Math.round(Math.random()) ? COLOR.white : COLOR.black,
+                position: chess.fen(),
                 sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"}
             })
+            makeRandomMove()
+            largeBoard.setPosition(chess.fen(), true)
             setTimeout(() => {
                 board.destroy()
                 boardsDiv.removeChild(boardDiv)
             }, 10000)
         }, i * 100)
+    }
+    function makeRandomMove() {
+        const possibleMoves = chess.moves();
+        if (possibleMoves.length === 0) return;
+        const randomIndex = Math.floor(Math.random() * possibleMoves.length);
+        chess.move(possibleMoves[randomIndex]);
     }
 
 </script>
