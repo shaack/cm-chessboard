@@ -21,7 +21,16 @@ $border: $square-black, $frame-bg: $square-white,) {
         .border {
           stroke: $border;
           stroke-width: 0.7%;
-          fill: transparent;
+          fill: $square-white;
+        }
+      }
+    }
+    &.border-type-none {
+      .board {
+        .border {
+          stroke: $border;
+          stroke-width: 0;
+          fill: $square-white;
         }
       }
     }

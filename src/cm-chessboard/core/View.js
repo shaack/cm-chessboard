@@ -41,7 +41,7 @@ export const piecesTranslations = {
 
 export function renderPieceTitle(lang, name, color = undefined) {
     let title = piecesTranslations[lang].pieces_long[name]
-    if(color) {
+    if (color) {
         title += " " + piecesTranslations[lang].colors_long[color]
     }
     return title
@@ -50,24 +50,19 @@ export function renderPieceTitle(lang, name, color = undefined) {
 export class View {
 
     constructor(chessboard) {
-        // this.animationRunning = false
-        // this.currentAnimation = undefined
         this.chessboard = chessboard
         this.moveInput = new MoveInput(this,
             this.moveStartCallback.bind(this),
             this.moveDoneCallback.bind(this),
             this.moveCanceledCallback.bind(this)
         )
-        this.animationQueue = []
         if (chessboard.props.sprite.cache) {
             this.cacheSprite()
         }
         this.context = document.createElement("div")
         this.chessboard.context.appendChild(this.context)
         if (chessboard.props.responsive) {
-            // noinspection JSUnresolvedVariable
             if (typeof ResizeObserver !== "undefined") {
-                // noinspection JSUnresolvedFunction
                 this.resizeObserver = new ResizeObserver(() => {
                     this.handleResize()
                 })
@@ -190,20 +185,20 @@ export class View {
         while (this.boardGroup.firstChild) {
             this.boardGroup.removeChild(this.boardGroup.lastChild)
         }
-        if (this.chessboard.props.style.borderType !== BORDER_TYPE.none) {
-            let boardBorder = Svg.addElement(this.boardGroup, "rect", {width: this.width, height: this.height})
-            boardBorder.setAttribute("class", "border")
-            if (this.chessboard.props.style.borderType === BORDER_TYPE.frame) {
-                const innerPos = this.borderSize
-                let borderInner = Svg.addElement(this.boardGroup, "rect", {
-                    x: innerPos,
-                    y: innerPos,
-                    width: this.width - innerPos * 2,
-                    height: this.height - innerPos * 2
-                })
-                borderInner.setAttribute("class", "border-inner")
-            }
+
+        let boardBorder = Svg.addElement(this.boardGroup, "rect", {width: this.width, height: this.height})
+        boardBorder.setAttribute("class", "border")
+        if (this.chessboard.props.style.borderType === BORDER_TYPE.frame) {
+            const innerPos = this.borderSize
+            let borderInner = Svg.addElement(this.boardGroup, "rect", {
+                x: innerPos,
+                y: innerPos,
+                width: this.width - innerPos * 2,
+                height: this.height - innerPos * 2
+            })
+            borderInner.setAttribute("class", "border-inner")
         }
+
         for (let i = 0; i < 64; i++) {
             const index = this.chessboard.state.orientation === COLOR.white ? i : 63 - i
             const squareColor = ((9 * index) & 8) === 0 ? 'black' : 'white'
@@ -322,11 +317,11 @@ export class View {
     }
 
     getPieceElement(square) {
-        if(square.length < 2) {
+        if (square.length < 2) {
             throw new Error("980e03")
         }
         const piece = this.piecesGroup.querySelector(`g[data-square='${square}']`)
-        if(!piece) {
+        if (!piece) {
             console.error("no piece found on", square)
         }
         return piece
