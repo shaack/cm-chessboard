@@ -4,9 +4,9 @@
  * License: MIT, see file 'LICENSE'
  */
 
-import {MoveInput} from "./MoveInput.js"
+import {VisualMoveInput} from "./VisualMoveInput.js"
 import {COLOR, INPUT_EVENT_TYPE, BORDER_TYPE} from "../Chessboard.js"
-import {Position} from "./Position.js"
+import {Position} from "../model/Position.js"
 
 export const piecesTranslations = {
     en: {
@@ -47,11 +47,11 @@ export function renderPieceTitle(lang, name, color = undefined) {
     return title
 }
 
-export class View {
+export class ChessboardView {
 
     constructor(chessboard) {
         this.chessboard = chessboard
-        this.moveInput = new MoveInput(this,
+        this.moveInput = new VisualMoveInput(this,
             this.moveStartCallback.bind(this),
             this.moveDoneCallback.bind(this),
             this.moveCanceledCallback.bind(this)

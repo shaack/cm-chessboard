@@ -4,10 +4,10 @@
  * License: MIT, see file 'LICENSE'
  */
 
-import {State} from "./core/State.js"
-import {ViewAccessible} from "./core/ViewAccessible.js"
-import {PositionAnimationsQueue} from "./core/PositionAnimationsQueue.js"
-import {Position} from "./core/Position.js"
+import {ChessboardState} from "./model/ChessboardState.js"
+import {Position} from "./model/Position.js"
+import {ChessboardViewAccessible} from "./view/ChessboardViewAccessible.js"
+import {PositionAnimationsQueue} from "./view/PositionAnimationsQueue.js"
 
 export const COLOR = {
     white: "w",
@@ -88,8 +88,8 @@ export class Chessboard {
             Object.assign(this.props.accessibility, props.accessibility)
         }
 
-        this.state = new State()
-        this.view = new ViewAccessible(this)
+        this.state = new ChessboardState()
+        this.view = new ChessboardViewAccessible(this)
         this.positionAnimationsQueue = new PositionAnimationsQueue(this)
         this.state.orientation = this.props.orientation
         this.view.redraw()

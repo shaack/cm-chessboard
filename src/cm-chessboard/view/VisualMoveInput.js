@@ -4,7 +4,7 @@
  * License: MIT, see file 'LICENSE'
  */
 
-import {Svg} from "./View.js"
+import {Svg} from "./ChessboardView.js"
 
 const STATE = {
     waitForInputStart: 0,
@@ -26,7 +26,7 @@ export const MOVE_CANCELED_REASON = {
 
 const DRAG_THRESHOLD = 4
 
-export class MoveInput {
+export class VisualMoveInput {
 
     constructor(view, moveStartCallback, moveDoneCallback, moveCanceledCallback) {
         this.view = view

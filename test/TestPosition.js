@@ -5,7 +5,7 @@
  */
 
 import {describe, it, assert} from "../node_modules/teevi/src/teevi.js"
-import {Position} from "../src/cm-chessboard/core/Position.js"
+import {Position} from "../src/cm-chessboard/model/Position.js"
 
 describe("TestPosition", () => {
     it("should convert square to index", () => {
