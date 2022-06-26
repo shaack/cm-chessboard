@@ -6,36 +6,47 @@
     <link rel="stylesheet" href="assets/styles/cm-chessboard.css"/>
     <link rel="stylesheet" href="examples/styles/examples.css"/>
     <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
 </head>
 <body>
 <h1>cm-chessboard</h1>
-<p>A JavaScript chessboard which is lightweight, ES6 module based, responsive, SVG rendered and without dependencies.</p>
-<p>cm-chessboard is the chessboard of <a href="https://www.chessmail.de">chessmail.de</a> and <a
-        href="https://www.chessmail.eu">chessmail.eu</a>.
-    It is used every day by thousands of players. </p>
+<p><i>A JavaScript chessboard which is lightweight, ES6 module based, responsive, SVG rendered and without dependencies.</i></p>
+<p>cm-chessboard is the chessboard of <a href="https://www.chessmail.de">chessmail</a> and is used every day by thousands of players.
+It works, it is cool and it is easy to use. 👍</p>
 <p><a href="https://github.com/shaack/cm-chessboard">Repository and documentation on GitHub</a></p>
-<h2>Examples</h2>
-<ul>
-    <li><a href="examples/simple-boards.html">Simple chessboards, view only</a></li>
-    <li><a href="examples/responsive-board.html">Responsive chessboard</a></li>
-    <li><a href="examples/enable-input.html">Input enabled without validation</a></li>
-    <li><a href="examples/validate-moves.html">Input enabled, move validation with chess.js</a></li>
-    <li><a href="examples/pieces-animation.html">Set different positions, with animation</a></li>
-    <li><a href="examples/input-callbacks.html">Context input, mark squares and detect clicks on fields</a></li>
-    <li><a href="examples/different-styles.html">Different styles and piece sets</a></li>
-    <li><a href="examples/many-boards.html">100 boards, in one page</a></li>
-    <li><a href="examples/destroy-many-boards.html">Stress test, 5000 boards created and destroyed</a></li>
-</ul>
+<div>
+    <h2>Examples</h2>
+    <ul>
+        <li><a href="examples/simple-boards.html">Simple chessboards, view only</a></li>
+        <li><a href="examples/responsive-board.html">Responsive chessboard</a></li>
+        <li><a href="examples/enable-input.html">Input enabled without validation</a></li>
+        <li><a href="examples/validate-moves.html">Input enabled, move validation with chess.js</a> 🥸</li>
+        <li><a href="examples/pieces-animation.html">Set different positions, with animation</a></li>
+        <li><a href="examples/input-callbacks.html">Context input, mark squares and detect clicks on fields</a></li>
+        <li><a href="examples/different-styles.html">Different styles and piece sets</a> 🎨</li>
+        <li><a href="examples/many-boards.html">100 boards, in one page</a></li>
+        <li><a href="examples/destroy-many-boards.html">Stress test, 5000 boards created and destroyed</a> 🤓 👍</li>
+    </ul>
+</div>
 <h2>Chessboard</h2>
-<pre>const board = new Chessboard(document.getElementById("board"), {position: "start"})</pre>
 <div class="board" id="board"></div>
 <script type="module">
     import {Chessboard} from "./src/cm-chessboard/Chessboard.js"
 
+    const chess = new Chess()
     const board = new Chessboard(document.getElementById("board"), {
         position: "start"
     })
-    board.enableMoveInput()
+    setInterval(() => {
+        makeRandomMove()
+        board.setPosition(chess.fen(), true)
+    }, 250)
+    function makeRandomMove() {
+        const possibleMoves = chess.moves();
+        if (possibleMoves.length === 0) return;
+        const randomIndex = Math.floor(Math.random() * possibleMoves.length);
+        chess.move(possibleMoves[randomIndex]);
+    }
 </script>
 <div class="clearfix"></div>
 <h2>Test</h2>
