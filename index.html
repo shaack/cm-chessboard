@@ -37,15 +37,18 @@ It works, it is cool and it is easy to use. 👍</p>
     const board = new Chessboard(document.getElementById("board"), {
         position: "start"
     })
-    setInterval(() => {
+    const interval = setInterval(() => {
         makeRandomMove()
         board.setPosition(chess.fen(), true)
     }, 250)
     function makeRandomMove() {
-        const possibleMoves = chess.moves();
-        if (possibleMoves.length === 0) return;
-        const randomIndex = Math.floor(Math.random() * possibleMoves.length);
-        chess.move(possibleMoves[randomIndex]);
+        const possibleMoves = chess.moves()
+        if (possibleMoves.length === 0) {
+            clearInterval(interval)
+            return
+        }
+        const randomIndex = Math.floor(Math.random() * possibleMoves.length)
+        chess.move(possibleMoves[randomIndex])
     }
 </script>
 <div class="clearfix"></div>
