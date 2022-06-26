@@ -19,8 +19,8 @@
     </style>
 </head>
 <body>
-<h1>Example: Input enabled, move validation with chess.js</h1>
-<a href="../">Back to the cm-chessboard overview</a>
+<h1><a href="../">cm-chessboard</a></h1>
+<h2>Example: Input enabled, move validation with chess.js</h2>
 <p>Input enabled for white. <a href="https://github.com/jhlywa/chess.js">chess.js</a> does the validation and answers
     with random moves.</p>
 <h2 class="visually-hidden">The Board</h2>
@@ -117,7 +117,13 @@ board.enableMoveInput(inputHandler, COLOR.white)
         sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
         style: {moveFromMarker: undefined, moveToMarker: undefined}, // disable standard markers
         orientation: COLOR.white,
-        animationDuration: 500
+        accessibility: {
+            brailleNotationInAlt: true, // show the braille notation of the game in the alt attribute of the svg
+            movePieceForm: true, // display a form to move a piece (from, to, move)
+            boardAsTable: true, // display the board additionally as HTML table
+            piecesAsList: true, // display the pieces additionally as List
+            visuallyHidden: true // hide all those extra outputs visually but keep them accessible for screen readers and braille displays
+        }
     })
     board.enableMoveInput(inputHandler, COLOR.white)
 </script>
