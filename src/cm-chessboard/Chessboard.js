@@ -65,7 +65,7 @@ export class Chessboard {
                 size: 40, // the sprite tiles size, defaults to 40x40px
                 cache: true // cache the sprite
             },
-            accessibility: {
+            accessibility: { // accessibility features are 'beta' and may change
                 movePieceForm: false, // display a form to move a piece (from, to, move)
                 boardAsTable: false, // display the board additionally as HTML table
                 piecesAsList: false, // display the pieces additionally as List

@@ -33,7 +33,7 @@ aspects of chess games.
 
 **Option 2:** Download the code from [GitHub](https://github.com/shaack/cm-chessboard).
 
-**Option 3:** Use it via CDN https://cdn.jsdelivr.net/npm/cm-chessboard@3.18.0/src/cm-chessboard/Chessboard.js
+**Option 3:** Use it via CDN https://cdn.jsdelivr.net/npm/cm-chessboard@4/src/cm-chessboard/Chessboard.js
 
 After installation, copy the sprite in `cm-chessboard/assets/images/` to your projects `assets/images/`
 folder. If you put the sprite somewhere else you have to configure the location
@@ -101,7 +101,7 @@ let defaultProps = {
     size: 40, // the sprite tiles size, defaults to 40x40px
     cache: true // cache the sprite
   },
-  accessibility: {
+  accessibility: { // accessibility features are 'beta' and may change
     movePieceForm: false, // display a form to move a piece (from, to, move)
     boardAsTable: false, // display the board additionally as HTML table
     piecesAsList: false, // display the pieces additionally as List
