@@ -19,6 +19,7 @@ It works, it is cool and it is easy to use. 👍</p>
     <ul>
         <li><a href="examples/simple-boards.html">Simple chessboards, view only</a></li>
         <li><a href="examples/responsive-board.html">Responsive chessboard</a></li>
+        <li><a href="examples/accessible-chessboard.html">All accessibility features turned on</a> 🆕</li>
         <li><a href="examples/enable-input.html">Input enabled without validation</a></li>
         <li><a href="examples/validate-moves.html">Input enabled, move validation with chess.js</a> 🥸</li>
         <li><a href="examples/pieces-animation.html">Set different positions, with animation</a></li>
@@ -40,7 +41,7 @@ It works, it is cool and it is easy to use. 👍</p>
     const interval = setInterval(() => {
         makeRandomMove()
         board.setPosition(chess.fen(), true)
-    }, 250)
+    }, 1000)
     function makeRandomMove() {
         const possibleMoves = chess.moves()
         if (possibleMoves.length === 0) {
