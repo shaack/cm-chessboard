@@ -36,10 +36,7 @@ export class ChessboardViewAccessible extends ChessboardView {
 
     constructor(chessboard, callbackAfterCreation) {
         super(chessboard, callbackAfterCreation)
-        this.lang = document.documentElement.getAttribute("lang")
-        if (this.lang !== "de" && this.lang !== "en") {
-            this.lang = "en"
-        }
+        this.lang = this.chessboard.props.language
         this.translations = piecesTranslations
         this.t = this.translations[this.lang]
         this.th = hlTranslations[this.lang]
@@ -116,9 +113,7 @@ export class ChessboardViewAccessible extends ChessboardView {
     redrawPieces(squares = this.chessboard.state.position.squares) {
         super.redrawPieces(squares)
         setTimeout(() => {
-            if (this.chessboard.props.accessibility.brailleNotationInAlt) {
-                this.redrawBrailleNotationInAlt()
-            }
+            this.redrawPositionInAltAttribute()
             if (this.chessboard.props.accessibility.boardAsTable) {
                 this.redrawBoardAsTable()
             }
@@ -128,8 +123,21 @@ export class ChessboardViewAccessible extends ChessboardView {
         })
     }
 
-    redrawBrailleNotationInAlt() {
-
+    redrawPositionInAltAttribute() {
+        const pieces = this.chessboard.state.position.getPieces()
+        let listW = piecesTranslations[this.lang].colors.w.toUpperCase() + ":"
+        let listB = piecesTranslations[this.lang].colors.b.toUpperCase() + ":"
+        for (const piece of pieces) {
+            const pieceName = piece.name === "p" ? "" : piecesTranslations[this.lang].pieces[piece.name].toUpperCase()
+            if (piece.color === "w") {
+                listW += " " + pieceName + piece.position
+            } else {
+                listB += " " + pieceName + piece.position
+            }
+        }
+        const altText = `${listW}
+${listB}`
+        this.chessboard.view.svg.setAttribute("alt", altText)
     }
 
     redrawPiecesLists() {

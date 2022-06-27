@@ -51,6 +51,7 @@ export class Chessboard {
             orientation: COLOR.white, // white on bottom
             responsive: true, // resizes the board based on element size
             animationDuration: 300, // pieces animation duration in milliseconds. Disable all animation with `0`.
+            language: navigator.language.substring(0,2).toLowerCase(), // supports "de" and "en" for now, used for pieces naming
             style: {
                 cssClass: "default", // set the css theme of the board, try "green", "blue" or "chess-club"
                 showCoordinates: true, // show ranks and files
@@ -64,8 +65,7 @@ export class Chessboard {
                 size: 40, // the sprite tiles size, defaults to 40x40px
                 cache: true // cache the sprite
             },
-            accessibility: { // accessibility functions are in "alpha" version for now, they might not work as expected
-                brailleNotationInAlt: true, // show the braille notation of the game in the alt attribute of the svg
+            accessibility: {
                 movePieceForm: false, // display a form to move a piece (from, to, move)
                 boardAsTable: false, // display the board additionally as HTML table
                 piecesAsList: false, // display the pieces additionally as List
@@ -86,6 +86,9 @@ export class Chessboard {
         }
         if (props.accessibility) {
             Object.assign(this.props.accessibility, props.accessibility)
+        }
+        if (this.props.language !== "de" && this.props.language !== "en") {
+            this.props.language = "en"
         }
 
         this.state = new ChessboardState()

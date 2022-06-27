@@ -83,30 +83,30 @@ Below is the default configuration
 
 ```javascript
 let defaultProps = {
-    position: "empty", // set as fen, "start" or "empty"
-    orientation: COLOR.white, // white on bottom
-    responsive: true, // resizes the board based on element size
-    animationDuration: 300, // pieces animation duration in milliseconds. Disable all animation with `0`.
-    style: {
-        cssClass: "default", // set the css theme of the board, try "green", "blue" or "chess-club"
-        showCoordinates: true, // show ranks and files
-        borderType: BORDER_TYPE.none, // "thin" thin border, "frame" wide border with coordinates in it, "none" no border
-        aspectRatio: 1, // height/width of the board
-        moveFromMarker: MARKER_TYPE.frame, // the marker used to mark the start square
-        moveToMarker: MARKER_TYPE.frame, // the marker used to mark the square where the figure is moving to
-    },
-    sprite: {
-        url: "./assets/images/chessboard-sprite.svg", // pieces and markers are stored in a sprite file
-        size: 40, // the sprite tiles size, defaults to 40x40px
-        cache: true // cache the sprite
-    },
-    accessibility: { // accessibility functions are in "alpha" version for now, they might not work as expected
-        brailleNotationInAlt: true, // show the braille notation of the game in the alt attribute of the svg
-        movePieceForm: false, // display a form to move a piece (from, to, move)
-        boardAsTable: false, // display the board additionally as HTML table
-        piecesAsList: false, // display the pieces additionally as List
-        visuallyHidden: true // hide all those extra outputs visually but keep them accessible for screen readers and braille displays
-    }
+  position: "empty", // set as fen, "start" or "empty"
+  orientation: COLOR.white, // white on bottom
+  responsive: true, // resizes the board based on element size
+  animationDuration: 300, // pieces animation duration in milliseconds. Disable all animation with `0`.
+  language: navigator.language.substring(0,2).toLowerCase(), // supports "de" and "en" for now, used for pieces naming
+  style: {
+    cssClass: "default", // set the css theme of the board, try "green", "blue" or "chess-club"
+    showCoordinates: true, // show ranks and files
+    borderType: BORDER_TYPE.none, // "thin" thin border, "frame" wide border with coordinates in it, "none" no border
+    aspectRatio: 1, // height/width of the board
+    moveFromMarker: MARKER_TYPE.frame, // the marker used to mark the start square
+    moveToMarker: MARKER_TYPE.frame, // the marker used to mark the square where the figure is moving to
+  },
+  sprite: {
+    url: "./assets/images/chessboard-sprite.svg", // pieces and markers are stored in a sprite file
+    size: 40, // the sprite tiles size, defaults to 40x40px
+    cache: true // cache the sprite
+  },
+  accessibility: {
+    movePieceForm: false, // display a form to move a piece (from, to, move)
+    boardAsTable: false, // display the board additionally as HTML table
+    piecesAsList: false, // display the pieces additionally as List
+    visuallyHidden: true // hide all those extra outputs visually but keep them accessible for screen readers and braille displays
+  }
 }
 ```
 
