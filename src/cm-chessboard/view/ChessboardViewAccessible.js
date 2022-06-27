@@ -75,7 +75,6 @@ export class ChessboardViewAccessible extends ChessboardView {
             })
             this.chessboard.context.appendChild(this.movePieceFormContainer)
         }
-
         if (accessibilityProps.boardAsTable) {
             this.boardAsTableContainer = this.createElement(`<div><h3>${this.th.board_as_table}</h3><div class="table"></div></div>`)
             this.boardAsTable = this.boardAsTableContainer.querySelector(".table")
@@ -84,7 +83,7 @@ export class ChessboardViewAccessible extends ChessboardView {
                 this.boardAsTableContainer.classList.add("visually-hidden")
             }
         }
-        if (accessibilityProps.piecesListContainer) {
+        if (accessibilityProps.piecesAsList) {
             this.piecesListContainer = this.createElement(`<div><h3>${this.th.pieces_lists}</h3><div class="list"></div></div>`)
             this.piecesList = this.piecesListContainer.querySelector(".list")
             this.chessboard.context.appendChild(this.piecesListContainer)
@@ -117,6 +116,9 @@ export class ChessboardViewAccessible extends ChessboardView {
     redrawPieces(squares = this.chessboard.state.position.squares) {
         super.redrawPieces(squares)
         setTimeout(() => {
+            if (this.chessboard.props.accessibility.brailleNotationInAlt) {
+                this.redrawBrailleNotationInAlt()
+            }
             if (this.chessboard.props.accessibility.boardAsTable) {
                 this.redrawBoardAsTable()
             }
@@ -124,6 +126,10 @@ export class ChessboardViewAccessible extends ChessboardView {
                 this.redrawPiecesLists()
             }
         })
+    }
+
+    redrawBrailleNotationInAlt() {
+
     }
 
     redrawPiecesLists() {
