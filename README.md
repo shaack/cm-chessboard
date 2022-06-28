@@ -16,6 +16,7 @@ aspects of chess games.
 - [Can handle moves input via click or drag](https://shaack.com/projekte/cm-chessboard/examples/validate-moves.html)
 - [Styleable via css](https://shaack.com/projekte/cm-chessboard/examples/different-styles.html)
 - [Supports multiple piece sets](https://shaack.com/projekte/cm-chessboard/examples/different-styles.html)
+- [Supports an optimized usage for visually impaired people](https://shaack.com/projekte/cm-chessboard/examples/accessible-chessboard.html) 🆕
 - Uses SVG for rendering
 - Vanilla JavaScript modules in ECMAScript 6 syntax
 - **No dependencies**
@@ -53,7 +54,7 @@ The pieces animations are now smoother and less error-prone for race conditions.
 As of version 4.x, the API functions `setPosition()`, `setPiece()` and `movePiece()` are **not animated** as default.
 If you want some pieces animations you have to give the parameter `animated = true`.
 
-Also in 4.x the chessboard will become more accessible for visually impaired people.
+And with 4.x the chessboard has become more accessible for visually impaired people.
 
 ## Usage
 
@@ -85,7 +86,7 @@ Below is the default configuration
 let defaultProps = {
   position: "empty", // set as fen, "start" or "empty"
   orientation: COLOR.white, // white on bottom
-  responsive: true, // resizes the board based on element size
+  responsive: true, // resize the board automatically to the size of the context element
   animationDuration: 300, // pieces animation duration in milliseconds. Disable all animation with `0`.
   language: navigator.language.substring(0,2).toLowerCase(), // supports "de" and "en" for now, used for pieces naming
   style: {
@@ -101,7 +102,7 @@ let defaultProps = {
     size: 40, // the sprite tiles size, defaults to 40x40px
     cache: true // cache the sprite
   },
-  accessibility: { // accessibility features are 'beta' and may change
+  accessibility: {
     movePieceForm: false, // display a form to move a piece (from, to, move)
     boardAsTable: false, // display the board additionally as HTML table
     piecesAsList: false, // display the pieces additionally as List

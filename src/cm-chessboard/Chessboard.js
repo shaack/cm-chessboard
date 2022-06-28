@@ -49,7 +49,7 @@ export class Chessboard {
         let defaultProps = {
             position: "empty", // set as fen, "start" or "empty"
             orientation: COLOR.white, // white on bottom
-            responsive: true, // resizes the board based on element size
+            responsive: true, // resize the board automatically to the size of the context element
             animationDuration: 300, // pieces animation duration in milliseconds. Disable all animation with `0`.
             language: navigator.language.substring(0,2).toLowerCase(), // supports "de" and "en" for now, used for pieces naming
             style: {
@@ -65,7 +65,7 @@ export class Chessboard {
                 size: 40, // the sprite tiles size, defaults to 40x40px
                 cache: true // cache the sprite
             },
-            accessibility: { // accessibility features are 'beta' and may change
+            accessibility: {
                 movePieceForm: false, // display a form to move a piece (from, to, move)
                 boardAsTable: false, // display the board additionally as HTML table
                 piecesAsList: false, // display the pieces additionally as List
