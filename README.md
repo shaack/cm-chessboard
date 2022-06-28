@@ -53,7 +53,7 @@ The pieces animations are now smoother and less error-prone for race conditions.
 As of version 4.x, the API functions `setPosition()`, `setPiece()` and `movePiece()` are **not animated** as default.
 If you want some pieces animations you have to give the parameter `animated = true`.
 
-Also in 4.x the chessboard will become more accessible for visually impaired people but this is in alpha stage for now.
+Also in 4.x the chessboard will become more accessible for visually impaired people.
 
 ## Usage
 
