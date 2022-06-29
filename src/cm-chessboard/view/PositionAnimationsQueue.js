@@ -226,22 +226,26 @@ export class PositionAnimationsQueue extends PromiseQueue {
     }
 
     async enqueuePositionChange(positionFrom, positionTo, animated) {
-        return super.enqueue(() => new Promise((resolve) => {
-            let duration = animated ? this.chessboard.props.animationDuration : 0
-            if(this.queue.length > 0) {
-                duration = duration / (1 + Math.pow(this.queue.length / 5, 2))
-            }
-            // console.log("duration", duration, animated, "this.chessboard.props.animationDuration", this.chessboard.props.animationDuration)
-            new PositionsAnimation(this.chessboard.view,
-                positionFrom, positionTo, animated ? duration : 0,
-                () => {
-                    if(this.chessboard.view) { // if destroyed, no view anymore
-                        this.chessboard.view.redrawPieces(positionTo.squares)
-                    }
-                    resolve()
+        if(positionFrom.getFen() === positionTo.getFen()) {
+            return Promise.resolve()
+        } else {
+            return super.enqueue(() => new Promise((resolve) => {
+                let duration = animated ? this.chessboard.props.animationDuration : 0
+                if (this.queue.length > 0) {
+                    duration = duration / (1 + Math.pow(this.queue.length / 5, 2))
                 }
-            )
-        }))
+                // console.log("duration", duration, animated, "this.chessboard.props.animationDuration", this.chessboard.props.animationDuration)
+                new PositionsAnimation(this.chessboard.view,
+                    positionFrom, positionTo, animated ? duration : 0,
+                    () => {
+                        if (this.chessboard.view) { // if destroyed, no view anymore
+                            this.chessboard.view.redrawPieces(positionTo.squares)
+                        }
+                        resolve()
+                    }
+                )
+            }))
+        }
     }
 
     async enqueueTurnBoard(position, color, animated) {
