@@ -113,12 +113,14 @@ export class ChessboardViewAccessible extends ChessboardView {
     redrawPieces(squares = this.chessboard.state.position.squares) {
         super.redrawPieces(squares)
         setTimeout(() => {
-            this.redrawPositionInAltAttribute()
-            if (this.chessboard.props.accessibility.boardAsTable) {
-                this.redrawBoardAsTable()
-            }
-            if (this.chessboard.props.accessibility.piecesAsList) {
-                this.redrawPiecesLists()
+            if(!this.chessboard.destroyed) {
+                this.redrawPositionInAltAttribute()
+                if (this.chessboard.props.accessibility.boardAsTable) {
+                    this.redrawBoardAsTable()
+                }
+                if (this.chessboard.props.accessibility.piecesAsList) {
+                    this.redrawPiecesLists()
+                }
             }
         })
     }

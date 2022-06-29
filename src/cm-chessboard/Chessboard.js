@@ -171,18 +171,6 @@ export class Chessboard {
         this.view.drawMarkers()
     }
 
-    destroy() {
-        this.positionAnimationsQueue.destroy()
-        this.view.destroy()
-        this.view = undefined
-        this.state = undefined
-        if (this.squareSelectListener) {
-            this.context.removeEventListener("contextmenu", this.squareSelectListener)
-            this.context.removeEventListener("mouseup", this.squareSelectListener)
-            this.context.removeEventListener("touchend", this.squareSelectListener)
-        }
-    }
-
     enableMoveInput(eventHandler, color = undefined) {
         this.view.enableMoveInput(eventHandler, color)
     }
@@ -223,6 +211,19 @@ export class Chessboard {
         this.squareSelectListener = undefined
         this.state.squareSelectEnabled = false
         this.view.visualizeInputState()
+    }
+
+    destroy() {
+        this.positionAnimationsQueue.destroy()
+        this.view.destroy()
+        this.view = undefined
+        this.state = undefined
+        if (this.squareSelectListener) {
+            this.context.removeEventListener("contextmenu", this.squareSelectListener)
+            this.context.removeEventListener("mouseup", this.squareSelectListener)
+            this.context.removeEventListener("touchend", this.squareSelectListener)
+        }
+        this.destroyed = true
     }
 
 }
