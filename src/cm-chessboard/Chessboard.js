@@ -166,8 +166,7 @@ export class Chessboard {
     }
 
     removeMarkers(square = undefined, type = undefined) {
-        const index = square ? this.state.squareToIndex(square) : undefined
-        this.state.removeMarkers(index, type)
+        this.state.removeMarkers(square, type)
         this.view.drawMarkers()
     }
 

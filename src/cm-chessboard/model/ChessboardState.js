@@ -49,7 +49,7 @@ export class ChessboardState {
             this.markers = []
         } else {
             this.markers = this.markers.filter((marker) => {
-                if (!marker.type) {
+                if (!type) {
                     if (square === marker.square) {
                         return false
                     }
