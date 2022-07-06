@@ -81,7 +81,7 @@ export class ChessboardView {
         this.createSvgAndGroups()
         this.updateMetrics()
         this.handleResize()
-        this.redraw()
+        this.redrawBoard()
     }
 
     pointerDownHandler(e) {
@@ -165,15 +165,15 @@ export class ChessboardView {
         if (this.context.clientWidth !== this.width ||
             this.context.clientHeight !== this.height) {
             this.updateMetrics()
-            this.redraw()
+            this.redrawBoard()
             this.redrawPieces()
         }
         this.svg.setAttribute("width", "100%") // safari bugfix
         this.svg.setAttribute("height", "100%")
     }
 
-    redraw() {
-        this.drawBoard()
+    redrawBoard() {
+        this.redrawSquares()
         this.drawCoordinates()
         this.drawMarkers()
         this.visualizeInputState()
@@ -181,7 +181,7 @@ export class ChessboardView {
 
     // Board //
 
-    drawBoard() {
+    redrawSquares() {
         while (this.boardGroup.firstChild) {
             this.boardGroup.removeChild(this.boardGroup.lastChild)
         }

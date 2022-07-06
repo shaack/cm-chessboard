@@ -6,8 +6,9 @@
 
 import {ChessboardState} from "./model/ChessboardState.js"
 import {Position} from "./model/Position.js"
-import {ChessboardViewAccessible} from "./view/ChessboardViewAccessible.js"
 import {PositionAnimationsQueue} from "./view/PositionAnimationsQueue.js"
+import {Extension} from "./model/Extension.js"
+import {ChessboardView} from "./view/ChessboardView.js"
 
 export const COLOR = {
     white: "w",
@@ -46,6 +47,7 @@ export class Chessboard {
         }
         this.context = context
         this.id = (Math.random() + 1).toString(36).substring(2, 8)
+        this.extensions = []
         let defaultProps = {
             position: "empty", // set as fen, "start" or "empty"
             orientation: COLOR.white, // white on bottom
@@ -92,10 +94,11 @@ export class Chessboard {
         }
 
         this.state = new ChessboardState()
-        this.view = new ChessboardViewAccessible(this)
+        this.view = new ChessboardView(this)
+        // callback Extension
         this.positionAnimationsQueue = new PositionAnimationsQueue(this)
         this.state.orientation = this.props.orientation
-        this.view.redraw()
+        this.view.redrawBoard()
         this.state.position = new Position(this.props.position)
         this.view.redrawPieces()
     }
@@ -210,6 +213,19 @@ export class Chessboard {
         this.squareSelectListener = undefined
         this.state.squareSelectEnabled = false
         this.view.visualizeInputState()
+    }
+
+    addExtension(extension) {
+        if(!(extension instanceof Extension)) {
+            throw new Error("not an Extension")
+        }
+        this.extensions.push(extension)
+    }
+
+    publishExtensionEvent(name) {
+        for (const extension of this.extensions) {
+            extension[name]()
+        }
     }
 
     destroy() {

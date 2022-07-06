@@ -22,6 +22,7 @@
 </button>
 <script type="module">
     import {Chessboard} from "../src/cm-chessboard/Chessboard.js"
+    import {Accessibility} from "../src/cm-chessboard/extensions/Accessibility.js"
 
     window.board = new Chessboard(document.getElementById("board"), {
         position: "start",
@@ -29,14 +30,9 @@
         style: {
             cssClass: "default-contrast"
         },
-        accessibility: {
-            brailleNotationInAlt: true, // show the braille notation of the game in the alt attribute of the svg
-            boardAsTable: true, // display the board additionally as HTML table
-            movePieceForm: true, // display a form to move a piece (from, to, move)
-            piecesAsList: true, // display the pieces additionally as List
-            enableAnimations: true, // set to false to disable all animations
-            visuallyHidden: false // hide all those extra outputs visually but keep them accessible for screen readers and braille displays
-        }
+        extensions: [new Accessibility({
+            lang: "de"
+        })]
     })
 
     window.board.enableMoveInput(inputHandler)
