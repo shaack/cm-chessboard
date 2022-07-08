@@ -15,6 +15,7 @@ export class ChessboardState {
         this.inputBlackEnabled = false
         this.inputEnabled = false
         this.squareSelectEnabled = false
+        this.extensionPoints = {}
     }
 
     setPosition(fen, animated = false) {
@@ -62,6 +63,15 @@ export class ChessboardState {
                 }
                 return true
             })
+        }
+    }
+
+    invokeExtensionPoints(name, data = undefined) {
+        const extensionPoints = this.extensionPoints[name]
+        if(extensionPoints) {
+            for (const extensionPoint of extensionPoints) {
+                extensionPoint(data)
+            }
         }
     }
 

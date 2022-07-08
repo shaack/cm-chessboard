@@ -24,31 +24,29 @@
     import {Chessboard} from "../src/cm-chessboard/Chessboard.js"
     import {Accessibility} from "../src/cm-chessboard/extensions/Accessibility.js"
 
-    window.board = new Chessboard(document.getElementById("board"), {
+    const chessboard = new Chessboard(document.getElementById("board"), {
         position: "start",
         sprite: {url: "../assets/images/chessboard-sprite.svg"},
         style: {
             cssClass: "default-contrast"
-        },
-        extensions: [new Accessibility({
-            lang: "de"
-        })]
+        }
+    })
+    // Extension
+    new Accessibility(chessboard, {
+        brailleNotationInAlt: true, // show the braille notation of the game in the alt attribute of the SVG
+        boardAsTable: true, // display the board additionally as HTML table
+        movePieceForm: true, // display a form to move a piece (from, to, move)
+        piecesAsList: true, // display the pieces additionally as List
+        visuallyHidden: true // hide all those extra outputs visually but keep them accessible for screen readers and braille displays
     })
 
-    window.board.enableMoveInput(inputHandler)
+    chessboard.enableMoveInput(inputHandler)
 
     function inputHandler(event) {
         console.log(event)
         return true
     }
 
-    const output = document.getElementById("output")
-
-    function log(text) {
-        const log = document.createElement("div")
-        log.innerText = text
-        output.appendChild(log)
-    }
 </script>
 </body>
 </html>

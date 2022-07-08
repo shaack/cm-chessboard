@@ -7,7 +7,7 @@
 import {ChessboardState} from "./model/ChessboardState.js"
 import {Position} from "./model/Position.js"
 import {PositionAnimationsQueue} from "./view/PositionAnimationsQueue.js"
-import {Extension} from "./model/Extension.js"
+import {Extension, EXTENSION_POINT} from "./model/Extension.js"
 import {ChessboardView} from "./view/ChessboardView.js"
 
 export const COLOR = {
@@ -108,18 +108,21 @@ export class Chessboard {
     async setPiece(square, piece, animated = false) {
         const positionFrom = this.state.position.clone()
         this.state.position.setPiece(square, piece)
+        this.state.invokeExtensionPoints(EXTENSION_POINT.positionChanged)
         return this.positionAnimationsQueue.enqueuePositionChange(positionFrom, this.state.position.clone(), animated)
     }
 
     async movePiece(squareFrom, squareTo, animated = false) {
         const positionFrom = this.state.position.clone()
         this.state.position.movePiece(squareFrom, squareTo)
+        this.state.invokeExtensionPoints(EXTENSION_POINT.positionChanged)
         return this.positionAnimationsQueue.enqueuePositionChange(positionFrom, this.state.position.clone(), animated)
     }
 
     async setPosition(fen, animated = false) {
         const positionFrom = this.state.position.clone()
         this.state.position.setFen(fen)
+        this.state.invokeExtensionPoints(EXTENSION_POINT.positionChanged)
         return this.positionAnimationsQueue.enqueuePositionChange(positionFrom, this.state.position.clone(), animated)
     }
 
@@ -130,6 +133,7 @@ export class Chessboard {
             return
         }
         this.boardTurning = true
+        this.state.invokeExtensionPoints(EXTENSION_POINT.boardChanged)
         return this.positionAnimationsQueue.enqueueTurnBoard(position, color, animated).then(() => {
             this.boardTurning = false
         })
@@ -215,20 +219,8 @@ export class Chessboard {
         this.view.visualizeInputState()
     }
 
-    addExtension(extension) {
-        if(!(extension instanceof Extension)) {
-            throw new Error("not an Extension")
-        }
-        this.extensions.push(extension)
-    }
-
-    publishExtensionEvent(name) {
-        for (const extension of this.extensions) {
-            extension[name]()
-        }
-    }
-
     destroy() {
+        this.state.invokeExtensionPoints(EXTENSION_POINT.destroy)
         this.positionAnimationsQueue.destroy()
         this.view.destroy()
         this.view = undefined
@@ -238,7 +230,7 @@ export class Chessboard {
             this.context.removeEventListener("mouseup", this.squareSelectListener)
             this.context.removeEventListener("touchend", this.squareSelectListener)
         }
-        this.destroyed = true
+        this.state.destroyed = true
     }
 
 }

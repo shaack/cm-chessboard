@@ -334,6 +334,10 @@ chessboard.removeMarkers("e4", myMarkerType)
 chessboard.removeMarkers(undefined, myMarkerType)
 ```
 
+## Extensions
+
+cm-chessboard provides the ability to extend its functionality with extensions. 
+
 ## Usage with React
 
 There exists a ticket from someone who is using cm-chessboard with react:

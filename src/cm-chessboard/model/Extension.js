@@ -4,20 +4,25 @@
  * License: MIT, see file 'LICENSE'
  */
 
+export const EXTENSION_POINT = {
+    positionChanged: "positionChanged",
+    boardChanged: "boardChanged",
+    moveInputStateChanged: "moveInputStateChanged",
+    destroy: "destroy"
+}
+
 export class Extension {
 
-    constructor(props) {
+    constructor(chessboard, props) {
+        this.chessboard = chessboard
         this.props = props
     }
 
-    // overwrite these methods to have access on extension points
-    positionChanged() {
-    }
-
-    redrawBoard() {
-    }
-
-    destroy() {
+    registerExtensionPoint(name, callback) {
+        if(!this.chessboard.state.extensionPoints[name]) {
+            this.chessboard.state.extensionPoints[name] = []
+        }
+        this.chessboard.state.extensionPoints[name].push(callback)
     }
 
 }

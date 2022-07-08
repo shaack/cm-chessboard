@@ -3,7 +3,7 @@
  * Repository: https://github.com/shaack/cm-chessboard
  * License: MIT, see file 'LICENSE'
  */
-import {Extension} from "../model/Extension.js"
+import {Extension, EXTENSION_POINT} from "../model/Extension.js"
 import {piecesTranslations, renderPieceTitle} from "../view/ChessboardView.js"
 import {COLOR, INPUT_EVENT_TYPE} from "../Chessboard.js"
 
@@ -34,8 +34,8 @@ const hlTranslations = {
 
 export class Accessibility extends Extension {
 
-    constructor(props) {
-        super(props)
+    constructor(chessboard, props) {
+        super(chessboard, props)
         this.props = {
             brailleNotationInAlt: true, // show the braille notation of the game in the alt attribute of the SVG
             boardAsTable: false, // display the board additionally as HTML table
@@ -95,12 +95,20 @@ export class Accessibility extends Extension {
             }
         }
         this.updateFormInputs()
-    }
-
-
-    visualizeInputState() {
-        //  super.visualizeInputState()
-        this.updateFormInputs()
+        this.registerExtensionPoint(EXTENSION_POINT.moveInput, () => {
+            this.updateFormInputs()
+        })
+        this.registerExtensionPoint(EXTENSION_POINT.positionChanged, () => {
+            if(!this.state.destroyed) {
+                this.redrawPositionInAltAttribute()
+                if (this.props.boardAsTable) {
+                    this.redrawBoardAsTable()
+                }
+                if (this.props.piecesAsList) {
+                    this.redrawPiecesLists()
+                }
+            }
+        })
     }
 
     updateFormInputs() {
@@ -117,23 +125,8 @@ export class Accessibility extends Extension {
         }
     }
 
-    redrawPieces(squares = this.chessboard.state.position.squares) {
-        super.redrawPieces(squares)
-        setTimeout(() => {
-            if(!this.chessboard.destroyed) {
-                this.redrawPositionInAltAttribute()
-                if (this.chessboard.props.accessibility.boardAsTable) {
-                    this.redrawBoardAsTable()
-                }
-                if (this.chessboard.props.accessibility.piecesAsList) {
-                    this.redrawPiecesLists()
-                }
-            }
-        })
-    }
-
     redrawPositionInAltAttribute() {
-        const pieces = this.chessboard.state.position.getPieces()
+        const pieces = this.state.position.getPieces()
         let listW = piecesTranslations[this.lang].colors.w.toUpperCase() + ":"
         let listB = piecesTranslations[this.lang].colors.b.toUpperCase() + ":"
         for (const piece of pieces) {
