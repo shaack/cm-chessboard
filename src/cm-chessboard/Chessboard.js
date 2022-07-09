@@ -230,7 +230,6 @@ export class Chessboard {
             this.context.removeEventListener("mouseup", this.squareSelectListener)
             this.context.removeEventListener("touchend", this.squareSelectListener)
         }
-        this.state.destroyed = true
     }
 
 }
