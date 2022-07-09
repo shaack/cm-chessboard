@@ -63,7 +63,7 @@ export class Accessibility extends Extension {
             }
             this.form.addEventListener("submit", (evt) => {
                 evt.preventDefault()
-                if (this.moveInputCallback({
+                if (this.chessboard.view.moveInputCallback({
                     chessboard: this.chessboard,
                     type: INPUT_EVENT_TYPE.moveDone,
                     squareFrom: this.inputFrom.value,
@@ -94,8 +94,7 @@ export class Accessibility extends Extension {
                 this.piecesListContainer.classList.add("visually-hidden")
             }
         }
-        this.updateFormInputs()
-        this.registerExtensionPoint(EXTENSION_POINT.moveInput, () => {
+        this.registerExtensionPoint(EXTENSION_POINT.moveInputStateChanged, () => {
             this.updateFormInputs()
         })
         this.registerExtensionPoint(EXTENSION_POINT.positionChanged, () => {
@@ -108,6 +107,17 @@ export class Accessibility extends Extension {
                     this.redrawPiecesLists()
                 }
             }
+        })
+        setTimeout(() => {
+            this.updateFormInputs()
+            this.redrawPositionInAltAttribute()
+            if (this.props.boardAsTable) {
+                this.redrawBoardAsTable()
+            }
+            if (this.props.piecesAsList) {
+                this.redrawPiecesLists()
+            }
+
         })
     }
 
@@ -169,7 +179,7 @@ ${listB}`
             files.reverse()
             squares.reverse()
         }
-        let html = `<table><caption>${this.th.board_as_table}</caption><tr><th></th>`
+        let html = `<table><!--<caption>${this.th.board_as_table}</caption>--><tr><th></th>`
         for (const rank of ranks) {
             html += `<th scope='col'>${rank}</th>`
         }
