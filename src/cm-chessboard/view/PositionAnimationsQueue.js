@@ -259,7 +259,7 @@ export class PositionAnimationsQueue extends PromiseQueue {
                 position, emptyPosition, animated ? duration : 0,
                 () => {
                     this.chessboard.state.orientation = color
-                    this.chessboard.view.redraw()
+                    this.chessboard.view.redrawBoard()
                     this.chessboard.view.redrawPieces(emptyPosition.squares)
                     new PositionsAnimation(this.chessboard.view,
                         emptyPosition, position, animated ? duration : 0,

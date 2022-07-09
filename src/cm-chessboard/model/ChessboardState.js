@@ -70,7 +70,9 @@ export class ChessboardState {
         const extensionPoints = this.extensionPoints[name]
         if(extensionPoints) {
             for (const extensionPoint of extensionPoints) {
-                extensionPoint(data)
+                setTimeout(() => {
+                    extensionPoint(data)
+                })
             }
         }
     }

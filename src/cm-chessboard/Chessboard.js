@@ -7,7 +7,7 @@
 import {ChessboardState} from "./model/ChessboardState.js"
 import {Position} from "./model/Position.js"
 import {PositionAnimationsQueue} from "./view/PositionAnimationsQueue.js"
-import {Extension, EXTENSION_POINT} from "./model/Extension.js"
+import {EXTENSION_POINT} from "./model/Extension.js"
 import {ChessboardView} from "./view/ChessboardView.js"
 
 export const COLOR = {

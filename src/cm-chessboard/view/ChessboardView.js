@@ -7,6 +7,7 @@
 import {VisualMoveInput} from "./VisualMoveInput.js"
 import {COLOR, INPUT_EVENT_TYPE, BORDER_TYPE} from "../Chessboard.js"
 import {Position} from "../model/Position.js"
+import {EXTENSION_POINT} from "../model/Extension.js"
 
 export const piecesTranslations = {
     en: {
@@ -383,39 +384,45 @@ export class ChessboardView {
     // callbacks //
 
     moveStartCallback(square) {
+        const data = {
+            chessboard: this.chessboard,
+            type: INPUT_EVENT_TYPE.moveStart,
+            square: square
+        }
+        this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInputStateChanged, data)
         if (this.moveInputCallback) {
-            return this.moveInputCallback({
-                chessboard: this.chessboard,
-                type: INPUT_EVENT_TYPE.moveStart,
-                square: square
-            })
+            return this.moveInputCallback(data)
         } else {
             return true
         }
     }
 
     moveDoneCallback(squareFrom, squareTo) {
+        const data = {
+            chessboard: this.chessboard,
+            type: INPUT_EVENT_TYPE.moveDone,
+            squareFrom: squareFrom,
+            squareTo: squareTo
+        }
+        this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInputStateChanged, data)
         if (this.moveInputCallback) {
-            return this.moveInputCallback({
-                chessboard: this.chessboard,
-                type: INPUT_EVENT_TYPE.moveDone,
-                squareFrom: squareFrom,
-                squareTo: squareTo
-            })
+            return this.moveInputCallback(data)
         } else {
             return true
         }
     }
 
     moveCanceledCallback(reason, squareFrom, squareTo) {
+        const data = {
+            chessboard: this.chessboard,
+            type: INPUT_EVENT_TYPE.moveCanceled,
+            reason: reason,
+            squareFrom: squareFrom,
+            squareTo: squareTo
+        }
+        this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInputStateChanged, data)
         if (this.moveInputCallback) {
-            this.moveInputCallback({
-                chessboard: this.chessboard,
-                type: INPUT_EVENT_TYPE.moveCanceled,
-                reason: reason,
-                squareFrom: squareFrom,
-                squareTo: squareTo
-            })
+            this.moveInputCallback(data)
         }
     }
 

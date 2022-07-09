@@ -44,7 +44,7 @@ export class Accessibility extends Extension {
             visuallyHidden: true // hide all those extra outputs visually but keep them accessible for screen readers and braille displays
         }
         Object.assign(this.props, props)
-        this.lang = props.language
+        this.lang = chessboard.props.language
         this.translations = piecesTranslations
         this.t = this.translations[this.lang]
         this.th = hlTranslations[this.lang]
@@ -99,7 +99,7 @@ export class Accessibility extends Extension {
             this.updateFormInputs()
         })
         this.registerExtensionPoint(EXTENSION_POINT.positionChanged, () => {
-            if(!this.state.destroyed) {
+            if(!this.chessboard.state.destroyed) {
                 this.redrawPositionInAltAttribute()
                 if (this.props.boardAsTable) {
                     this.redrawBoardAsTable()
@@ -126,7 +126,7 @@ export class Accessibility extends Extension {
     }
 
     redrawPositionInAltAttribute() {
-        const pieces = this.state.position.getPieces()
+        const pieces = this.chessboard.state.position.getPieces()
         let listW = piecesTranslations[this.lang].colors.w.toUpperCase() + ":"
         let listB = piecesTranslations[this.lang].colors.b.toUpperCase() + ":"
         for (const piece of pieces) {
