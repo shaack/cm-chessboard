@@ -101,12 +101,6 @@ let defaultProps = {
     url: "./assets/images/chessboard-sprite.svg", // pieces and markers are stored in a sprite file
     size: 40, // the sprite tiles size, defaults to 40x40px
     cache: true // cache the sprite
-  },
-  accessibility: {
-    movePieceForm: false, // display a form to move a piece (from, to, move)
-    boardAsTable: false, // display the board additionally as HTML table
-    piecesAsList: false, // display the pieces additionally as List
-    visuallyHidden: true // hide all those extra outputs visually but keep them accessible for screen readers and braille displays
   }
 }
 ```
