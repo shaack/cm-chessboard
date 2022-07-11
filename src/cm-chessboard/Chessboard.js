@@ -67,7 +67,7 @@ export class Chessboard {
                 size: 40, // the sprite tiles size, defaults to 40x40px
                 cache: true // cache the sprite
             },
-            extensions: [ /* {class: ExtensionClass, props: { ... }} */ ] // add extensions here like this
+            extensions: [ /* {class: ExtensionClass, props: { ... }} */ ] // add extensions here
         }
         this.props = {}
         Object.assign(this.props, defaultProps)
