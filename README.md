@@ -365,7 +365,7 @@ const chessboard = new Chessboard(document.getElementById("board"), {
     position: "start",
     extensions: // list of used extensions
         [{
-            class: MyCoolChessboardExtension, // this class of the extension
+            class: MyCoolChessboardExtension, // the class of the extension
             props: {
                 // configure the extension here
             }
