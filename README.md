@@ -2,8 +2,6 @@
 
 A JavaScript chessboard which is lightweight, ES6 module based, responsive, SVG rendered and **without dependencies**.
 
-It works on desktop (current versions of Chrome, Firefox, Safari, Edge), and mobile (Android and iOS).
-
 cm-chessboard is the main chessboard of
 [chessmail.eu](https://www.chessmail.eu) and [chessmail.de](https://www.chessmail.de). It is also used
 in [chess-console](https://shaack.com/projekte/chess-console/examples/load-pgn.html) and in
