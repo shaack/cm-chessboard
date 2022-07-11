@@ -16,7 +16,8 @@ aspects of chess games.
 - [Can handle moves input via click or drag](https://shaack.com/projekte/cm-chessboard/examples/validate-moves.html)
 - [Styleable via css](https://shaack.com/projekte/cm-chessboard/examples/different-styles.html)
 - [Supports multiple piece sets](https://shaack.com/projekte/cm-chessboard/examples/different-styles.html)
-- [Supports an optimized usage for visually impaired people](https://shaack.com/projekte/cm-chessboard/examples/accessible-chessboard.html) 🆕
+- [Supports an optimized usage for visually impaired people](https://shaack.com/projekte/cm-chessboard/examples/accessible-chessboard.html)
+  🆕
 - Uses SVG for rendering
 - Vanilla JavaScript modules in ECMAScript 6 syntax
 - **No dependencies**
@@ -48,7 +49,7 @@ dependencies.
 
 > With the new version 4 of cm-chessboard I completely redesigned the animation of positions with
 > the use of promises.
- 
+
 The pieces animations are now smoother and less error-prone for race conditions.
 
 As of version 4.x, the API functions `setPosition()`, `setPiece()` and `movePiece()` are **not animated** as default.
@@ -84,24 +85,24 @@ Below is the default configuration
 
 ```javascript
 let defaultProps = {
-  position: "empty", // set as fen, "start" or "empty"
-  orientation: COLOR.white, // white on bottom
-  responsive: true, // resize the board automatically to the size of the context element
-  animationDuration: 300, // pieces animation duration in milliseconds. Disable all animation with `0`.
-  language: navigator.language.substring(0,2).toLowerCase(), // supports "de" and "en" for now, used for pieces naming
-  style: {
-    cssClass: "default", // set the css theme of the board, try "green", "blue" or "chess-club"
-    showCoordinates: true, // show ranks and files
-    borderType: BORDER_TYPE.none, // "thin" thin border, "frame" wide border with coordinates in it, "none" no border
-    aspectRatio: 1, // height/width of the board
-    moveFromMarker: MARKER_TYPE.frame, // the marker used to mark the start square
-    moveToMarker: MARKER_TYPE.frame, // the marker used to mark the square where the figure is moving to
-  },
-  sprite: {
-    url: "./assets/images/chessboard-sprite.svg", // pieces and markers are stored in a sprite file
-    size: 40, // the sprite tiles size, defaults to 40x40px
-    cache: true // cache the sprite
-  }
+    position: "empty", // set as fen, "start" or "empty"
+    orientation: COLOR.white, // white on bottom
+    responsive: true, // resize the board automatically to the size of the context element
+    animationDuration: 300, // pieces animation duration in milliseconds. Disable all animation with `0`.
+    language: navigator.language.substring(0, 2).toLowerCase(), // supports "de" and "en" for now, used for pieces naming
+    style: {
+        cssClass: "default", // set the css theme of the board, try "green", "blue" or "chess-club"
+        showCoordinates: true, // show ranks and files
+        borderType: BORDER_TYPE.none, // "thin" thin border, "frame" wide border with coordinates in it, "none" no border
+        aspectRatio: 1, // height/width of the board
+        moveFromMarker: MARKER_TYPE.frame, // the marker used to mark the start square
+        moveToMarker: MARKER_TYPE.frame, // the marker used to mark the square where the figure is moving to
+    },
+    sprite: {
+        url: "./assets/images/chessboard-sprite.svg", // pieces and markers are stored in a sprite file
+        size: 40, // the sprite tiles size, defaults to 40x40px
+        cache: true // cache the sprite
+    }
 }
 ```
 
@@ -330,7 +331,64 @@ chessboard.removeMarkers(undefined, myMarkerType)
 
 ## Extensions
 
-cm-chessboard provides the ability to extend its functionality with extensions. 
+cm-chessboard provides the ability to extend its functionality with extensions. Extensions extend the class `Extension`
+and have access to the chessboard and can register extension points.
+
+```js
+this.registerExtensionPoint(EXTENSION_POINT.moveInputStateChanged, (data) => {
+    // do something on move [start | cancel | done]
+    console.log(data)
+})
+```
+
+Enable extension via the chessboard props.
+
+```js
+const chessboard = new Chessboard(document.getElementById("board"), {
+    position: "start",
+    extensions: // list of used extensions
+        [{
+            class: ExtensionName, // this class of the extionsion
+            props: {
+                // configure your extions via its properties
+            }
+
+        }]
+})
+```
+
+### Extension `Accessibility`
+
+This extension ensures that visual impaired people can better use the chessboard. It displays the braille notation
+of the current position in the alt tag of the board image and enables a form to move the pieces via text input. It
+can also display the board as HTML table and the pieces as list.
+
+See example [Accessibility extension](https://shaack.com/projekte/cm-chessboard/examples/accessible-chessboard.html)
+
+#### Usage
+
+```js
+const chessboard = new Chessboard(document.getElementById("board"), {
+    position: "start",
+    sprite: {url: "../assets/images/chessboard-sprite.svg"},
+    // animationDuration: 0, // optional, set to 0 to disable animations
+    style: {
+        cssClass: "default-contrast" // make the coordinates better visible with the "default-contrast" theme
+    },
+    extensions:
+        [{
+            class: Accessibility,
+            props: {
+                brailleNotationInAlt: true, // show the braille notation of the game in the alt attribute of the SVG
+                boardAsTable: true, // display the board additionally as HTML table
+                movePieceForm: true, // display a form to move a piece (from, to, move)
+                piecesAsList: true, // display the pieces additionally as List
+                visuallyHidden: false // hide all those extra outputs visually but keep them accessible for screen readers and braille displays
+            }
+
+        }]
+})
+```
 
 ## Usage with React
 

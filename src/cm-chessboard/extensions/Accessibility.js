@@ -98,7 +98,7 @@ export class Accessibility extends Extension {
             this.updateFormInputs()
         })
         this.registerExtensionPoint(EXTENSION_POINT.positionChanged, () => {
-            if(!this.chessboard.state.destroyed) {
+            if(this.chessboard.state) { // not destroyed
                 this.redrawPositionInAltAttribute()
                 if (this.props.boardAsTable) {
                     this.redrawBoardAsTable()
@@ -108,7 +108,7 @@ export class Accessibility extends Extension {
                 }
             }
         })
-        setTimeout(() => {
+        setTimeout(() => { // todo replace with something like this.chessboard.initialized.then(() => { ... })
             this.updateFormInputs()
             this.redrawPositionInAltAttribute()
             if (this.props.boardAsTable) {

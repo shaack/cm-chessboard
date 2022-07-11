@@ -66,12 +66,14 @@ export class ChessboardState {
         }
     }
 
-    invokeExtensionPoints(name, data = undefined) {
+    invokeExtensionPoints(name, data = {}) {
         const extensionPoints = this.extensionPoints[name]
+        const dataCloned = Object.assign({}, data);
+        dataCloned.extensionPoint = name
         if(extensionPoints) {
             for (const extensionPoint of extensionPoints) {
                 setTimeout(() => {
-                    extensionPoint(data)
+                    extensionPoint(dataCloned)
                 })
             }
         }

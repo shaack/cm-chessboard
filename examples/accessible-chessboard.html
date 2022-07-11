@@ -9,11 +9,11 @@
 </head>
 <body>
 <h1><a href="../">cm-chessboard</a></h1>
-<h2>Example: Accessibility features enabled</h2>
+<h2>Example: Accessibility extension</h2>
 <p>
-    This example shows, how the accessibility features from cm-chessboard work.
-    They allow a better usage of the board for visually impaired
-    people. You can enable these features via configuration.
+    This example shows, how the accessibility extension from cm-chessboard works.
+    It allows a better usage of the board for visually impaired
+    people.
 </p>
 
 <div class="board green" id="board"></div>
@@ -27,21 +27,26 @@
     const chessboard = new Chessboard(document.getElementById("board"), {
         position: "start",
         sprite: {url: "../assets/images/chessboard-sprite.svg"},
+        // animationDuration: 0, // optional, set to 0 to disable animations
         style: {
-            cssClass: "default-contrast"
-        }
+            cssClass: "default-contrast" // make the coordinates better visible with the "default-contrast" theme
+        },
+        extensions:
+            [{
+                class: Accessibility,
+                props: {
+                    brailleNotationInAlt: true, // show the braille notation of the game in the alt attribute of the SVG
+                    boardAsTable: true, // display the board additionally as HTML table
+                    movePieceForm: true, // display a form to move a piece (from, to, move)
+                    piecesAsList: true, // display the pieces additionally as List
+                    visuallyHidden: false // hide all those extra outputs visually but keep them accessible for screen readers and braille displays
+                }
+
+            }]
     })
     window.setOrientation = function () {
         chessboard.setOrientation(chessboard.getOrientation() === 'w' ? 'b' : 'w')
     }
-    // Extension
-    new Accessibility(chessboard, {
-        brailleNotationInAlt: true, // show the braille notation of the game in the alt attribute of the SVG
-        boardAsTable: true, // display the board additionally as HTML table
-        movePieceForm: true, // display a form to move a piece (from, to, move)
-        piecesAsList: true, // display the pieces additionally as List
-        visuallyHidden: false // hide all those extra outputs visually but keep them accessible for screen readers and braille displays
-    })
 
     chessboard.enableMoveInput(inputHandler)
 
