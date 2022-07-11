@@ -395,7 +395,7 @@ const chessboard = new Chessboard(document.getElementById("board"), {
         [{
             class: Accessibility,
             props: {
-                brailleNotationInAlt: true, // show the braille notation of the game in the alt attribute of the SVG
+                brailleNotationInAlt: true, // show the braille notation of the position in the alt attribute of the SVG image
                 boardAsTable: true, // display the board additionally as HTML table
                 movePieceForm: true, // display a form to move a piece (from, to, move)
                 piecesAsList: true, // display the pieces additionally as List
