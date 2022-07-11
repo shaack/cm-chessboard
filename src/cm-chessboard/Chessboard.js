@@ -74,15 +74,11 @@ export class Chessboard {
         Object.assign(this.props, props)
         this.props.sprite = defaultProps.sprite
         this.props.style = defaultProps.style
-        this.props.accessibility = defaultProps.accessibility
         if (props.sprite) {
             Object.assign(this.props.sprite, props.sprite)
         }
         if (props.style) {
             Object.assign(this.props.style, props.style)
-        }
-        if (props.accessibility) {
-            Object.assign(this.props.accessibility, props.accessibility)
         }
         if (props.extensions) {
             this.props.extensions = props.extensions
