@@ -26,14 +26,42 @@ export const MOVE_CANCELED_REASON = {
 
 const DRAG_THRESHOLD = 4
 
+function createTask() {
+    let resolve, reject
+    const promise = new Promise(function (_resolve, _reject) {
+        resolve = _resolve
+        reject = _reject
+    })
+    promise.resolve = resolve
+    promise.reject = reject
+    return promise
+}
+
 export class VisualMoveInput {
 
     constructor(view, moveStartCallback, moveDoneCallback, moveCanceledCallback) {
         this.view = view
         this.chessboard = view.chessboard
-        this.moveStartCallback = moveStartCallback
-        this.moveDoneCallback = moveDoneCallback
-        this.moveCanceledCallback = moveCanceledCallback
+        this.moveStartCallback = (square) => {
+            const result = moveStartCallback(square)
+            if(result) {
+                this.chessboard.moveTask = createTask()
+            }
+            return result
+        }
+        this.moveDoneCallback = (fromSquare, toSquare) => {
+            const result = moveDoneCallback(fromSquare, toSquare)
+            if(result) {
+                this.chessboard.moveTask.resolve()
+            } else {
+                this.chessboard.moveTask.reject()
+            }
+            return result
+        }
+        this.moveCanceledCallback = (reason, fromSquare, toSquare) => {
+            moveCanceledCallback(reason, fromSquare, toSquare)
+            this.chessboard.moveTask.reject()
+        }
         this.setMoveInputState(STATE.waitForInputStart)
     }
 
@@ -138,7 +166,7 @@ export class VisualMoveInput {
                 }
                 this.toSquare = params.square
                 if (this.toSquare && this.moveDoneCallback(this.fromSquare, this.toSquare)) {
-                    if(prevState === STATE.clickTo) {
+                    if (prevState === STATE.clickTo) {
                         this.chessboard.movePiece(this.fromSquare, this.toSquare, true).then(() => {
                             this.setMoveInputState(STATE.reset)
                         })
@@ -365,10 +393,10 @@ export class VisualMoveInput {
     }
 
     updateStartEndMarkers() {
-        if(this.chessboard.props.style.moveFromMarker) {
+        if (this.chessboard.props.style.moveFromMarker) {
             this.chessboard.state.removeMarkers(undefined, this.chessboard.props.style.moveFromMarker)
         }
-        if(this.chessboard.props.style.moveToMarker) {
+        if (this.chessboard.props.style.moveToMarker) {
             this.chessboard.state.removeMarkers(undefined, this.chessboard.props.style.moveToMarker)
         }
         if (this.chessboard.props.style.moveFromMarker) {

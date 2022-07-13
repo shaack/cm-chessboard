@@ -87,6 +87,7 @@ export class Chessboard {
             this.props.language = "en"
         }
 
+        this.moveTask = Promise.resolve()
         this.state = new ChessboardState()
         this.view = new ChessboardView(this)
         this.positionAnimationsQueue = new PositionAnimationsQueue(this)
