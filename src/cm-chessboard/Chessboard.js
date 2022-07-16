@@ -97,7 +97,7 @@ export class Chessboard {
         this.view.redrawPieces()
         // instantiate extensions
         for (const extensionData of this.props.extensions) {
-            new extensionData.class(this, extensionData.props)
+            this.extensions.push(new extensionData.class(this, extensionData.props))
         }
     }
 
