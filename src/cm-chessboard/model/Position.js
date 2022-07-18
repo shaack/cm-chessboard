@@ -112,7 +112,9 @@ export class Position {
     }
 
     getPiece(square) {
-        return this.squares[Position.squareToIndex(square)]
+        if (square) {
+            return this.squares[Position.squareToIndex(square)]
+        }
     }
 
     static squareToIndex(square) {
