@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" href="../assets/styles/cm-chessboard.css">
+    <title>frame test</title>
+</head>
+<body>
+Board:
+<div id="board"></div>
+
+<script type="module">
+    import { Chessboard, MARKER_TYPE } from '../src/cm-chessboard/Chessboard.js'
+
+    const board = new Chessboard(document.getElementById('board'), {
+        position: 'start',
+        sprite: {url: '../assets/images/chessboard-sprite.svg'},
+        style: {borderType: 'frame'}
+    })
+</script>
+</body>
+</html>

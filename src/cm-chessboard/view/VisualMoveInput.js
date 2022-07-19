@@ -44,14 +44,14 @@ export class VisualMoveInput {
         this.chessboard = view.chessboard
         this.moveStartCallback = (square) => {
             const result = moveStartCallback(square)
-            if(result) {
+            if (result) {
                 this.chessboard.moveTask = createTask()
             }
             return result
         }
         this.moveDoneCallback = (fromSquare, toSquare) => {
             const result = moveDoneCallback(fromSquare, toSquare)
-            if(result) {
+            if (result) {
                 this.chessboard.moveTask.resolve()
             } else {
                 this.chessboard.moveTask.reject()
@@ -239,18 +239,18 @@ export class VisualMoveInput {
     onPointerDown(e) {
         if (e.type === "mousedown" && e.button === 0 || e.type === "touchstart") {
             const square = e.target.getAttribute("data-square")
-            const pieceName = this.chessboard.getPiece(square)
-            // console.log("onPointerDown", square, pieceName)
-            let color
-            if (pieceName) {
-                color = pieceName ? pieceName.substring(0, 1) : undefined
-                // allow scrolling, if not pointed on draggable piece
-                if (color === "w" && this.chessboard.state.inputWhiteEnabled ||
-                    color === "b" && this.chessboard.state.inputBlackEnabled) {
-                    e.preventDefault()
-                }
-            }
             if (square) { // pointer on square
+                const pieceName = this.chessboard.getPiece(square)
+                // console.log("onPointerDown", square, pieceName)
+                let color
+                if (pieceName) {
+                    color = pieceName ? pieceName.substring(0, 1) : undefined
+                    // allow scrolling, if not pointed on draggable piece
+                    if (color === "w" && this.chessboard.state.inputWhiteEnabled ||
+                        color === "b" && this.chessboard.state.inputBlackEnabled) {
+                        e.preventDefault()
+                    }
+                }
                 if (this.moveInputState !== STATE.waitForInputStart ||
                     this.chessboard.state.inputWhiteEnabled && color === "w" ||
                     this.chessboard.state.inputBlackEnabled && color === "b") {
