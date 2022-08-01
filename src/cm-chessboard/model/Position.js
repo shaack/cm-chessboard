@@ -100,7 +100,7 @@ export class Position {
 
     movePiece(squareFrom, squareTo) {
         if(!this.squares[Position.squareToIndex(squareFrom)]) {
-            console.error("movePiece, no piece on square", squareFrom)
+            console.warn("no piece on", squareFrom)
             return
         }
         this.squares[Position.squareToIndex(squareTo)] = this.squares[Position.squareToIndex(squareFrom)]

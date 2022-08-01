@@ -310,10 +310,14 @@ export class ChessboardView {
 
     setPieceVisibility(square, visible = true) {
         const piece = this.getPieceElement(square)
-        if (visible) {
-            piece.setAttribute("visibility", "visible")
+        if(piece) {
+            if (visible) {
+                piece.setAttribute("visibility", "visible")
+            } else {
+                piece.setAttribute("visibility", "hidden")
+            }
         } else {
-            piece.setAttribute("visibility", "hidden")
+            console.warn("no piece on", square)
         }
     }
 
@@ -323,7 +327,7 @@ export class ChessboardView {
         }
         const piece = this.piecesGroup.querySelector(`g[data-square='${square}']`)
         if (!piece) {
-            console.error("no piece found on", square)
+            console.warn("no piece on", square)
         }
         return piece
     }
