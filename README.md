@@ -337,7 +337,7 @@ and have access to the chessboard and can register extension points.
 class MyCoolChessboardExtension extends Extension {
     constructor(chessboard, props) {
         super(chessboard, props)
-        this.registerExtensionPoint(EXTENSION_POINT.moveInputStateChanged, (data) => {
+        this.registerExtensionPoint(EXTENSION_POINT.moveInput, (data) => {
             // do something on move [start | cancel | done]
             console.log(data)
         })
@@ -349,10 +349,11 @@ Currently possible extension points are defined in `Extension.js`.
 
 ```js
 export const EXTENSION_POINT = {
-    positionChanged: "positionChanged",
-    boardChanged: "boardChanged",
-    moveInputStateChanged: "moveInputStateChanged",
-    destroy: "destroy"
+  positionChanged: "positionChanged", // the positions of the pieces was changed
+  boardChanged: "boardChanged", // the board (orientation) was changed
+  moveInputToggled: "moveInputToggled", // move input was enabled or disabled
+  moveInput: "moveInput", // move started, cancelled or done
+  destroy: "destroy" // called, before the board is destroyed
 }
 ```
 

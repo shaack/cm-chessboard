@@ -94,7 +94,10 @@ export class Accessibility extends Extension {
                 this.piecesListContainer.classList.add("visually-hidden")
             }
         }
-        this.registerExtensionPoint(EXTENSION_POINT.moveInputStateChanged, () => {
+        this.registerExtensionPoint(EXTENSION_POINT.moveInput, () => {
+            this.updateFormInputs()
+        })
+        this.registerExtensionPoint(EXTENSION_POINT.moveInputToggled, () => {
             this.updateFormInputs()
         })
         this.registerExtensionPoint(EXTENSION_POINT.positionChanged, () => {
@@ -108,17 +111,19 @@ export class Accessibility extends Extension {
                 }
             }
         })
-        setTimeout(() => { // todo replace with something like this.chessboard.initialized.then(() => { ... })
-            this.updateFormInputs()
-            this.redrawPositionInAltAttribute()
+        this.registerExtensionPoint(EXTENSION_POINT.boardChanged, () => {
+            console.log("EXTENSION_POINT.boardChanged")
             if (this.props.boardAsTable) {
                 this.redrawBoardAsTable()
             }
-            if (this.props.piecesAsList) {
-                this.redrawPiecesLists()
-            }
-
         })
+        this.redrawPositionInAltAttribute()
+        if (this.props.boardAsTable) {
+            this.redrawBoardAsTable()
+        }
+        if (this.props.piecesAsList) {
+            this.redrawPiecesLists()
+        }
     }
 
     updateFormInputs() {

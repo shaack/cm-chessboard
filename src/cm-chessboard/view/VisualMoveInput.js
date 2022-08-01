@@ -26,41 +26,19 @@ export const MOVE_CANCELED_REASON = {
 
 const DRAG_THRESHOLD = 4
 
-function createTask() {
-    let resolve, reject
-    const promise = new Promise(function (_resolve, _reject) {
-        resolve = _resolve
-        reject = _reject
-    })
-    promise.resolve = resolve
-    promise.reject = reject
-    return promise
-}
-
 export class VisualMoveInput {
 
     constructor(view, moveStartCallback, moveDoneCallback, moveCanceledCallback) {
         this.view = view
         this.chessboard = view.chessboard
         this.moveStartCallback = (square) => {
-            const result = moveStartCallback(square)
-            if (result) {
-                this.chessboard.moveTask = createTask()
-            }
-            return result
+            return moveStartCallback(square)
         }
         this.moveDoneCallback = (fromSquare, toSquare) => {
-            const result = moveDoneCallback(fromSquare, toSquare)
-            if (result) {
-                this.chessboard.moveTask.resolve()
-            } else {
-                this.chessboard.moveTask.reject()
-            }
-            return result
+            return moveDoneCallback(fromSquare, toSquare)
         }
         this.moveCanceledCallback = (reason, fromSquare, toSquare) => {
             moveCanceledCallback(reason, fromSquare, toSquare)
-            this.chessboard.moveTask.reject()
         }
         this.setMoveInputState(STATE.waitForInputStart)
     }

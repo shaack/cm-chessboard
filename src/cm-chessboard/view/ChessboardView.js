@@ -370,6 +370,7 @@ export class ChessboardView {
         }
         this.chessboard.state.inputEnabled = true
         this.moveInputCallback = eventHandler
+        this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInputToggled, {enabled: true, color: color})
         this.visualizeInputState()
     }
 
@@ -378,6 +379,7 @@ export class ChessboardView {
         this.chessboard.state.inputBlackEnabled = false
         this.chessboard.state.inputEnabled = false
         this.moveInputCallback = undefined
+        this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInputToggled, {enabled: false})
         this.visualizeInputState()
     }
 
@@ -389,7 +391,7 @@ export class ChessboardView {
             type: INPUT_EVENT_TYPE.moveStart,
             square: square
         }
-        this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInputStateChanged, data)
+        this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
         if (this.moveInputCallback) {
             return this.moveInputCallback(data)
         } else {
@@ -404,7 +406,7 @@ export class ChessboardView {
             squareFrom: squareFrom,
             squareTo: squareTo
         }
-        this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInputStateChanged, data)
+        this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
         if (this.moveInputCallback) {
             return this.moveInputCallback(data)
         } else {
@@ -420,7 +422,7 @@ export class ChessboardView {
             squareFrom: squareFrom,
             squareTo: squareTo
         }
-        this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInputStateChanged, data)
+        this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
         if (this.moveInputCallback) {
             this.moveInputCallback(data)
         }

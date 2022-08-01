@@ -131,9 +131,9 @@ export class Chessboard {
             return
         }
         this.boardTurning = true
-        this.state.invokeExtensionPoints(EXTENSION_POINT.boardChanged)
         return this.positionAnimationsQueue.enqueueTurnBoard(position, color, animated).then(() => {
             this.boardTurning = false
+            this.state.invokeExtensionPoints(EXTENSION_POINT.boardChanged)
         })
     }
 

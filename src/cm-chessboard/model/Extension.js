@@ -5,10 +5,12 @@
  */
 
 export const EXTENSION_POINT = {
-    positionChanged: "positionChanged",
-    boardChanged: "boardChanged",
-    moveInputStateChanged: "moveInputStateChanged",
-    destroy: "destroy"
+    positionChanged: "positionChanged", // the positions of the pieces was changed
+    boardChanged: "boardChanged", // the board (orientation) was changed
+    moveInputToggled: "moveInputToggled", // move input was enabled or disabled
+    moveInput: "moveInput", // move started, cancelled or done
+    moveInputStateChanged: "moveInput", // TODO deprecated, use `moveInput`
+    destroy: "destroy" // called, before the board is destroyed
 }
 
 export class Extension {
