@@ -58,7 +58,7 @@ export class ChessboardView {
             this.moveCanceledCallback.bind(this)
         )
         if (chessboard.props.sprite.cache) {
-            this.cacheSprite()
+            this.cacheSpriteToDiv("chessboardSpriteCache", this.chessboard.props.sprite.url)
         }
         this.context = document.createElement("div")
         this.chessboard.context.appendChild(this.context)
@@ -108,15 +108,14 @@ export class ChessboardView {
 
     // Sprite //
 
-    cacheSprite() {
-        const wrapperId = "chessboardSpriteCache"
+    cacheSpriteToDiv(wrapperId, url) {
         if (!document.getElementById(wrapperId)) {
             const wrapper = document.createElement("div")
             wrapper.style.display = "none"
             wrapper.id = wrapperId
             document.body.appendChild(wrapper)
             const xhr = new XMLHttpRequest()
-            xhr.open("GET", this.chessboard.props.sprite.url, true)
+            xhr.open("GET", url, true)
             xhr.onload = function () {
                 wrapper.insertAdjacentHTML('afterbegin', xhr.response)
             }
@@ -137,8 +136,10 @@ export class ChessboardView {
         this.updateMetrics()
         this.boardGroup = Svg.addElement(this.svg, "g", {class: "board"})
         this.coordinatesGroup = Svg.addElement(this.svg, "g", {class: "coordinates"})
-        this.markersGroup = Svg.addElement(this.svg, "g", {class: "markers"})
-        this.piecesGroup = Svg.addElement(this.svg, "g", {class: "pieces"})
+        this.markersLayer = Svg.addElement(this.svg, "g", {class: "markers-layer"})
+        this.markersGroup = Svg.addElement(this.markersLayer, "g", {class: "markers"})
+        this.piecesLayer = Svg.addElement(this.svg, "g", {class: "pieces-layer"})
+        this.piecesGroup = Svg.addElement(this.piecesLayer, "g", {class: "pieces"})
     }
 
     updateMetrics() {
@@ -177,6 +178,7 @@ export class ChessboardView {
         this.redrawSquares()
         this.drawCoordinates()
         this.drawMarkers()
+        this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.redrawBoard)
         this.visualizeInputState()
     }
 
@@ -489,7 +491,7 @@ export class Svg {
      * @param attributes
      * @returns {Element}
      */
-    static addElement(parent, name, attributes) {
+    static addElement(parent, name, attributes, sibling = undefined) {
         let element = document.createElementNS(SVG_NAMESPACE, name)
         if (name === "use") {
             attributes["xlink:href"] = attributes["href"] // fix for safari
@@ -504,7 +506,11 @@ export class Svg {
                 }
             }
         }
-        parent.appendChild(element)
+        if (sibling !== undefined) {
+          parent.appendChild(element)
+        } else {
+          parent.insertBefore(element, sibling)
+        }
         return element
     }
 

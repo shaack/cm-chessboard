@@ -91,14 +91,14 @@ export class Chessboard {
         this.state = new ChessboardState()
         this.view = new ChessboardView(this)
         this.positionAnimationsQueue = new PositionAnimationsQueue(this)
-        this.state.orientation = this.props.orientation
-        this.view.redrawBoard()
-        this.state.position = new Position(this.props.position)
-        this.view.redrawPieces()
         // instantiate extensions
         for (const extensionData of this.props.extensions) {
             this.extensions.push(new extensionData.class(this, extensionData.props))
         }
+        this.state.orientation = this.props.orientation
+        this.view.redrawBoard()
+        this.state.position = new Position(this.props.position)
+        this.view.redrawPieces()
     }
 
     // API //
