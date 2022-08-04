@@ -8,8 +8,8 @@ import {Extension, EXTENSION_POINT} from "../model/Extension.js"
 import {Svg} from "../view/ChessboardView.js"
 
 export const ARROW_TYPE = {
-    default: {class: "arrow-default", slice: "arrowDefault", headSize: 5 },
-    pointy: {class: "arrow-pointy", slice: "arrowPointy", headSize: 5.5 },
+    default: {class: "arrow-default", slice: "arrowDefault", headSize: 7 },
+    pointy: {class: "arrow-pointy", slice: "arrowPointy", headSize: 7 },
 }
 
 export class Arrows extends Extension {
@@ -57,6 +57,7 @@ export class Arrows extends Extension {
     arrowsGroup.setAttribute("data-arrow", arrow.from + arrow.to)
     arrowsGroup.setAttribute("class", "arrow " + arrow.type.class)
 
+    const view = this.chessboard.view
     const sqfrom = document.querySelectorAll('[data-square="' + arrow.from + '"]')[0];
     const sqto = document.querySelectorAll('[data-square="' + arrow.to + '"]')[0];
     const spriteUrl = this.chessboard.props.sprite.cache ? "" : this.chessboard.props.sprite.url;
@@ -78,12 +79,13 @@ export class Arrows extends Extension {
       href: `${spriteUrl}#${arrow.type.slice}`,
     })
 
+
     const x1 = sqfrom.x.baseVal.value + (sqfrom.width.baseVal.value / 2);
     const x2 = sqto.x.baseVal.value  + (sqto.width.baseVal.value / 2);
     const y1 = sqfrom.y.baseVal.value + (sqfrom.height.baseVal.value / 2);
     const y2 = sqto.y.baseVal.value + (sqto.height.baseVal.value / 2);
 
-
+    const width = ((view.scalingX + view.scalingY) / 2) * 4
     let lineFill = Svg.addElement(arrowsGroup, "line")
     lineFill.setAttribute('x1', x1);
     lineFill.setAttribute('x2', x2);
@@ -91,11 +93,11 @@ export class Arrows extends Extension {
     lineFill.setAttribute('y2', y2);
     lineFill.setAttribute('class', 'arrow-line');
     lineFill.setAttribute("marker-end", "url(#"+id+")");
+    lineFill.setAttribute('stroke-width', width+"px" )
 
   }
 
   addArrow(from, to, type) {
-    console.log(this)
     this.arrows.push(new Arrow(from, to, type))
     this.chessboard.view.redrawBoard()
   }
@@ -112,6 +114,7 @@ export class Arrows extends Extension {
 
   removeArrows(from = undefined, to = undefined, type = undefined) {
     this.arrows = this.arrows.filter((arrow) => !arrow.matches(from, to, type))
+    this.chessboard.view.redrawBoard()
   }
 }
 

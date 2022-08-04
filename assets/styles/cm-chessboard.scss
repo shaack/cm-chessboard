@@ -11,31 +11,15 @@
   }
 
   .arrows {
-    .arrow {
-      .head-fill {
-        fill: powderblue;
-        stroke: none;
-        fill-rule: nonzero;
-        fill-opacity: 1;
-      }
-      .head-border {
-        fill: powderblue;
-        stroke: none;
-        fill-rule: nonzero;
-        fill-opacity: 0.3;
-      }
-      .line-border {
-        stroke: powderblue;
-        stroke-linecap: round;
-        stroke-width: 15px;
-        opacity: 0.4;
-      }
-      .line-fill {
-        stroke: powderblue;
-        stroke-width: 10px;
-        stroke-linecap: round;
-        opacity: 0.4;
-      }
+    .arrow-head {
+      fill: powderblue;
+      fill-rule: nonzero;
+      fill-opacity: 1;
+    }
+    .arrow-line {
+      stroke: powderblue;
+      stroke-linecap: round;
+      opacity: 0.5;
     }
   }
 
