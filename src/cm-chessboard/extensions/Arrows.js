@@ -24,7 +24,6 @@ export class Arrows extends Extension {
         size: 40,
         cache: true,
       },
-      overPieces: true,
     }
     this.props = {}
     Object.assign(this.props, defaultProps)
@@ -35,11 +34,7 @@ export class Arrows extends Extension {
     this.registerMethod("addArrow", this.addArrow)
     this.registerMethod("getArrows", this.getArrows)
     this.registerMethod("removeArrows", this.removeArrows)
-    if (this.props.overPieces) {
-      this.arrowGroup = Svg.addElement(chessboard.view.piecesLayer, "g", {class: "arrows"})
-    } else {
-      this.arrowGroup = Svg.addElement(chessboard.view.markersLayer, "g", {class: "arrows"})
-    }
+    this.arrowGroup = Svg.addElement(chessboard.view.piecesLayer, "g", {class: "arrows"})
     this.arrows = []
   }
 
