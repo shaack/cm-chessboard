@@ -12,6 +12,31 @@
 <h1><a href="../..">cm-chessboard</a></h1>
 <h2>Example: Arrows extension</h2>
 <div class="board" id="board"></div>
+<br style="clear: both"/>
+<pre>
+import {ARROW_TYPE, Arrows} from "../../src/cm-chessboard/extensions/arrows/Arrows.js"
+import {Chessboard} from "../../src/cm-chessboard/Chessboard.js"
+
+const chessboard = new Chessboard(document.getElementById("board"), {
+    position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR w Gkq - 4 11",
+    sprite: {url: "../../assets/images/chessboard-sprite.svg"},
+    extensions:
+        [{
+            class: Arrows,
+            props: {
+                sprite: {
+                    url: "../../src/cm-chessboard/extensions/arrows/assets/arrows.svg"
+                }
+            }
+
+        }]
+})
+chessboard.addArrow("f3", "d5", ARROW_TYPE.default);
+chessboard.addArrow("b8", "c6", ARROW_TYPE.default);
+chessboard.addArrow("d2", "d3", ARROW_TYPE.pointy);
+chessboard.addArrow("g5", "e6", ARROW_TYPE.danger);
+</pre>
+
 <script type="module">
     import {ARROW_TYPE, Arrows} from "../../src/cm-chessboard/extensions/arrows/Arrows.js"
     import {Chessboard} from "../../src/cm-chessboard/Chessboard.js"
@@ -19,18 +44,12 @@
     const chessboard = new Chessboard(document.getElementById("board"), {
         position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR w Gkq - 4 11",
         sprite: {url: "../../assets/images/chessboard-sprite.svg"},
-        // animationDuration: 0, // optional, set to 0 to disable animations
-        style: {
-            cssClass: "default-contrast" // make the coordinates better visible with the "default-contrast" theme
-        },
         extensions:
             [{
                 class: Arrows,
                 props: {
                     sprite: {
-                        url: "../../src/cm-chessboard/extensions/arrows/assets/arrows.svg",
-                        size: 40,
-                        cache: true
+                        url: "../../src/cm-chessboard/extensions/arrows/assets/arrows.svg"
                     }
                 }
 
@@ -38,7 +57,8 @@
     })
     chessboard.addArrow("f3", "d5", ARROW_TYPE.default);
     chessboard.addArrow("b8", "c6", ARROW_TYPE.default);
-    chessboard.addArrow("d2", "d3", ARROW_TYPE.default);
+    chessboard.addArrow("d2", "d3", ARROW_TYPE.pointy);
+    chessboard.addArrow("g5", "e6", ARROW_TYPE.danger);
 </script>
 </body>
 </html>

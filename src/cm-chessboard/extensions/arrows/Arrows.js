@@ -9,6 +9,7 @@ import {Svg} from "../../view/ChessboardView.js"
 
 export const ARROW_TYPE = {
     default: {class: "arrow-default", slice: "arrowDefault", headSize: 7},
+    danger: {class: "arrow-danger", slice: "arrowDefault", headSize: 7},
     pointy: {class: "arrow-pointy", slice: "arrowPointy", headSize: 7},
 }
 
@@ -28,6 +29,10 @@ export class Arrows extends Extension {
         this.props = {}
         Object.assign(this.props, defaultProps)
         Object.assign(this.props, props)
+        this.props.sprite = defaultProps.sprite
+        if (props.sprite) {
+            Object.assign(this.props.sprite, props.sprite)
+        }
         if (this.props.sprite.cache) {
             this.chessboard.view.cacheSpriteToDiv("chessboardArrowSpriteCache", this.props.sprite.url)
         }
