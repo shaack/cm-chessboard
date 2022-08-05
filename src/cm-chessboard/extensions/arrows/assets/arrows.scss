@@ -1,0 +1,15 @@
+.cm-chessboard {
+  .arrows {
+    .arrow-head {
+      fill: blue;
+      fill-rule: nonzero;
+      fill-opacity: 1;
+    }
+
+    .arrow-line {
+      stroke: blue;
+      stroke-linecap: round;
+      opacity: 0.5;
+    }
+  }
+}

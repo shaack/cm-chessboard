@@ -3,9 +3,9 @@
  * Repository: https://github.com/shaack/cm-chessboard
  * License: MIT, see file 'LICENSE'
  */
-import {Extension, EXTENSION_POINT} from "../model/Extension.js"
-import {piecesTranslations, renderPieceTitle} from "../view/ChessboardView.js"
-import {COLOR, INPUT_EVENT_TYPE} from "../Chessboard.js"
+import {Extension, EXTENSION_POINT} from "../../model/Extension.js"
+import {piecesTranslations, renderPieceTitle} from "../../view/ChessboardView.js"
+import {COLOR, INPUT_EVENT_TYPE} from "../../Chessboard.js"
 
 const hlTranslations = {
     de: {

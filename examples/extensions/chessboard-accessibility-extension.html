@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <title>cm-chessboard</title>
     <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"/>
-    <link rel="stylesheet" href="styles/examples.css"/>
-    <link rel="stylesheet" href="../assets/styles/cm-chessboard.css"/>
+    <link rel="stylesheet" href="../styles/examples.css"/>
+    <link rel="stylesheet" href="../../assets/styles/cm-chessboard.css"/>
 </head>
 <body>
-<h1><a href="../">cm-chessboard</a></h1>
+<h1><a href="../..">cm-chessboard</a></h1>
 <h2>Example: Accessibility extension</h2>
 <p>
     This example shows, how the accessibility extension from cm-chessboard works.
@@ -24,17 +24,17 @@
     <li>Display these features visually hidden or not</li>
 </ul>
 <h3>The chessboard</h3>
-<div class="board green" id="board"></div>
+<div class="board" id="board"></div>
 <button style="margin-bottom: 10px"
         onclick="window.setOrientation()">Switch Orientation
 </button>
 <script type="module">
-    import {Chessboard} from "../src/cm-chessboard/Chessboard.js"
-    import {Accessibility} from "../src/cm-chessboard/extensions/Accessibility.js"
+    import {Chessboard} from "../../src/cm-chessboard/Chessboard.js"
+    import {Accessibility} from "../../src/cm-chessboard/extensions/accessibility/Accessibility.js"
 
     const chessboard = new Chessboard(document.getElementById("board"), {
         position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR w Gkq - 4 11",
-        sprite: {url: "../assets/images/chessboard-sprite.svg"},
+        sprite: {url: "../../assets/images/chessboard-sprite.svg"},
         // animationDuration: 0, // optional, set to 0 to disable animations
         style: {
             cssClass: "default-contrast" // make the coordinates better visible with the "default-contrast" theme

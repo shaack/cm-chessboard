@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>cm-chessboard</title>
+    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"/>
+    <link rel="stylesheet" href="../styles/examples.css"/>
+    <link rel="stylesheet" href="../../assets/styles/cm-chessboard.css"/>
+    <link rel="stylesheet" href="../../src/cm-chessboard/extensions/arrows/assets/arrows.css"/>
+</head>
+<body>
+<h1><a href="../..">cm-chessboard</a></h1>
+<h2>Example: Arrows extension</h2>
+<div class="board" id="board"></div>
+<script type="module">
+    import {ARROW_TYPE, Arrows} from "../../src/cm-chessboard/extensions/arrows/Arrows.js"
+    import {Chessboard} from "../../src/cm-chessboard/Chessboard.js"
+
+    const chessboard = new Chessboard(document.getElementById("board"), {
+        position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR w Gkq - 4 11",
+        sprite: {url: "../../assets/images/chessboard-sprite.svg"},
+        // animationDuration: 0, // optional, set to 0 to disable animations
+        style: {
+            cssClass: "default-contrast" // make the coordinates better visible with the "default-contrast" theme
+        },
+        extensions:
+            [{
+                class: Arrows,
+                props: {
+                    sprite: {
+                        url: "../../src/cm-chessboard/extensions/arrows/assets/arrows.svg",
+                        size: 40,
+                        cache: true
+                    }
+                }
+
+            }]
+    })
+    chessboard.addArrow("f3", "d5", ARROW_TYPE.default);
+    chessboard.addArrow("b8", "c6", ARROW_TYPE.default);
+    chessboard.addArrow("d2", "d3", ARROW_TYPE.default);
+</script>
+</body>
+</html>

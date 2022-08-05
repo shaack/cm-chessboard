@@ -1,16 +1,6 @@
 .cm-chessboard .board.input-enabled .square {
   cursor: pointer; }
 
-.cm-chessboard .arrows .arrow-head {
-  fill: powderblue;
-  fill-rule: nonzero;
-  fill-opacity: 1; }
-
-.cm-chessboard .arrows .arrow-line {
-  stroke: powderblue;
-  stroke-linecap: round;
-  opacity: 0.5; }
-
 .cm-chessboard .markers .marker.markerFrame, .cm-chessboard .markers .marker.marker-frame {
   stroke: black;
   stroke-width: 1.8px;
