@@ -22,7 +22,7 @@ export class Extension {
     }
 
     registerExtensionPoint(name, callback) {
-        if(!this.chessboard.state.extensionPoints[name]) {
+        if (!this.chessboard.state.extensionPoints[name]) {
             this.chessboard.state.extensionPoints[name] = []
         }
         this.chessboard.state.extensionPoints[name].push(callback)
@@ -30,7 +30,9 @@ export class Extension {
 
     registerMethod(name, callback) {
         if (!this.chessboard[name]) {
-          this.chessboard[name] = (...args) => {callback.apply(this, args)}
+            this.chessboard[name] = (...args) => {
+                callback.apply(this, args)
+            }
         }
     }
 
