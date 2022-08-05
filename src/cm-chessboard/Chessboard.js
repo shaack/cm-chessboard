@@ -87,7 +87,6 @@ export class Chessboard {
             this.props.language = "en"
         }
 
-        this.moveTask = Promise.resolve()
         this.state = new ChessboardState()
         this.view = new ChessboardView(this)
         this.positionAnimationsQueue = new PositionAnimationsQueue(this)
@@ -99,6 +98,7 @@ export class Chessboard {
         this.view.redrawBoard()
         this.state.position = new Position(this.props.position)
         this.view.redrawPieces()
+        this.state.invokeExtensionPoints(EXTENSION_POINT.positionChanged)
     }
 
     // API //
