@@ -10,7 +10,8 @@ export const EXTENSION_POINT = {
     moveInputToggled: "moveInputToggled", // move input was enabled or disabled
     moveInput: "moveInput", // move started, cancelled or done
     moveInputStateChanged: "moveInput", // TODO deprecated, use `moveInput`
-    destroy: "destroy" // called, before the board is destroyed
+    destroy: "destroy", // called, before the board is destroyed
+    redrawBoard: "redrawBoard" // called while redrawing the board
 }
 
 export class Extension {
@@ -25,6 +26,12 @@ export class Extension {
             this.chessboard.state.extensionPoints[name] = []
         }
         this.chessboard.state.extensionPoints[name].push(callback)
+    }
+
+    registerMethod(name, callback) {
+        if (!this.chessboard[name]) {
+          this.chessboard[name] = (...args) => {callback.apply(this, args)}
+        }
     }
 
 }
