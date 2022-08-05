@@ -33,6 +33,8 @@ export class Extension {
             this.chessboard[name] = (...args) => {
                 callback.apply(this, args)
             }
+        } else {
+            log.error("method", name, "already exists")
         }
     }
 
