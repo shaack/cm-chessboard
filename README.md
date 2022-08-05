@@ -14,7 +14,7 @@ aspects of chess games.
 - [Can handle moves input via click or drag](https://shaack.com/projekte/cm-chessboard/examples/validate-moves.html)
 - [Styleable via css](https://shaack.com/projekte/cm-chessboard/examples/different-styles.html)
 - [Supports multiple piece sets](https://shaack.com/projekte/cm-chessboard/examples/different-styles.html)
-- [Supports an optimized usage for visually impaired people](https://shaack.com/projekte/cm-chessboard/examples/accessible-chessboard.html)
+- [Supports an optimized usage for visually impaired people](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-accessibility-extension.html)
   🆕
 - Uses SVG for rendering
 - Vanilla JavaScript modules in ECMAScript 6 syntax
@@ -372,13 +372,13 @@ const chessboard = new Chessboard(document.getElementById("board"), {
 })
 ```
 
-### Extension `Accessibility`
+### `Accessibility` extension
 
 This extension ensures that visual impaired people can better use the chessboard. It displays the braille notation
 of the current position in the alt tag of the board image and enables a form to move the pieces via text input. It
 can also display the board as HTML table and the pieces as list.
 
-See example [Accessibility extension](https://shaack.com/projekte/cm-chessboard/examples/accessible-chessboard.html)
+See example [Accessibility extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-accessibility-extension.html)
 
 #### Usage
 
@@ -404,6 +404,12 @@ const chessboard = new Chessboard(document.getElementById("board"), {
         }]
 })
 ```
+
+### `Arrows` extension
+
+To draw arrows on the board.
+
+See example [Arrows extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-arrows-extension.html)
 
 ## Usage with React
 
