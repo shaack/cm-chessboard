@@ -50,7 +50,7 @@ div.board {
   display: table; }
 
 button {
-  padding: 6px 20px 4px 20px;
+  padding: 5px 20px;
   font-size: 92%;
   margin-right: 10px;
   margin-bottom: 10px;
@@ -64,7 +64,7 @@ button {
 
 input[type=text] {
   font-size: 92%;
-  padding: 6px 5px 4px 5px;
+  padding: 5px;
   border-radius: 3px;
   border: none; }
 
