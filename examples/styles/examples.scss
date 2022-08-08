@@ -73,14 +73,23 @@ div.board {
 }
 
 button {
-  padding: 4px 20px;
+  padding: 5px 25px;
+  font-size: 92%;
   margin-right: 10px;
   margin-bottom: 10px;
   background-color: #999;
+  color: black;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
 
   &:hover {
     background-color: #777;
   }
+}
+
+input[type=text] {
+  padding: 3px;
 }
 
 li {
