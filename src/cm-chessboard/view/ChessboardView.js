@@ -489,6 +489,7 @@ export class Svg {
      * @param parent
      * @param name
      * @param attributes
+     * @param sibling
      * @returns {Element}
      */
     static addElement(parent, name, attributes, sibling = undefined) {
@@ -519,7 +520,11 @@ export class Svg {
      * @param element
      */
     static removeElement(element) {
-        element.parentNode.removeChild(element)
+        if(element.parentNode) {
+            element.parentNode.removeChild(element)
+        } else {
+            console.warn(element, "without parentNode")
+        }
     }
 
 }
