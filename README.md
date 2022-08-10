@@ -10,15 +10,17 @@ aspects of chess games.
 
 ## Features
 
-- [Mobile friendly and responsive](https://shaack.com/projekte/cm-chessboard/examples/responsive-board.html)
+- **No dependencies**, just clean ES6
 - [Can handle moves input via click or drag](https://shaack.com/projekte/cm-chessboard/examples/validate-moves.html)
-- [Styleable via css](https://shaack.com/projekte/cm-chessboard/examples/different-styles.html)
-- [Supports multiple piece sets](https://shaack.com/projekte/cm-chessboard/examples/different-styles.html)
-- [Supports an optimized usage for visually impaired people](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-accessibility-extension.html)
-  🆕
+- [Styleable via css and supports multiple piece sets](https://shaack.com/projekte/cm-chessboard/examples/different-styles.html)
 - Uses SVG for rendering
-- Vanilla JavaScript modules in ECMAScript 6 syntax
-- **No dependencies**
+- [Allows adding **
+  extensions** to extend the functionality](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-arrows-extension.html)
+
+## Extensions 🆕
+
+- [Accessibility Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-accessibility-extension.html)
+- [Arrows Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-arrows-extension.html)
 
 ## Demo and repository
 
@@ -42,18 +44,6 @@ with `{sprite.url: "./url/of/chessboard-sprite.svg"}`
 
 To run the unit tests in `/test` you first have to `npm install` the dev dependencies. Without tests there are no
 dependencies.
-
-## Version 4.x has many changes
-
-> With the new version 4 of cm-chessboard I completely redesigned the animation of positions with
-> the use of promises.
-
-The pieces animations are now smoother and less error-prone for race conditions.
-
-As of version 4.x, the API functions `setPosition()`, `setPiece()` and `movePiece()` are **not animated** as default.
-If you want some pieces animations you have to give the parameter `animated = true`.
-
-And with 4.x the chessboard has become more accessible for visually impaired people.
 
 ## Usage
 
@@ -333,6 +323,8 @@ chessboard.removeMarkers(undefined, myMarkerType)
 cm-chessboard provides the ability to extend its functionality with extensions. Extensions extend the class `Extension`
 and have access to the chessboard and can register extension points.
 
+### registerExtensionPoint(name, callback)
+
 ```js
 class MyCoolChessboardExtension extends Extension {
     constructor(chessboard, props) {
@@ -349,11 +341,11 @@ Currently possible extension points are defined in `Extension.js`.
 
 ```js
 export const EXTENSION_POINT = {
-  positionChanged: "positionChanged", // the positions of the pieces was changed
-  boardChanged: "boardChanged", // the board (orientation) was changed
-  moveInputToggled: "moveInputToggled", // move input was enabled or disabled
-  moveInput: "moveInput", // move started, cancelled or done
-  destroy: "destroy" // called, before the board is destroyed
+    positionChanged: "positionChanged", // the positions of the pieces was changed
+    boardChanged: "boardChanged", // the board (orientation) was changed
+    moveInputToggled: "moveInputToggled", // move input was enabled or disabled
+    moveInput: "moveInput", // move started, cancelled or done
+    destroy: "destroy" // called, before the board is destroyed
 }
 ```
 
@@ -372,15 +364,30 @@ const chessboard = new Chessboard(document.getElementById("board"), {
 })
 ```
 
-### `Accessibility` extension
+### registerMethod(name, callback)
+
+Add methods to the main chessboard from your extension with `this.registerMethod("name", callback)`
+like `addArrow(from, to, type)` in the
+[Arrows extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-arrows-extension.html).
+
+```js
+this.registerMethod("addArrow", this.addArrow)
+```
+
+### Existing extensions
+
+cm-chessboard is shipped with these extensions.
+
+#### Accessibility Extension
 
 This extension ensures that visual impaired people can better use the chessboard. It displays the braille notation
 of the current position in the alt tag of the board image and enables a form to move the pieces via text input. It
 can also display the board as HTML table and the pieces as list.
 
-See example [Accessibility extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-accessibility-extension.html)
+See
+example [Accessibility extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-accessibility-extension.html)
 
-#### Usage
+##### Usage
 
 ```js
 const chessboard = new Chessboard(document.getElementById("board"), {
@@ -405,11 +412,12 @@ const chessboard = new Chessboard(document.getElementById("board"), {
 })
 ```
 
-### `Arrows` extension
+#### Arrows extension
 
 To draw arrows on the board.
 
-See example [Arrows extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-arrows-extension.html)
+See
+example [Arrows extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-arrows-extension.html)
 
 ## Usage with React
 
