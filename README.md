@@ -132,7 +132,9 @@ Sets the position as `fen`. Special values are "start", sets the chess start pos
 
 Returns the board position as `fen`.
 
-### addMarker(square, type)
+### addMarker(type, square) 
+
+> signature changed with V5.1 from (square, type) to (type, square)
 
 Adds a marker on a square.
 
@@ -149,19 +151,23 @@ below.
 [Example for **addMarker**, **getMarkers** and
 **removeMarkers**](https://shaack.com/projekte/cm-chessboard/examples/context-input.html)
 
-### getMarkers(square = undefined, type = undefined)
+### getMarkers(type = undefined, square = undefined)
+
+> signature changed with V5.1 from (square, type) to (type, square)
 
 Returns the board's markers as an array.
 
-Set square to `undefined`, to get all markers of a type on the board. Set type to `undefined`, to get all types.
-Set `both` to undefined to get all markers on the board.
+Only set type, to get all markers of a type on the board. Set type to `undefined`, to get markers of all types on a square.
+Set `both` to `undefined` to get all markers on the board.
 
-### removeMarkers(square = undefined, type = undefined)
+### removeMarkers(type = undefined, square = undefined)
+
+> signature changed with V5.1 from (square, type) to (type, square)
 
 Removes markers from the board.
 
-Set `square` to `undefined` to remove markers of `type` from all squares. Set `type` to `undefined`, to remove all types
-from a square. Set both to `undefined` to remove all markers from the board.
+Only set `type` to remove all markers of `type` from the board. Set `type` to `undefined`, to remove all types
+of markers from a square. Call without parameters to remove all markers from the board.
 
 ### setOrientation(color)
 

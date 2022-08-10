@@ -22,11 +22,11 @@
         } else {
             markerType = MARKER_TYPE.circle
         }
-        const markersOnSquare = board1.getMarkers(event.square, markerType)
+        const markersOnSquare = board1.getMarkers(markerType, event.square)
         if (markersOnSquare.length > 0) {
-            board1.removeMarkers(event.square, markerType)
+            board1.removeMarkers(markerType, event.square)
         } else {
-            board1.addMarker(event.square, markerType)
+            board1.addMarker(markerType, event.square)
         }
     })
 </pre>
@@ -45,11 +45,11 @@
         } else {
             markerType = MARKER_TYPE.circle
         }
-        const markersOnSquare = board1.getMarkers(event.square, markerType)
+        const markersOnSquare = board1.getMarkers(markerType, event.square)
         if (markersOnSquare.length > 0) {
-            board1.removeMarkers(event.square, markerType)
+            board1.removeMarkers(markerType, event.square)
         } else {
-            board1.addMarker(event.square, markerType)
+            board1.addMarker(markerType, event.square)
         }
     })
 
@@ -65,11 +65,11 @@
     const marker = {class: "markerCircleRed", slice: "markerCircle"}
     board2.enableSquareSelect((event) => {
         if(event.type === SQUARE_SELECT_TYPE.secondary) {
-            const markersOnSquare = board2.getMarkers(event.square, marker)
+            const markersOnSquare = board2.getMarkers(marker, event.square)
             if (markersOnSquare.length > 0) {
-                board2.removeMarkers(event.square, marker)
+                board2.removeMarkers(marker, event.square)
             } else {
-                board2.addMarker(event.square, marker)
+                board2.addMarker(marker, event.square)
             }
         }
     })

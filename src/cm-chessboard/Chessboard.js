@@ -67,7 +67,7 @@ export class Chessboard {
                 size: 40, // the sprite tiles size, defaults to 40x40px
                 cache: true // cache the sprite
             },
-            extensions: [ /* {class: ExtensionClass, props: { ... }} */ ] // add extensions here
+            extensions: [ /* {class: ExtensionClass, props: { ... }} */] // add extensions here
         }
         this.props = {}
         Object.assign(this.props, defaultProps)
@@ -149,15 +149,20 @@ export class Chessboard {
         return this.state.orientation
     }
 
-    addMarker(square, type) {
-        if (!type) {
-            console.error("Error addMarker(), type is " + type)
+    addMarker(type, square) {
+        if (typeof type === "string" || typeof square === "object") { // todo remove 2022-12-01
+            console.error("changed the signature of `addMarker` to `(type, square)` with v5.1.x")
+            return
         }
         this.state.addMarker(square, type)
         this.view.drawMarkers()
     }
 
-    getMarkers(square = undefined, type = undefined) {
+    getMarkers(type = undefined, square = undefined) {
+        if (typeof type === "string" || typeof square === "object") { // todo remove 2022-12-01
+            console.error("changed the signature of `getMarkers` to `(type, square)` with v5.1.x")
+            return
+        }
         const markersFound = []
         this.state.markers.forEach((marker) => {
             const markerSquare = marker.square
@@ -170,7 +175,11 @@ export class Chessboard {
         return markersFound
     }
 
-    removeMarkers(square = undefined, type = undefined) {
+    removeMarkers(type = undefined, square = undefined) {
+        if (typeof type === "string" || typeof square === "object") { // todo remove 2022-12-01
+            console.error("changed the signature of `removeMarkers` to `(type, square)` with v5.1.x")
+            return
+        }
         this.state.removeMarkers(square, type)
         this.view.drawMarkers()
     }

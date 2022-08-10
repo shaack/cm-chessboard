@@ -31,10 +31,10 @@ const chessboard = new Chessboard(document.getElementById("board"), {
 
         }]
 })
-chessboard.addArrow("f3", "d5", ARROW_TYPE.default);
-chessboard.addArrow("b8", "c6", ARROW_TYPE.default);
-chessboard.addArrow("d2", "d3", ARROW_TYPE.pointy);
-chessboard.addArrow("g5", "e6", ARROW_TYPE.danger);
+chessboard.addArrow(ARROW_TYPE.default, "f3", "d5");
+chessboard.addArrow(ARROW_TYPE.default, "b8", "c6");
+chessboard.addArrow(ARROW_TYPE.pointy, "d2", "d3");
+chessboard.addArrow(ARROW_TYPE.danger, "g5", "e6");
 </pre>
 
 <script type="module">
@@ -55,10 +55,10 @@ chessboard.addArrow("g5", "e6", ARROW_TYPE.danger);
 
             }]
     })
-    chessboard.addArrow("f3", "d5", ARROW_TYPE.default);
-    chessboard.addArrow("b8", "c6", ARROW_TYPE.default);
-    chessboard.addArrow("d2", "d3", ARROW_TYPE.pointy);
-    chessboard.addArrow("g5", "e6", ARROW_TYPE.danger);
+    chessboard.addArrow(ARROW_TYPE.default, "f3", "d5");
+    chessboard.addArrow(ARROW_TYPE.default, "b8", "c6");
+    chessboard.addArrow(ARROW_TYPE.pointy, "d2", "d3");
+    chessboard.addArrow(ARROW_TYPE.danger, "g5", "e6");
 </script>
 </body>
 </html>

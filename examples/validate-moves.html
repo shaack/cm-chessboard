@@ -33,13 +33,13 @@ const chess = new Chess()
 
 function inputHandler(event) {
     console.log("event", event)
-    event.chessboard.removeMarkers(undefined, MARKER_TYPE.dot)
-    event.chessboard.removeMarkers(undefined, MARKER_TYPE.square)
+    event.chessboard.removeMarkers(MARKER_TYPE.dot)
+    event.chessboard.removeMarkers(MARKER_TYPE.square)
     if (event.type === INPUT_EVENT_TYPE.moveStart) {
         const moves = chess.moves({square: event.square, verbose: true});
-        event.chessboard.addMarker(event.square, MARKER_TYPE.square)
+        event.chessboard.addMarker(MARKER_TYPE.square, event.square)
         for (const move of moves) { // draw dots on possible moves
-            event.chessboard.addMarker(move.to, MARKER_TYPE.dot)
+            event.chessboard.addMarker(MARKER_TYPE.dot, move.to)
         }
         return moves.length > 0
     } else if (event.type === INPUT_EVENT_TYPE.moveDone) {
@@ -81,11 +81,11 @@ board.enableMoveInput(inputHandler, COLOR.white)
 
     function inputHandler(event) {
         console.log("event", event)
-        event.chessboard.removeMarkers(undefined, MARKER_TYPE.dot)
+        event.chessboard.removeMarkers(MARKER_TYPE.dot)
         if (event.type === INPUT_EVENT_TYPE.moveStart) {
             const moves = chess.moves({square: event.square, verbose: true});
             for (const move of moves) { // draw dots on possible squares
-                event.chessboard.addMarker(move.to, MARKER_TYPE.dot)
+                event.chessboard.addMarker(MARKER_TYPE.dot, move.to)
             }
             return moves.length > 0
         } else if (event.type === INPUT_EVENT_TYPE.moveDone) {
