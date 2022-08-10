@@ -283,7 +283,7 @@ Example: The markerCircle is defined in the SVG like this.
 It's a circle with the radius 18 and its center at 20/20.
 
 Important is the id "markerCircle". You can set the marker
-with `board.addMarker("e4", {class: "markerSquare", slice: "markerSquare"})`
+with `board.addMarker({class: "markerSquare", slice: "markerSquare"}, "e4")`
 "emphasize" is the css class, which defines the color and opacity of the marker. "slice" is the id of the marker in the
 SVG. This is
 also demonstrated in the [mark squares example](https://shaack.com/projekte/cm-chessboard/examples/input-callbacks.html)
@@ -310,18 +310,18 @@ marker.markerCircleRed {
 So you can simply add a marker with the id `myMarkerIdInSvg` to the SVG, and add the class `myMarkerCssClass` to the
 css. Then you can show it on the field "e4" with
 
-`addMarker("e4", {class: "myMarkerCssClass", slice: "myMarkerIdInSvg"})`
+`addMarker({class: "myMarkerCssClass", slice: "myMarkerIdInSvg"}, "e4")`
 
 To allow easy removing of the marker, you have to define the marker type in your code.
 
 ```js
 const myMarkerType = {class: "myMarkerCssClass", slice: "myMarkerIdInSvg"}
 // add
-chessboard.addMarker("e4", myMarkerType)
+chessboard.addMarker(myMarkerType, "e4")
 // remove
-chessboard.removeMarkers("e4", myMarkerType)
+chessboard.removeMarkers(myMarkerType, "e4")
 // remove all "myMarkerType"
-chessboard.removeMarkers(undefined, myMarkerType)
+chessboard.removeMarkers(myMarkerType, undefined)
 ```
 
 ## Extensions
