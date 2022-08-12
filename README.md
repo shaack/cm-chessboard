@@ -54,7 +54,6 @@ Preconditions for using cm-chessboard in a web page:
 Example, showing a FEN:
 
 ```html
-
 <script type="module">
     import {Chessboard} from "./src/cm-chessboard/Chessboard.js"
 
