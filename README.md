@@ -54,7 +54,6 @@ Preconditions for using cm-chessboard in a web page:
 Example, showing a FEN:
 
 ```html
-
 <script type="module">
     import {Chessboard} from "./src/cm-chessboard/Chessboard.js"
 
@@ -372,7 +371,7 @@ const chessboard = new Chessboard(document.getElementById("board"), {
 ### registerMethod(name, callback)
 
 Add methods to the main chessboard from your extension with `this.registerMethod("name", callback)`
-like `addArrow(type, rom, to)` in the
+like `addArrow(type, from, to)` in the
 [Arrows extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-arrows-extension.html).
 
 ```js
