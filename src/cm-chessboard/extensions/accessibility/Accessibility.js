@@ -59,7 +59,7 @@ export class Accessibility extends Extension {
             this.inputTo = this.form.querySelector(".input-to")
             this.moveButton = this.form.querySelector(".button-move")
             if (this.props.visuallyHidden) {
-                this.movePieceFormContainer.classList.add("visually-hidden")
+                this.movePieceFormContainer.classList.add("cm-visually-hidden")
             }
             this.form.addEventListener("submit", (evt) => {
                 evt.preventDefault()
@@ -83,7 +83,7 @@ export class Accessibility extends Extension {
             this.boardAsTable = this.boardAsTableContainer.querySelector(".table")
             this.chessboard.context.appendChild(this.boardAsTableContainer)
             if (this.props.visuallyHidden) {
-                this.boardAsTableContainer.classList.add("visually-hidden")
+                this.boardAsTableContainer.classList.add("cm-visually-hidden")
             }
         }
         if (this.props.piecesAsList) {
@@ -91,7 +91,7 @@ export class Accessibility extends Extension {
             this.piecesList = this.piecesListContainer.querySelector(".list")
             this.chessboard.context.appendChild(this.piecesListContainer)
             if (this.props.visuallyHidden) {
-                this.piecesListContainer.classList.add("visually-hidden")
+                this.piecesListContainer.classList.add("cm-visually-hidden")
             }
         }
         this.registerExtensionPoint(EXTENSION_POINT.moveInput, () => {

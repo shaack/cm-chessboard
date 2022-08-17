@@ -50,7 +50,7 @@
   .cm-chessboard-content .list-inline-item:not(:last-child) {
     margin-right: 1rem; }
 
-.visually-hidden {
+.cm-visually-hidden {
   position: absolute;
   left: -10000px;
   top: auto;
@@ -58,11 +58,6 @@
   height: 1px;
   overflow: hidden; }
 
-/*
-body * {
-  outline: 1px rgba(255, 255, 255, 0.1) solid;
-}
-*/
 .cm-chessboard.default .board .square.white {
   fill: #ecdab9; }
 

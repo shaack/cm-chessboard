@@ -85,7 +85,7 @@
 
 }
 
-.visually-hidden {
+.cm-visually-hidden {
   position: absolute;
   left: -10000px;
   top: auto;
@@ -93,11 +93,7 @@
   height: 1px;
   overflow: hidden;
 }
-/*
-body * {
-  outline: 1px rgba(255, 255, 255, 0.1) solid;
-}
-*/
+
 // define themes
 @include cm-chessboard-theme(
                 "default", // name

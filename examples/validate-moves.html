@@ -7,25 +7,15 @@
     <link rel="stylesheet" href="styles/examples.css"/>
     <link rel="stylesheet" href="../assets/styles/cm-chessboard.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
-    <style>
-        .visually-hidden {
-            position: absolute;
-            left: -10000px;
-            top: auto;
-            width: 1px;
-            height: 1px;
-            overflow: hidden;
-        }
-    </style>
 </head>
 <body>
 <h1><a href="../">cm-chessboard</a></h1>
 <h2>Example: Input enabled, move validation with chess.js</h2>
 <p>Input enabled for white. <a href="https://github.com/jhlywa/chess.js">chess.js</a> does the validation and answers
     with random moves.</p>
-<h2 class="visually-hidden">The Board</h2>
+<h2 class="cm-visually-hidden">The Board</h2>
 <div class="board" id="board"></div>
-<h2 class="visually-hidden">The Sourcecode of the example</h2>
+<h2 class="cm-visually-hidden">The Sourcecode of the example</h2>
 <pre>
 import {INPUT_EVENT_TYPE, COLOR, Chessboard, MARKER_TYPE} from "../src/cm-chessboard/Chessboard.js"
 
