@@ -14,7 +14,8 @@ aspects of chess games.
 - [Can handle moves input via click or drag](https://shaack.com/projekte/cm-chessboard/examples/validate-moves.html)
 - [Styleable via css and supports multiple piece sets](https://shaack.com/projekte/cm-chessboard/examples/different-styles.html)
 - Uses SVG for rendering
-- [Allows adding **extensions** to extend the functionality](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-arrows-extension.html)
+- [Allows adding **
+  extensions** to extend the functionality](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-arrows-extension.html)
 
 ## Extensions 🆕
 
@@ -54,6 +55,7 @@ Preconditions for using cm-chessboard in a web page:
 Example, showing a FEN:
 
 ```html
+
 <script type="module">
     import {Chessboard} from "./src/cm-chessboard/Chessboard.js"
 
@@ -130,7 +132,7 @@ Sets the position as `fen`. Special values are "start", sets the chess start pos
 
 Returns the board position as `fen`.
 
-### addMarker(type, square) 
+### addMarker(type, square)
 
 > signature changed with V5.1 from (square, type) to (type, square)
 
@@ -155,7 +157,8 @@ below.
 
 Returns the board's markers as an array.
 
-Only set type, to get all markers of a type on the board. Set type to `undefined`, to get markers of all types on a square.
+Only set type, to get all markers of a type on the board. Set type to `undefined`, to get markers of all types on a
+square.
 Set `both` to `undefined` to get all markers on the board.
 
 ### removeMarkers(type = undefined, square = undefined)
@@ -418,10 +421,26 @@ const chessboard = new Chessboard(document.getElementById("board"), {
 
 #### Arrows extension
 
-To draw arrows on the board.
+Draw arrows on the board.
 
-See
-example [Arrows extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-arrows-extension.html)
+Example: [Arrows extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-arrows-extension.html)
+
+##### Methods
+
+###### addArrow(type, fromSquare, toSquare)
+
+Add an arrow.
+
+###### removeArrows(type, from, to)
+
+To remove all arrows, call `chessboard.removeArrows()` without parameters. To remove all arrows of a specific
+type (type "danger"), call `chessboard.removeArrows(ARROW_TYPE.danger)`. To remove all arrows starting at "
+e2"
+you can call `chessboard.removeArrows(undefined, "e2")` and so on...
+
+###### getArrows(type, from, to)
+
+To get all arrows, call `chessboard.getArrows()` without parameters, as with `removeArrows(type, from, to)`.
 
 ## Usage with React
 

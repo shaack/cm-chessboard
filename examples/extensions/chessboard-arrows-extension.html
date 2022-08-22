@@ -13,6 +13,7 @@
 <h2>Example: Arrows extension</h2>
 <div class="board" id="board"></div>
 <br style="clear: both"/>
+<h2>Example code</h2>
 <pre>
 import {ARROW_TYPE, Arrows} from "../../src/cm-chessboard/extensions/arrows/Arrows.js"
 import {Chessboard} from "../../src/cm-chessboard/Chessboard.js"
@@ -36,6 +37,18 @@ chessboard.addArrow(ARROW_TYPE.default, "b8", "c6");
 chessboard.addArrow(ARROW_TYPE.pointy, "d2", "d3");
 chessboard.addArrow(ARROW_TYPE.danger, "g5", "e6");
 </pre>
+<h2>Methods</h2>
+<h3><code>addArrow(type, fromSquare, toSquare)</code></h3>
+<h3><code>removeArrows(type, fromSquare, toSquare)</code></h3>
+<p>
+    To remove all arrows, call <code>chessboard.removeArrows()</code> without parameters. To remove all arrows of a specific
+    type (type "danger"), call <code>chessboard.removeArrows(ARROW_TYPE.danger)</code>. To remove all arrows starting at "e2"
+    you can call <code>chessboard.removeArrows(undefined, "e2")</code> and so on...
+</p>
+<h3><code>getArrows(type, from, to)</code></h3>
+<p>
+    To get all arrows, call <code>chessboard.getArrows()</code> without parameters, as with <code>removeArrows(type, from, to)</code>.
+</p>
 
 <script type="module">
     import {ARROW_TYPE, Arrows} from "../../src/cm-chessboard/extensions/arrows/Arrows.js"
@@ -55,10 +68,10 @@ chessboard.addArrow(ARROW_TYPE.danger, "g5", "e6");
 
             }]
     })
-    chessboard.addArrow(ARROW_TYPE.default, "f3", "d5");
-    chessboard.addArrow(ARROW_TYPE.default, "b8", "c6");
-    chessboard.addArrow(ARROW_TYPE.pointy, "d2", "d3");
-    chessboard.addArrow(ARROW_TYPE.danger, "g5", "e6");
+    chessboard.addArrow(ARROW_TYPE.default, "f3", "d5")
+    chessboard.addArrow(ARROW_TYPE.default, "b8", "c6")
+    chessboard.addArrow(ARROW_TYPE.pointy, "d2", "d3")
+    chessboard.addArrow(ARROW_TYPE.danger, "g5", "e6")
 </script>
 </body>
 </html>
