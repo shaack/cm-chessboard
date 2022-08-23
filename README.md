@@ -20,7 +20,7 @@ aspects of chess games.
 ## Extensions 🆕
 
 - [Accessibility Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-accessibility-extension.html)
-- [Arrows Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-arrows-extension.html)
+- [Arrows Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-arrows-extension.html) (by @barakmich)
 
 ## Demo and repository
 
