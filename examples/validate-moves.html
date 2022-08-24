@@ -24,7 +24,7 @@ const chess = new Chess()
 function inputHandler(event) {
     console.log("event", event)
     event.chessboard.removeMarkers(MARKER_TYPE.dot)
-    if (event.type === INPUT_EVENT_TYPE.moveStart) {
+    if (event.type === INPUT_EVENT_TYPE.moveInputStarted) {
         const moves = chess.moves({square: event.square, verbose: true});
         for (const move of moves) { // draw dots on possible squares
             event.chessboard.addMarker(MARKER_TYPE.dot, move.to)
