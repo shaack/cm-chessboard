@@ -53,9 +53,9 @@ export class ChessboardView {
     constructor(chessboard) {
         this.chessboard = chessboard
         this.moveInput = new VisualMoveInput(this,
-            this.moveStartCallback.bind(this),
-            this.moveDoneCallback.bind(this),
-            this.moveCanceledCallback.bind(this)
+            this.moveInputStartedCallback.bind(this),
+            this.validateMoveInputCallback.bind(this),
+            this.moveInputCanceledCallback.bind(this)
         )
         if (chessboard.props.sprite.cache) {
             this.cacheSpriteToDiv("chessboardSpriteCache", this.chessboard.props.sprite.url)
@@ -391,13 +391,13 @@ export class ChessboardView {
 
     // callbacks //
 
-    moveStartCallback(square) {
+    moveInputStartedCallback(square) {
         const data = {
             chessboard: this.chessboard,
-            type: INPUT_EVENT_TYPE.moveStart,
+            type: INPUT_EVENT_TYPE.moveInputStarted,
             square: square
         }
-        this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
+        this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data) // TODO use the return value of this EP
         if (this.moveInputCallback) {
             return this.moveInputCallback(data)
         } else {
@@ -405,14 +405,14 @@ export class ChessboardView {
         }
     }
 
-    moveDoneCallback(squareFrom, squareTo) {
+    validateMoveInputCallback(squareFrom, squareTo) {
         const data = {
             chessboard: this.chessboard,
-            type: INPUT_EVENT_TYPE.moveDone,
+            type: INPUT_EVENT_TYPE.validateMoveInput,
             squareFrom: squareFrom,
             squareTo: squareTo
         }
-        this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
+        this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data) // TODO use the return value of this EP
         if (this.moveInputCallback) {
             return this.moveInputCallback(data)
         } else {
@@ -420,10 +420,10 @@ export class ChessboardView {
         }
     }
 
-    moveCanceledCallback(reason, squareFrom, squareTo) {
+    moveInputCanceledCallback(reason, squareFrom, squareTo) {
         const data = {
             chessboard: this.chessboard,
-            type: INPUT_EVENT_TYPE.moveCanceled,
+            type: INPUT_EVENT_TYPE.moveInputCanceled,
             reason: reason,
             squareFrom: squareFrom,
             squareTo: squareTo

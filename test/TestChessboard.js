@@ -6,13 +6,14 @@
 
 import {describe, it, assert} from "../node_modules/teevi/src/teevi.js"
 import {PIECE, Chessboard} from "../src/cm-chessboard/Chessboard.js"
+import {FEN} from "../src/cm-chessboard/model/Position.js"
 
 describe("TestChessboard", () => {
 
     it("should create and destroy a chessboard", () => {
         const chessboard = new Chessboard(document.getElementById("TestPosition"), {
             sprite: {url: "../assets/images/chessboard-sprite.svg"},
-            position: "start"
+            position: FEN.start
         })
         assert.equal(chessboard.getPosition(), "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR")
         chessboard.destroy()
@@ -30,7 +31,7 @@ describe("TestChessboard", () => {
     it("should get pieces on squares", () => {
         const chessboard = new Chessboard(document.getElementById("TestPosition"), {
             sprite: {url: "../assets/images/chessboard-sprite.svg"},
-            position: "start"
+            position: FEN.start
         })
         assert.equal(chessboard.getPiece("d1"), "wq")
         assert.equal(chessboard.getPiece("d8"), "bq")
@@ -40,7 +41,6 @@ describe("TestChessboard", () => {
 
     it("should set pieces on squares", () => {
         const chessboard = new Chessboard(document.getElementById("TestPosition"), {
-            position: "empty",
             sprite: {url: "../assets/images/chessboard-sprite.svg"},
         })
         chessboard.setPiece("a1", PIECE.bk)

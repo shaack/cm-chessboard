@@ -15,9 +15,12 @@ export const COLOR = {
     black: "b"
 }
 export const INPUT_EVENT_TYPE = {
-    moveStart: "moveStart", // TODO rename to moveStarted
-    moveDone: "moveDone", // TODO rename to validateMoveInput, see https://github.com/shaack/cm-chessboard/issues/83
-    moveCanceled: "moveCanceled" // TODO rename to moveInputCancelled
+    moveStart: "moveInputStarted", // TODO deprecated 2022-08-24, use `moveInputStarted`
+    moveInputStarted: "moveInputStarted",
+    moveDone: "validateMoveInput", // TODO deprecated 2022-08-24, use `validateMoveInput` https://github.com/shaack/cm-chessboard/issues/83
+    validateMoveInput: "validateMoveInput",
+    moveCanceled: "moveInputCanceled", // TODO deprecated 2022-08-24, use `moveInputCanceled`
+    moveInputCanceled: "moveInputCanceled",
 }
 export const SQUARE_SELECT_TYPE = {
     primary: "primary",
@@ -49,7 +52,7 @@ export class Chessboard {
         this.id = (Math.random() + 1).toString(36).substring(2, 8)
         this.extensions = []
         let defaultProps = {
-            position: FEN.empty, // set as fen, can use FEN.start or FEN.empty // TODO remove those strings in favour of FEN.start and FEN.empty
+            position: FEN.empty, // set as fen, can use FEN.start or FEN.empty
             orientation: COLOR.white, // white on bottom
             responsive: true, // resize the board automatically to the size of the context element
             animationDuration: 300, // pieces animation duration in milliseconds. Disable all animation with `0`.

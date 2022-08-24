@@ -30,7 +30,7 @@ function inputHandler(event) {
             event.chessboard.addMarker(MARKER_TYPE.dot, move.to)
         }
         return moves.length > 0
-    } else if (event.type === INPUT_EVENT_TYPE.moveDone) {
+    } else if (event.type === INPUT_EVENT_TYPE.validateMoveInput) {
         const move = {from: event.squareFrom, to: event.squareTo}
         const result = chess.move(move)
         if (result) {
@@ -74,13 +74,13 @@ board.enableMoveInput(inputHandler, COLOR.white)
     function inputHandler(event) {
         console.log("event", event)
         event.chessboard.removeMarkers(MARKER_TYPE.dot)
-        if (event.type === INPUT_EVENT_TYPE.moveStart) {
+        if (event.type === INPUT_EVENT_TYPE.moveInputStarted) {
             const moves = chess.moves({square: event.square, verbose: true});
             for (const move of moves) { // draw dots on possible squares
                 event.chessboard.addMarker(MARKER_TYPE.dot, move.to)
             }
             return moves.length > 0
-        } else if (event.type === INPUT_EVENT_TYPE.moveDone) {
+        } else if (event.type === INPUT_EVENT_TYPE.validateMoveInput) {
             const move = {from: event.squareFrom, to: event.squareTo}
             const result = chess.move(move)
             if (result) {

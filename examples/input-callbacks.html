@@ -32,9 +32,10 @@
 </pre>
 <script type="module">
     import {Chessboard, MARKER_TYPE, SQUARE_SELECT_TYPE} from "../src/cm-chessboard/Chessboard.js"
+    import {FEN} from "../src/cm-chessboard/model/Position.js"
 
     const board1 = new Chessboard(document.getElementById("board1"), {
-        position: "start",
+        position: FEN.start,
         sprite: {url: "../assets/images/chessboard-sprite.svg", cache: false}
     })
     board1.enableSquareSelect((event) => {

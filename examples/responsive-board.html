@@ -13,15 +13,16 @@
 <div id="board"></div>
 <pre>
 new Chessboard(document.getElementById("board"), {
-        position: "start",
+        position: FEN.start,
         style: {aspectRatio: 0.9}
     })
 </pre>
 <script type="module">
     import {Chessboard} from "../src/cm-chessboard/Chessboard.js"
+    import {FEN} from "../src/cm-chessboard/model/Position.js"
 
     new Chessboard(document.getElementById("board"), {
-        position: "start",
+        position: FEN.start,
         sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
         style: {
             aspectRatio: 0.9

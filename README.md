@@ -72,23 +72,23 @@ Below is the default configuration
 
 ```javascript
 let defaultProps = {
-    position: "empty", // set as fen, "start" or "empty"
+    position: FEN.empty, // set as fen, can use FEN.start or FEN.empty
     orientation: COLOR.white, // white on bottom
     responsive: true, // resize the board automatically to the size of the context element
     animationDuration: 300, // pieces animation duration in milliseconds. Disable all animation with `0`.
     language: navigator.language.substring(0, 2).toLowerCase(), // supports "de" and "en" for now, used for pieces naming
     style: {
-        cssClass: "default", // set the css theme of the board, try "green", "blue" or "chess-club"
-        showCoordinates: true, // show ranks and files
-        borderType: BORDER_TYPE.none, // "thin" thin border, "frame" wide border with coordinates in it, "none" no border
-        aspectRatio: 1, // height/width of the board
-        moveFromMarker: MARKER_TYPE.frame, // the marker used to mark the start square
-        moveToMarker: MARKER_TYPE.frame, // the marker used to mark the square where the figure is moving to
+      cssClass: "default", // set the css theme of the board, try "green", "blue" or "chess-club"
+      showCoordinates: true, // show ranks and files
+      borderType: BORDER_TYPE.none, // "thin" thin border, "frame" wide border with coordinates in it, "none" no border
+      aspectRatio: 1, // height/width of the board
+      moveFromMarker: MARKER_TYPE.frame, // the marker used to mark the start square
+      moveToMarker: MARKER_TYPE.frame, // the marker used to mark the square where the figure is moving to
     },
     sprite: {
-        url: "./assets/images/chessboard-sprite.svg", // pieces and markers are stored in a sprite file
-        size: 40, // the sprite tiles size, defaults to 40x40px
-        cache: true // cache the sprite
+      url: "./assets/images/chessboard-sprite.svg", // pieces and markers are stored in a sprite file
+      size: 40, // the sprite tiles size, defaults to 40x40px
+      cache: true // cache the sprite
     },
     extensions: [ /* {class: ExtensionClass, props: { ... }} */] // add extensions here
 }
@@ -122,8 +122,7 @@ Move a piece from `squareFrom` to `squareTo`. Returns a **Promise**, which is re
 
 ### setPosition(fen, animated = false)
 
-Sets the position as `fen`. Special values are "start", sets the chess start position and
-"empty", sets an empty board. Returns a **Promise**, which is resolved, after the animation finished.
+Sets the position as `fen`. Returns a **Promise**, which is resolved, after the animation finished.
 
 [Example for **setPosition**](https://shaack.com/projekte/cm-chessboard/examples/pieces-animation.html)
 
@@ -202,26 +201,24 @@ board.enableMoveInput((event) => {
 
 The event has the following **`event.type`**:
 
-- **`INPUT_EVENT_TYPE.moveStart`**: User started the move input, `event.square` contains the coordinates
-- **`INPUT_EVENT_TYPE.moveDone`**: User finished the move input, `event.squareFrom` and `event.squareTo` contain the
-  coordinates
-- **`INPUT_EVENT_TYPE.moveCanceled`**: User canceled the move with clicking again on the start square or clicking
-  outside of the board
+- **`INPUT_EVENT_TYPE.moveInputStarted`**: User started the move input, `event.square` contains the coordinates. Return true or false to validate the start square.
+- **`INPUT_EVENT_TYPE.validateMoveInput`**: User finished the move input, `event.squareFrom` and `event.squareTo` contain the coordinates. Return true or false to validate the move input.
+- **`INPUT_EVENT_TYPE.moveInputCanceled`**: User canceled the move with clicking again on the start square or clicking outside the board.
 
 ```javascript
 chessboard.enableMoveInput((event) => {
-    switch (event.type) {
-        case INPUT_EVENT_TYPE.moveStart:
-            console.log(`moveStart: ${event.square}`)
-            // return `true`, if input is accepted/valid, `false` aborts the interaction, the piece will not move
-            return true
-        case INPUT_EVENT_TYPE.moveDone:
-            console.log(`moveDone: ${event.squareFrom}-${event.squareTo}`)
-            // return true, if input is accepted/valid, `false` takes the move back
-            return true
-        case INPUT_EVENT_TYPE.moveCanceled:
-            console.log(`moveCanceled`)
-    }
+  switch (event.type) {
+    case INPUT_EVENT_TYPE.moveInputStarted:
+      console.log(`moveInputStarted: ${event.square}`)
+      // return `true`, if input is accepted/valid, `false` aborts the interaction, the piece will not move
+      return true
+    case INPUT_EVENT_TYPE.validateMoveInput:
+      console.log(`validateMoveInput: ${event.squareFrom}-${event.squareTo}`)
+      // return true, if input is accepted/valid, `false` takes the move back
+      return true
+    case INPUT_EVENT_TYPE.moveInputCanceled:
+      console.log(`moveInputCanceled`)
+  }
 }, COLOR.white)
 ```
 
@@ -350,7 +347,7 @@ export const EXTENSION_POINT = {
     positionChanged: "positionChanged", // the positions of the pieces was changed
     boardChanged: "boardChanged", // the board (orientation) was changed
     moveInputToggled: "moveInputToggled", // move input was enabled or disabled
-    moveInput: "moveInput", // move started, cancelled or done
+    moveInput: "moveInput", // move started, canceled or validation // TODO validation in extensions is not awailable for now
     destroy: "destroy" // called, before the board is destroyed
 }
 ```
@@ -359,7 +356,7 @@ Enable extensions via the chessboard props.
 
 ```js
 const chessboard = new Chessboard(document.getElementById("board"), {
-    position: "start",
+    position: FEN.start,
     extensions: // list of used extensions
         [{
             class: MyCoolChessboardExtension, // the class of the extension
@@ -397,7 +394,7 @@ example [Accessibility extension](https://shaack.com/projekte/cm-chessboard/exam
 
 ```js
 const chessboard = new Chessboard(document.getElementById("board"), {
-    position: "start",
+    position: FEN.start,
     sprite: {url: "../assets/images/chessboard-sprite.svg"},
     // animationDuration: 0, // optional, set to 0 to disable animations
     style: {

@@ -45,10 +45,11 @@ await board.movePiece("d5", "f4")
 </pre>
 <script type="module">
     import {Chessboard, PIECE} from "../src/cm-chessboard/Chessboard.js"
+    import {FEN} from "../src/cm-chessboard/model/Position.js"
 
     const board = new Chessboard(document.getElementById("board"),
         {
-            position: "start",
+            position: FEN.start,
             sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
             animationDuration: 500
         })

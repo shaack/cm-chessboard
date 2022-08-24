@@ -31,12 +31,13 @@
 <div id="boards"></div>
 <script type="module">
     import {Chessboard} from "../src/cm-chessboard/Chessboard.js"
+    import {FEN} from "../src/cm-chessboard/model/Position.js"
     const boardsDiv = document.getElementById("boards")
     const boardDiv = document.createElement("div")
     boardDiv.setAttribute("class", "board1")
     boardsDiv.appendChild(boardDiv)
     const largeBoard = new Chessboard(boardDiv, {
-        position: "start",
+        position: FEN.start,
         sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
     })
     const chess = new Chess()

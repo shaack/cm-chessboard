@@ -65,7 +65,7 @@ export class Accessibility extends Extension {
                 evt.preventDefault()
                 if (this.chessboard.view.moveInputCallback({
                     chessboard: this.chessboard,
-                    type: INPUT_EVENT_TYPE.moveDone,
+                    type: INPUT_EVENT_TYPE.validateMoveInput,
                     squareFrom: this.inputFrom.value,
                     squareTo: this.inputTo.value
                 })) {

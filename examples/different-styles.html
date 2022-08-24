@@ -21,9 +21,10 @@
 <div class="board" id="board9"></div>
 <script type="module">
     import {Chessboard, BORDER_TYPE} from "../src/cm-chessboard/Chessboard.js"
+    import {FEN} from "../src/cm-chessboard/model/Position.js"
 
     new Chessboard(document.getElementById("board1"), {
-        position: "start",
+        position: FEN.start,
         style: {
             cssClass: "green",
             borderType: BORDER_TYPE.frame
@@ -31,7 +32,7 @@
         sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
     })
     new Chessboard(document.getElementById("board2"), {
-        position: "start",
+        position: FEN.start,
         style: {
             cssClass: "chessboard-js",
             borderType: BORDER_TYPE.thin
@@ -39,7 +40,7 @@
         sprite: {url: "../assets/images/chessboard-sprite.svg", cache: false}
     })
     new Chessboard(document.getElementById("board3"), {
-        position: "start",
+        position: FEN.start,
         style: {
             cssClass: "chess-club",
             borderType: BORDER_TYPE.frame
@@ -47,7 +48,7 @@
         sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"}
     })
     new Chessboard(document.getElementById("board4"), {
-        position: "start",
+        position: FEN.start,
         style: {
             cssClass: "blue",
             borderType: BORDER_TYPE.thin,
@@ -56,14 +57,14 @@
         sprite: {url: "../assets/images/chessboard-sprite.svg", cache: false}
     })
     new Chessboard(document.getElementById("board5"), {
-        position: "start",
+        position: FEN.start,
         style: {
             borderType: BORDER_TYPE.none
         },
         sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
     })
     new Chessboard(document.getElementById("board6"), {
-        position: "start",
+        position: FEN.start,
         style: {
             cssClass: "blue",
             borderType: BORDER_TYPE.frame
@@ -71,21 +72,21 @@
         sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
     })
     new Chessboard(document.getElementById("board7"), {
-        position: "start",
+        position: FEN.start,
         style: {
             cssClass: "green"
         },
         sprite: {url: "../assets/images/chessboard-sprite.svg", cache: false},
     })
     new Chessboard(document.getElementById("board8"), {
-        position: "start",
+        position: FEN.start,
         style: {
             cssClass: "black-and-white"
         },
         sprite: {url: "../assets/images/chessboard-sprite.svg", cache: false},
     })
     new Chessboard(document.getElementById("board9"), {
-        position: "start",
+        position: FEN.start,
         style: {
             cssClass: "chessboard-js",
             borderType: BORDER_TYPE.frame

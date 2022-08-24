@@ -8,7 +8,7 @@ export const EXTENSION_POINT = {
     positionChanged: "positionChanged", // the positions of the pieces was changed
     boardChanged: "boardChanged", // the board (orientation) was changed
     moveInputToggled: "moveInputToggled", // move input was enabled or disabled
-    moveInput: "moveInput", // move started, cancelled or done
+    moveInput: "moveInput", // move started, to validate or canceled // TODO validation not possible for now, see https://github.com/shaack/cm-chessboard/issues/82
     moveInputStateChanged: "moveInput", // TODO deprecated, use `moveInput`
     destroy: "destroy", // called, before the board is destroyed
     redrawBoard: "redrawBoard" // called while redrawing the board

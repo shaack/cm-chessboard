@@ -17,14 +17,14 @@ export class Position {
         this.setFen(fen)
     }
 
-    setFen(fen = FEN_EMPTY_POSITION) {
+    setFen(fen = FEN.empty) {
         let fenNormalized
         if (fen === "start") {
             console.warn("setting the position with the strings 'start' or 'empty' is deprecated, use FEN.start or FEN.empty")
-            fenNormalized = FEN_START_POSITION
+            fenNormalized = FEN.start
         } else if (fen === "empty" || fen === undefined) {
             console.warn("setting the position with the strings 'start' or 'empty' is deprecated, use FEN.start or FEN.empty")
-            fenNormalized = FEN_EMPTY_POSITION
+            fenNormalized = FEN.empty
         } else {
             fenNormalized = fen
         }

@@ -14,21 +14,21 @@
 <div class="board" id="board"></div>
 <pre>
 const board = new Chessboard(document.getElementById("board"), {
-    position: "start",
+    position: FEN.start,
     sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"}
 })
 
 board.enableMoveInput(inputHandler)
 function inputHandler(event) {
     switch (event.type) {
-        case INPUT_EVENT_TYPE.moveStart:
-            log(`moveStart: ${event.square}`)
+        case INPUT_EVENT_TYPE.moveInputStarted:
+            log(`moveInputStarted: ${event.square}`)
             return true
-        case INPUT_EVENT_TYPE.moveDone:
-            log(`moveDone: ${event.squareFrom}-${event.squareTo}`)
+        case INPUT_EVENT_TYPE.validateMoveInput:
+            log(`validateMoveInput: ${event.squareFrom}-${event.squareTo}`)
             return true
-        case INPUT_EVENT_TYPE.moveCanceled:
-            log(`moveCanceled`)
+        case INPUT_EVENT_TYPE.moveInputCanceled:
+            log(`moveInputCanceled`)
     }
 }
 </pre>
@@ -38,9 +38,10 @@ function inputHandler(event) {
 <div id="output" style="width: 100%; overflow: hidden"></div>
 <script type="module">
     import {INPUT_EVENT_TYPE, Chessboard} from "../src/cm-chessboard/Chessboard.js"
+    import {FEN} from "../src/cm-chessboard/model/Position.js"
 
     window.board = new Chessboard(document.getElementById("board"), {
-        position: "start",
+        position: FEN.start,
         sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"}
     })
 
@@ -48,14 +49,14 @@ function inputHandler(event) {
     function inputHandler(event) {
         console.log(event)
         switch (event.type) {
-            case INPUT_EVENT_TYPE.moveStart:
-                log(`moveStart: ${event.square}`)
+            case INPUT_EVENT_TYPE.moveInputStarted:
+                log(`moveInputStarted: ${event.square}`)
                 return true
-            case INPUT_EVENT_TYPE.moveDone:
-                log(`moveDone: ${event.squareFrom}-${event.squareTo}`)
+            case INPUT_EVENT_TYPE.validateMoveInput:
+                log(`validateMoveInput: ${event.squareFrom}-${event.squareTo}`)
                 return true
-            case INPUT_EVENT_TYPE.moveCanceled:
-                log(`moveCanceled`)
+            case INPUT_EVENT_TYPE.moveInputCanceled:
+                log(`moveInputCanceled`)
         }
     }
 

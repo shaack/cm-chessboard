@@ -29,23 +29,23 @@ const DRAG_THRESHOLD = 4
 
 export class VisualMoveInput {
 
-    constructor(view, moveStartCallback, moveDoneCallback, moveCanceledCallback) {
+    constructor(view, moveInputStartedCallback, validateMoveInputCallback, moveInputCanceledCallback) {
         this.view = view
         this.chessboard = view.chessboard
-        this.moveStartCallback = (square) => {
-            const result = moveStartCallback(square)
+        this.moveInputStartedCallback = (square) => {
+            const result = moveInputStartedCallback(square)
             if(result) {
                 this.chessboard.state.moveInputProcess = createTask()
             }
             return result
         }
-        this.moveDoneCallback = (fromSquare, toSquare) => {
-            const result = moveDoneCallback(fromSquare, toSquare)
+        this.validateMoveInputCallback = (fromSquare, toSquare) => {
+            const result = validateMoveInputCallback(fromSquare, toSquare)
             this.chessboard.state.moveInputProcess.resolve(result)
             return result
         }
-        this.moveCanceledCallback = (reason, fromSquare, toSquare) => {
-            moveCanceledCallback(reason, fromSquare, toSquare)
+        this.moveInputCanceledCallback = (reason, fromSquare, toSquare) => {
+            moveInputCanceledCallback(reason, fromSquare, toSquare)
             this.chessboard.state.moveInputProcess.resolve()
         }
         this.setMoveInputState(STATE.waitForInputStart)
@@ -151,7 +151,7 @@ export class VisualMoveInput {
                     throw new Error("moveInputState")
                 }
                 this.toSquare = params.square
-                if (this.toSquare && this.moveDoneCallback(this.fromSquare, this.toSquare)) {
+                if (this.toSquare && this.validateMoveInputCallback(this.fromSquare, this.toSquare)) {
                     if (prevState === STATE.clickTo) {
                         this.chessboard.movePiece(this.fromSquare, this.toSquare, true).then(() => {
                             this.setMoveInputState(STATE.reset)
@@ -246,7 +246,7 @@ export class VisualMoveInput {
                     } else if (e.type === "touchstart") {
                         point = {x: e.touches[0].clientX, y: e.touches[0].clientY}
                     }
-                    if (this.moveInputState === STATE.waitForInputStart && pieceName && this.moveStartCallback(square)) {
+                    if (this.moveInputState === STATE.waitForInputStart && pieceName && this.moveInputStartedCallback(square)) {
                         this.setMoveInputState(STATE.pieceClickedThreshold, {
                             square: square,
                             piece: pieceName,
@@ -267,8 +267,8 @@ export class VisualMoveInput {
                             const startPieceName = this.chessboard.getPiece(this.fromSquare)
                             const startPieceColor = startPieceName ? startPieceName.substring(0, 1) : undefined
                             if (color && startPieceColor === pieceColor) {
-                                this.moveCanceledCallback(MOVE_CANCELED_REASON.clickedAnotherPiece, this.fromSquare, square)
-                                if (this.moveStartCallback(square)) {
+                                this.moveInputCanceledCallback(MOVE_CANCELED_REASON.clickedAnotherPiece, this.fromSquare, square)
+                                if (this.moveInputStartedCallback(square)) {
                                     this.setMoveInputState(STATE.pieceClickedThreshold, {
                                         square: square,
                                         piece: pieceName,
@@ -352,7 +352,7 @@ export class VisualMoveInput {
                         if (this.moveInputState === STATE.clickDragTo) {
                             this.chessboard.state.position.setPiece(this.fromSquare, this.movedPiece)
                             this.view.setPieceVisibility(this.fromSquare)
-                            this.moveCanceledCallback(MOVE_CANCELED_REASON.draggedBack, square, square)
+                            this.moveInputCanceledCallback(MOVE_CANCELED_REASON.draggedBack, square, square)
                             this.setMoveInputState(STATE.reset)
                         } else {
                             this.setMoveInputState(STATE.clickTo, {square: square})
@@ -364,13 +364,13 @@ export class VisualMoveInput {
                     this.setMoveInputState(STATE.clickTo, {square: square})
                 } else if (this.moveInputState === STATE.secondClickThreshold) {
                     this.setMoveInputState(STATE.reset)
-                    this.moveCanceledCallback(MOVE_CANCELED_REASON.secondClick, square, square)
+                    this.moveInputCanceledCallback(MOVE_CANCELED_REASON.secondClick, square, square)
                 }
             } else {
                 this.view.redrawPieces()
                 const moveStartSquare = this.fromSquare
                 this.setMoveInputState(STATE.reset)
-                this.moveCanceledCallback(MOVE_CANCELED_REASON.movedOutOfBoard, moveStartSquare, undefined)
+                this.moveInputCanceledCallback(MOVE_CANCELED_REASON.movedOutOfBoard, moveStartSquare, undefined)
             }
         } else {
             this.view.redrawPieces()
