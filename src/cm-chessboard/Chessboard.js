@@ -15,9 +15,9 @@ export const COLOR = {
     black: "b"
 }
 export const INPUT_EVENT_TYPE = {
-    moveStart: "moveStart",
-    moveDone: "moveDone",
-    moveCanceled: "moveCanceled"
+    moveStart: "moveStart", // TODO rename to moveStarted
+    moveDone: "moveDone", // TODO rename to validateMoveInput, see https://github.com/shaack/cm-chessboard/issues/83
+    moveCanceled: "moveCanceled" // TODO rename to moveInputCancelled
 }
 export const SQUARE_SELECT_TYPE = {
     primary: "primary",
