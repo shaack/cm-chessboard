@@ -5,6 +5,17 @@
  */
 import {Position} from "./Position.js"
 
+export function createTask() {
+    let resolve, reject
+    const promise = new Promise(function (_resolve, _reject) {
+        resolve = _resolve
+        reject = _reject
+    })
+    promise.resolve = resolve
+    promise.reject = reject
+    return promise
+}
+
 export class ChessboardState {
 
     constructor() {
@@ -16,6 +27,7 @@ export class ChessboardState {
         this.inputEnabled = false
         this.squareSelectEnabled = false
         this.extensionPoints = {}
+        this.moveInputProcess = createTask().resolve()
     }
 
     setPosition(fen, animated = false) {

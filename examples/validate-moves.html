@@ -24,11 +24,9 @@ const chess = new Chess()
 function inputHandler(event) {
     console.log("event", event)
     event.chessboard.removeMarkers(MARKER_TYPE.dot)
-    event.chessboard.removeMarkers(MARKER_TYPE.square)
     if (event.type === INPUT_EVENT_TYPE.moveStart) {
         const moves = chess.moves({square: event.square, verbose: true});
-        event.chessboard.addMarker(MARKER_TYPE.square, event.square)
-        for (const move of moves) { // draw dots on possible moves
+        for (const move of moves) { // draw dots on possible squares
             event.chessboard.addMarker(MARKER_TYPE.dot, move.to)
         }
         return moves.length > 0
@@ -37,16 +35,20 @@ function inputHandler(event) {
         const result = chess.move(move)
         if (result) {
             event.chessboard.disableMoveInput()
-            const possibleMoves = chess.moves({verbose: true})
-            if (possibleMoves.length > 0) {
-                const randomIndex = Math.floor(Math.random() * possibleMoves.length)
-                const randomMove = possibleMoves[randomIndex]
-                setTimeout(() => { // smoother with 500ms delay
-                    chess.move({from: randomMove.from, to: randomMove.to})
-                    event.chessboard.enableMoveInput(inputHandler, COLOR.white)
-                    event.chessboard.setPosition(chess.fen(), true)
-                }, 500)
-            }
+            this.chessboard.state.moveInputProcess.then(() => { // wait for the move input process has finished
+                this.chessboard.setPosition(chess.fen(), true).then(() => { // wait for animation has finished
+                    const possibleMoves = chess.moves({verbose: true})
+                    if (possibleMoves.length > 0) {
+                        const randomIndex = Math.floor(Math.random() * possibleMoves.length)
+                        const randomMove = possibleMoves[randomIndex]
+                        setTimeout(() => { // smoother with 500ms delay
+                            chess.move({from: randomMove.from, to: randomMove.to})
+                            event.chessboard.enableMoveInput(inputHandler, COLOR.white)
+                            event.chessboard.setPosition(chess.fen(), true)
+                        }, 500)
+                    }
+                }) // update position, maybe castled
+            })
         } else {
             console.warn("invalid move", move)
         }
@@ -83,16 +85,20 @@ board.enableMoveInput(inputHandler, COLOR.white)
             const result = chess.move(move)
             if (result) {
                 event.chessboard.disableMoveInput()
-                const possibleMoves = chess.moves({verbose: true})
-                if (possibleMoves.length > 0) {
-                    const randomIndex = Math.floor(Math.random() * possibleMoves.length)
-                    const randomMove = possibleMoves[randomIndex]
-                    setTimeout(() => { // smoother with 500ms delay
-                        chess.move({from: randomMove.from, to: randomMove.to})
-                        event.chessboard.enableMoveInput(inputHandler, COLOR.white)
-                        event.chessboard.setPosition(chess.fen(), true)
-                    }, 500)
-                }
+                this.chessboard.state.moveInputProcess.then(() => { // wait for the move input process has finished
+                    this.chessboard.setPosition(chess.fen(), true).then(() => { // wait for animation has finished
+                        const possibleMoves = chess.moves({verbose: true})
+                        if (possibleMoves.length > 0) {
+                            const randomIndex = Math.floor(Math.random() * possibleMoves.length)
+                            const randomMove = possibleMoves[randomIndex]
+                            setTimeout(() => { // smoother with 500ms delay
+                                chess.move({from: randomMove.from, to: randomMove.to})
+                                event.chessboard.enableMoveInput(inputHandler, COLOR.white)
+                                event.chessboard.setPosition(chess.fen(), true)
+                            }, 500)
+                        }
+                    }) // update position, maybe castled
+                })
             } else {
                 console.warn("invalid move", move)
             }

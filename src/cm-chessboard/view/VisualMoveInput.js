@@ -5,6 +5,7 @@
  */
 
 import {Svg} from "./ChessboardView.js"
+import {createTask} from "../model/ChessboardState.js"
 
 const STATE = {
     waitForInputStart: 0,
@@ -32,13 +33,20 @@ export class VisualMoveInput {
         this.view = view
         this.chessboard = view.chessboard
         this.moveStartCallback = (square) => {
-            return moveStartCallback(square)
+            const result = moveStartCallback(square)
+            if(result) {
+                this.chessboard.state.moveInputProcess = createTask()
+            }
+            return result
         }
         this.moveDoneCallback = (fromSquare, toSquare) => {
-            return moveDoneCallback(fromSquare, toSquare)
+            const result = moveDoneCallback(fromSquare, toSquare)
+            this.chessboard.state.moveInputProcess.resolve(result)
+            return result
         }
         this.moveCanceledCallback = (reason, fromSquare, toSquare) => {
             moveCanceledCallback(reason, fromSquare, toSquare)
+            this.chessboard.state.moveInputProcess.resolve()
         }
         this.setMoveInputState(STATE.waitForInputStart)
     }

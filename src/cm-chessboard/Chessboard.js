@@ -5,7 +5,7 @@
  */
 
 import {ChessboardState} from "./model/ChessboardState.js"
-import {Position} from "./model/Position.js"
+import {FEN, Position} from "./model/Position.js"
 import {PositionAnimationsQueue} from "./view/PositionAnimationsQueue.js"
 import {EXTENSION_POINT} from "./model/Extension.js"
 import {ChessboardView} from "./view/ChessboardView.js"
@@ -49,7 +49,7 @@ export class Chessboard {
         this.id = (Math.random() + 1).toString(36).substring(2, 8)
         this.extensions = []
         let defaultProps = {
-            position: "empty", // set as fen, "start" or "empty"
+            position: FEN.empty, // set as fen, can use FEN.start or FEN.empty // TODO remove those strings in favour of FEN.start and FEN.empty
             orientation: COLOR.white, // white on bottom
             responsive: true, // resize the board automatically to the size of the context element
             animationDuration: 300, // pieces animation duration in milliseconds. Disable all animation with `0`.
@@ -119,8 +119,11 @@ export class Chessboard {
 
     async setPosition(fen, animated = false) {
         const positionFrom = this.state.position.clone()
-        this.state.position.setFen(fen)
-        this.state.invokeExtensionPoints(EXTENSION_POINT.positionChanged)
+        const positionTo = new Position(fen)
+        if(positionFrom.getFen() !== positionTo.getFen()) {
+            this.state.position.setFen(fen)
+            this.state.invokeExtensionPoints(EXTENSION_POINT.positionChanged)
+        }
         return this.positionAnimationsQueue.enqueuePositionChange(positionFrom, this.state.position.clone(), animated)
     }
 

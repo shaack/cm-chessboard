@@ -3,11 +3,11 @@
  * Repository: https://github.com/shaack/cm-chessboard
  * License: MIT, see file 'LICENSE'
  */
-import {FEN_EMPTY_POSITION, Position} from "../model/Position.js"
+import {FEN, Position} from "../model/Position.js"
 import {Svg} from "./ChessboardView.js"
 
 /*
-* Thanks to markosyan for the idea to the PromiseQueue
+* Thanks to markosyan for the idea of the PromiseQueue
 * https://medium.com/@karenmarkosyan/how-to-manage-promises-into-dynamic-queue-with-vanilla-javascript-9d0d1f8d4df5
 */
 
@@ -250,7 +250,7 @@ export class PositionAnimationsQueue extends PromiseQueue {
 
     async enqueueTurnBoard(position, color, animated) {
         return super.enqueue(() => new Promise((resolve) => {
-            const emptyPosition = new Position(FEN_EMPTY_POSITION)
+            const emptyPosition = new Position(FEN.empty)
             let duration = animated ? this.chessboard.props.animationDuration : 0
             if(this.queue.length > 0) {
                 duration = duration / (1 + Math.pow(this.queue.length / 5, 2))
