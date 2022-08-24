@@ -36,7 +36,7 @@ function inputHandler(event) {
         if (result) {
             event.chessboard.disableMoveInput()
             this.chessboard.state.moveInputProcess.then(() => { // wait for the move input process has finished
-                this.chessboard.setPosition(chess.fen(), true).then(() => { // wait for animation has finished
+                this.chessboard.setPosition(chess.fen(), true).then(() => { // update position, maybe castled and wait for animation has finished
                     const possibleMoves = chess.moves({verbose: true})
                     if (possibleMoves.length > 0) {
                         const randomIndex = Math.floor(Math.random() * possibleMoves.length)
@@ -47,7 +47,7 @@ function inputHandler(event) {
                             event.chessboard.setPosition(chess.fen(), true)
                         }, 500)
                     }
-                }) // update position, maybe castled
+                })
             })
         } else {
             console.warn("invalid move", move)
@@ -86,7 +86,7 @@ board.enableMoveInput(inputHandler, COLOR.white)
             if (result) {
                 event.chessboard.disableMoveInput()
                 this.chessboard.state.moveInputProcess.then(() => { // wait for the move input process has finished
-                    this.chessboard.setPosition(chess.fen(), true).then(() => { // wait for animation has finished
+                    this.chessboard.setPosition(chess.fen(), true).then(() => { // update position, maybe castled and wait for animation has finished
                         const possibleMoves = chess.moves({verbose: true})
                         if (possibleMoves.length > 0) {
                             const randomIndex = Math.floor(Math.random() * possibleMoves.length)
@@ -97,7 +97,7 @@ board.enableMoveInput(inputHandler, COLOR.white)
                                 event.chessboard.setPosition(chess.fen(), true)
                             }, 500)
                         }
-                    }) // update position, maybe castled
+                    })
                 })
             } else {
                 console.warn("invalid move", move)
