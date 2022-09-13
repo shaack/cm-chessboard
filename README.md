@@ -344,12 +344,12 @@ Currently possible extension points are defined in `Extension.js`.
 
 ```js
 export const EXTENSION_POINT = {
-    positionChanged: "positionChanged", // the positions of the pieces was changed
-    boardChanged: "boardChanged", // the board (orientation) was changed
-    moveInputToggled: "moveInputToggled", // move input was enabled or disabled
-    moveInput: "moveInput", // move started, canceled or validation // TODO validation in extensions is not awailable for now
-    destroy: "destroy", // called, before the board is destroyed
-    redrawBoard: "redrawBoard" // called while redrawing the board
+  positionChanged: "positionChanged", // the positions of the pieces was changed
+  boardChanged: "boardChanged", // the board (orientation) was changed
+  moveInputToggled: "moveInputToggled", // move input was enabled or disabled
+  moveInput: "moveInput", // move started, to validate or canceled // TODO validation not possible for now, see https://github.com/shaack/cm-chessboard/issues/82
+  redrawBoard: "redrawBoard", // called after redrawing the board
+  destroy: "destroy" // called, before the board is destroyed
 }
 ```
 

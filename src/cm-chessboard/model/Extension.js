@@ -10,8 +10,8 @@ export const EXTENSION_POINT = {
     moveInputToggled: "moveInputToggled", // move input was enabled or disabled
     moveInput: "moveInput", // move started, to validate or canceled // TODO validation not possible for now, see https://github.com/shaack/cm-chessboard/issues/82
     moveInputStateChanged: "moveInput", // TODO deprecated, use `moveInput`
-    destroy: "destroy", // called, before the board is destroyed
-    redrawBoard: "redrawBoard" // called while redrawing the board
+    redrawBoard: "redrawBoard", // called after redrawing the board
+    destroy: "destroy" // called, before the board is destroyed
 }
 
 export class Extension {
