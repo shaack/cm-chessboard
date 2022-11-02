@@ -31,7 +31,7 @@ export class Extension {
     registerMethod(name, callback) {
         if (!this.chessboard[name]) {
             this.chessboard[name] = (...args) => {
-                callback.apply(this, args)
+                return callback.apply(this, args)
             }
         } else {
             log.error("method", name, "already exists")

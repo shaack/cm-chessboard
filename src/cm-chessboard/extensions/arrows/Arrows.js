@@ -98,19 +98,11 @@ export class Arrows extends Extension {
     }
 
     addArrow(type, from, to) {
-        if (typeof type === "string" || typeof from === "object" || typeof to === "object") { // todo remove 2022-12-01
-            console.error("changed the signature of `addArrow` to `(type, from, to)` with v5.1.x")
-            return
-        }
         this.arrows.push(new Arrow(from, to, type))
         this.chessboard.view.redrawBoard()
     }
 
     getArrows(type = undefined, from = undefined, to = undefined) {
-        if (typeof type === "string" || typeof from === "object" || typeof to === "object") { // todo remove 2022-12-01
-            console.error("changed the signature of `getArrows` to `(type, from, to)` with v5.1.x")
-            return
-        }
         let arrows = []
         this.arrows.forEach((arrow) => {
             if (arrow.matches(from, to, type)) {
@@ -121,10 +113,6 @@ export class Arrows extends Extension {
     }
 
     removeArrows(type = undefined, from = undefined, to = undefined) {
-        if (typeof type === "string" || typeof from === "object" || typeof to === "object") { // todo remove 2022-12-01
-            console.error("changed the signature of `removeArrows` to `(type, from, to)` with v5.1.x")
-            return
-        }
         this.arrows = this.arrows.filter((arrow) => !arrow.matches(from, to, type))
         this.chessboard.view.redrawBoard()
     }
