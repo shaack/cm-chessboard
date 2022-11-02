@@ -315,10 +315,12 @@ To allow easy removing of the marker, you have to define the marker type in your
 const myMarkerType = {class: "myMarkerCssClass", slice: "myMarkerIdInSvg"}
 // add
 chessboard.addMarker(myMarkerType, "e4")
-// remove
+// remove a specific marker
 chessboard.removeMarkers(myMarkerType, "e4")
 // remove all "myMarkerType"
-chessboard.removeMarkers(myMarkerType, undefined)
+chessboard.removeMarkers(myMarkerType)
+// remove all markers
+chessboard.removeMarkers()
 ```
 
 ## Extensions
