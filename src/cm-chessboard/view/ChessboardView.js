@@ -412,7 +412,7 @@ export class ChessboardView {
             squareFrom: squareFrom,
             squareTo: squareTo
         }
-        this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data) // TODO use the return value of this EP
+        const result = this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data) // TODO use the return value of this EP
         if (this.moveInputCallback) {
             return this.moveInputCallback(data)
         } else {

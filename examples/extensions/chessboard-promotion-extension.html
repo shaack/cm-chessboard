@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../styles/examples.css"/>
+    <link rel="stylesheet" href="../../assets/styles/cm-chessboard.css">
+    <title>cm-chessboard promotion extension</title>
+</head>
+<body>
+<h1>Example of the cm-chessboard Promotion extension</h1>
+<p>Try to move the pawn to the c8</p>
+<div id="chessboard" class="board-max-width">
+</div>
+<script type="module">
+    import {Chessboard} from "../../src/cm-chessboard/Chessboard.js"
+    import {Promotion} from "../../src/cm-chessboard/extensions/promotion/Promotion.js"
+
+    const chessboard = new Chessboard(document.getElementById("chessboard"), {
+        position: "4k3/2P5/8/8/8/8/3Q1Q2/4K2R w K - 0 1",
+        sprite: {
+            url: "../../assets/images/chessboard-sprite.svg", // pieces and markers are stored in a sprite file
+        },
+        extensions: [
+            {class: Promotion, props: {}}
+        ]
+    })
+    chessboard.enableMoveInput((move) => {
+        return true
+    })
+</script>
+</body>
+</html>

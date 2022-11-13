@@ -71,4 +71,7 @@ input[type=text] {
 li {
   padding: 0.05rem; }
 
+.board-max-width {
+  max-width: 640px; }
+
 /*# sourceMappingURL=examples.css.map */
