@@ -39,7 +39,7 @@ export class Arrows extends Extension {
         this.registerMethod("addArrow", this.addArrow)
         this.registerMethod("getArrows", this.getArrows)
         this.registerMethod("removeArrows", this.removeArrows)
-        this.arrowGroup = Svg.addElement(chessboard.view.piecesLayer, "g", {class: "arrows"})
+        this.arrowGroup = Svg.addElement(chessboard.view.markersTopLayer, "g", {class: "arrows"})
         this.arrows = []
     }
 
