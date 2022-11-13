@@ -82,11 +82,15 @@ export class ChessboardState {
         const extensionPoints = this.extensionPoints[name]
         const dataCloned = Object.assign({}, data)
         dataCloned.extensionPoint = name
+        let returnValue = true
         if (extensionPoints) {
             for (const extensionPoint of extensionPoints) {
-                extensionPoint(dataCloned)
+                if(extensionPoint(dataCloned) === false) {
+                    returnValue = false
+                }
             }
         }
+        return returnValue
     }
 
 }

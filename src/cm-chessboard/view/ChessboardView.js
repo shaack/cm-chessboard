@@ -5,7 +5,7 @@
  */
 
 import {VisualMoveInput} from "./VisualMoveInput.js"
-import {COLOR, INPUT_EVENT_TYPE, BORDER_TYPE} from "../Chessboard.js"
+import {BORDER_TYPE, COLOR, INPUT_EVENT_TYPE} from "../Chessboard.js"
 import {Position} from "../model/Position.js"
 import {EXTENSION_POINT} from "../model/Extension.js"
 
@@ -410,14 +410,17 @@ export class ChessboardView {
             chessboard: this.chessboard,
             type: INPUT_EVENT_TYPE.validateMoveInput,
             squareFrom: squareFrom,
-            squareTo: squareTo
+            squareTo: squareTo,
+            piece: this.chessboard.getPiece(squareFrom)
         }
-        const result = this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data) // TODO use the return value of this EP
         if (this.moveInputCallback) {
-            return this.moveInputCallback(data)
-        } else {
-            return true
+            // the "oldschool" move input validator
+            data.moveInputCallbackResult = this.moveInputCallback(data)
         }
+        // the new extension points
+        const extensionPointsResult = this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
+        // validates, when moveInputCallbackResult and extensionPointsResult are true
+        return !(extensionPointsResult === false || data.moveInputCallbackResult === false);
     }
 
     moveInputCanceledCallback(reason, squareFrom, squareTo) {
