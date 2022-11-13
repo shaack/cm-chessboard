@@ -419,7 +419,7 @@ export class ChessboardView {
         }
         // the new extension points
         const extensionPointsResult = this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
-        console.log("5b0d1f", extensionPointsResult, data.moveInputCallbackResult)
+        // console.log("5b0d1f", extensionPointsResult, data.moveInputCallbackResult)
         // validates, when moveInputCallbackResult and extensionPointsResult are true
         return !(extensionPointsResult === false || !data.moveInputCallbackResult);
     }
