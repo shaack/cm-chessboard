@@ -37,10 +37,11 @@ It works, it is cool and it is easy to use. 👍</p>
 <div class="board" id="board"></div>
 <script type="module">
     import {Chessboard} from "./src/cm-chessboard/Chessboard.js"
+    import {FEN} from "./src/cm-chessboard/model/Position.js"
 
     const chess = new Chess()
     const board = new Chessboard(document.getElementById("board"), {
-        position: "start"
+        position: FEN.start
     })
     const interval = setInterval(() => {
         makeRandomMove()

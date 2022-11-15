@@ -27,33 +27,41 @@ export class PromotionDialog extends Extension {
         })
     }
 
+    drawPieceButton(piece, point, callback) {
+        const squareWidth = this.chessboard.view.squareWidth
+        const squareHeight = this.chessboard.view.squareHeight
+        Svg.addElement(this.promotionDialogGroup,
+            "rect", {
+                x: point.x, y: point.y, width: squareWidth, height: squareHeight,
+                class: "promotion-dialog-button"
+            })
+        this.chessboard.view.drawPiece(this.promotionDialogGroup, piece, point)
+    }
+
     redrawDialog() {
         const squareWidth = this.chessboard.view.squareWidth
         const squareHeight = this.chessboard.view.squareHeight
-        const view = this.chessboard.view
-        const point = view.squareToPoint(this.state.square)
+        const squareCenterPoint = this.chessboard.view.squareToPoint(this.state.square)
+        squareCenterPoint.x = squareCenterPoint.x + squareWidth / 2
+        squareCenterPoint.y = squareCenterPoint.y + squareHeight / 2
         while (this.promotionDialogGroup.firstChild) {
             this.promotionDialogGroup.removeChild(this.promotionDialogGroup.firstChild)
         }
         if(this.state.isShown) {
-            this.promotionDialog = Svg.addElement(this.promotionDialogGroup,
+            Svg.addElement(this.promotionDialogGroup,
                 "rect", {
-                    x: point.x + squareWidth / 2, y: point.y + squareHeight / 2, width: squareWidth, height: squareHeight * 4,
+                    x: squareCenterPoint.x, y: squareCenterPoint.y, width: squareWidth, height: squareHeight * 4,
                     class: "promotion-dialog"
                 })
-            view.drawPiece(this.promotionDialogGroup, PIECE[this.state.color + "q"],
-                {x: point.x + squareWidth / 2, y: point.y + squareHeight / 2}
-            )
-            view.drawPiece(this.promotionDialogGroup, PIECE[this.state.color + "r"],
-                {x: point.x + squareWidth / 2, y: point.y + squareHeight / 2 + squareHeight}
-            )
-            view.drawPiece(this.promotionDialogGroup, PIECE[this.state.color + "b"],
-                {x: point.x + squareWidth / 2, y: point.y + squareHeight / 2 + squareHeight * 2}
-            )
-            view.drawPiece(this.promotionDialogGroup, PIECE[this.state.color + "n"],
-                {x: point.x + squareWidth / 2, y: point.y + squareHeight / 2 + squareHeight * 3}
-            )
+            this.drawPieceButton(PIECE[this.state.color + "q"], {x: squareCenterPoint.x, y: squareCenterPoint.y})
+            this.drawPieceButton(PIECE[this.state.color + "r"], {x: squareCenterPoint.x, y: squareCenterPoint.y + squareHeight})
+            this.drawPieceButton(PIECE[this.state.color + "b"], {x: squareCenterPoint.x, y: squareCenterPoint.y + squareHeight * 2})
+            this.drawPieceButton(PIECE[this.state.color + "n"], {x: squareCenterPoint.x, y: squareCenterPoint.y + squareHeight * 3})
         }
+    }
+
+    promotionDialogOnClickPiece(event) {
+
     }
 
     showPromotionDialog(square, color, callback) {

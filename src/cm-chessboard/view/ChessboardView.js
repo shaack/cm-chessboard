@@ -291,6 +291,7 @@ export class ChessboardView {
     drawPiece(parentGroup, pieceName, point) {
         const pieceGroup = Svg.addElement(parentGroup, "g", {})
         pieceGroup.setAttribute("data-piece", pieceName)
+        pieceGroup.setAttribute("class", "piece-group")
         const transform = (this.svg.createSVGTransform())
         transform.setTranslate(point.x, point.y)
         pieceGroup.transform.baseVal.appendItem(transform)
@@ -302,10 +303,19 @@ export class ChessboardView {
         const transformScale = (this.svg.createSVGTransform())
         transformScale.setScale(this.scalingY, this.scalingY)
         pieceUse.transform.baseVal.appendItem(transformScale)
+        const transformTranslate = (this.svg.createSVGTransform())
+        transformTranslate.setTranslate(this.pieceXTranslate, 0)
+        pieceUse.transform.baseVal.appendItem(transformTranslate)
         return pieceGroup
     }
 
     drawPieceOnSquare(square, pieceName) {
+        const point = this.squareToPoint(square)
+        const pieceGroup = this.drawPiece(this.piecesGroup, pieceName, point)
+        pieceGroup.setAttribute("data-square", square)
+        return pieceGroup
+
+        /*
         const pieceGroup = Svg.addElement(this.piecesGroup, "g", {})
         pieceGroup.setAttribute("data-piece", pieceName)
         pieceGroup.setAttribute("data-square", square)
@@ -322,11 +332,10 @@ export class ChessboardView {
         const transformTranslate = (this.svg.createSVGTransform())
         transformTranslate.setTranslate(this.pieceXTranslate, 0)
         pieceUse.transform.baseVal.appendItem(transformTranslate)
-        // scale
-        const transformScale = (this.svg.createSVGTransform())
-        transformScale.setScale(this.scalingY, this.scalingY)
-        pieceUse.transform.baseVal.appendItem(transformScale)
-        return pieceGroup
+
+         */
+
+        // return pieceGroup
     }
 
     setPieceVisibility(square, visible = true) {

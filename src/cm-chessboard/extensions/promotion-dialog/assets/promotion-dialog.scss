@@ -1,8 +1,22 @@
 svg.cm-chessboard {
   .promotion-dialog-group {
-      .promotion-dialog {
-        fill: rgba(255,255,255,0.6);
-        stroke: rgba(0,0,0,0.4);
+    .promotion-dialog {
+      fill: black;
+      fill-opacity: 0.3;
+      stroke: rgba(0, 0, 0, 0.3)
+    }
+
+    .promotion-dialog-button {
+      fill: transparent;
+      cursor: pointer;
+
+      &:hover {
+        fill: rgba(0, 0, 0, 0.2)
       }
+    }
+
+    .piece-group {
+      pointer-events: none;
+    }
   }
 }
