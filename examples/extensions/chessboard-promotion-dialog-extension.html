@@ -13,18 +13,17 @@
 <body>
 <h1><a href="../..">cm-chessboard</a></h1>
 <h2>Example of the cm-chessboard PromotionDialog extension</h2>
-<p>Try to move the pawn to the c8</p>
 <div id="chessboard" class="board-max-width" style="margin-bottom: 1rem">
 </div>
 <button style="margin-bottom: 10px"
         onclick="window.switchOrientation()">Switch Orientation
 </button>
 <script type="module">
-    import {Chessboard} from "../../src/cm-chessboard/Chessboard.js"
+    import {Chessboard, COLOR, INPUT_EVENT_TYPE} from "../../src/cm-chessboard/Chessboard.js"
     import {PromotionDialog} from "../../src/cm-chessboard/extensions/promotion-dialog/PromotionDialog.js"
 
     const chessboard = new Chessboard(document.getElementById("chessboard"), {
-        position: "4k3/2P5/8/8/8/8/3Q1Q2/4K2R w K - 0 1",
+        position: "2P1k3/8/8/8/6r1/8/8/2R1K3 w - - 0 1",
         sprite: {
             url: "../../assets/images/chessboard-sprite.svg", // pieces and markers are stored in a sprite file
         },
@@ -32,9 +31,16 @@
             {class: PromotionDialog, props: {}}
         ]
     })
-    chessboard.enableMoveInput((move) => {
-        console.log("8610fe", move)
+    chessboard.enableMoveInput((event) => {
+        console.log("8610fe", event)
+        if(event === INPUT_EVENT_TYPE.validateMoveInput) {
+
+        }
         return true
+    })
+    chessboard.showPromotionDialog("c8", COLOR.white, (event) => {
+        console.log(event)
+        chessboard.setPiece(event.square, event.piece, true)
     })
     window.switchOrientation = function () {
         chessboard.setOrientation(chessboard.getOrientation() === 'w' ? 'b' : 'w')
