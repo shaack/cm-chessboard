@@ -16,10 +16,11 @@ aspects of chess games.
 - Uses SVG for rendering
 - [Allows adding **extensions** to extend the functionality](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-arrows-extension.html)
 
-## Extensions 🆕
+## Extensions
 
 - [Accessibility Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-accessibility-extension.html)
 - [Arrows Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-arrows-extension.html) (by [@barakmich](https://github.com/barakmich))
+- [PromotionDialog Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-promotion-dialog-extension.html)  🆕
 
 ## Demo and repository
 
