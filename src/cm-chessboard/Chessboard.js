@@ -39,7 +39,7 @@ export const MARKER_TYPE = {
 }
 export const PIECE = {
     wp: "wp", wb: "wb", wn: "wn", wr: "wr", wq: "wq", wk: "wk",
-    bp: "bp", bb: "bb", bn: "bn", br: "br", bq: "bq", bk: "bk",
+    bp: "bp", bb: "bb", bn: "bn", br: "br", bq: "bq", bk: "bk"
 }
 
 export class Chessboard {

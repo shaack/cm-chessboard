@@ -55,6 +55,12 @@ await board.movePiece("d5", "f4")
         })
     let i = 0
     window.setPosition = (position, animated) => {
+        if(position === "start") {
+            position = FEN.start
+        }
+        if(position === "empty") {
+            position = FEN.empty
+        }
         i++
         return board.setPosition(position, animated)
     }

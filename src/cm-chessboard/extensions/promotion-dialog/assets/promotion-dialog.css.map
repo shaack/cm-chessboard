@@ -1,0 +1,9 @@
+{
+	"version": 3,
+	"file": "promotion-dialog.css",
+	"sources": [
+		"promotion-dialog.scss"
+	],
+	"names": [],
+	"mappings": "AAAA,AAEM,GAFH,AAAA,cAAc,CACf,uBAAuB,CACnB,iBAAiB,CAAC;EAChB,IAAI,EAAE,kBAAe,GACtB"
+}

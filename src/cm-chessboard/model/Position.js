@@ -20,10 +20,10 @@ export class Position {
     setFen(fen = FEN.empty) {
         let fenNormalized
         if (fen === "start") {
-            console.warn("setting the position with the strings 'start' or 'empty' is deprecated, use FEN.start or FEN.empty")
+            console.warn("setting the position with the strings 'start' or 'empty' is deprecated, use FEN.start or FEN.empty", "used:", fen)
             fenNormalized = FEN.start
         } else if (fen === "empty" || fen === undefined) {
-            console.warn("setting the position with the strings 'start' or 'empty' is deprecated, use FEN.start or FEN.empty")
+            console.warn("setting the position with the strings 'start' or 'empty' is deprecated, use FEN.start or FEN.empty", "used:", fen)
             fenNormalized = FEN.empty
         } else {
             fenNormalized = fen

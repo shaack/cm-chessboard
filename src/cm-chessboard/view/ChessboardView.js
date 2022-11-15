@@ -280,7 +280,7 @@ export class ChessboardView {
         for (let i = 0; i < 64; i++) {
             const pieceName = squares[i]
             if (pieceName) {
-                this.drawPiece(Position.indexToSquare(i), pieceName)
+                this.drawPieceOnSquare(Position.indexToSquare(i), pieceName)
             }
         }
         for (const childNode of childNodes) {
@@ -288,8 +288,22 @@ export class ChessboardView {
         }
     }
 
-    drawPiece(square, pieceName) {
-        const pieceGroup = Svg.addElement(this.piecesGroup, "g")
+    drawPiece(parentGroup, pieceName, point) {
+        const pieceGroup = Svg.addElement(parentGroup, "g", {})
+        pieceGroup.setAttribute("data-piece", pieceName)
+        const transform = (this.svg.createSVGTransform())
+        transform.setTranslate(point.x, point.y)
+        pieceGroup.transform.baseVal.appendItem(transform)
+        const spriteUrl = this.chessboard.props.sprite.cache ? "" : this.chessboard.props.sprite.url
+        const pieceUse = Svg.addElement(pieceGroup, "use", {
+            href: `${spriteUrl}#${pieceName}`,
+            class: "piece"
+        })
+        return pieceGroup
+    }
+
+    drawPieceOnSquare(square, pieceName) {
+        const pieceGroup = Svg.addElement(this.piecesGroup, "g", {})
         pieceGroup.setAttribute("data-piece", pieceName)
         pieceGroup.setAttribute("data-square", square)
         const point = this.squareToPoint(square)
@@ -397,14 +411,17 @@ export class ChessboardView {
         const data = {
             chessboard: this.chessboard,
             type: INPUT_EVENT_TYPE.moveInputStarted,
-            square: square
+            square: square,
+            piece: this.chessboard.getPiece(square)
         }
-        this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data) // TODO use the return value of this EP
         if (this.moveInputCallback) {
-            return this.moveInputCallback(data)
-        } else {
-            return true
+            // the "oldschool" move input validator
+            data.moveInputCallbackResult =  this.moveInputCallback(data)
         }
+        // the new extension points
+        const extensionPointsResult = this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
+        // validates, when moveInputCallbackResult and extensionPointsResult are true
+        return !(extensionPointsResult === false || !data.moveInputCallbackResult);
     }
 
     validateMoveInputCallback(squareFrom, squareTo) {
@@ -421,7 +438,6 @@ export class ChessboardView {
         }
         // the new extension points
         const extensionPointsResult = this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
-        // console.log("5b0d1f", extensionPointsResult, data.moveInputCallbackResult)
         // validates, when moveInputCallbackResult and extensionPointsResult are true
         return !(extensionPointsResult === false || !data.moveInputCallbackResult);
     }
