@@ -5,7 +5,7 @@
  */
 import {Extension, EXTENSION_POINT} from "../../model/Extension.js"
 import {COLOR, INPUT_EVENT_TYPE, PIECE} from "../../Chessboard.js"
-import {Svg} from "../../view/ChessboardView.js"
+import {DomUtils, Svg} from "../../view/ChessboardView.js"
 
 export class PromotionDialog extends Extension {
 
@@ -15,6 +15,8 @@ export class PromotionDialog extends Extension {
         this.registerExtensionPoint(EXTENSION_POINT.redrawBoard, this.redrawDialog.bind(this))
         this.registerMethod("showPromotionDialog", this.showPromotionDialog)
         this.promotionDialogGroup = Svg.addElement(chessboard.view.markersTopLayer, "g", {class: "promotion-dialog-group"})
+        DomUtils.delegate(this.promotionDialogGroup, "click", ".promotion-dialog-button",
+            this.promotionDialogOnClickPiece.bind(this))
         this.state = {
             isShown: false,
             color: undefined,
@@ -27,13 +29,14 @@ export class PromotionDialog extends Extension {
         })
     }
 
-    drawPieceButton(piece, point, callback) {
+    drawPieceButton(piece, point) {
         const squareWidth = this.chessboard.view.squareWidth
         const squareHeight = this.chessboard.view.squareHeight
         Svg.addElement(this.promotionDialogGroup,
             "rect", {
                 x: point.x, y: point.y, width: squareWidth, height: squareHeight,
-                class: "promotion-dialog-button"
+                class: "promotion-dialog-button",
+                "data-piece": piece
             })
         this.chessboard.view.drawPiece(this.promotionDialogGroup, piece, point)
     }
@@ -61,7 +64,7 @@ export class PromotionDialog extends Extension {
     }
 
     promotionDialogOnClickPiece(event) {
-
+        this.state.callback(event.target.dataset.piece)
     }
 
     showPromotionDialog(square, color, callback) {

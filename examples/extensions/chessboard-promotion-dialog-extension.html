@@ -14,8 +14,11 @@
 <h1><a href="../..">cm-chessboard</a></h1>
 <h2>Example of the cm-chessboard PromotionDialog extension</h2>
 <p>Try to move the pawn to the c8</p>
-<div id="chessboard" class="board-max-width">
+<div id="chessboard" class="board-max-width" style="margin-bottom: 1rem">
 </div>
+<button style="margin-bottom: 10px"
+        onclick="window.switchOrientation()">Switch Orientation
+</button>
 <script type="module">
     import {Chessboard} from "../../src/cm-chessboard/Chessboard.js"
     import {PromotionDialog} from "../../src/cm-chessboard/extensions/promotion-dialog/PromotionDialog.js"
@@ -33,6 +36,9 @@
         console.log("8610fe", move)
         return true
     })
+    window.switchOrientation = function () {
+        chessboard.setOrientation(chessboard.getOrientation() === 'w' ? 'b' : 'w')
+    }
 </script>
 </body>
 </html>
