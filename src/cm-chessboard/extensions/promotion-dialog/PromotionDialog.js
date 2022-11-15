@@ -4,7 +4,7 @@
  * License: MIT, see file 'LICENSE'
  */
 import {Extension, EXTENSION_POINT} from "../../model/Extension.js"
-import {COLOR, INPUT_EVENT_TYPE, PIECE} from "../../Chessboard.js"
+import {COLOR, PIECE} from "../../Chessboard.js"
 import {DomUtils, Svg} from "../../view/ChessboardView.js"
 
 export class PromotionDialog extends Extension {
@@ -24,9 +24,6 @@ export class PromotionDialog extends Extension {
             callback: undefined
         }
 
-        this.showPromotionDialog("c8", COLOR.white, (event) => {
-            console.log("showPromotionDialog.click", event)
-        })
     }
 
     drawPieceButton(piece, point) {
@@ -42,6 +39,9 @@ export class PromotionDialog extends Extension {
     }
 
     redrawDialog() {
+        if(!this.state.square) {
+            return
+        }
         const squareWidth = this.chessboard.view.squareWidth
         const squareHeight = this.chessboard.view.squareHeight
         const squareCenterPoint = this.chessboard.view.squareToPoint(this.state.square)
@@ -51,15 +51,30 @@ export class PromotionDialog extends Extension {
             this.promotionDialogGroup.removeChild(this.promotionDialogGroup.firstChild)
         }
         if(this.state.isShown) {
+            let turned = false
+            const rank = parseInt(this.state.square.charAt(1), 10)
+            if(this.chessboard.getOrientation() === COLOR.white && rank < 5 ||
+                this.chessboard.getOrientation() === COLOR.black && rank >= 5) {
+                turned = true
+            }
+            const offsetY = turned ? - 4 * squareHeight : 0
+            const offsetX = squareCenterPoint.x + squareWidth > this.chessboard.view.width ? -squareWidth : 0
             Svg.addElement(this.promotionDialogGroup,
                 "rect", {
-                    x: squareCenterPoint.x, y: squareCenterPoint.y, width: squareWidth, height: squareHeight * 4,
+                    x: squareCenterPoint.x + offsetX, y: squareCenterPoint.y + offsetY, width: squareWidth, height: squareHeight * 4,
                     class: "promotion-dialog"
                 })
-            this.drawPieceButton(PIECE[this.state.color + "q"], {x: squareCenterPoint.x, y: squareCenterPoint.y})
-            this.drawPieceButton(PIECE[this.state.color + "r"], {x: squareCenterPoint.x, y: squareCenterPoint.y + squareHeight})
-            this.drawPieceButton(PIECE[this.state.color + "b"], {x: squareCenterPoint.x, y: squareCenterPoint.y + squareHeight * 2})
-            this.drawPieceButton(PIECE[this.state.color + "n"], {x: squareCenterPoint.x, y: squareCenterPoint.y + squareHeight * 3})
+            if(turned) {
+                this.drawPieceButton(PIECE[this.state.color + "q"], {x: squareCenterPoint.x + offsetX, y: squareCenterPoint.y - squareHeight})
+                this.drawPieceButton(PIECE[this.state.color + "r"], {x: squareCenterPoint.x + offsetX, y: squareCenterPoint.y - squareHeight * 2})
+                this.drawPieceButton(PIECE[this.state.color + "b"], {x: squareCenterPoint.x + offsetX, y: squareCenterPoint.y - squareHeight * 3})
+                this.drawPieceButton(PIECE[this.state.color + "n"], {x: squareCenterPoint.x + offsetX, y: squareCenterPoint.y - squareHeight * 4})
+            } else {
+                this.drawPieceButton(PIECE[this.state.color + "q"], {x: squareCenterPoint.x + offsetX, y: squareCenterPoint.y})
+                this.drawPieceButton(PIECE[this.state.color + "r"], {x: squareCenterPoint.x + offsetX, y: squareCenterPoint.y + squareHeight})
+                this.drawPieceButton(PIECE[this.state.color + "b"], {x: squareCenterPoint.x + offsetX, y: squareCenterPoint.y + squareHeight * 2})
+                this.drawPieceButton(PIECE[this.state.color + "n"], {x: squareCenterPoint.x + offsetX, y: squareCenterPoint.y + squareHeight * 3})
+            }
         }
     }
 
