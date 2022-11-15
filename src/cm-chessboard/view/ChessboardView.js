@@ -299,6 +299,9 @@ export class ChessboardView {
             href: `${spriteUrl}#${pieceName}`,
             class: "piece"
         })
+        const transformScale = (this.svg.createSVGTransform())
+        transformScale.setScale(this.scalingY, this.scalingY)
+        pieceUse.transform.baseVal.appendItem(transformScale)
         return pieceGroup
     }
 
