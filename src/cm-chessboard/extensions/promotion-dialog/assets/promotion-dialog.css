@@ -1,4 +1,4 @@
-svg.cm-chessboard .promotion-dialog-group * {
+svg.cm-chessboard .promotion-dialog-group rect, svg.cm-chessboard .promotion-dialog-group g[data-piece] {
   animation: fade-in 0.25s ease-in; }
 
 svg.cm-chessboard .promotion-dialog-group .promotion-dialog {
