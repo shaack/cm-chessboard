@@ -1,8 +1,9 @@
 svg.cm-chessboard {
   .promotion-dialog-group {
 
-    // opacity: 0;
-    animation: fade-in 0.25s ease-in normal;
+    * {
+      animation: fade-in 0.25s ease-in normal;
+    }
 
     .promotion-dialog {
       fill: black;

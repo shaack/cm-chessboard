@@ -1,16 +1,19 @@
-svg.cm-chessboard .promotion-dialog-group {
+svg.cm-chessboard .promotion-dialog-group * {
   animation: fade-in 0.25s ease-in normal; }
-  svg.cm-chessboard .promotion-dialog-group .promotion-dialog {
-    fill: black;
-    fill-opacity: 0.3;
-    stroke: rgba(0, 0, 0, 0.3); }
-  svg.cm-chessboard .promotion-dialog-group .promotion-dialog-button {
-    fill: transparent;
-    cursor: pointer; }
-    svg.cm-chessboard .promotion-dialog-group .promotion-dialog-button:hover {
-      fill: rgba(0, 0, 0, 0.2); }
-  svg.cm-chessboard .promotion-dialog-group .piece-group {
-    pointer-events: none; }
+
+svg.cm-chessboard .promotion-dialog-group .promotion-dialog {
+  fill: black;
+  fill-opacity: 0.3;
+  stroke: rgba(0, 0, 0, 0.3); }
+
+svg.cm-chessboard .promotion-dialog-group .promotion-dialog-button {
+  fill: transparent;
+  cursor: pointer; }
+  svg.cm-chessboard .promotion-dialog-group .promotion-dialog-button:hover {
+    fill: rgba(0, 0, 0, 0.2); }
+
+svg.cm-chessboard .promotion-dialog-group .piece-group {
+  pointer-events: none; }
 
 @keyframes fade-in {
   0% {
