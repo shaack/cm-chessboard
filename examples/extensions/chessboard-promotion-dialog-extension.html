@@ -23,7 +23,7 @@
     import {PromotionDialog} from "../../src/cm-chessboard/extensions/promotion-dialog/PromotionDialog.js"
 
     const chessboard = new Chessboard(document.getElementById("chessboard"), {
-        position: "2P1k3/8/8/8/6r1/8/8/2R1K3 w - - 0 1",
+        position: "4k3/1P6/8/8/6r1/8/8/2R1K3 w - - 0 1",
         sprite: {
             url: "../../assets/images/chessboard-sprite.svg", // pieces and markers are stored in a sprite file
         },
@@ -33,14 +33,20 @@
     })
     chessboard.enableMoveInput((event) => {
         console.log("8610fe", event)
-        if(event === INPUT_EVENT_TYPE.validateMoveInput) {
-
+        if (event.type === INPUT_EVENT_TYPE.validateMoveInput) {
+            if (event.squareTo.charAt(1) === "8" && event.piece.charAt(1) === "p") {
+                chessboard.showPromotionDialog(event.squareTo, COLOR.white, (event) => {
+                    chessboard.setPiece(event.square, event.piece, true)
+                })
+            }
         }
         return true
     })
+    /*
     chessboard.showPromotionDialog("c8", COLOR.white, (event) => {
         chessboard.setPiece(event.square, event.piece, true)
     })
+     */
     window.switchOrientation = function () {
         chessboard.setOrientation(chessboard.getOrientation() === 'w' ? 'b' : 'w')
     }
