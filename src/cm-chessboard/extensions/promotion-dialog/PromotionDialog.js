@@ -109,8 +109,9 @@ export class PromotionDialog extends Extension {
     }
 
     promotionDialogOnClickPiece(event) {
-        this.state.callback({square: this.state.square, piece: event.target.dataset.piece})
         this.state.isShown = false
+        this.chessboard.disableSquareSelect()
+        this.state.callback({square: this.state.square, piece: event.target.dataset.piece})
         this.redrawDialog()
     }
 
@@ -119,6 +120,16 @@ export class PromotionDialog extends Extension {
         this.state.square = square
         this.state.color = color
         this.state.callback = callback
+        const mousedownListener = (event) => {
+            // console.log("98c265", event)
+            if (!event.target.dataset.piece && this.state.isShown) {
+                this.state.isShown = false
+                this.state.callback({square: this.state.square, piece: null})
+                this.redrawDialog()
+            }
+            this.chessboard.view.svg.removeEventListener("mousedown", mousedownListener)
+        }
+        this.chessboard.view.svg.addEventListener("mousedown", mousedownListener)
         this.redrawDialog()
     }
 

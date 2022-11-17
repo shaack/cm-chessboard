@@ -211,13 +211,16 @@ export class Chessboard {
                 return
             }
             eventHandler({
+                mouseEvent: e,
                 chessboard: this,
                 type: e.button === 2 ? SQUARE_SELECT_TYPE.secondary : SQUARE_SELECT_TYPE.primary,
                 square: square
             })
         }
         this.context.addEventListener("contextmenu", this.squareSelectListener)
+        this.context.addEventListener("mousedown", this.squareSelectListener)
         this.context.addEventListener("mouseup", this.squareSelectListener)
+        this.context.addEventListener("touchstart", this.squareSelectListener)
         this.context.addEventListener("touchend", this.squareSelectListener)
         this.state.squareSelectEnabled = true
         this.view.visualizeInputState()
@@ -225,7 +228,9 @@ export class Chessboard {
 
     disableSquareSelect() {
         this.context.removeEventListener("contextmenu", this.squareSelectListener)
+        this.context.removeEventListener("mousedown", this.squareSelectListener)
         this.context.removeEventListener("mouseup", this.squareSelectListener)
+        this.context.removeEventListener("touchstart", this.squareSelectListener)
         this.context.removeEventListener("touchend", this.squareSelectListener)
         this.squareSelectListener = undefined
         this.state.squareSelectEnabled = false
