@@ -1,9 +1,13 @@
 svg.cm-chessboard {
   .promotion-dialog-group {
+
+    // opacity: 0;
+    animation: fade-in 0.25s ease-in normal;
+
     .promotion-dialog {
       fill: black;
       fill-opacity: 0.3;
-      stroke: rgba(0, 0, 0, 0.3)
+      stroke: rgba(0, 0, 0, 0.3);
     }
 
     .promotion-dialog-button {
@@ -18,5 +22,14 @@ svg.cm-chessboard {
     .piece-group {
       pointer-events: none;
     }
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

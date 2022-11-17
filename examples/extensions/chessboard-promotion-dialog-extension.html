@@ -39,7 +39,6 @@
         return true
     })
     chessboard.showPromotionDialog("c8", COLOR.white, (event) => {
-        console.log(event)
         chessboard.setPiece(event.square, event.piece, true)
     })
     window.switchOrientation = function () {
