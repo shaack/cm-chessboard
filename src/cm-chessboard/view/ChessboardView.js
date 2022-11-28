@@ -137,11 +137,9 @@ export class ChessboardView {
         this.boardGroup = Svg.addElement(this.svg, "g", {class: "board"})
         this.coordinatesGroup = Svg.addElement(this.svg, "g", {class: "coordinates"})
         this.markersLayer = Svg.addElement(this.svg, "g", {class: "markers-layer"})
-        this.markersGroup = Svg.addElement(this.markersLayer, "g", {class: "markers"})
         this.piecesLayer = Svg.addElement(this.svg, "g", {class: "pieces-layer"})
         this.piecesGroup = Svg.addElement(this.piecesLayer, "g", {class: "pieces"})
         this.markersTopLayer = Svg.addElement(this.svg, "g", {class: "markers-top-layer"})
-        // this.markersTopGroup = Svg.addElement(this.markersTopLayer, "g", {class: "markers-top"})
     }
 
     updateMetrics() {
@@ -179,7 +177,6 @@ export class ChessboardView {
     redrawBoard() {
         this.redrawSquares()
         this.drawCoordinates()
-        this.drawMarkers()
         this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.redrawBoard)
         this.visualizeInputState()
     }
@@ -360,35 +357,6 @@ export class ChessboardView {
             console.warn("no piece on", square)
         }
         return piece
-    }
-
-    // Markers //
-
-    drawMarkers() {
-        while (this.markersGroup.firstChild) {
-            this.markersGroup.removeChild(this.markersGroup.firstChild)
-        }
-        this.chessboard.state.markers.forEach((marker) => {
-                this.drawMarker(marker)
-            }
-        )
-    }
-
-    drawMarker(marker) {
-        // console.log("drawMarker", marker)
-        const markerGroup = Svg.addElement(this.markersGroup, "g")
-        markerGroup.setAttribute("data-square", marker.square)
-        const point = this.squareToPoint(marker.square)
-        const transform = (this.svg.createSVGTransform())
-        transform.setTranslate(point.x, point.y)
-        markerGroup.transform.baseVal.appendItem(transform)
-        const spriteUrl = this.chessboard.props.sprite.cache ? "" : this.chessboard.props.sprite.url
-        const markerUse = Svg.addElement(markerGroup, "use",
-            {href: `${spriteUrl}#${marker.type.slice}`, class: "marker " + marker.type.class})
-        const transformScale = (this.svg.createSVGTransform())
-        transformScale.setScale(this.scalingX, this.scalingY)
-        markerUse.transform.baseVal.appendItem(transformScale)
-        return markerGroup
     }
 
     // enable and disable move input //

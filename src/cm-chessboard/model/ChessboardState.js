@@ -53,31 +53,6 @@ export class ChessboardState {
         this._position = position
     }
 
-    addMarker(square, type) {
-        this.markers.push({square: square, type: type})
-    }
-
-    removeMarkers(square = undefined, type = undefined) {
-        if (!square && !type) {
-            this.markers = []
-        } else {
-            this.markers = this.markers.filter((marker) => {
-                if (!type) {
-                    if (square === marker.square) {
-                        return false
-                    }
-                } else if (!square) {
-                    if (marker.type === type) {
-                        return false
-                    }
-                } else if (marker.type === type && square === marker.square) {
-                    return false
-                }
-                return true
-            })
-        }
-    }
-
     invokeExtensionPoints(name, data = {}) {
         const extensionPoints = this.extensionPoints[name]
         const dataCloned = Object.assign({}, data)

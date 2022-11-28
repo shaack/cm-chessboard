@@ -31,12 +31,6 @@ export const BORDER_TYPE = {
     thin: "thin", // thin border
     frame: "frame" // wide border with coordinates in it
 }
-export const MARKER_TYPE = {
-    frame: {class: "marker-frame", slice: "markerFrame"},
-    square: {class: "marker-square", slice: "markerSquare"},
-    dot: {class: "marker-dot", slice: "markerDot"},
-    circle: {class: "marker-circle", slice: "markerCircle"}
-}
 export const PIECE = {
     wp: "wp", wb: "wb", wn: "wn", wr: "wr", wq: "wq", wk: "wk",
     bp: "bp", bb: "bb", bn: "bn", br: "br", bq: "bq", bk: "bk"
@@ -62,8 +56,6 @@ export class Chessboard {
                 showCoordinates: true, // show ranks and files
                 borderType: BORDER_TYPE.none, // "thin" thin border, "frame" wide border with coordinates in it, "none" no border
                 aspectRatio: 1, // height/width of the board
-                moveFromMarker: MARKER_TYPE.frame, // the marker used to mark the start square
-                moveToMarker: MARKER_TYPE.frame, // the marker used to mark the square where the figure is moving to
             },
             sprite: {
                 url: "./assets/images/chessboard-sprite.svg", // pieces and markers are stored in a sprite file
@@ -153,41 +145,6 @@ export class Chessboard {
 
     getOrientation() {
         return this.state.orientation
-    }
-
-    addMarker(type, square) {
-        if (typeof type === "string" || typeof square === "object") { // todo remove 2022-12-01
-            console.error("changed the signature of `addMarker` to `(type, square)` with v5.1.x")
-            return
-        }
-        this.state.addMarker(square, type)
-        this.view.drawMarkers()
-    }
-
-    getMarkers(type = undefined, square = undefined) {
-        if (typeof type === "string" || typeof square === "object") { // todo remove 2022-12-01
-            console.error("changed the signature of `getMarkers` to `(type, square)` with v5.1.x")
-            return
-        }
-        const markersFound = []
-        this.state.markers.forEach((marker) => {
-            const markerSquare = marker.square
-            if (!square && (!type || type === marker.type) ||
-                !type && square === markerSquare ||
-                type === marker.type && square === markerSquare) {
-                markersFound.push({square: marker.square, type: marker.type})
-            }
-        })
-        return markersFound
-    }
-
-    removeMarkers(type = undefined, square = undefined) {
-        if (typeof type === "string" || typeof square === "object") { // todo remove 2022-12-01
-            console.error("changed the signature of `removeMarkers` to `(type, square)` with v5.1.x")
-            return
-        }
-        this.state.removeMarkers(square, type)
-        this.view.drawMarkers()
     }
 
     enableMoveInput(eventHandler, color = undefined) {
