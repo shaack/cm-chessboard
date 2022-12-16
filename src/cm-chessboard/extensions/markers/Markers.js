@@ -84,7 +84,7 @@ export class Markers extends Extension {
 			return
 		}
 		this.markers.push(new Marker(square, type))
-		this.chessboard.view.redrawBoard()
+		this.onRedrawBoard()
 	}
 
 	getMarkers(type = undefined, square = undefined) {
@@ -107,7 +107,7 @@ export class Markers extends Extension {
 			return
 		}
 		this.markers = this.markers.filter((marker) => !marker.matches(square, type))
-		this.chessboard.view.redrawBoard()
+		this.onRedrawBoard()
 	}
 }
 
