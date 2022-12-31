@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>cm-chessboard</title>
+    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"/>
+    <link rel="stylesheet" href="../styles/examples.css"/>
+    <link rel="stylesheet" href="../../assets/styles/cm-chessboard.css"/>
+</head>
+<body>
+<h1><a href="../">cm-chessboard</a></h1>
+<h2>Example: Different styles and piece sets</h2>
+<div class="board" id="board1"></div>
+<div class="board" id="board2"></div>
+<div class="board" id="board3"></div>
+<div class="board" id="board4"></div>
+<div class="board" id="board5"></div>
+<div class="board" id="board6"></div>
+<div class="board" id="board7"></div>
+<div class="board" id="board8"></div>
+<div class="board" id="board9"></div>
+<script type="module">
+    import {Board, BORDER_TYPE} from "../../src/cm-draughtsboard/Board.js"
+
+    new Board(document.getElementById("board1"), {
+        position: "start",
+        style: {
+            cssClass: "green",
+            borderType: BORDER_TYPE.frame
+        },
+        sprite: {url: "../../data/pieces"},
+    })
+    new Board(document.getElementById("board2"), {
+        position: "start",
+        style: {
+            cssClass: "chessboard-js",
+            borderType: BORDER_TYPE.thin
+        },
+        sprite: {url: "../../data/pieces"},
+    })
+    new Board(document.getElementById("board3"), {
+        position: "start",
+        style: {
+            cssClass: "chess-club",
+            borderType: BORDER_TYPE.frame
+        },
+        sprite: {url: "../../data/pieces"},
+    })
+    new Board(document.getElementById("board4"), {
+        position: "start",
+        style: {
+            cssClass: "blue",
+            borderType: BORDER_TYPE.thin,
+            showCoordinates: false,
+        },
+        sprite: {url: "../../data/pieces"},
+    })
+    new Board(document.getElementById("board5"), {
+        position: "start",
+        style: {
+            borderType: BORDER_TYPE.none
+        },
+        sprite: {url: "../../data/pieces"},
+    })
+    new Board(document.getElementById("board6"), {
+        position: "start",
+        style: {
+            cssClass: "blue",
+            borderType: BORDER_TYPE.frame
+        },
+        sprite: {url: "../../data/pieces"},
+    })
+    new Board(document.getElementById("board7"), {
+        position: "start",
+        style: {
+            cssClass: "green"
+        },
+        sprite: {url: "../../data/pieces"},
+    })
+    new Board(document.getElementById("board8"), {
+        position: "start",
+        style: {
+            cssClass: "black-and-white"
+        },
+        sprite: {url: "../../data/pieces"},
+    })
+    new Board(document.getElementById("board9"), {
+        position: "start",
+        style: {
+            cssClass: "chessboard-js",
+            borderType: BORDER_TYPE.frame
+        },
+        sprite: {url: "../../data/pieces"},
+    })
+</script>
+</body>
+</html>

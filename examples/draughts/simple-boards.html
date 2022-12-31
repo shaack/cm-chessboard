@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>cm-chessboard</title>
+    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"/>
+    <link rel="stylesheet" href="../styles/examples.css"/>
+    <link rel="stylesheet" href="../../assets/styles/cm-chessboard.css"/>
+</head>
+<body>
+<h1><a href="../">cm-chessboard</a></h1>
+<h2>Example: Simple draughtsboards, view only</h2>
+<div class="board" id="board1"></div>
+<div class="board" id="board2"></div>
+<br style="clear: both"/>
+<pre>
+new Board(document.getElementById("board1"), {
+    position: "start"
+})
+new Board(document.getElementById("board2"), {
+    position: "...x.x.xxxx.xxxx.x..xx.o.x..o.oo.o.ooooo.o.o.o.o..B",
+    orientation: COLOR.black
+})
+</pre>
+<script type="module">
+    import {Board, COLOR} from "../../src/cm-draughtsboard/Board.js"
+
+    new Board(document.getElementById("board1"), {
+        position: "start",
+        sprite: {url: "../../data/pieces"},
+    })
+    new Board(document.getElementById("board2"), {
+        position: "...x.x.xxxx.xxxx.x..xx.o.x..o.oo.o.ooooo.o.o.o.o..B",
+        sprite: {url: "../../data/pieces"},
+        orientation: COLOR.black
+    })
+</script>
+</body>
+</html>

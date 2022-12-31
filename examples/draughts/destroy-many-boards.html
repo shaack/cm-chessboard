@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>cm-chessboard</title>
+    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"/>
+    <link rel="stylesheet" href="../styles/examples.css"/>
+    <link rel="stylesheet" href="../../assets/styles/cm-chessboard.css"/>
+    <!--suppress CssUnusedSymbol -->
+    <style type="text/css">
+        div.board {
+            float: left;
+            width: 4.2vw;
+            height: 4.2vw;
+            margin-right: 0.2vw;
+            margin-bottom: 0.2vw;
+        }
+
+        div.board1 {
+            float: left;
+            width: 43.1vw;
+            margin-right: 0.9vw;
+            margin-bottom: 0.5vw;
+        }
+    </style>
+</head>
+<body>
+<h1><a href="../">cm-chessboard</a></h1>
+<h2>Stress Test: Create and destroy 5,000 responsive boards</h2>
+<div id="boards"></div>
+<script type="module">
+    import {Board, COLOR} from "../../src/cm-draughtsboard/Board.js"
+    const boardsDiv = document.getElementById("boards")
+    const boardDiv = document.createElement("div")
+    boardDiv.setAttribute("class", "board1")
+    boardsDiv.appendChild(boardDiv)
+    new Board(boardDiv, {
+        position: "start",
+        sprite: {url: "../../data/pieces"},
+    })
+
+    for (let i = 0; i < 5000; i++) {
+        setTimeout(() => {
+            const boardDiv = document.createElement("div")
+            boardDiv.setAttribute("class", "board")
+            boardsDiv.appendChild(boardDiv)
+            const board = new Board(boardDiv, {
+                position: Math.round(Math.random()) ? "start" : "empty",
+                orientation: Math.round(Math.random()) ? COLOR.white : COLOR.black,
+                sprite: {url: "../../data/pieces"},
+                style: { aspectRatio: undefined }
+            })
+            setTimeout(() => {
+                board.destroy()
+                boardsDiv.removeChild(boardDiv)
+            }, 10000)
+        }, i * 100)
+    }
+
+</script>
+</body>
+</html>
