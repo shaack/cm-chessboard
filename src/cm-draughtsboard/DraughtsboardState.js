@@ -212,7 +212,7 @@ export class DraughtsboardState {
         return pieces.join("")
     }
 
-    // square is in alpha-numeric format, e.g. 'b3'
+    // square is in alphanumeric format, e.g. 'b3'
     squareToIndex(square) {
         const column = square.substr(0, 1).charCodeAt(0) - 97
         const row = square.substr(1, 1) - 1

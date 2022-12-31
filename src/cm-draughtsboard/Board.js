@@ -4,7 +4,7 @@
  * License: MIT, see file 'LICENSE'
  */
 
-import {SQUARE_COORDINATES, BoardView} from "./BoardView.js"
+import {BoardView} from "./BoardView.js"
 import {DraughtsboardState} from "./DraughtsboardState.js"
 
 export const COLOR = {
@@ -30,10 +30,6 @@ export const MARKER_TYPE = {
     square: {class: "marker-square", slice: "markerSquare"},
     dot: {class: "marker-dot", slice: "markerDot"},
     circle: {class: "marker-circle", slice: "markerCircle"}
-}
-export const PIECE = {
-    wp: "wp", wb: "wb", wn: "wn", wr: "wr", wq: "wq", wk: "wk",
-    bp: "bp", bb: "bb", bn: "bn", br: "br", bq: "bq", bk: "bk",
 }
 export const FEN_START_POSITION = "xxxxxxxxxxxxxxxxxxxx..........oooooooooooooooooooo"
 export const FEN_EMPTY_POSITION = ".................................................."
