@@ -1,0 +1,231 @@
+/*--------------------------------------------------*/
+/*---                   nav                      ---*/
+/*--------------------------------------------------*/
+nav {
+  height: 55px;
+}
+
+nav ul {
+  padding: 6px 0 7px 0;
+  margin: 0;
+  text-align: right;
+}
+
+nav ul li {
+  display: inline;
+  font-size: 20px;
+}
+
+nav ul li a {
+  color: #494949;
+  padding: 6px 3px 4px 3px;
+  margin-right: 15px;
+  text-decoration: none;
+  border-bottom: 2px solid gray;
+  font-size: 20px;
+}
+
+nav ul li a:hover, #nav ul li a.selected {
+  background: #E1CDAE;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+.container
+{
+  background-color: #FDF5E6; /* oldlace */
+  color: #333;
+  border: 1px solid gray;
+}
+
+.analysis {
+  margin-left: 5px;
+  margin-right: 5px;
+  height: 100%;
+}
+
+h1:first-child { margin-top: 5px; margin-bottom: 5px; }
+h1 { margin-top: 0; }
+h2 { margin-top: 0; }
+h3 { margin-top: 0; }
+
+figure {
+  margin: 0;
+  text-align: center;
+}
+
+.board {
+  background-color: #FDF5E6; /* oldlace */
+  margin: 0;
+}
+
+.largeboard {
+  min-width: 150px;
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.diagram {
+    background-color: #FDF5E6; /* oldlace */
+    margin: 0 auto;
+    max-width: 450px;
+}
+
+.smallboard
+{
+  min-width: 120px;
+  max-width: calc(min(55%, 200px));
+  margin-left: auto;
+  margin-right: auto;
+}
+
+button {
+  padding-top: 4px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  width: 45px;
+  height: 36px;
+}
+
+.buttons 
+{
+  margin-top: 5px;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+/*.diagrambutton */
+/*{*/
+/*  height: 32px;*/
+/*}*/
+
+.back {
+    background: url(../images/back.svg) no-repeat center;
+    background-size: contain;
+    cursor: pointer;
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+}
+
+.play {
+    background: url(../images/play.svg) no-repeat center;
+    background-size: contain;
+    cursor: pointer;
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+}
+
+.stop {
+    background: url(../images/stop.svg) no-repeat center;
+    background-size: contain;
+    cursor: pointer;
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+}
+
+.forward {
+    background: url(../images/forward.svg) no-repeat center;
+    background-size: contain;
+    cursor: pointer;
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+}
+
+.pen {
+    background: url(../images/pen.svg) no-repeat center;
+    background-size: contain;
+    cursor: pointer;
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+}
+
+body
+{
+  font-family: Arial, sans-serif;
+  font-size: 17px;
+  color: #444;
+  margin:0;
+  padding:0;
+  background: white;
+}
+
+a
+{
+  font-size: 17px;
+  text-decoration: none;
+}
+
+a:hover
+{
+  font-size: 17px;
+  text-decoration: underline;
+}
+
+figcaption
+{
+  font-size: 14px;
+}
+
+p
+{
+  margin: 10px;
+  color: black;
+  font-family: Arial, Verdana, Tahoma, Helvetica, serif;
+  font-size: 17px;
+  text-decoration: none;
+}
+
+.move1
+{
+  color: black;
+  font-weight:bold;
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+.move2
+{
+  color: #7d541f;
+  font-weight:bold;
+  font-family: Arial, serif;
+}
+
+.move3
+{
+  color: black;
+  font-style: oblique 30deg;
+  font-family: Arial, serif;
+}
+
+img
+{
+  border-style: none;
+  margin: 0 0;
+  vertical-align: text-bottom;
+}
+
+.assignment {
+    font-family: Impact, Didot, Georgia, Sans, Arial, sans-serif;
+    font-size: 20px;
+    margin-left: 20px;
+}
+
+.copyright {
+    text-align: right;
+}
+
+.problem-title {
+    margin-top: 5px;
+    text-align: center;
+}
+
+.solution-text {
+    margin-left: 20px;
+    margin-right: 20px;
+}

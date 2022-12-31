@@ -1,0 +1,19 @@
+<svg width="40px" height="40px" viewBox="0 0 40 40" class="hidden" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="wq">
+  <defs>
+    <linearGradient id="grad2" gradientTransform="scale(.29046 .12491)" x1="5.574" y1="104.455" x2="132.14" y2="104.455" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#7f7f7f"></stop>
+      <stop offset=".5" stop-color="#fff"></stop>
+      <stop offset="1" stop-color="#fff"></stop>
+    </linearGradient>
+    <linearGradient id="grad3" gradientTransform="scale(.29046 .12491)" x1="5.574" y1="157.827" x2="132.14" y2="157.827" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#7f7f7f"></stop>
+      <stop offset=".5" stop-color="#fff"></stop>
+      <stop offset="1" stop-color="#fff"></stop>
+    </linearGradient>
+  </defs>
+  <path d="M1.905 26.667c0 11.428 36.19 11.428 36.19 0V20H1.905z" fill="url(#grad3)" stroke="#000" stroke-width=".571"></path>
+  <path d="M1.905 20c0 11.429 36.19 11.429 36.19 0v-6.667H1.905z" fill="url(#grad2)" stroke="#000" stroke-width=".571"></path>
+  <path d="M1.905 13.333c0 11.429 36.19 11.429 36.19 0 0-11.428-36.19-11.428-36.19 0z" fill="#fff" stroke="#000" stroke-width=".571"></path>
+</g>
+</svg>

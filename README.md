@@ -1,3 +1,14 @@
+# cm-draughtsboard
+
+cm-draughtsboard is a modified version of cm-chessboard that targets the game of draughts. Initially it started as a
+pure fork of cm-chessboard that was kept up to date with changes. However, in 2022 the internals of cm-chessboard were
+drastically changed causing too many chess specifics to be hard coded into the board class. This made it impractical to
+keep track of future changes in cm-chessboard, and so this idea has been abandoned. The two versions are now completely
+independent, and from now on only new ideas may be ported from cm-chessboard to cm-draughtsboard.
+
+- License for the Wikimedia draughts SVG-pieces: [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)
+- License for the draughts code: [MIT](https://github.com/wiegerw/cm-draughtsboard/blob/master/LICENSE)
+
 # cm-chessboard
 
 A JavaScript chessboard which is lightweight, ES6 module based, responsive, SVG rendered and **without dependencies**.
