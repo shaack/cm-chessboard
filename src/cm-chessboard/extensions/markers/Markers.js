@@ -118,17 +118,19 @@ class Marker {
 	}
 
 	matches(square = undefined, type = undefined) {
-		if (!type) {
+		if (!type && !square) {
+			return true
+		} else if (!type) {
 			if (square === this.square) {
-				return false
+				return true
 			}
 		} else if (!square) {
 			if (this.type === type) {
-				return false
+				return true
 			}
 		} else if (this.type === type && square === this.square) {
-			return false
+			return true
 		}
-		return true
+		return false
 	}
 }
