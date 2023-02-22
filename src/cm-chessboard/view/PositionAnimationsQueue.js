@@ -5,11 +5,18 @@
  */
 import {FEN, Position} from "../model/Position.js"
 import {Svg} from "./ChessboardView.js"
+import {EXTENSION_POINT} from "../model/Extension.js"
 
 /*
 * Thanks to markosyan for the idea of the PromiseQueue
 * https://medium.com/@karenmarkosyan/how-to-manage-promises-into-dynamic-queue-with-vanilla-javascript-9d0d1f8d4df5
 */
+
+export const ANIMATION_EVENT = {
+    start: "start",
+    frame: "frame",
+    finished: "finished"
+}
 
 export class PromiseQueue {
 
@@ -163,6 +170,9 @@ export class PositionsAnimation {
         // console.log("animationStep", time)
         if (!this.startTime) {
             this.startTime = time
+            this.view.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.animation, {
+                event: ANIMATION_EVENT.start
+            })
         }
         const timeDiff = time - this.startTime
         if (timeDiff <= this.duration) {
@@ -174,6 +184,9 @@ export class PositionsAnimation {
                 if (animatedItem.type === CHANGE_TYPE.disappear) {
                     Svg.removeElement(animatedItem.element)
                 }
+            })
+            this.view.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.animation, {
+                event: ANIMATION_EVENT.finished
             })
             this.callback()
             return
@@ -205,6 +218,10 @@ export class PositionsAnimation {
             } else {
                 console.warn("animatedItem has no element", animatedItem)
             }
+        })
+        this.view.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.animation, {
+            event: ANIMATION_EVENT.frame,
+            progress: progress
         })
     }
 

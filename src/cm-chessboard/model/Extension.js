@@ -10,6 +10,7 @@ export const EXTENSION_POINT = {
     moveInputToggled: "moveInputToggled", // move input was enabled or disabled
     moveInput: "moveInput", // move started, to validate or canceled
     redrawBoard: "redrawBoard", // called after redrawing the board
+    animation: "animation", // called on every animation frame
     destroy: "destroy" // called, before the board is destroyed
 }
 
