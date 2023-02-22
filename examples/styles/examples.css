@@ -43,6 +43,8 @@ div.board {
   width: calc(100vw - 40px);
   margin-right: 20px;
   margin-bottom: 20px; }
+  div.board.board-small {
+    max-width: 320px; }
 
 .clearfix::after {
   content: "";

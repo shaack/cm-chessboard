@@ -15,7 +15,7 @@ import {EXTENSION_POINT} from "../model/Extension.js"
 export const ANIMATION_EVENT = {
     start: "start",
     frame: "frame",
-    finished: "finished"
+    end: "end"
 }
 
 export class PromiseQueue {
@@ -186,7 +186,7 @@ export class PositionsAnimation {
                 }
             })
             this.view.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.animation, {
-                event: ANIMATION_EVENT.finished
+                event: ANIMATION_EVENT.end
             })
             this.callback()
             return
