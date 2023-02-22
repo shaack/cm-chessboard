@@ -15,12 +15,9 @@ export const COLOR = {
     black: "b"
 }
 export const INPUT_EVENT_TYPE = {
-    moveStart: "moveInputStarted", // TODO deprecated 2022-08-24, use `moveInputStarted`
     moveInputStarted: "moveInputStarted",
-    moveDone: "validateMoveInput", // TODO deprecated 2022-08-24, use `validateMoveInput` https://github.com/shaack/cm-chessboard/issues/83
     validateMoveInput: "validateMoveInput",
-    moveCanceled: "moveInputCanceled", // TODO deprecated 2022-08-24, use `moveInputCanceled`
-    moveInputCanceled: "moveInputCanceled",
+    moveInputCanceled: "moveInputCanceled"
 }
 export const SQUARE_SELECT_TYPE = {
     primary: "primary",
@@ -156,19 +153,11 @@ export class Chessboard {
     }
 
     addMarker(type, square) {
-        if (typeof type === "string" || typeof square === "object") { // todo remove 2022-12-01
-            console.error("changed the signature of `addMarker` to `(type, square)` with v5.1.x")
-            return
-        }
         this.state.addMarker(square, type)
         this.view.drawMarkers()
     }
 
     getMarkers(type = undefined, square = undefined) {
-        if (typeof type === "string" || typeof square === "object") { // todo remove 2022-12-01
-            console.error("changed the signature of `getMarkers` to `(type, square)` with v5.1.x")
-            return
-        }
         const markersFound = []
         this.state.markers.forEach((marker) => {
             const markerSquare = marker.square
@@ -182,10 +171,6 @@ export class Chessboard {
     }
 
     removeMarkers(type = undefined, square = undefined) {
-        if (typeof type === "string" || typeof square === "object") { // todo remove 2022-12-01
-            console.error("changed the signature of `removeMarkers` to `(type, square)` with v5.1.x")
-            return
-        }
         this.state.removeMarkers(square, type)
         this.view.drawMarkers()
     }

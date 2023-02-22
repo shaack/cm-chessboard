@@ -197,7 +197,7 @@ export class VisualMoveInput {
     }
 
     createDraggablePiece(pieceName) {
-        // TODO use the existing piece from the board and don't create an new one
+        // maybe I should use the existing piece from the board and don't create a new one
         if (this.draggablePiece) {
             throw Error("draggablePiece exists")
         }

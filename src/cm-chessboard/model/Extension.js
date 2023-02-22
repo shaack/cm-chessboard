@@ -9,7 +9,6 @@ export const EXTENSION_POINT = {
     boardChanged: "boardChanged", // the board (orientation) was changed
     moveInputToggled: "moveInputToggled", // move input was enabled or disabled
     moveInput: "moveInput", // move started, to validate or canceled
-    // moveInputStateChanged: "moveInput", // TODO deprecated, use `moveInput`
     redrawBoard: "redrawBoard", // called after redrawing the board
     destroy: "destroy" // called, before the board is destroyed
 }

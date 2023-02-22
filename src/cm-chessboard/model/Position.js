@@ -3,11 +3,9 @@
  * Repository: https://github.com/shaack/cm-chessboard
  * License: MIT, see file 'LICENSE'
  */
-export const FEN_START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" // TODO deprecated, use FEN
-export const FEN_EMPTY_POSITION = "8/8/8/8/8/8/8/8" // TODO deprecated, use FEN
 export const FEN = {
-    start: FEN_START_POSITION,
-    empty: FEN_EMPTY_POSITION
+    start: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+    empty: "8/8/8/8/8/8/8/8"
 }
 
 export class Position {
