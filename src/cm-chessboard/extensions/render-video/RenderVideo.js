@@ -10,6 +10,10 @@ export class RenderVideo extends Extension {
 
     constructor(chessboard, props) {
         super(chessboard, props)
+        this.props = {
+            mediaType: "video/webm;codecs=h264"
+        }
+        Object.assign(this.props, props)
         this.images = []
         this.makeSpriteInline()
         this.registerExtensionPoint(EXTENSION_POINT.animation, () => {
@@ -18,7 +22,7 @@ export class RenderVideo extends Extension {
             // this.makeStyleInline(clonedSvgElement)
             let serialized = new XMLSerializer().serializeToString(clonedSvgElement)
             // console.log(serialized)
-            const blob = new Blob([serialized], {type: 'image/svg+xml'})
+            const blob = new Blob([serialized], {type: "image/svg+xml"})
             const blobURL = URL.createObjectURL(blob)
             const image = new Image()
             this.images.push(image)
@@ -30,7 +34,7 @@ export class RenderVideo extends Extension {
             }
             image.src = blobURL
         })
-        this.registerMethod("recordStart", () => {
+        this.registerMethod("recorderStart", () => {
             let all = document.querySelectorAll("svg *")
             for (let i = 0; i < all.length; i++) {
                 this.transferComputedStyle(all[i])
@@ -40,6 +44,25 @@ export class RenderVideo extends Extension {
             this.canvas.width = dimensions.width
             this.canvas.height = dimensions.height
             document.body.append(this.canvas)
+            this.stream = this.canvas.captureStream()
+            this.recorder = new MediaRecorder(this.stream, {mimeType: this.props.mediaType})
+            this.recordedData = []
+            this.recorder.ondataavailable = (event) => {
+                console.log(event)
+                if (event.data && event.data.size) {
+                    this.recordedData.push(event.data)
+                }
+            }
+            this.recorder.start(0.1)
+            console.log("recorder", this.recorder.state)
+        })
+        /**
+         * returns the url of the recorded media
+         */
+        this.registerMethod("recorderStop", () => {
+            this.recorder.stop()
+            console.log("recorder", this.recorder.state)
+            return URL.createObjectURL(new Blob(this.recordedData, {type: this.props.mediaType}))
         })
     }
 
@@ -47,7 +70,7 @@ export class RenderVideo extends Extension {
         const computedStyle = getComputedStyle(element, null)
         for (let i = 0; i < computedStyle.length; i++) {
             const style = computedStyle[i] + ""
-            if(style === "fill") {
+            if (style === "fill") {
                 element.style[style] = computedStyle[style]
             }
         }
