@@ -17,20 +17,26 @@ export class RenderVideo extends Extension {
         this.images = []
         this.makeSpriteInline()
         this.registerExtensionPoint(EXTENSION_POINT.animation, () => {
-            let clonedSvgElement = this.chessboard.view.svg.cloneNode(true)
-            let serialized = new XMLSerializer().serializeToString(clonedSvgElement)
-            const blob = new Blob([serialized], {type: "image/svg+xml"})
-            const blobURL = URL.createObjectURL(blob)
-            const image = new Image()
-            this.images.push(image)
-            image.onload = () => {
-                let context = this.canvas.getContext('2d')
-                context.drawImage(image, 0, 0, this.canvas.width, this.canvas.height)
-                this.recorder.requestData()
+            if(this.recorder && this.recorder.state === "recording") {
+                let clonedSvgElement = this.chessboard.view.svg.cloneNode(true)
+                let serialized = new XMLSerializer().serializeToString(clonedSvgElement)
+                const blob = new Blob([serialized], {type: "image/svg+xml"})
+                const blobURL = URL.createObjectURL(blob)
+                const image = new Image()
+                this.images.push(image)
+                image.onload = () => {
+                    let context = this.canvas.getContext('2d')
+                    context.drawImage(image, 0, 0, this.canvas.width, this.canvas.height)
+                    this.recorder.requestData()
+                }
+                image.src = blobURL
             }
-            image.src = blobURL
         })
         this.registerMethod("recorderStart", () => {
+            if(this.recorder && this.recorder.state === "recording") {
+                console.error("recorder is running")
+                return
+            }
             let all = document.querySelectorAll("svg *")
             for (let i = 0; i < all.length; i++) {
                 this.transferComputedStyle(all[i])
@@ -57,6 +63,10 @@ export class RenderVideo extends Extension {
          * returns the url of the recorded media
          */
         this.registerMethod("recorderStop", () => {
+            if(!this.recorder || this.recorder.state !== "recording") {
+                console.error("recorder is not recording")
+                return
+            }
             this.recorder.stop()
             console.log("recorder", this.recorder.state)
             return URL.createObjectURL(new Blob(this.recordedData, {type: this.props.mediaType}))
