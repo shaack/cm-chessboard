@@ -41,6 +41,7 @@ export class RenderVideo extends Extension {
             }
             const dimensions = this.chessboard.view.svg.getBBox()
             this.canvas = document.createElement("canvas")
+            this.canvas.style.display = "none"
             this.canvas.width = dimensions.width
             this.canvas.height = dimensions.height
             document.body.append(this.canvas)
