@@ -25,7 +25,7 @@ export class RenderVideo extends Extension {
             }
         })
         this.registerMethod("recorderStart", () => {
-            if(this.recorder && this.recorder.state === "recording") {
+            if (this.recorder && this.recorder.state === "recording") {
                 console.error("recorder is running")
                 return
             }
@@ -58,14 +58,17 @@ export class RenderVideo extends Extension {
          * returns the url of the recorded media
          */
         this.registerMethod("recorderStop", () => {
-            if(!this.recorder || this.recorder.state !== "recording") {
-                console.error("recorder is not recording")
-                return
-            }
-            this.recorder.requestData()
-            this.recorder.stop()
-            console.log("recorder", this.recorder.state)
-            return URL.createObjectURL(new Blob(this.recordedData, {type: this.props.mediaType}))
+            return new Promise((resolve, reject) => {
+                if (!this.recorder || this.recorder.state !== "recording") {
+                    reject("recorder is not recording")
+                }
+                this.recorder.requestData()
+                setTimeout(() => {
+                    this.recorder.stop()
+                    console.log("recorder", this.recorder.state)
+                    resolve(URL.createObjectURL(new Blob(this.recordedData, {type: this.props.mediaType})))
+                }, 100)
+            })
         })
     }
 

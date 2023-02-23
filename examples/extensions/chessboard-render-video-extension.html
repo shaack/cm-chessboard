@@ -34,9 +34,10 @@
             setTimeout(() => {
                 chessboard.movePiece("e7", "e5", true).then(() => {
                     setTimeout(() => {
-                        const url = chessboard.recorderStop()
-                        const video = document.getElementById("videoOut")
-                        video.src = url
+                        chessboard.recorderStop().then((url) => {
+                            const video = document.getElementById("videoOut")
+                            video.src = url
+                        })
                     }, 100)
                 })
             }, 400)
