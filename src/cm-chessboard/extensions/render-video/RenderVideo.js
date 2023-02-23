@@ -11,13 +11,24 @@ export class RenderVideo extends Extension {
     constructor(chessboard, props) {
         super(chessboard, props)
         this.props = {
-            mediaType: "video/webm;codecs=H264"
+            mediaType: "auto"
         }
         Object.assign(this.props, props)
+        if(this.props.mediaType === "auto") {
+            if(MediaRecorder.isTypeSupported("video/mp4")) {
+                this.props.mediaType = "video/mp4"
+            } else if(MediaRecorder.isTypeSupported("video/webm;codecs=H264")) {
+                this.props.mediaType = "video/webm;codecs=H264"
+            } else if(MediaRecorder.isTypeSupported("video/webm")) {
+                this.props.mediaType = "video/webm"
+            } else {
+                console.error("no suitable mediaType found")
+            }
+        }
+        console.log("recorder mediaType", this.props.mediaType)
         this.images = []
         this.makeSpriteInline()
         this.registerExtensionPoint(EXTENSION_POINT.animation, (event) => {
-            // console.log(event)
             if (this.recorder && this.recorder.state === "recording") {
                 setTimeout(() => {
                     this.cloneImageAndRender()
@@ -35,6 +46,7 @@ export class RenderVideo extends Extension {
             }
             const dimensions = this.chessboard.view.svg.getBBox()
             this.canvas = document.createElement("canvas")
+            this.canvas.style.backgroundColor = "#000"
             this.canvas.style.display = "none"
             this.canvas.width = dimensions.width
             this.canvas.height = dimensions.height
@@ -76,10 +88,17 @@ export class RenderVideo extends Extension {
         let serialized = new XMLSerializer().serializeToString(this.chessboard.view.svg)
         const blob = new Blob([serialized], {type: "image/svg+xml"})
         const blobURL = URL.createObjectURL(blob)
+        // console.log(blobURL)
         const image = new Image()
+        // needed for safari
+        image.width = this.canvas.width
+        image.height = this.canvas.height
+        image.style.position = "absolute"
+        image.style.visibility = "hidden"
+        //
+        document.body.append(image)
         image.onload = () => {
-            this.contect.drawImage(image, 0, 0, this.canvas.width, this.canvas.height)
-            this.recorder.requestData()
+            this.contect.drawImage(image, 0, 0, this.canvas.width, this.canvas.height, 0, 0, this.canvas.width, this.canvas.height)
         }
         image.src = blobURL
     }

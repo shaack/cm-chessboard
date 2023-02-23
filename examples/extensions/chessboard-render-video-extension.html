@@ -10,9 +10,9 @@
 <body>
 <h1><a href="../..">cm-chessboard</a></h1>
 <h2>Example: RenderVideo extension</h2>
-<p>Works in Chrome.</p>
+<p>Works in Chrome (webm) and Safari (mp4).</p>
 <div class="board board-small" id="board"></div>
-<video id="videoOut" controls="controls"></video>
+<video id="videoOut" controls="controls" style="width: 320px; height: 320px"></video>
 <script type="module">
     import {RenderVideo} from "../../src/cm-chessboard/extensions/render-video/RenderVideo.js"
     import {Chessboard} from "../../src/cm-chessboard/Chessboard.js"
@@ -42,7 +42,7 @@
                 })
             }, 400)
         })
-    }, 500)
+    }, 250)
 </script>
 </body>
 </html>
