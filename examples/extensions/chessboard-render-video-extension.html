@@ -18,7 +18,8 @@
     import {Chessboard} from "../../src/cm-chessboard/Chessboard.js"
     import {FEN} from "../../src/cm-chessboard/model/Position.js"
 
-    const chessboard = new Chessboard(document.getElementById("board"), {
+    const boardElement = document.getElementById("board")
+    const chessboard = new Chessboard(boardElement, {
         position: FEN.start,
         sprite: {url: "../../assets/images/chessboard-sprite.svg"},
         extensions:
@@ -27,8 +28,10 @@
                 props: {}
             }]
     })
+    chessboard.recordStart()
     setTimeout(() => {
         chessboard.movePiece("e2", "e4", true)
+        chessboard.movePiece("e7", "e5", true)
     }, 500)
 
 </script>
