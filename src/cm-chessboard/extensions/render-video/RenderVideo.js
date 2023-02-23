@@ -17,20 +17,16 @@ export class RenderVideo extends Extension {
         this.images = []
         this.makeSpriteInline()
         this.registerExtensionPoint(EXTENSION_POINT.animation, () => {
-            // console.log("EXTENSION_POINT.animation", data)
             let clonedSvgElement = this.chessboard.view.svg.cloneNode(true)
-            // this.makeStyleInline(clonedSvgElement)
             let serialized = new XMLSerializer().serializeToString(clonedSvgElement)
-            // console.log(serialized)
             const blob = new Blob([serialized], {type: "image/svg+xml"})
             const blobURL = URL.createObjectURL(blob)
             const image = new Image()
             this.images.push(image)
             image.onload = () => {
-                // console.log("onload", event)
                 let context = this.canvas.getContext('2d')
-                // console.log(image)
                 context.drawImage(image, 0, 0, this.canvas.width, this.canvas.height)
+                this.recorder.requestData()
             }
             image.src = blobURL
         })
@@ -49,12 +45,12 @@ export class RenderVideo extends Extension {
             this.recorder = new MediaRecorder(this.stream, {mimeType: this.props.mediaType})
             this.recordedData = []
             this.recorder.ondataavailable = (event) => {
-                // console.log(event)
                 if (event.data && event.data.size) {
                     this.recordedData.push(event.data)
                 }
             }
-            this.recorder.start(0.1)
+            this.recorder.start()
+            this.recorder.requestData()
             console.log("recorder", this.recorder.state)
         })
         /**
@@ -71,7 +67,7 @@ export class RenderVideo extends Extension {
         const computedStyle = getComputedStyle(element, null)
         for (let i = 0; i < computedStyle.length; i++) {
             const style = computedStyle[i] + ""
-            if (style === "fill") {
+            if (["fill", "stroke", "stroke-width", "font-size"].includes(style)) {
                 element.style[style] = computedStyle[style]
             }
         }

@@ -13,8 +13,6 @@
 <p>Works in Chrome.</p>
 <div class="board board-small" id="board"></div>
 <video id="videoOut" controls="controls"></video>
-<br style="clear: both"/>
-
 <script type="module">
     import {RenderVideo} from "../../src/cm-chessboard/extensions/render-video/RenderVideo.js"
     import {Chessboard} from "../../src/cm-chessboard/Chessboard.js"
@@ -33,18 +31,17 @@
     chessboard.recorderStart()
     setTimeout(() => {
         chessboard.movePiece("e2", "e4", true).then(() => {
-            chessboard.movePiece("e7", "e5", true).then(() => {
-                setTimeout(() => {
-                    const url = chessboard.recorderStop()
-                    const video = document.getElementById("videoOut")
-                    video.src = url
-                }, 100)
-
-            })
+            setTimeout(() => {
+                chessboard.movePiece("e7", "e5", true).then(() => {
+                    setTimeout(() => {
+                        const url = chessboard.recorderStop()
+                        const video = document.getElementById("videoOut")
+                        video.src = url
+                    }, 100)
+                })
+            }, 400)
         })
-
     }, 500)
-
 </script>
 </body>
 </html>
