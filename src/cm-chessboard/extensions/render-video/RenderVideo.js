@@ -17,7 +17,7 @@ export class RenderVideo extends Extension {
         this.images = []
         this.makeSpriteInline()
         this.registerExtensionPoint(EXTENSION_POINT.animation, (event) => {
-            console.log(event)
+            // console.log(event)
             if (this.recorder && this.recorder.state === "recording") {
                 setTimeout(() => {
                     this.cloneImageAndRender()
