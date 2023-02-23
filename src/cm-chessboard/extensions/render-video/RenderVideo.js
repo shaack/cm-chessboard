@@ -16,8 +16,9 @@ export class RenderVideo extends Extension {
         Object.assign(this.props, props)
         this.images = []
         this.makeSpriteInline()
-        this.registerExtensionPoint(EXTENSION_POINT.animation, () => {
-            if(this.recorder && this.recorder.state === "recording") {
+        this.registerExtensionPoint(EXTENSION_POINT.animation, (event) => {
+            console.log(event)
+            if (this.recorder && this.recorder.state === "recording") {
                 setTimeout(() => {
                     this.cloneImageAndRender()
                 })
@@ -37,6 +38,7 @@ export class RenderVideo extends Extension {
             this.canvas.style.display = "none"
             this.canvas.width = dimensions.width
             this.canvas.height = dimensions.height
+            this.contect = this.canvas.getContext('2d')
             document.body.append(this.canvas)
             this.stream = this.canvas.captureStream()
             this.recorder = new MediaRecorder(this.stream, {mimeType: this.props.mediaType})
@@ -68,14 +70,12 @@ export class RenderVideo extends Extension {
     }
 
     cloneImageAndRender() {
-        let clonedSvgElement = this.chessboard.view.svg.cloneNode(true)
-        let serialized = new XMLSerializer().serializeToString(clonedSvgElement)
+        let serialized = new XMLSerializer().serializeToString(this.chessboard.view.svg)
         const blob = new Blob([serialized], {type: "image/svg+xml"})
         const blobURL = URL.createObjectURL(blob)
         const image = new Image()
         image.onload = () => {
-            let context = this.canvas.getContext('2d')
-            context.drawImage(image, 0, 0, this.canvas.width, this.canvas.height)
+            this.contect.drawImage(image, 0, 0, this.canvas.width, this.canvas.height)
             this.recorder.requestData()
         }
         image.src = blobURL

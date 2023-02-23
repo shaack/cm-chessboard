@@ -193,7 +193,7 @@ export class PositionsAnimation {
         }
         const t = Math.min(1, timeDiff / this.duration)
         let progress = t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t // easeInOut
-        if (isNaN(progress)) {
+        if (isNaN(progress) || progress > 0.99) {
             progress = 1
         }
         this.animatedElements.forEach((animatedItem) => {
