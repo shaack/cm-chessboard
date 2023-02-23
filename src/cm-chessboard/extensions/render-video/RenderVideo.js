@@ -26,7 +26,8 @@ export class RenderVideo extends Extension {
             }
         }
         console.log("recorder mediaType", this.props.mediaType)
-        this.images = []
+        this.image = new Image()
+        document.body.append(this.image)
         this.makeSpriteInline()
         this.registerExtensionPoint(EXTENSION_POINT.animation, (event) => {
             if (this.recorder && this.recorder.state === "recording") {
@@ -51,6 +52,14 @@ export class RenderVideo extends Extension {
             this.canvas.width = dimensions.width
             this.canvas.height = dimensions.height
             this.contect = this.canvas.getContext('2d')
+
+            this.image = new Image()
+            this.image.width = this.canvas.width
+            this.image.height = this.canvas.height
+            this.image.style.position = "absolute"
+            this.image.style.visibility = "hidden"
+            document.body.append(this.image)
+
             document.body.append(this.canvas)
             this.stream = this.canvas.captureStream()
             this.recorder = new MediaRecorder(this.stream, {mimeType: this.props.mediaType})
@@ -79,7 +88,7 @@ export class RenderVideo extends Extension {
                     this.recorder.stop()
                     console.log("recorder", this.recorder.state)
                     resolve(URL.createObjectURL(new Blob(this.recordedData, {type: this.props.mediaType})))
-                }, 100)
+                }, 200)
             })
         })
     }
@@ -88,19 +97,10 @@ export class RenderVideo extends Extension {
         let serialized = new XMLSerializer().serializeToString(this.chessboard.view.svg)
         const blob = new Blob([serialized], {type: "image/svg+xml"})
         const blobURL = URL.createObjectURL(blob)
-        // console.log(blobURL)
-        const image = new Image()
-        // needed for safari
-        image.width = this.canvas.width
-        image.height = this.canvas.height
-        image.style.position = "absolute"
-        image.style.visibility = "hidden"
-        //
-        document.body.append(image)
-        image.onload = () => {
-            this.contect.drawImage(image, 0, 0, this.canvas.width, this.canvas.height, 0, 0, this.canvas.width, this.canvas.height)
+        this.image.onload = () => {
+            this.contect.drawImage(this.image, 0, 0, this.canvas.width, this.canvas.height, 0, 0, this.canvas.width, this.canvas.height)
         }
-        image.src = blobURL
+        this.image.src = blobURL
     }
 
     transferComputedStyle(element) {
