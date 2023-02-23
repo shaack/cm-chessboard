@@ -11,7 +11,7 @@ export class RenderVideo extends Extension {
     constructor(chessboard, props) {
         super(chessboard, props)
         this.props = {
-            mediaType: "video/webm;codecs=h264"
+            mediaType: "video/webm;codecs=H264"
         }
         Object.assign(this.props, props)
         this.images = []
@@ -26,7 +26,7 @@ export class RenderVideo extends Extension {
             const blobURL = URL.createObjectURL(blob)
             const image = new Image()
             this.images.push(image)
-            image.onload = (event) => {
+            image.onload = () => {
                 // console.log("onload", event)
                 let context = this.canvas.getContext('2d')
                 // console.log(image)
@@ -49,7 +49,7 @@ export class RenderVideo extends Extension {
             this.recorder = new MediaRecorder(this.stream, {mimeType: this.props.mediaType})
             this.recordedData = []
             this.recorder.ondataavailable = (event) => {
-                console.log(event)
+                // console.log(event)
                 if (event.data && event.data.size) {
                     this.recordedData.push(event.data)
                 }
@@ -80,7 +80,6 @@ export class RenderVideo extends Extension {
     makeSpriteInline() {
         const wrapper = document.createElement("div")
         wrapper.style.display = "none"
-        // wrapper.id = "wrapperId"
         document.body.appendChild(wrapper)
         const svg = this.chessboard.view.svg
         const xhr = new XMLHttpRequest()
