@@ -18,18 +18,20 @@ export class RenderVideo extends Extension {
         this.makeSpriteInline()
         this.registerExtensionPoint(EXTENSION_POINT.animation, () => {
             if(this.recorder && this.recorder.state === "recording") {
-                let clonedSvgElement = this.chessboard.view.svg.cloneNode(true)
-                let serialized = new XMLSerializer().serializeToString(clonedSvgElement)
-                const blob = new Blob([serialized], {type: "image/svg+xml"})
-                const blobURL = URL.createObjectURL(blob)
-                const image = new Image()
-                this.images.push(image)
-                image.onload = () => {
-                    let context = this.canvas.getContext('2d')
-                    context.drawImage(image, 0, 0, this.canvas.width, this.canvas.height)
-                    this.recorder.requestData()
-                }
-                image.src = blobURL
+                setTimeout(() => {
+                    let clonedSvgElement = this.chessboard.view.svg.cloneNode(true)
+                    let serialized = new XMLSerializer().serializeToString(clonedSvgElement)
+                    const blob = new Blob([serialized], {type: "image/svg+xml"})
+                    const blobURL = URL.createObjectURL(blob)
+                    const image = new Image()
+                    this.images.push(image)
+                    image.onload = () => {
+                        let context = this.canvas.getContext('2d')
+                        context.drawImage(image, 0, 0, this.canvas.width, this.canvas.height)
+                        this.recorder.requestData()
+                    }
+                    image.src = blobURL
+                })
             }
         })
         this.registerMethod("recorderStart", () => {
