@@ -114,12 +114,17 @@ export class RenderVideo extends Extension {
     }
 
     cloneImageAndRender() {
+        if(this.rendering) {
+            return
+        }
+        this.rendering = true
         let serialized = new XMLSerializer().serializeToString(this.chessboard.view.svg)
         const blob = new Blob([serialized], {type: "image/svg+xml"})
         const blobURL = URL.createObjectURL(blob)
         this.image.onload = () => {
             this.context.drawImage(this.image, 0, 0, this.canvas.width, this.canvas.height, 0, 0, this.canvas.width, this.canvas.height)
             this.recorder.requestData()
+            this.rendering = false
         }
         this.image.src = blobURL
     }
