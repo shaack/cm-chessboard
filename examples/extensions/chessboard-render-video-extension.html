@@ -28,21 +28,18 @@
                 props: {}
             }]
     })
-    chessboard.recorderStart()
-    setTimeout(() => {
-        chessboard.movePiece("e2", "e4", true).then(() => {
-            setTimeout(() => {
-                chessboard.movePiece("e7", "e5", true).then(() => {
-                    setTimeout(() => {
-                        chessboard.recorderStop().then((url) => {
-                            const video = document.getElementById("videoOut")
-                            video.src = url
-                        })
-                    }, 100)
-                })
-            }, 400)
-        })
-    }, 250)
+    await chessboard.recorderInit()
+    await chessboard.recorderStart()
+    await chessboard.recorderPause(500)
+    await chessboard.movePiece("e2", "e4", true)
+    await chessboard.recorderPause(500)
+    await chessboard.movePiece("e7", "e5", true)
+    await chessboard.recorderPause(1000)
+    chessboard.recorderStop().then((url) => {
+        const video = document.getElementById("videoOut")
+        video.src = url
+    })
+
 </script>
 </body>
 </html>
