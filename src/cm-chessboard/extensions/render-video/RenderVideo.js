@@ -29,11 +29,11 @@ export class RenderVideo extends Extension {
         this.image = new Image()
         document.body.append(this.image)
         this.makeSpriteInline()
-        this.registerExtensionPoint(EXTENSION_POINT.animation, () => {
-            if (this.recorder && this.recorder.state === "recording") {
-                setTimeout(() => {
-                    this.cloneImageAndRender()
-                })
+        this.registerExtensionPoint(EXTENSION_POINT.animation, async (event) => {
+            if(event.event = "frame") {
+                if (this.recorder && this.recorder.state === "recording") {
+                    await this.cloneImageAndRender()
+                }
             }
         })
         this.registerMethod("recorderInit", () => {
@@ -86,11 +86,11 @@ export class RenderVideo extends Extension {
          * returns the url of the recorded media
          */
         this.registerMethod("recorderStop", () => {
-            return new Promise((resolve, reject) => {
+            return new Promise(async (resolve, reject) => {
                 if (!this.recorder || this.recorder.state !== "recording") {
                     reject("recorder is not recording")
                 }
-                this.cloneImageAndRender()
+                await this.cloneImageAndRender()
                 setTimeout(() => {
                     this.recorder.stop()
                     console.log("recorder", this.recorder.state)
@@ -99,34 +99,37 @@ export class RenderVideo extends Extension {
             })
         })
         this.registerMethod("recorderPause", (ms) => {
-            return new Promise((resolve) => {
-                this.cloneImageAndRender()
-                const interval = setInterval(() => {
-                    this.cloneImageAndRender()
-                }, 20)
-                setTimeout(() => {
+            return new Promise(async (resolve) => {
+                await this.cloneImageAndRender()
+                const interval = setInterval(async () => {
+                    await this.cloneImageAndRender()
+                }, 50)
+                setTimeout(async () => {
                     clearInterval(interval)
-                    this.cloneImageAndRender()
+                    await this.cloneImageAndRender()
                     resolve()
                 }, ms)
             })
         })
     }
 
-    cloneImageAndRender() {
-        if(this.rendering) {
-            return
-        }
-        this.rendering = true
-        let serialized = new XMLSerializer().serializeToString(this.chessboard.view.svg)
-        const blob = new Blob([serialized], {type: "image/svg+xml"})
-        const blobURL = URL.createObjectURL(blob)
-        this.image.onload = () => {
-            this.context.drawImage(this.image, 0, 0, this.canvas.width, this.canvas.height, 0, 0, this.canvas.width, this.canvas.height)
-            this.recorder.requestData()
-            this.rendering = false
-        }
-        this.image.src = blobURL
+    async cloneImageAndRender() {
+        return new Promise((resolve, reject) => {
+            if(this.rendering) {
+                resolve()
+            }
+            this.rendering = true
+            let serialized = new XMLSerializer().serializeToString(this.chessboard.view.svg)
+            const blob = new Blob([serialized], {type: "image/svg+xml"})
+            const blobURL = URL.createObjectURL(blob)
+            this.image.onload = () => {
+                this.context.drawImage(this.image, 0, 0, this.canvas.width, this.canvas.height, 0, 0, this.canvas.width, this.canvas.height)
+                this.recorder.requestData()
+                this.rendering = false
+                resolve()
+            }
+            this.image.src = blobURL
+        })
     }
 
     transferComputedStyle(element) {
