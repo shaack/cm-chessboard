@@ -58,7 +58,7 @@ export class RenderVideo extends Extension {
                 this.image.style.visibility = "hidden"
                 document.body.append(this.image)
 
-                this.stream = this.canvas.captureStream()
+                this.stream = this.canvas.captureStream(60)
                 this.recorder = new MediaRecorder(this.stream, {mimeType: this.props.mediaType})
                 this.recorder.ondataavailable = (event) => {
                     if (event.data && event.data.size) {
