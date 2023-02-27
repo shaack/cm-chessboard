@@ -26,8 +26,6 @@ export class RenderVideo extends Extension {
             }
         }
         console.log("recorder mediaType", this.props.mediaType)
-        this.image = new Image()
-        document.body.append(this.image)
         this.makeSpriteInline()
         this.registerExtensionPoint(EXTENSION_POINT.animation, async (event) => {
             if(event.event = "frame") {
@@ -50,14 +48,14 @@ export class RenderVideo extends Extension {
                 this.canvas.height = dimensions.height
                 this.context = this.canvas.getContext('2d')
                 document.body.append(this.canvas)
-
+/*
                 this.image = new Image()
                 this.image.width = this.canvas.width
                 this.image.height = this.canvas.height
                 this.image.style.position = "absolute"
                 this.image.style.visibility = "hidden"
                 document.body.append(this.image)
-
+*/
                 this.stream = this.canvas.captureStream(60)
                 this.recorder = new MediaRecorder(this.stream, {mimeType: this.props.mediaType})
                 this.recorder.ondataavailable = (event) => {
@@ -115,20 +113,16 @@ export class RenderVideo extends Extension {
 
     async cloneImageAndRender() {
         return new Promise((resolve, reject) => {
-            if(this.rendering) {
-                resolve()
-            }
-            this.rendering = true
             let serialized = new XMLSerializer().serializeToString(this.chessboard.view.svg)
             const blob = new Blob([serialized], {type: "image/svg+xml"})
             const blobURL = URL.createObjectURL(blob)
-            this.image.onload = () => {
-                this.context.drawImage(this.image, 0, 0, this.canvas.width, this.canvas.height, 0, 0, this.canvas.width, this.canvas.height)
+            const image = new Image()
+            image.onload = () => {
+                this.context.drawImage(image, 0, 0, this.canvas.width, this.canvas.height)
                 this.recorder.requestData()
-                this.rendering = false
                 resolve()
             }
-            this.image.src = blobURL
+            image.src = blobURL
         })
     }
 
