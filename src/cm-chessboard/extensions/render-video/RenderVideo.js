@@ -11,17 +11,20 @@ export class RenderVideo extends Extension {
     constructor(chessboard, props) {
         super(chessboard, props)
         this.props = {
-            mediaType: "auto"
+            mediaType: "auto",
+            safariMode: true
         }
         Object.assign(this.props, props)
         if(this.props.mediaType === "auto") {
-            if(MediaRecorder.isTypeSupported("video/mp4")) {
-                this.props.mediaType = "video/mp4"
-            } else if(MediaRecorder.isTypeSupported("video/webm;codecs=H264")) {
+            if(MediaRecorder.isTypeSupported("video/mp4;codecs:h264,aac")) {
+                this.props.mediaType = "video/mp4;codecs:h264,aac"
+            } else if(MediaRecorder.isTypeSupported("video/webm;codecs=h264")) {
                 this.props.mediaType = "video/webm;codecs=H264"
             } else if(MediaRecorder.isTypeSupported("video/webm")) {
                 this.props.mediaType = "video/webm"
-            } else {
+            } else if(MediaRecorder.isTypeSupported("video/mp4")) {
+                this.props.mediaType = "video/mp4"
+            }else {
                 console.error("no suitable mediaType found")
             }
         }
@@ -118,7 +121,7 @@ export class RenderVideo extends Extension {
             const blob = new Blob([serialized], {type: "image/svg+xml"})
             const blobURL = URL.createObjectURL(blob)
             // strange Safari "bug" that the content has only 300x150px
-            const image = this.props.mediaType === "video/mp4" ? this.image : new Image()
+            const image = this.props.safariMode ? this.image : new Image()
             image.onload = () => {
                 this.context.drawImage(image, 0, 0, this.canvas.width, this.canvas.height, 0, 0, this.canvas.width, this.canvas.height)
                 resolve()

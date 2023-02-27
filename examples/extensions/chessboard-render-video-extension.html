@@ -13,6 +13,8 @@
 <p>Works best in Chrome with webm format.</p>
 <div class="board board-small" id="board"></div>
 <video id="videoOut" controls="controls"></video>
+<br/>
+<a href="" style="visibility: hidden" id="download-link">Download video</a>
 <script type="module">
     import {RenderVideo} from "../../src/cm-chessboard/extensions/render-video/RenderVideo.js"
     import {Chessboard} from "../../src/cm-chessboard/Chessboard.js"
@@ -38,6 +40,8 @@
     chessboard.recorderStop().then((url) => {
         const video = document.getElementById("videoOut")
         video.src = url
+        document.getElementById("download-link").href = url
+        document.getElementById("download-link").style.visibility = "visible"
     })
 
 </script>
