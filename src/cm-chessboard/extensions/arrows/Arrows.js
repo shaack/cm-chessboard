@@ -1,5 +1,5 @@
 /**
- * Author and copyright: Barak Michener (@barakmich)
+ * Authors and copyright: Barak Michener (@barakmich) and Stefan Haack (@shaack)
  * Repository: https://github.com/shaack/cm-chessboard
  * License: MIT, see file 'LICENSE'
  */
