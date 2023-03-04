@@ -3,10 +3,10 @@ import {Extension, EXTENSION_POINT} from "../../model/Extension.js"
 import {Svg} from "../../view/ChessboardView.js"
 
 export const MARKER_TYPE = {
-	square: {class: "marker-square", slice: "markerSquare", position: 'down'},
-	frame: {class: "marker-frame", slice: "markerFrame", position: 'down'},
-	dot: {class: "marker-dot", slice: "markerDot", position: 'up'},
-	circle: {class: "marker-circle", slice: "markerCircle", position: 'down'}
+	square: {class: "marker-square", slice: "markerSquare"},
+	frame: {class: "marker-frame", slice: "markerFrame"},
+	dot: {class: "marker-dot", slice: "markerDot", position: 'above'},
+	circle: {class: "marker-circle", slice: "markerCircle"}
 }
 
 export class Markers extends Extension {
@@ -20,17 +20,13 @@ export class Markers extends Extension {
 				moveFromMarker: MARKER_TYPE.frame, // the marker used to mark the start square
 				moveToMarker: MARKER_TYPE.frame, // the marker used to mark the square where the figure is moving to
 			},
-			sprite: {
-				url: "./assets/images/chessboard-sprite.svg", // pieces and markers are stored in a sprite file
-				size: 40, // the sprite tiles size, defaults to 40x40px
-				cache: true // cache the sprite
-			},
+			sprite: chessboard.props.sprite
 		}
 		this.props = {}
 		Object.assign(this.props, defaultProps)
 		Object.assign(this.props, props)
 		this.props.sprite = defaultProps.sprite
-		if (props.sprite) {
+		if (props && props.sprite) {
 			Object.assign(this.props.sprite, props.sprite)
 		}
 		if (this.props.sprite.cache) {
@@ -59,7 +55,7 @@ export class Markers extends Extension {
 
 	drawMarker(marker) {
 		let markerGroup;
-		if (marker.type.position === 'up') {
+		if (marker.type.position === 'above') {
 			markerGroup = Svg.addElement(this.markerGroupUp, "g")
 		} else {
 			markerGroup = Svg.addElement(this.markerGroupDown, "g")

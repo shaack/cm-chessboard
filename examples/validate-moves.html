@@ -67,7 +67,8 @@ board.enableMoveInput(inputHandler, COLOR.white)
 <div id="output"></div>
 <!--suppress JSUnresolvedFunction -->
 <script type="module">
-    import {INPUT_EVENT_TYPE, COLOR, Chessboard, MARKER_TYPE} from "../src/cm-chessboard/Chessboard.js"
+    import {INPUT_EVENT_TYPE, COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
+    import {MARKER_TYPE, Markers} from "../src/cm-chessboard/extensions/markers/Markers.js"
 
     const chess = new Chess()
 
@@ -111,13 +112,7 @@ board.enableMoveInput(inputHandler, COLOR.white)
         sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
         style: {moveFromMarker: MARKER_TYPE.square, moveToMarker: MARKER_TYPE.square},
         orientation: COLOR.white,
-        accessibility: {
-            brailleNotationInAlt: true, // show the braille notation of the game in the alt attribute of the svg
-            movePieceForm: true, // display a form to move a piece (from, to, move)
-            boardAsTable: true, // display the board additionally as HTML table
-            piecesAsList: true, // display the pieces additionally as List
-            visuallyHidden: true // hide all those extra outputs visually but keep them accessible for screen readers and braille displays
-        }
+        extensions: [{class: Markers}]
     })
     board.enableMoveInput(inputHandler, COLOR.white)
 </script>
