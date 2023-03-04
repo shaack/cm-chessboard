@@ -39,21 +39,27 @@ function inputHandler(event) {
 <script type="module">
     import {INPUT_EVENT_TYPE, Chessboard} from "../src/cm-chessboard/Chessboard.js"
     import {FEN} from "../src/cm-chessboard/model/Position.js"
+    import {MARKER_TYPE, Markers} from "../src/cm-chessboard/extensions/markers/Markers.js"
 
     window.board = new Chessboard(document.getElementById("board"), {
         position: FEN.start,
-        sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"}
+        sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
+        extensions: [{class: Markers}]
     })
 
     window.board.enableMoveInput(inputHandler)
     function inputHandler(event) {
         console.log(event)
+        window.board.removeMarkers(MARKER_TYPE.frame)
         switch (event.type) {
             case INPUT_EVENT_TYPE.moveInputStarted:
                 log(`moveInputStarted: ${event.square}`)
+                window.board.addMarker(MARKER_TYPE.frame, event.square)
                 return true
             case INPUT_EVENT_TYPE.validateMoveInput:
                 log(`validateMoveInput: ${event.squareFrom}-${event.squareTo}`)
+                window.board.addMarker(MARKER_TYPE.frame, event.squareFrom)
+                window.board.addMarker(MARKER_TYPE.frame, event.squareTo)
                 return true
             case INPUT_EVENT_TYPE.moveInputCanceled:
                 log(`moveInputCanceled`)

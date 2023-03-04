@@ -19,7 +19,8 @@ aspects of chess games.
 ## Extensions
 
 - [Accessibility Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-accessibility-extension.html)
-- [Arrows Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-arrows-extension.html) (by [@barakmich](https://github.com/barakmich))
+- [Arrows Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-arrows-extension.html)
+- [Markers Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-markers-extension.html)  🆕
 - [PromotionDialog Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-promotion-dialog-extension.html)
 - [RenderVideo](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-render-video-extension.html)  🆕
 

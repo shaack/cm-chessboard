@@ -17,7 +17,7 @@ export const COLOR = {
 export const INPUT_EVENT_TYPE = {
     moveInputStarted: "moveInputStarted",
     validateMoveInput: "validateMoveInput",
-    moveInputCanceled: "moveInputCanceled"
+    moveInputCanceled: "moveInputCanceled",
 }
 export const SQUARE_SELECT_TYPE = {
     primary: "primary",
@@ -27,12 +27,6 @@ export const BORDER_TYPE = {
     none: "none", // no border
     thin: "thin", // thin border
     frame: "frame" // wide border with coordinates in it
-}
-export const MARKER_TYPE = {
-    frame: {class: "marker-frame", slice: "markerFrame"},
-    square: {class: "marker-square", slice: "markerSquare"},
-    dot: {class: "marker-dot", slice: "markerDot"},
-    circle: {class: "marker-circle", slice: "markerCircle"}
 }
 export const PIECE = {
     wp: "wp", wb: "wb", wn: "wn", wr: "wr", wq: "wq", wk: "wk",
@@ -59,8 +53,6 @@ export class Chessboard {
                 showCoordinates: true, // show ranks and files
                 borderType: BORDER_TYPE.none, // "thin" thin border, "frame" wide border with coordinates in it, "none" no border
                 aspectRatio: 1, // height/width of the board
-                moveFromMarker: MARKER_TYPE.frame, // the marker used to mark the start square
-                moveToMarker: MARKER_TYPE.frame, // the marker used to mark the square where the figure is moving to
             },
             sprite: {
                 url: "./assets/images/chessboard-sprite.svg", // pieces and markers are stored in a sprite file
@@ -150,29 +142,6 @@ export class Chessboard {
 
     getOrientation() {
         return this.state.orientation
-    }
-
-    addMarker(type, square) {
-        this.state.addMarker(square, type)
-        this.view.drawMarkers()
-    }
-
-    getMarkers(type = undefined, square = undefined) {
-        const markersFound = []
-        this.state.markers.forEach((marker) => {
-            const markerSquare = marker.square
-            if (!square && (!type || type === marker.type) ||
-                !type && square === markerSquare ||
-                type === marker.type && square === markerSquare) {
-                markersFound.push({square: marker.square, type: marker.type})
-            }
-        })
-        return markersFound
-    }
-
-    removeMarkers(type = undefined, square = undefined) {
-        this.state.removeMarkers(square, type)
-        this.view.drawMarkers()
     }
 
     enableMoveInput(eventHandler, color = undefined) {

@@ -78,7 +78,6 @@ export class VisualMoveInput {
                 this.fromSquare = params.square
                 this.toSquare = undefined
                 this.movedPiece = params.piece
-                this.updateStartEndMarkers()
                 this.startPoint = params.point
                 if (!this.pointerMoveListener && !this.pointerUpListener) {
                     if (params.type === "mousedown") {
@@ -175,7 +174,6 @@ export class VisualMoveInput {
                 this.fromSquare = undefined
                 this.toSquare = undefined
                 this.movedPiece = undefined
-                this.updateStartEndMarkers()
                 if (this.draggablePiece) {
                     Svg.removeElement(this.draggablePiece)
                     this.draggablePiece = undefined
@@ -319,15 +317,12 @@ export class VisualMoveInput {
                 const square = target.getAttribute("data-square")
                 if (square !== this.fromSquare && square !== this.toSquare) {
                     this.toSquare = square
-                    this.updateStartEndMarkers()
                 } else if (square === this.fromSquare && this.toSquare !== undefined) {
                     this.toSquare = undefined
-                    this.updateStartEndMarkers()
                 }
             } else {
                 if (this.toSquare !== undefined) {
                     this.toSquare = undefined
-                    this.updateStartEndMarkers()
                 }
             }
             if (this.view.chessboard.state.inputEnabled && (this.moveInputState === STATE.dragTo || this.moveInputState === STATE.clickDragTo)) {
@@ -376,26 +371,6 @@ export class VisualMoveInput {
             this.view.redrawPieces()
             this.setMoveInputState(STATE.reset)
         }
-    }
-
-    updateStartEndMarkers() {
-        if (this.chessboard.props.style.moveFromMarker) {
-            this.chessboard.state.removeMarkers(undefined, this.chessboard.props.style.moveFromMarker)
-        }
-        if (this.chessboard.props.style.moveToMarker) {
-            this.chessboard.state.removeMarkers(undefined, this.chessboard.props.style.moveToMarker)
-        }
-        if (this.chessboard.props.style.moveFromMarker) {
-            if (this.fromSquare) {
-                this.chessboard.state.addMarker(this.fromSquare, this.chessboard.props.style.moveFromMarker)
-            }
-        }
-        if (this.chessboard.props.style.moveToMarker) {
-            if (this.toSquare) {
-                this.chessboard.state.addMarker(this.toSquare, this.chessboard.props.style.moveToMarker)
-            }
-        }
-        this.view.drawMarkers()
     }
 
     reset() {
