@@ -8,6 +8,8 @@ in [chess-console](https://shaack.com/projekte/chess-console/examples/load-pgn.h
 [cm-fen-editor](https://shaack.com/projekte/cm-fen-editor/). They are all nice written ES6 Modules to handle different
 aspects of chess games.
 
+> Note: With Version 6 **markers** have been moves to an extension, see the [Markers Extension example](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-markers-extension.html) and [Input callbacks example](https://shaack.com/projekte/cm-chessboard/examples/input-callbacks.html).
+
 ## Features
 
 - **No dependencies**, just clean ES6
