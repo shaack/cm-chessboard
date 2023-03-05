@@ -168,6 +168,9 @@ export class PositionsAnimation {
 
     animationStep(time) {
         // console.log("animationStep", time)
+        if(!this.view || !this.view.chessboard.state) { // board was destroyed
+            return
+        }
         if (!this.startTime) {
             this.startTime = time
             this.view.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.animation, {
