@@ -137,7 +137,7 @@ Returns the board position as `fen`.
 
 ### addMarker(type, square)
 
-> signature changed with V5.1 from (square, type) to (type, square)
+> Moved to the Markers extension with version 6
 
 Adds a marker on a square.
 
@@ -156,7 +156,7 @@ below.
 
 ### getMarkers(type = undefined, square = undefined)
 
-> signature changed with V5.1 from (square, type) to (type, square)
+> Moved to the Markers extension with version 6
 
 Returns the board's markers as an array.
 
@@ -166,7 +166,7 @@ Set `both` to `undefined` to get all markers on the board.
 
 ### removeMarkers(type = undefined, square = undefined)
 
-> signature changed with V5.1 from (square, type) to (type, square)
+> Moved to the Markers extension with version 6
 
 Removes markers from the board.
 
