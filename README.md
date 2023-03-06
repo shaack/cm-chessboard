@@ -20,11 +20,13 @@ aspects of chess games.
 
 ## Extensions
 
-- [Accessibility Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-accessibility-extension.html)
-- [Arrows Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-arrows-extension.html)
-- [Markers Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-markers-extension.html)  🆕
-- [PromotionDialog Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-promotion-dialog-extension.html)
-- [RenderVideo Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-render-video-extension.html)  🆕
+The core of cm-chessboard is small, fast and reduced to the essentials. You can extend its functionality with extensions.
+
+- [Accessibility Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-accessibility-extension.html) - makes the chessboard more accessible
+- [Arrows Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-arrows-extension.html) - renders arrows on the chessboard
+- [Markers Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-markers-extension.html)  🆕 - create markers on specific squares
+- [PromotionDialog Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-promotion-dialog-extension.html) - shows a dialog to select the piece to promote to
+- [RenderVideo Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-render-video-extension.html)  🆕 - renders a video from the pieces movement on the board
 
 ## Demo and repository
 
