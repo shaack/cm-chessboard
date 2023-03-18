@@ -4,8 +4,8 @@
  * License: MIT, see file 'LICENSE'
  */
 import {Extension, EXTENSION_POINT} from "../../model/Extension.js"
-import {piecesTranslations, renderPieceTitle} from "../../view/ChessboardView.js"
 import {COLOR, INPUT_EVENT_TYPE} from "../../Chessboard.js"
+import {piecesTranslations, renderPieceTitle} from "../../lib/I18n.js"
 
 const hlTranslations = {
     de: {

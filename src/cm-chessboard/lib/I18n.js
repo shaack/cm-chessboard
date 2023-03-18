@@ -4,7 +4,7 @@
  * License: MIT, see file 'LICENSE'
  */
 
-export const translations = {
+export const piecesTranslations = {
     en: {
         colors: {
             w: "w", b: "b"
@@ -36,9 +36,9 @@ export const translations = {
 }
 
 export function renderPieceTitle(lang, name, color = undefined) {
-    let title = translations[lang].pieces_long[name]
+    let title = piecesTranslations[lang].pieces_long[name]
     if (color) {
-        title += " " + translations[lang].colors_long[color]
+        title += " " + piecesTranslations[lang].colors_long[color]
     }
     return title
 }

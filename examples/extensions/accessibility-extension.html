@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"/>
     <link rel="stylesheet" href="../styles/examples.css"/>
     <link rel="stylesheet" href="../../assets/chessboard/chessboard.css"/>
+    <link rel="stylesheet" href="../../assets/extensions/markers/markers.css"/>
 </head>
 <body>
 <h1><a href="../..">cm-chessboard</a></h1>
@@ -31,10 +32,11 @@
 <script type="module">
     import {Chessboard} from "../../src/cm-chessboard/Chessboard.js"
     import {Accessibility} from "../../src/cm-chessboard/extensions/accessibility/Accessibility.js"
+    import {Markers} from "../../src/cm-chessboard/extensions/markers/Markers.js"
 
     const chessboard = new Chessboard(document.getElementById("board"), {
         position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR w Gkq - 4 11",
-        sprite: {url: "../../assets/images/chessboard-sprite.svg"},
+        assetsUrl: "../../assets/",
         // animationDuration: 0, // optional, set to 0 to disable animations
         style: {
             cssClass: "default-contrast" // make the coordinates better visible with the "default-contrast" theme
@@ -50,7 +52,7 @@
                     visuallyHidden: false // hide all those extra outputs visually but keep them accessible for screen readers and braille displays
                 }
 
-            }]
+            }, {class: Markers}]
     })
     window.switchOrientation = function () {
         chessboard.setOrientation(chessboard.getOrientation() === 'w' ? 'b' : 'w')
