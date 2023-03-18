@@ -354,6 +354,9 @@ export class ChessboardView {
             squareTo: squareTo,
             piece: this.chessboard.getPiece(squareFrom)
         }
+        if (this.moveInputCallback) {
+            data.moveInputCallbackResult = this.moveInputCallback(data)
+        }
         this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
     }
 
@@ -366,7 +369,6 @@ export class ChessboardView {
             piece: this.chessboard.getPiece(squareFrom)
         }
         if (this.moveInputCallback) {
-            // the "oldschool" move input validator
             data.moveInputCallbackResult = this.moveInputCallback(data)
         }
         // the new extension points
