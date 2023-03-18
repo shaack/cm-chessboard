@@ -12,7 +12,7 @@ describe("TestChessboard", () => {
 
     it("should create and destroy a chessboard", () => {
         const chessboard = new Chessboard(document.getElementById("TestPosition"), {
-            sprite: {url: "../assets/images/chessboard-sprite.svg"},
+            assetsUrl: "../assets/",
             position: FEN.start
         })
         assert.equal(chessboard.getPosition(), "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR")
@@ -21,7 +21,7 @@ describe("TestChessboard", () => {
 
     it("should set and get the position", () => {
         const chessboard = new Chessboard(document.getElementById("TestPosition"),
-            {sprite: {url: "../assets/images/chessboard-sprite.svg"},})
+            {assetsUrl: "../assets/"})
         chessboard.setPosition("rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR w Gkq - 4 11", false).then(() => {
             assert.equal(chessboard.getPosition(), "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR")
             chessboard.destroy()
@@ -30,7 +30,7 @@ describe("TestChessboard", () => {
 
     it("should get pieces on squares", () => {
         const chessboard = new Chessboard(document.getElementById("TestPosition"), {
-            sprite: {url: "../assets/images/chessboard-sprite.svg"},
+            assetsUrl: "../assets/",
             position: FEN.start
         })
         assert.equal(chessboard.getPiece("d1"), "wq")
@@ -41,7 +41,7 @@ describe("TestChessboard", () => {
 
     it("should set pieces on squares", () => {
         const chessboard = new Chessboard(document.getElementById("TestPosition"), {
-            sprite: {url: "../assets/images/chessboard-sprite.svg"},
+            assetsUrl: "../assets/",
         })
         chessboard.setPiece("a1", PIECE.bk)
         assert.equal(chessboard.getPiece("a1"), "bk")

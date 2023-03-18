@@ -12,7 +12,7 @@ describe("TestMarkers", () => {
 
     it("should set and get markers", () => {
         const chessboard = new Chessboard(document.getElementById("TestMarkers"), {
-            sprite: {url: "../assets/images/chessboard-sprite.svg"},
+            assetsUrl: "../assets/",
             extensions: [{class: Markers}]
         })
         chessboard.addMarker(MARKER_TYPE.square, "e5")
