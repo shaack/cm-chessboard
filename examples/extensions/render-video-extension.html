@@ -24,13 +24,8 @@
     const boardElement = document.getElementById("board")
     const chessboard = new Chessboard(boardElement, {
         position: FEN.start,
-        sprite: {url: "../../assets/images/chessboard-sprite.svg"},
-        extensions:
-            [{
-                class: RenderVideo,
-                props: {}
-            }]
-    })
+        assetsUrl: "../../assets/",
+        extensions: [{class: RenderVideo}]})
     await chessboard.recorderInit()
     await chessboard.recorderStart()
     await chessboard.recorderPause(500)

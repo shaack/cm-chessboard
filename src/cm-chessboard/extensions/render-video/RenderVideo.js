@@ -146,10 +146,13 @@ export class RenderVideo extends Extension {
         document.body.appendChild(wrapper)
         const svg = this.chessboard.view.svg
         const xhr = new XMLHttpRequest()
-        xhr.open("GET", this.chessboard.props.sprite.url, true)
+        xhr.open("GET", this.chessboard.view.getSpriteUrl(), true)
         xhr.onload = function () {
             const doc = new DOMParser().parseFromString(xhr.response, "text/xml")
-            svg.prepend(doc.getElementById("Sprite-PD"))
+            const pieces = doc.querySelectorAll("svg>g")
+            for (const piece of pieces) {
+                svg.prepend(piece)
+            }
         }
         xhr.send()
     }
