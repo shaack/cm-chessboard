@@ -9,6 +9,7 @@ import {FEN, Position} from "./model/Position.js"
 import {PositionAnimationsQueue} from "./view/PositionAnimationsQueue.js"
 import {EXTENSION_POINT} from "./model/Extension.js"
 import {ChessboardView} from "./view/ChessboardView.js"
+import {Utils} from "./lib/Utils.js"
 
 export const COLOR = {
     white: "w",
@@ -34,6 +35,10 @@ export const PIECE = {
     bp: "bp", bb: "bb", bn: "bn", br: "br", bq: "bq", bk: "bk"
 }
 
+export const PIECES_FILE_TYPE = {
+    svgSprite: "svgSprite"
+}
+
 export class Chessboard {
 
     constructor(context, props = {}) {
@@ -43,43 +48,31 @@ export class Chessboard {
         this.context = context
         this.id = (Math.random() + 1).toString(36).substring(2, 8)
         this.extensions = []
-        let defaultProps = {
-            position: FEN.empty, // set as fen, can use FEN.start or FEN.empty
+        this.props = {
+            position: FEN.empty, // set position as fen, use FEN.start or FEN.empty as shortcuts
             orientation: COLOR.white, // white on bottom
             responsive: true, // resize the board automatically to the size of the context element
-            animationDuration: 300, // pieces animation duration in milliseconds. Disable all animation with `0`.
             language: navigator.language.substring(0, 2).toLowerCase(), // supports "de" and "en" for now, used for pieces naming
+            assetsUrl: "./assets/", // put all css and sprites in this folder
+            assetsCache: true, // cache sprites
             style: {
                 cssClass: "default", // set the css theme of the board, try "green", "blue" or "chess-club"
                 showCoordinates: true, // show ranks and files
                 borderType: BORDER_TYPE.none, // "thin" thin border, "frame" wide border with coordinates in it, "none" no border
                 aspectRatio: 1, // height/width of the board
-            },
-            sprite: {
-                url: "./assets/images/chessboard-sprite.svg", // pieces and markers are stored in a sprite file
-                size: 40, // the sprite tiles size, defaults to 40x40px
-                cache: true // cache the sprite
+                pieces: {
+                    type: PIECES_FILE_TYPE.svgSprite, // pieces are in a SVG sprite, no other type supported for now
+                    file: "standard.svg", // the filename of the sprite in `assets/chessboard/pieces/`
+                    tileSize: 40 // the tile size in the sprite
+                },
+                animationDuration: 300 // pieces animation duration in milliseconds. Disable all animations with `0`.
             },
             extensions: [ /* {class: ExtensionClass, props: { ... }} */] // add extensions here
         }
-        this.props = {}
-        Object.assign(this.props, defaultProps)
-        Object.assign(this.props, props)
-        this.props.sprite = defaultProps.sprite
-        this.props.style = defaultProps.style
-        if (props.sprite) {
-            Object.assign(this.props.sprite, props.sprite)
-        }
-        if (props.style) {
-            Object.assign(this.props.style, props.style)
-        }
-        if (props.extensions) {
-            this.props.extensions = props.extensions
-        }
+        Utils.mergeObjects(this.props, props)
         if (this.props.language !== "de" && this.props.language !== "en") {
             this.props.language = "en"
         }
-
         this.state = new ChessboardState()
         this.view = new ChessboardView(this)
         this.positionAnimationsQueue = new PositionAnimationsQueue(this)
@@ -113,7 +106,7 @@ export class Chessboard {
     async setPosition(fen, animated = false) {
         const positionFrom = this.state.position.clone()
         const positionTo = new Position(fen)
-        if(positionFrom.getFen() !== positionTo.getFen()) {
+        if (positionFrom.getFen() !== positionTo.getFen()) {
             this.state.position.setFen(fen)
             this.state.invokeExtensionPoints(EXTENSION_POINT.positionChanged)
         }

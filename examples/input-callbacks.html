@@ -5,7 +5,8 @@
     <title>cm-chessboard</title>
     <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"/>
     <link rel="stylesheet" href="styles/examples.css"/>
-    <link rel="stylesheet" href="../assets/styles/cm-chessboard.css"/>
+    <link rel="stylesheet" href="../assets/chessboard/chessboard.css"/>
+    <link rel="stylesheet" href="../assets/extensions/markers/markers.css"/>
 </head>
 <body>
 <h1><a href="../">cm-chessboard</a></h1>
@@ -19,7 +20,7 @@
 
     const board1 = new Chessboard(document.getElementById("board1"), {
         position: FEN.start,
-        sprite: {url: "../assets/images/chessboard-sprite.svg", cache: false},
+        assetsUrl: "../assets/",
         extensions: [{class: Markers}]
     })
     board1.enableSquareSelect((event) => {
@@ -45,8 +46,10 @@
 
     const board2 = new Chessboard(document.getElementById("board2"), {
         position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR",
-        sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
-        extensions: [{class: Markers}]
+        assetsCache: false,
+        assetsUrl: "../assets/",
+        style: {pieces: {file: "staunty.svg"}},
+        extensions: [{class: Markers, autoMarkers: MARKER_TYPE.frame}]
     })
     board2.enableMoveInput((event) => {
         console.log("MoveInput board2", event)
@@ -59,7 +62,7 @@
         }
         return true
     })
-    const marker = {class: "markerCircleRed", slice: "markerCircle"}
+    const marker = {class: "marker-circle-red", slice: "markerCircle"}
     board2.enableSquareSelect((event) => {
         if(event.type === SQUARE_SELECT_TYPE.secondary && event.mouseEvent.type === "mousedown") {
             const markersOnSquare = board2.getMarkers(marker, event.square)

@@ -8,58 +8,15 @@ import {VisualMoveInput} from "./VisualMoveInput.js"
 import {BORDER_TYPE, COLOR, INPUT_EVENT_TYPE} from "../Chessboard.js"
 import {Position} from "../model/Position.js"
 import {EXTENSION_POINT} from "../model/Extension.js"
-
-export const piecesTranslations = {
-    en: {
-        colors: {
-            w: "w", b: "b"
-        },
-        colors_long: {
-            w: "White", b: "Black"
-        },
-        pieces: {
-            p: "p", n: "n", b: "b", r: "r", q: "q", k: "k"
-        },
-        pieces_long: {
-            p: "Pawn", n: "Knight", b: "Bishop", r: "Rook", q: "Queen", k: "King"
-        }
-    },
-    de: {
-        colors: {
-            w: "w", b: "s"
-        },
-        colors_long: {
-            w: "Weiß", b: "Schwarz"
-        },
-        pieces: {
-            p: "b", n: "s", b: "l", r: "t", q: "d", k: "k"
-        },
-        pieces_long: {
-            p: "Bauer", n: "Springer", b: "Läufer", r: "Turm", q: "Dame", k: "König"
-        }
-    }
-}
-
-export function renderPieceTitle(lang, name, color = undefined) {
-    let title = piecesTranslations[lang].pieces_long[name]
-    if (color) {
-        title += " " + piecesTranslations[lang].colors_long[color]
-    }
-    return title
-}
+import {Svg} from "../lib/Svg.js"
 
 export class ChessboardView {
-
     constructor(chessboard) {
         this.chessboard = chessboard
-        this.moveInput = new VisualMoveInput(this,
-            this.moveInputStartedCallback.bind(this),
-            this.movingOverSquareCallback.bind(this),
-            this.validateMoveInputCallback.bind(this),
-            this.moveInputCanceledCallback.bind(this)
-        )
-        if (chessboard.props.sprite.cache) {
-            this.cacheSpriteToDiv("chessboardSpriteCache", this.chessboard.props.sprite.url)
+        this.moveInput = new VisualMoveInput(this, this.moveInputStartedCallback.bind(this),
+            this.movingOverSquareCallback.bind(this), this.validateMoveInputCallback.bind(this), this.moveInputCanceledCallback.bind(this))
+        if (chessboard.props.assetsCache) {
+            this.cacheSpriteToDiv("cm-chessboard-sprite", this.getSpriteUrl())
         }
         this.context = document.createElement("div")
         this.chessboard.context.appendChild(this.context)
@@ -144,6 +101,7 @@ export class ChessboardView {
     }
 
     updateMetrics() {
+        const piecesTileSize = this.chessboard.props.style.pieces.tileSize
         this.width = this.context.clientWidth
         this.height = this.context.clientWidth * (this.chessboard.props.style.aspectRatio || 1)
         if (this.chessboard.props.style.borderType === BORDER_TYPE.frame) {
@@ -157,16 +115,15 @@ export class ChessboardView {
         this.innerHeight = this.height - 2 * this.borderSize
         this.squareWidth = this.innerWidth / 8
         this.squareHeight = this.innerHeight / 8
-        this.scalingX = this.squareWidth / this.chessboard.props.sprite.size
-        this.scalingY = this.squareHeight / this.chessboard.props.sprite.size
-        this.pieceXTranslate = (this.squareWidth / 2 - this.chessboard.props.sprite.size * this.scalingY / 2)
+        this.scalingX = this.squareWidth / piecesTileSize
+        this.scalingY = this.squareHeight / piecesTileSize
+        this.pieceXTranslate = (this.squareWidth / 2 - piecesTileSize * this.scalingY / 2)
     }
 
     handleResize() {
         this.context.style.width = this.chessboard.context.clientWidth + "px"
         this.context.style.height = (this.chessboard.context.clientWidth * this.chessboard.props.style.aspectRatio) + "px"
-        if (this.context.clientWidth !== this.width ||
-            this.context.clientHeight !== this.height) {
+        if (this.context.clientWidth !== this.width || this.context.clientHeight !== this.height) {
             this.updateMetrics()
             this.redrawBoard()
             this.redrawPieces()
@@ -194,10 +151,7 @@ export class ChessboardView {
         if (this.chessboard.props.style.borderType === BORDER_TYPE.frame) {
             const innerPos = this.borderSize
             let borderInner = Svg.addElement(this.boardGroup, "rect", {
-                x: innerPos,
-                y: innerPos,
-                width: this.width - innerPos * 2,
-                height: this.height - innerPos * 2
+                x: innerPos, y: innerPos, width: this.width - innerPos * 2, height: this.height - innerPos * 2
             })
             borderInner.setAttribute("class", "border-inner")
         }
@@ -224,7 +178,7 @@ export class ChessboardView {
         }
         const inline = this.chessboard.props.style.borderType !== BORDER_TYPE.frame
         for (let file = 0; file < 8; file++) {
-            let x = this.borderSize + (17 + this.chessboard.props.sprite.size * file) * this.scalingX
+            let x = this.borderSize + (17 + this.chessboard.props.style.pieces.tileSize * file) * this.scalingX
             let y = this.height - this.scalingY * 3.5
             let cssClass = "coordinate file"
             if (inline) {
@@ -232,10 +186,7 @@ export class ChessboardView {
                 cssClass += file % 2 ? " white" : " black"
             }
             const textElement = Svg.addElement(this.coordinatesGroup, "text", {
-                class: cssClass,
-                x: x,
-                y: y,
-                style: `font-size: ${this.scalingY * 10}px`
+                class: cssClass, x: x, y: y, style: `font-size: ${this.scalingY * 10}px`
             })
             if (this.chessboard.state.orientation === COLOR.white) {
                 textElement.textContent = String.fromCharCode(97 + file)
@@ -258,10 +209,7 @@ export class ChessboardView {
                 }
             }
             const textElement = Svg.addElement(this.coordinatesGroup, "text", {
-                class: cssClass,
-                x: x,
-                y: y,
-                style: `font-size: ${this.scalingY * 10}px`
+                class: cssClass, x: x, y: y, style: `font-size: ${this.scalingY * 10}px`
             })
             if (this.chessboard.state.orientation === COLOR.white) {
                 textElement.textContent = "" + (8 - rank)
@@ -292,10 +240,9 @@ export class ChessboardView {
         const transform = (this.svg.createSVGTransform())
         transform.setTranslate(point.x, point.y)
         pieceGroup.transform.baseVal.appendItem(transform)
-        const spriteUrl = this.chessboard.props.sprite.cache ? "" : this.chessboard.props.sprite.url
+        const spriteUrl = this.chessboard.props.assetsCache ? "" : this.getSpriteUrl()
         const pieceUse = Svg.addElement(pieceGroup, "use", {
-            href: `${spriteUrl}#${pieceName}`,
-            class: "piece"
+            href: `${spriteUrl}#${pieceName}`, class: "piece"
         })
         const transformScale = (this.svg.createSVGTransform())
         transformScale.setScale(this.scalingY, this.scalingY)
@@ -311,10 +258,9 @@ export class ChessboardView {
         const transform = (this.svg.createSVGTransform())
         transform.setTranslate(point.x, point.y)
         pieceGroup.transform.baseVal.appendItem(transform)
-        const spriteUrl = this.chessboard.props.sprite.cache ? "" : this.chessboard.props.sprite.url
+        const spriteUrl = this.chessboard.props.assetsCache ? "" : this.getSpriteUrl()
         const pieceUse = Svg.addElement(pieceGroup, "use", {
-            href: `${spriteUrl}#${pieceName}`,
-            class: "piece"
+            href: `${spriteUrl}#${pieceName}`, class: "piece"
         })
         // center on square
         const transformTranslate = (this.svg.createSVGTransform())
@@ -468,88 +414,7 @@ export class ChessboardView {
         return this.indexToPoint(index)
     }
 
-}
-
-const SVG_NAMESPACE = "http://www.w3.org/2000/svg"
-
-export class Svg {
-
-    /**
-     * create the Svg in the HTML DOM
-     * @param containerElement
-     * @returns {Element}
-     */
-    static createSvg(containerElement = undefined) {
-        let svg = document.createElementNS(SVG_NAMESPACE, "svg")
-        if (containerElement) {
-            svg.setAttribute("width", "100%")
-            svg.setAttribute("height", "100%")
-            containerElement.appendChild(svg)
-        }
-        return svg
-    }
-
-    /**
-     * Add an Element to a SVG DOM
-     * @param parent
-     * @param name
-     * @param attributes
-     * @param sibling
-     * @returns {Element}
-     */
-    static addElement(parent, name, attributes, sibling = undefined) {
-        let element = document.createElementNS(SVG_NAMESPACE, name)
-        if (name === "use") {
-            attributes["xlink:href"] = attributes["href"] // fix for safari
-        }
-        for (let attribute in attributes) {
-            if (attributes.hasOwnProperty(attribute)) {
-                if (attribute.indexOf(":") !== -1) {
-                    const value = attribute.split(":")
-                    element.setAttributeNS("http://www.w3.org/1999/" + value[0], value[1], attributes[attribute])
-                } else {
-                    element.setAttribute(attribute, attributes[attribute])
-                }
-            }
-        }
-        if (sibling !== undefined) {
-            parent.appendChild(element)
-        } else {
-            parent.insertBefore(element, sibling)
-        }
-        return element
-    }
-
-    /**
-     * Remove an Element from a SVG DOM
-     * @param element
-     */
-    static removeElement(element) {
-        if (element.parentNode) {
-            element.parentNode.removeChild(element)
-        } else {
-            console.warn(element, "without parentNode")
-        }
-    }
-
-}
-
-export class DomUtils {
-    static delegate(element, eventName, selector, handler) {
-        const eventListener = function (event) {
-            let target = event.target
-            while (target && target !== this) {
-                if (target.matches(selector)) {
-                    handler.call(target, event)
-                }
-                target = target.parentNode
-            }
-        }
-        element.addEventListener(eventName, eventListener)
-        return {
-            remove: function () {
-                element.removeEventListener(eventName, eventListener)
-            }
-        }
+    getSpriteUrl() {
+        return this.chessboard.props.assetsUrl + "chessboard/pieces/" + this.chessboard.props.style.pieces.file
     }
 }

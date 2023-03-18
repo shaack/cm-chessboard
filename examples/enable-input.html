@@ -5,12 +5,13 @@
     <title>cm-chessboard</title>
     <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"/>
     <link rel="stylesheet" href="styles/examples.css"/>
-    <link rel="stylesheet" href="../assets/styles/cm-chessboard.css"/>
+    <link rel="stylesheet" href="../assets/chessboard/chessboard.css"/>
 </head>
 <body>
 <h1><a href="../">cm-chessboard</a></h1>
 <h2>Example: Input enabled without validation</h2>
-<p>Input enabled on both sides, without move validation.</p>
+<p>Input enabled on both sides, without move validation. Additionally, the "Markers" extension is used with its
+    "autoMarkers" ability.</p>
 <div class="board" id="board"></div>
 <pre>
 const board = new Chessboard(document.getElementById("board"), {
@@ -43,11 +44,13 @@ function inputHandler(event) {
 
     window.board = new Chessboard(document.getElementById("board"), {
         position: FEN.start,
-        sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
+        assetsUrl: "../assets/",
+        style: {pieces: {file: "staunty.svg"}},
         extensions: [{class: Markers}]
     })
 
     window.board.enableMoveInput(inputHandler)
+
     function inputHandler(event) {
         console.log(event)
         window.board.removeMarkers(MARKER_TYPE.frame)

@@ -1,0 +1,39 @@
+.cm-chessboard {
+  .markers {
+    .marker {
+      &.marker-frame {
+        stroke: black;
+        stroke-width: 1.8px;
+        opacity: 0.5;
+      }
+
+      &.marker-frame-red {
+        stroke: #aa0000;
+        stroke-width: 1.8px;
+        opacity: 0.4;
+      }
+
+      &.marker-square {
+        fill: black;
+        opacity: 0.11;
+      }
+
+      &.marker-dot {
+        fill: black;
+        opacity: 0.3;
+      }
+
+      &.marker-circle {
+        stroke: #000055;
+        stroke-width: 3px;
+        opacity: 0.4;
+      }
+
+      &.marker-circle-red {
+        stroke: #aa0000;
+        stroke-width: 3px;
+        opacity: 0.4;
+      }
+    }
+  }
+}

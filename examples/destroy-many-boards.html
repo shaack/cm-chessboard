@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
     <link rel="stylesheet" href="styles/examples.css"/>
-    <link rel="stylesheet" href="../assets/styles/cm-chessboard.css"/>
+    <link rel="stylesheet" href="../assets/chessboard/chessboard.css"/>
     <!--suppress CssUnusedSymbol -->
     <style>
         div.board {
@@ -38,7 +38,8 @@
     boardsDiv.appendChild(boardDiv)
     const largeBoard = new Chessboard(boardDiv, {
         position: FEN.start,
-        sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
+        assetsUrl: "../assets/",
+        style: {pieces: {file: "staunty.svg"}}
     })
     const chess = new Chess()
     for (let i = 0; i < 5000; i++) {
@@ -48,7 +49,8 @@
             boardsDiv.appendChild(boardDiv)
             const board = new Chessboard(boardDiv, {
                 position: chess.fen(),
-                sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"}
+                assetsUrl: "../assets/",
+                style: {pieces: {file: "staunty.svg"}}
             })
             makeRandomMove()
             largeBoard.setPosition(chess.fen(), true)

@@ -5,7 +5,7 @@
  */
 
 import {Extension, EXTENSION_POINT} from "../../model/Extension.js"
-import {Svg} from "../../view/ChessboardView.js"
+import {Svg} from "../../lib/Svg.js"
 
 export const MARKER_TYPE = {
     square: {class: "marker-square", slice: "markerSquare"},
@@ -15,26 +15,19 @@ export const MARKER_TYPE = {
 }
 
 export class Markers extends Extension {
-    constructor(chessboard, props) {
+    constructor(chessboard, props = {}) {
         super(chessboard, props)
         this.registerExtensionPoint(EXTENSION_POINT.redrawBoard, () => {
             this.onRedrawBoard()
         })
         this.props = {
-            autoMarkers: MARKER_TYPE.frame, // set to null, to switch off auto markers
-            sprite: {
-                url: "./assets/images/chessboard-arrows.svg",
-                size: 40,
-                cache: true
-            }
+            autoMarkers: false, // set a MARKER_TYPE to autoMark the board
+            sprite: "markers.svg"
         }
         Object.assign(this.props, props)
-        this.props.sprite = props.sprite
-        if (props && props.sprite) {
-            Object.assign(this.props.sprite, props.sprite)
-        }
-        if (this.props.sprite.cache) {
-            this.chessboard.view.cacheSpriteToDiv("chessboardMarkerSpriteCache", this.props.sprite.url)
+        if (chessboard.props.assetsCache) {
+            chessboard.view.cacheSpriteToDiv("cm-chessboard-markers", this.chessboard.props.assetsUrl +
+                "extensions/markers/" + this.props.sprite)
         }
         this.registerMethod("addMarker", this.addMarker)
         this.registerMethod("getMarkers", this.getMarkers)
@@ -69,7 +62,8 @@ export class Markers extends Extension {
         const transform = (this.chessboard.view.svg.createSVGTransform())
         transform.setTranslate(point.x, point.y)
         markerGroup.transform.baseVal.appendItem(transform)
-        const spriteUrl = this.chessboard.props.sprite.cache ? "" : this.chessboard.props.sprite.url
+        const spriteUrl = this.chessboard.props.assetsCache ? "" : this.chessboard.props.assetsUrl +
+            "extensions/markers/" + this.props.sprite
         const markerUse = Svg.addElement(markerGroup, "use",
             {href: `${spriteUrl}#${marker.type.slice}`, class: "marker " + marker.type.class})
         const transformScale = (this.chessboard.view.svg.createSVGTransform())

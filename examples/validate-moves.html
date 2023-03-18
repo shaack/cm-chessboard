@@ -5,7 +5,8 @@
     <title>cm-chessboard</title>
     <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"/>
     <link rel="stylesheet" href="styles/examples.css"/>
-    <link rel="stylesheet" href="../assets/styles/cm-chessboard.css"/>
+    <link rel="stylesheet" href="../assets/chessboard/chessboard.css"/>
+    <link rel="stylesheet" href="../assets/extensions/markers/markers.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
 </head>
 <body>
@@ -58,8 +59,7 @@ function inputHandler(event) {
 
 const board = new Chessboard(document.getElementById("board"), {
     position: chess.fen(),
-    sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
-    style: {moveFromMarker: undefined, moveToMarker: undefined}, // disable standard markers
+    style: {pieces: {file: "staunty.svg"}},
     orientation: COLOR.white
 })
 board.enableMoveInput(inputHandler, COLOR.white)
@@ -106,11 +106,10 @@ board.enableMoveInput(inputHandler, COLOR.white)
             return result
         }
     }
-
     const board = new Chessboard(document.getElementById("board"), {
         position: chess.fen(),
-        sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
-        style: {moveFromMarker: MARKER_TYPE.square, moveToMarker: MARKER_TYPE.square},
+        assetsUrl: "../assets/",
+        style: {pieces: {file: "staunty.svg"}},
         orientation: COLOR.white,
         extensions: [{class: Markers}]
     })

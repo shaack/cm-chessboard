@@ -21,7 +21,7 @@ https://github.com/shaack/cm-chessboard
 
 -->
 <svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg">
-    <title>cm-chessbord pieces and markers sprite</title>
+    <title>cm-chessboard pieces and markers sprite</title>
     <desc>Chess pieces and markers for the cm-chessboard (https://shaack.com/projekte/cm-chessboard/).</desc>
 
     <g id="wk" stroke-linecap="round" stroke-linejoin="round" transform="translate(5.000000, 5.000000)" stroke="#000000"

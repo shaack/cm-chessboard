@@ -4,7 +4,7 @@
  * License: MIT, see file 'LICENSE'
  */
 
-import {Svg} from "./ChessboardView.js"
+import {Svg} from "../lib/Svg.js"
 import {createTask} from "../model/ChessboardState.js"
 
 const STATE = {
@@ -213,11 +213,11 @@ export class VisualMoveInput {
         this.draggablePiece.setAttribute("height", this.view.squareHeight)
         this.draggablePiece.setAttribute("style", "pointer-events: none")
         this.draggablePiece.name = pieceName
-        const spriteUrl = this.chessboard.props.sprite.cache ? "" : this.chessboard.props.sprite.url
+        const spriteUrl = this.chessboard.props.assetsCache ? "" : this.view.getSpriteUrl()
         const piece = Svg.addElement(this.draggablePiece, "use", {
             href: `${spriteUrl}#${pieceName}`
         })
-        const scaling = this.view.squareHeight / this.chessboard.props.sprite.size
+        const scaling = this.view.squareHeight / this.chessboard.props.style.pieces.tileSize
         const transformScale = (this.draggablePiece.createSVGTransform())
         transformScale.setScale(scaling, scaling)
         piece.transform.baseVal.appendItem(transformScale)

@@ -5,7 +5,7 @@
     <title>cm-chessboard</title>
     <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"/>
     <link rel="stylesheet" href="styles/examples.css"/>
-    <link rel="stylesheet" href="../assets/styles/cm-chessboard.css"/>
+    <link rel="stylesheet" href="../assets/chessboard/chessboard.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
     <!--suppress CssUnusedSymbol -->
     <style type="text/css">
@@ -32,10 +32,9 @@
         boardDiv.setAttribute("class", "board")
         boardsDiv.appendChild(boardDiv)
         new Chessboard(boardDiv, {
-            accessible: true,
             responsive: false,
             position: game.fen(),
-            sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
+            style: {pieces: {file: "staunty.svg"}},
         })
         makeRandomMove()
     }

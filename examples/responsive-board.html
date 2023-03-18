@@ -5,7 +5,7 @@
     <title>cm-chessboard</title>
     <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"/>
     <link rel="stylesheet" href="styles/examples.css"/>
-    <link rel="stylesheet" href="../assets/styles/cm-chessboard.css"/>
+    <link rel="stylesheet" href="../assets/chessboard/chessboard.css"/>
 </head>
 <body>
 <h1><a href="../">cm-chessboard</a></h1>
@@ -23,10 +23,8 @@ new Chessboard(document.getElementById("board"), {
 
     new Chessboard(document.getElementById("board"), {
         position: FEN.start,
-        sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
-        style: {
-            aspectRatio: 0.9
-        }
+        assetsUrl: "../assets/",
+        style: {aspectRatio: 0.9, pieces: {file: "staunty.svg"}}
     })
 </script>
 </body>

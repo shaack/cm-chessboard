@@ -4,7 +4,7 @@
  * License: MIT, see file 'LICENSE'
  */
 import {FEN, Position} from "../model/Position.js"
-import {Svg} from "./ChessboardView.js"
+import {Svg} from "../lib/Svg.js"
 import {EXTENSION_POINT} from "../model/Extension.js"
 
 /*
@@ -250,7 +250,7 @@ export class PositionAnimationsQueue extends PromiseQueue {
             return Promise.resolve()
         } else {
             return super.enqueue(() => new Promise((resolve) => {
-                let duration = animated ? this.chessboard.props.animationDuration : 0
+                let duration = animated ? this.chessboard.props.style.animationDuration : 0
                 if (this.queue.length > 0) {
                     duration = duration / (1 + Math.pow(this.queue.length / 5, 2))
                 }
@@ -271,7 +271,7 @@ export class PositionAnimationsQueue extends PromiseQueue {
     async enqueueTurnBoard(position, color, animated) {
         return super.enqueue(() => new Promise((resolve) => {
             const emptyPosition = new Position(FEN.empty)
-            let duration = animated ? this.chessboard.props.animationDuration : 0
+            let duration = animated ? this.chessboard.props.style.animationDuration : 0
             if(this.queue.length > 0) {
                 duration = duration / (1 + Math.pow(this.queue.length / 5, 2))
             }

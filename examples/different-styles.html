@@ -5,7 +5,7 @@
     <title>cm-chessboard</title>
     <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"/>
     <link rel="stylesheet" href="styles/examples.css"/>
-    <link rel="stylesheet" href="../assets/styles/cm-chessboard.css"/>
+    <link rel="stylesheet" href="../assets/chessboard/chessboard.css"/>
 </head>
 <body>
 <h1><a href="../">cm-chessboard</a></h1>
@@ -25,73 +25,84 @@
 
     new Chessboard(document.getElementById("board1"), {
         position: FEN.start,
+        assetsUrl: "../assets/",
+        assetsCache: false,
         style: {
             cssClass: "green",
-            borderType: BORDER_TYPE.frame
-        },
-        sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
+            borderType: BORDER_TYPE.frame,
+            pieces: {
+                file: "staunty.svg"
+            }
+        }
     })
     new Chessboard(document.getElementById("board2"), {
         position: FEN.start,
+        assetsUrl: "../assets/",
+        assetsCache: false,
         style: {
             cssClass: "chessboard-js",
             borderType: BORDER_TYPE.thin
-        },
-        sprite: {url: "../assets/images/chessboard-sprite.svg", cache: false}
+        }
     })
     new Chessboard(document.getElementById("board3"), {
         position: FEN.start,
+        assetsUrl: "../assets/",
+        assetsCache: false,
         style: {
             cssClass: "chess-club",
-            borderType: BORDER_TYPE.frame
-        },
-        sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"}
+            borderType: BORDER_TYPE.frame,
+            pieces: {file: "staunty.svg"}
+        }
     })
     new Chessboard(document.getElementById("board4"), {
         position: FEN.start,
+        assetsUrl: "../assets/",
+        assetsCache: false,
         style: {
             cssClass: "blue",
             borderType: BORDER_TYPE.thin,
             showCoordinates: false,
-        },
-        sprite: {url: "../assets/images/chessboard-sprite.svg", cache: false}
+        }
     })
     new Chessboard(document.getElementById("board5"), {
         position: FEN.start,
-        style: {
-            borderType: BORDER_TYPE.none
-        },
-        sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
+        assetsUrl: "../assets/",
+        assetsCache: false,
+        style: {borderType: BORDER_TYPE.none, pieces: {file: "staunty.svg"}},
     })
     new Chessboard(document.getElementById("board6"), {
         position: FEN.start,
+        assetsUrl: "../assets/",
+        assetsCache: false,
         style: {
-            cssClass: "blue",
+            pieces: {file: "staunty.svg"}, cssClass: "blue",
             borderType: BORDER_TYPE.frame
         },
-        sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"},
     })
     new Chessboard(document.getElementById("board7"), {
         position: FEN.start,
+        assetsUrl: "../assets/",
+        assetsCache: false,
         style: {
             cssClass: "green"
-        },
-        sprite: {url: "../assets/images/chessboard-sprite.svg", cache: false},
+        }
     })
     new Chessboard(document.getElementById("board8"), {
         position: FEN.start,
+        assetsUrl: "../assets/",
+        assetsCache: false,
         style: {
             cssClass: "black-and-white"
-        },
-        sprite: {url: "../assets/images/chessboard-sprite.svg", cache: false},
+        }
     })
     new Chessboard(document.getElementById("board9"), {
         position: FEN.start,
+        assetsUrl: "../assets/",
+        assetsCache: false,
         style: {
             cssClass: "chessboard-js",
             borderType: BORDER_TYPE.frame
-        },
-        sprite: {url: "../assets/images/chessboard-sprite.svg", cache: false},
+        }
     })
 </script>
 </body>

@@ -78,26 +78,26 @@ examples.
 Below is the default configuration
 
 ```javascript
-let defaultProps = {
-    position: FEN.empty, // set as fen, can use FEN.start or FEN.empty
-    orientation: COLOR.white, // white on bottom
-    responsive: true, // resize the board automatically to the size of the context element
-    animationDuration: 300, // pieces animation duration in milliseconds. Disable all animation with `0`.
-    language: navigator.language.substring(0, 2).toLowerCase(), // supports "de" and "en" for now, used for pieces naming
-    style: {
-      cssClass: "default", // set the css theme of the board, try "green", "blue" or "chess-club"
-      showCoordinates: true, // show ranks and files
-      borderType: BORDER_TYPE.none, // "thin" thin border, "frame" wide border with coordinates in it, "none" no border
-      aspectRatio: 1, // height/width of the board
-      moveFromMarker: MARKER_TYPE.frame, // the marker used to mark the start square
-      moveToMarker: MARKER_TYPE.frame, // the marker used to mark the square where the figure is moving to
+this.props = {
+  position: FEN.empty, // set position as fen, use FEN.start or FEN.empty as shortcuts
+  orientation: COLOR.white, // white on bottom
+  responsive: true, // resize the board automatically to the size of the context element
+  language: navigator.language.substring(0, 2).toLowerCase(), // supports "de" and "en" for now, used for pieces naming
+  assetsUrl: "./assets/", // put all css and sprites in this folder
+  assetsCache: true, // cache sprites
+  style: {
+    cssClass: "default", // set the css theme of the board, try "green", "blue" or "chess-club"
+    showCoordinates: true, // show ranks and files
+    borderType: BORDER_TYPE.none, // "thin" thin border, "frame" wide border with coordinates in it, "none" no border
+    aspectRatio: 1, // height/width of the board
+    pieces: {
+      type: PIECES_FILE_TYPE.svgSprite, // pieces are in a SVG sprite, no other type supported for now
+      file: "standard.svg", // the filename of the sprite in `assets/chessboard/pieces/`
+      tileSize: 40 // the tile size in the sprite
     },
-    sprite: {
-      url: "./assets/images/chessboard-sprite.svg", // pieces and markers are stored in a sprite file
-      size: 40, // the sprite tiles size, defaults to 40x40px
-      cache: true // cache the sprite
-    },
-    extensions: [ /* {class: ExtensionClass, props: { ... }} */] // add extensions here
+    animationDuration: 300 // pieces animation duration in milliseconds. Disable all animations with `0`.
+  },
+  extensions: [ /* {class: ExtensionClass, props: { ... }} */] // add extensions here
 }
 ```
 

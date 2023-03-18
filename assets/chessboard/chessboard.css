@@ -1,34 +1,6 @@
 .cm-chessboard .board.input-enabled .square {
   cursor: pointer; }
 
-.cm-chessboard .markers .marker.markerFrame, .cm-chessboard .markers .marker.marker-frame {
-  stroke: black;
-  stroke-width: 1.8px;
-  opacity: 0.5; }
-
-.cm-chessboard .markers .marker.markerFrameRed, .cm-chessboard .markers .marker.marker-frame-red {
-  stroke: #aa0000;
-  stroke-width: 1.8px;
-  opacity: 0.4; }
-
-.cm-chessboard .markers .marker.markerSquare, .cm-chessboard .markers .marker.marker-square {
-  fill: black;
-  opacity: 0.11; }
-
-.cm-chessboard .markers .marker.markerDot, .cm-chessboard .markers .marker.marker-dot {
-  fill: black;
-  opacity: 0.3; }
-
-.cm-chessboard .markers .marker.markerCircle, .cm-chessboard .markers .marker.marker-circle {
-  stroke: #000055;
-  stroke-width: 3px;
-  opacity: 0.4; }
-
-.cm-chessboard .markers .marker.markerCircleRed, .cm-chessboard .markers .marker.marker-circle-red {
-  stroke: #aa0000;
-  stroke-width: 3px;
-  opacity: 0.4; }
-
 .cm-chessboard .pieces, .cm-chessboard .markers {
   pointer-events: none; }
 
@@ -317,4 +289,4 @@
     .cm-chessboard.black-and-white .coordinates .coordinate.white {
       fill: #9c9c9c; }
 
-/*# sourceMappingURL=cm-chessboard.css.map */
+/*# sourceMappingURL=chessboard.css.map */
