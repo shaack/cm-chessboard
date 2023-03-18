@@ -10,11 +10,12 @@
 </head>
 <body>
 <h1><a href="../">cm-chessboard</a></h1>
-<h2>Example: Custom markers, left and right click, mark squares and log to console.</h2>
+<h2>Example: Markers Extension and right click input</h2>
+<p>The second board shows the usage of autoMarkers, when moving a piece.</p>
 <div class="board" id="board1"></div>
 <div class="board" id="board2"></div>
 <script type="module">
-    import {Chessboard, INPUT_EVENT_TYPE, SQUARE_SELECT_TYPE} from "../src/cm-chessboard/Chessboard.js"
+    import {Chessboard, SQUARE_SELECT_TYPE} from "../src/cm-chessboard/Chessboard.js"
     import {FEN} from "../src/cm-chessboard/model/Position.js"
     import {MARKER_TYPE, Markers} from "../src/cm-chessboard/extensions/markers/Markers.js"
 
@@ -51,20 +52,12 @@
         style: {pieces: {file: "staunty.svg"}},
         extensions: [{class: Markers, autoMarkers: MARKER_TYPE.frame}]
     })
-    board2.enableMoveInput((event) => {
-        console.log("MoveInput board2", event)
-        board2.removeMarkers(MARKER_TYPE.frame)
-        if(event.type === INPUT_EVENT_TYPE.moveInputStarted) {
-            board2.addMarker(MARKER_TYPE.frame, event.square)
-        } else if(event.type === INPUT_EVENT_TYPE.validateMoveInput) {
-            board2.addMarker(MARKER_TYPE.frame, event.squareFrom)
-            board2.addMarker(MARKER_TYPE.frame, event.squareTo)
-        }
+    board2.enableMoveInput(() => {
         return true
     })
     const marker = {class: "marker-circle-red", slice: "markerCircle"}
     board2.enableSquareSelect((event) => {
-        if(event.type === SQUARE_SELECT_TYPE.secondary && event.mouseEvent.type === "mousedown") {
+        if (event.type === SQUARE_SELECT_TYPE.secondary && event.mouseEvent.type === "mousedown") {
             const markersOnSquare = board2.getMarkers(marker, event.square)
             if (markersOnSquare.length > 0) {
                 board2.removeMarkers(marker, event.square)

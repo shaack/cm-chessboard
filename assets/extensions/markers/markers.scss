@@ -1,5 +1,6 @@
 .cm-chessboard {
   .markers {
+    pointer-events: none;
     .marker {
       &.marker-frame {
         stroke: black;

@@ -7,7 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="../styles/examples.css"/>
     <link rel="stylesheet" href="../../assets/chessboard/chessboard.css">
-    <link rel="stylesheet" href="../../src/cm-chessboard/extensions/promotion-dialog/assets/promotion-dialog.css"/>
+    <link rel="stylesheet" href="../../assets/extensions/promotion-dialog/promotion-dialog.css"/>
+    <link rel="stylesheet" href="../../assets/extensions/markers/markers.css"/>
     <title>cm-chessboard promotion extension</title>
 </head>
 <body>
@@ -21,15 +22,15 @@
 <script type="module">
     import {Chessboard, COLOR, INPUT_EVENT_TYPE} from "../../src/cm-chessboard/Chessboard.js"
     import {PromotionDialog} from "../../src/cm-chessboard/extensions/promotion-dialog/PromotionDialog.js"
+    import {Markers} from "../../src/cm-chessboard/extensions/markers/Markers.js"
 
     const position = "4k3/1P6/8/8/6r1/8/8/2R1K3 w - - 0 1"
     const chessboard = new Chessboard(document.getElementById("chessboard"), {
         position: position,
-        sprite: {
-            url: "../../assets/images/chessboard-sprite.svg", // pieces and markers are stored in a sprite file
-        },
+        assetsUrl: "../../assets/",
         extensions: [
-            {class: PromotionDialog, props: {}}
+            {class: PromotionDialog},
+            {class: Markers}
         ]
     })
     chessboard.enableMoveInput((event) => {
@@ -38,7 +39,7 @@
             if (event.squareTo.charAt(1) === "8" && event.piece.charAt(1) === "p") {
                 chessboard.showPromotionDialog(event.squareTo, COLOR.white, (event) => {
                     console.log("48a99d Piece selected", event.piece)
-                    if(event.piece) {
+                    if (event.piece) {
                         chessboard.setPiece(event.square, event.piece, true)
                     } else {
                         chessboard.setPosition(position)

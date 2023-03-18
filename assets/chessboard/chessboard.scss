@@ -9,8 +9,7 @@
       }
     }
   }
-  .pieces, .markers {
-    // important for the proper function
+  .pieces {
     pointer-events: none;
   }
 }

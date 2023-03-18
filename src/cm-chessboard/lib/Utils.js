@@ -5,6 +5,7 @@
  */
 
 export class Utils {
+
     static delegate(element, eventName, selector, handler) {
         const eventListener = function (event) {
             let target = event.target
@@ -36,6 +37,5 @@ export class Utils {
         Object.assign(target || {}, source)
         return target
     }
-
 
 }

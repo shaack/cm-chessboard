@@ -5,17 +5,17 @@
  */
 import {Extension, EXTENSION_POINT} from "../../model/Extension.js"
 import {COLOR, PIECE} from "../../Chessboard.js"
-import {DomUtils, Svg} from "../../view/ChessboardView.js"
+import {Svg} from "../../lib/Svg.js"
+import {Utils} from "../../lib/Utils.js"
 
 export class PromotionDialog extends Extension {
 
-    constructor(chessboard, props) {
+    constructor(chessboard, props = {}) {
         super(chessboard, props)
-
         this.registerExtensionPoint(EXTENSION_POINT.redrawBoard, this.redrawDialog.bind(this))
         this.registerMethod("showPromotionDialog", this.showPromotionDialog)
         this.promotionDialogGroup = Svg.addElement(chessboard.view.markersTopLayer, "g", {class: "promotion-dialog-group"})
-        DomUtils.delegate(this.promotionDialogGroup, "click", ".promotion-dialog-button",
+        Utils.delegate(this.promotionDialogGroup, "click", ".promotion-dialog-button",
             this.promotionDialogOnClickPiece.bind(this))
         this.state = {
             isShown: false,
@@ -23,7 +23,6 @@ export class PromotionDialog extends Extension {
             square: undefined,
             callback: undefined
         }
-
     }
 
     drawPieceButton(piece, point) {
@@ -121,7 +120,6 @@ export class PromotionDialog extends Extension {
         this.state.color = color
         this.state.callback = callback
         const mousedownListener = (event) => {
-            // console.log("98c265", event)
             if (!event.target.dataset.piece && this.state.isShown) {
                 this.state.isShown = false
                 this.state.callback({square: this.state.square, piece: null})

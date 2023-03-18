@@ -5,7 +5,7 @@
  */
 
 import {Extension, EXTENSION_POINT} from "../../model/Extension.js"
-import {Svg} from "../../view/ChessboardView.js"
+import {Svg} from "../../lib/Svg.js"
 
 export const ARROW_TYPE = {
     default: {class: "arrow-default", slice: "arrowDefault", headSize: 7},
@@ -14,27 +14,18 @@ export const ARROW_TYPE = {
 }
 
 export class Arrows extends Extension {
-    constructor(chessboard, props) {
+    constructor(chessboard, props = {}) {
         super(chessboard, props)
         this.registerExtensionPoint(EXTENSION_POINT.redrawBoard, () => {
             this.onRedrawBoard()
         })
-        let defaultProps = {
-            sprite: {
-                url: "./assets/images/chessboard-arrows.svg",
-                size: 40,
-                cache: true
-            },
+        this.props = {
+            sprite: "arrows.svg"
         }
-        this.props = {}
-        Object.assign(this.props, defaultProps)
         Object.assign(this.props, props)
-        this.props.sprite = defaultProps.sprite
-        if (props.sprite) {
-            Object.assign(this.props.sprite, props.sprite)
-        }
-        if (this.props.sprite.cache) {
-            this.chessboard.view.cacheSpriteToDiv("chessboardArrowSpriteCache", this.props.sprite.url)
+        if (this.chessboard.props.assetsCache) {
+            this.chessboard.view.cacheSpriteToDiv("cm-chessboard-arrows",
+                this.chessboard.props.assetsUrl + "extensions/arrows/" + this.props.sprite)
         }
         this.registerMethod("addArrow", this.addArrow)
         this.registerMethod("getArrows", this.getArrows)
@@ -56,11 +47,11 @@ export class Arrows extends Extension {
         const arrowsGroup = Svg.addElement(this.arrowGroup, "g")
         arrowsGroup.setAttribute("data-arrow", arrow.from + arrow.to)
         arrowsGroup.setAttribute("class", "arrow " + arrow.type.class)
-
         const view = this.chessboard.view
         const sqfrom = document.querySelectorAll('[data-square="' + arrow.from + '"]')[0]
         const sqto = document.querySelectorAll('[data-square="' + arrow.to + '"]')[0]
-        const spriteUrl = this.chessboard.props.sprite.cache ? "" : this.chessboard.props.sprite.url
+        const spriteUrl = this.chessboard.props.assetsCache ? "" : this.chessboard.props.assetsUrl +
+            "extensions/arrows/" + this.props.sprite
         const defs = Svg.addElement(arrowsGroup, "defs")
         const id = "arrow-" + arrow.from + arrow.to
         const marker = Svg.addElement(defs, "marker", {

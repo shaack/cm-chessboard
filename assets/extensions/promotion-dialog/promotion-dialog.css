@@ -12,7 +12,7 @@ svg.cm-chessboard .promotion-dialog-group .promotion-dialog-button {
   svg.cm-chessboard .promotion-dialog-group .promotion-dialog-button:hover {
     fill: rgba(0, 0, 0, 0.2); }
 
-svg.cm-chessboard .promotion-dialog-group .piece-group {
+svg.cm-chessboard .promotion-dialog-group .piece {
   pointer-events: none; }
 
 @keyframes fade-in {
