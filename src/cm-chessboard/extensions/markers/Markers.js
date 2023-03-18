@@ -20,14 +20,16 @@ export class Markers extends Extension {
         this.registerExtensionPoint(EXTENSION_POINT.redrawBoard, () => {
             this.onRedrawBoard()
         })
-        let defaultProps = {
-            autoMarkers: MARKER_TYPE.frame, // set to null, to switch auto markers off
-            sprite: chessboard.props.sprite
+        this.props = {
+            autoMarkers: MARKER_TYPE.frame, // set to null, to switch off auto markers
+            sprite: {
+                url: "./assets/images/chessboard-arrows.svg",
+                size: 40,
+                cache: true
+            }
         }
-        this.props = {}
-        Object.assign(this.props, defaultProps)
         Object.assign(this.props, props)
-        this.props.sprite = defaultProps.sprite
+        this.props.sprite = props.sprite
         if (props && props.sprite) {
             Object.assign(this.props.sprite, props.sprite)
         }
