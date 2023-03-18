@@ -19,11 +19,15 @@
 <pre>
 const board = new Chessboard(document.getElementById("board"), {
     position: FEN.start,
-    sprite: {url: "../assets/images/chessboard-sprite-staunty.svg"}
+    assetsUrl: "../assets/",
+    style: {pieces: {file: "staunty.svg"}},
+    extensions: [{class: Markers}]
 })
 
 board.enableMoveInput(inputHandler)
 function inputHandler(event) {
+    console.log(event)
+    window.board.removeMarkers(MARKER_TYPE.frame)
     switch (event.type) {
         case INPUT_EVENT_TYPE.moveInputStarted:
             log(`moveInputStarted: ${event.square}`)

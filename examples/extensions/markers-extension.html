@@ -4,24 +4,24 @@
     <meta charset="UTF-8">
     <title>cm-chessboard</title>
     <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"/>
-    <link rel="stylesheet" href="styles/examples.css"/>
-    <link rel="stylesheet" href="../assets/chessboard/chessboard.css"/>
-    <link rel="stylesheet" href="../assets/extensions/markers/markers.css"/>
+    <link rel="stylesheet" href="../styles/examples.css"/>
+    <link rel="stylesheet" href="../../assets/chessboard/chessboard.css"/>
+    <link rel="stylesheet" href="../../assets/extensions/markers/markers.css"/>
 </head>
 <body>
-<h1><a href="../">cm-chessboard</a></h1>
-<h2>Example: Markers Extension and right click input</h2>
+<h1><a href="../../">cm-chessboard</a></h1>
+<h2>Example: Markers Extension with pointer input</h2>
 <p>The second board shows the usage of autoMarkers, when moving a piece.</p>
 <div class="board" id="board1"></div>
 <div class="board" id="board2"></div>
 <script type="module">
-    import {Chessboard, SQUARE_SELECT_TYPE} from "../src/cm-chessboard/Chessboard.js"
-    import {FEN} from "../src/cm-chessboard/model/Position.js"
-    import {MARKER_TYPE, Markers} from "../src/cm-chessboard/extensions/markers/Markers.js"
+    import {Chessboard, SQUARE_SELECT_TYPE} from "../../src/cm-chessboard/Chessboard.js"
+    import {FEN} from "../../src/cm-chessboard/model/Position.js"
+    import {MARKER_TYPE, Markers} from "../../src/cm-chessboard/extensions/markers/Markers.js"
 
     const board1 = new Chessboard(document.getElementById("board1"), {
         position: FEN.start,
-        assetsUrl: "../assets/",
+        assetsUrl: "../../assets/",
         extensions: [{class: Markers}]
     })
     board1.enableSquareSelect((event) => {
@@ -48,7 +48,7 @@
     const board2 = new Chessboard(document.getElementById("board2"), {
         position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR",
         assetsCache: false,
-        assetsUrl: "../assets/",
+        assetsUrl: "../../assets/",
         style: {pieces: {file: "staunty.svg"}},
         extensions: [{class: Markers, autoMarkers: MARKER_TYPE.frame}]
     })
