@@ -54,6 +54,7 @@ export class ChessboardView {
         this.chessboard = chessboard
         this.moveInput = new VisualMoveInput(this,
             this.moveInputStartedCallback.bind(this),
+            this.movingOverSquareCallback.bind(this),
             this.validateMoveInputCallback.bind(this),
             this.moveInputCanceledCallback.bind(this)
         )
@@ -288,7 +289,6 @@ export class ChessboardView {
     drawPiece(parentGroup, pieceName, point) {
         const pieceGroup = Svg.addElement(parentGroup, "g", {})
         pieceGroup.setAttribute("data-piece", pieceName)
-        pieceGroup.setAttribute("class", "piece-group")
         const transform = (this.svg.createSVGTransform())
         transform.setTranslate(point.x, point.y)
         pieceGroup.transform.baseVal.appendItem(transform)
@@ -300,19 +300,10 @@ export class ChessboardView {
         const transformScale = (this.svg.createSVGTransform())
         transformScale.setScale(this.scalingY, this.scalingY)
         pieceUse.transform.baseVal.appendItem(transformScale)
-        const transformTranslate = (this.svg.createSVGTransform())
-        transformTranslate.setTranslate(this.pieceXTranslate, 0)
-        pieceUse.transform.baseVal.appendItem(transformTranslate)
         return pieceGroup
     }
 
     drawPieceOnSquare(square, pieceName) {
-        const point = this.squareToPoint(square)
-        const pieceGroup = this.drawPiece(this.piecesGroup, pieceName, point)
-        pieceGroup.setAttribute("data-square", square)
-        return pieceGroup
-
-        /*
         const pieceGroup = Svg.addElement(this.piecesGroup, "g", {})
         pieceGroup.setAttribute("data-piece", pieceName)
         pieceGroup.setAttribute("data-square", square)
@@ -329,15 +320,16 @@ export class ChessboardView {
         const transformTranslate = (this.svg.createSVGTransform())
         transformTranslate.setTranslate(this.pieceXTranslate, 0)
         pieceUse.transform.baseVal.appendItem(transformTranslate)
-
-         */
-
-        // return pieceGroup
+        // scale
+        const transformScale = (this.svg.createSVGTransform())
+        transformScale.setScale(this.scalingY, this.scalingY)
+        pieceUse.transform.baseVal.appendItem(transformScale)
+        return pieceGroup
     }
 
     setPieceVisibility(square, visible = true) {
         const piece = this.getPieceElement(square)
-        if(piece) {
+        if (piece) {
             if (visible) {
                 piece.setAttribute("visibility", "visible")
             } else {
@@ -396,12 +388,23 @@ export class ChessboardView {
         }
         if (this.moveInputCallback) {
             // the "oldschool" move input validator
-            data.moveInputCallbackResult =  this.moveInputCallback(data)
+            data.moveInputCallbackResult = this.moveInputCallback(data)
         }
         // the new extension points
         const extensionPointsResult = this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
-        // validates, when moveInputCallbackResult and extensionPointsResult are true
-        return !(extensionPointsResult === false || !data.moveInputCallbackResult);
+        // validates, when moveInputCallbackResult and extensionPointsResults are true
+        return !(extensionPointsResult === false || !data.moveInputCallbackResult)
+    }
+
+    movingOverSquareCallback(squareFrom, squareTo) {
+        const data = {
+            chessboard: this.chessboard,
+            type: INPUT_EVENT_TYPE.movingOverSquare,
+            squareFrom: squareFrom,
+            squareTo: squareTo,
+            piece: this.chessboard.getPiece(squareFrom)
+        }
+        this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
     }
 
     validateMoveInputCallback(squareFrom, squareTo) {
@@ -419,7 +422,7 @@ export class ChessboardView {
         // the new extension points
         const extensionPointsResult = this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
         // validates, when moveInputCallbackResult and extensionPointsResult are true
-        return !(extensionPointsResult === false || !data.moveInputCallbackResult);
+        return !(extensionPointsResult === false || !data.moveInputCallbackResult)
     }
 
     moveInputCanceledCallback(reason, squareFrom, squareTo) {
@@ -510,9 +513,9 @@ export class Svg {
             }
         }
         if (sibling !== undefined) {
-          parent.appendChild(element)
+            parent.appendChild(element)
         } else {
-          parent.insertBefore(element, sibling)
+            parent.insertBefore(element, sibling)
         }
         return element
     }
@@ -522,7 +525,7 @@ export class Svg {
      * @param element
      */
     static removeElement(element) {
-        if(element.parentNode) {
+        if (element.parentNode) {
             element.parentNode.removeChild(element)
         } else {
             console.warn(element, "without parentNode")

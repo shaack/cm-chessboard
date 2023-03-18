@@ -16,8 +16,9 @@ export const COLOR = {
 }
 export const INPUT_EVENT_TYPE = {
     moveInputStarted: "moveInputStarted",
+    movingOverSquare: "movingOverSquare", // while dragging or hover after click
     validateMoveInput: "validateMoveInput",
-    moveInputCanceled: "moveInputCanceled",
+    moveInputCanceled: "moveInputCanceled"
 }
 export const SQUARE_SELECT_TYPE = {
     primary: "primary",

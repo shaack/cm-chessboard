@@ -21,10 +21,7 @@ export class Markers extends Extension {
             this.onRedrawBoard()
         })
         let defaultProps = {
-            style: {
-                moveFromMarker: MARKER_TYPE.frame, // the marker used to mark the start square
-                moveToMarker: MARKER_TYPE.frame, // the marker used to mark the square where the figure is moving to
-            },
+            autoMarkers: MARKER_TYPE.frame, // set to null, to switch auto markers off
             sprite: chessboard.props.sprite
         }
         this.props = {}
