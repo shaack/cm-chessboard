@@ -328,6 +328,7 @@ export class VisualMoveInput {
             } else {
                 if (this.toSquare !== undefined) {
                     this.toSquare = undefined
+                    this.movingOverSquareCallback(this.fromSquare, null)
                 }
             }
             if (this.view.chessboard.state.inputEnabled && (this.moveInputState === STATE.dragTo || this.moveInputState === STATE.clickDragTo)) {

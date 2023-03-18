@@ -40,7 +40,6 @@ export class Markers extends Extension {
         if (this.props.autoMarkers) {
             Object.assign(this.autoMarker, this.props.autoMarkers)
             this.registerExtensionPoint(EXTENSION_POINT.moveInput, (event) => {
-                console.log(event)
                 this.removeMarkers(this.autoMarker)
                 if (event.type === INPUT_EVENT_TYPE.moveInputStarted ||
                     event.type === INPUT_EVENT_TYPE.movingOverSquare ||
