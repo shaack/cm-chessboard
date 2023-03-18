@@ -13,8 +13,11 @@ import {Svg} from "../lib/Svg.js"
 export class ChessboardView {
     constructor(chessboard) {
         this.chessboard = chessboard
-        this.moveInput = new VisualMoveInput(this, this.moveInputStartedCallback.bind(this),
-            this.movingOverSquareCallback.bind(this), this.validateMoveInputCallback.bind(this), this.moveInputCanceledCallback.bind(this))
+        this.moveInput = new VisualMoveInput(this,
+            this.moveInputStartedCallback.bind(this),
+            this.movingOverSquareCallback.bind(this),
+            this.validateMoveInputCallback.bind(this),
+            this.moveInputCanceledCallback.bind(this))
         if (chessboard.props.assetsCache) {
             this.cacheSpriteToDiv("cm-chessboard-sprite", this.getSpriteUrl())
         }
@@ -329,7 +332,8 @@ export class ChessboardView {
         const data = {
             chessboard: this.chessboard,
             type: INPUT_EVENT_TYPE.moveInputStarted,
-            square: square,
+            square: square, // TODO this one is deprecated 2023-03-18
+            squareFrom: square,
             piece: this.chessboard.getPiece(square)
         }
         if (this.moveInputCallback) {
@@ -371,7 +375,7 @@ export class ChessboardView {
         return !(extensionPointsResult === false || !data.moveInputCallbackResult)
     }
 
-    moveInputCanceledCallback(reason, squareFrom, squareTo) {
+    moveInputCanceledCallback(squareFrom, squareTo, reason) {
         const data = {
             chessboard: this.chessboard,
             type: INPUT_EVENT_TYPE.moveInputCanceled,

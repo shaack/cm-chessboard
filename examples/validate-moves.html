@@ -76,7 +76,7 @@ board.enableMoveInput(inputHandler, COLOR.white)
         console.log("event", event)
         event.chessboard.removeMarkers(MARKER_TYPE.dot)
         if (event.type === INPUT_EVENT_TYPE.moveInputStarted) {
-            const moves = chess.moves({square: event.square, verbose: true});
+            const moves = chess.moves({square: event.square, verbose: true})
             for (const move of moves) { // draw dots on possible squares
                 event.chessboard.addMarker(MARKER_TYPE.dot, move.to)
             }
@@ -106,12 +106,13 @@ board.enableMoveInput(inputHandler, COLOR.white)
             return result
         }
     }
+
     const board = new Chessboard(document.getElementById("board"), {
         position: chess.fen(),
         assetsUrl: "../assets/",
         style: {pieces: {file: "staunty.svg"}},
         orientation: COLOR.white,
-        extensions: [{class: Markers}]
+        extensions: [{class: Markers, props: {autoMarkers: MARKER_TYPE.square}}]
     })
     board.enableMoveInput(inputHandler, COLOR.white)
 </script>

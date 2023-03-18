@@ -6,12 +6,15 @@
     <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"/>
     <link rel="stylesheet" href="styles/examples.css"/>
     <link rel="stylesheet" href="../assets/chessboard/chessboard.css"/>
+    <link rel="stylesheet" href="../assets/extensions/markers/markers.css"/>
 </head>
 <body>
 <h1><a href="../">cm-chessboard</a></h1>
 <h2>Example: Input enabled without validation</h2>
-<p>Input enabled on both sides, without move validation. Additionally, the "Markers" extension is used with its
-    "autoMarkers" ability.</p>
+<p>Input enabled on both sides, without move validation.
+    </p>
+<p>Additionally, the <b>Markers</b> extension is used with its
+    autoMarkers ability.</p>
 <div class="board" id="board"></div>
 <pre>
 const board = new Chessboard(document.getElementById("board"), {
@@ -57,12 +60,9 @@ function inputHandler(event) {
         switch (event.type) {
             case INPUT_EVENT_TYPE.moveInputStarted:
                 log(`moveInputStarted: ${event.square}`)
-                window.board.addMarker(MARKER_TYPE.frame, event.square)
                 return true
             case INPUT_EVENT_TYPE.validateMoveInput:
                 log(`validateMoveInput: ${event.squareFrom}-${event.squareTo}`)
-                window.board.addMarker(MARKER_TYPE.frame, event.squareFrom)
-                window.board.addMarker(MARKER_TYPE.frame, event.squareTo)
                 return true
             case INPUT_EVENT_TYPE.moveInputCanceled:
                 log(`moveInputCanceled`)

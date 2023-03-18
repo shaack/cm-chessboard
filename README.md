@@ -299,12 +299,12 @@ in the sprite, but then that is not so flexible.
 These are the css styles of the markers "markerSquare" and "markerCircleRed".
 
 ```css
-marker.markerSquare {
+marker.marker-square {
     fill: black;
     opacity: 0.11;
 }
 
-marker.markerCircleRed {
+marker.marker-circle-red {
     stroke: #aa0000;
     stroke-width: 3px;
     opacity: 0.4;

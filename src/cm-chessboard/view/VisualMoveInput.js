@@ -29,16 +29,12 @@ const DRAG_THRESHOLD = 4
 
 export class VisualMoveInput {
 
-    constructor(view,
-                moveInputStartedCallback,
-                movingOverSquareCallback,
-                validateMoveInputCallback,
-                moveInputCanceledCallback) {
+    constructor(view, moveInputStartedCallback, movingOverSquareCallback, validateMoveInputCallback, moveInputCanceledCallback) {
         this.view = view
         this.chessboard = view.chessboard
         this.moveInputStartedCallback = (square) => {
             const result = moveInputStartedCallback(square)
-            if(result) {
+            if (result) {
                 this.chessboard.state.moveInputProcess = createTask()
             }
             return result
@@ -51,9 +47,8 @@ export class VisualMoveInput {
             this.chessboard.state.moveInputProcess.resolve(result)
             return result
         }
-        // TODO refactor (fromSquare, toSquare, reason)
-        this.moveInputCanceledCallback = (reason, fromSquare, toSquare) => {
-            moveInputCanceledCallback(reason, fromSquare, toSquare)
+        this.moveInputCanceledCallback = (fromSquare, toSquare, reason) => {
+            moveInputCanceledCallback(fromSquare, toSquare, reason)
             this.chessboard.state.moveInputProcess.resolve()
         }
         this.setMoveInputState(STATE.waitForInputStart)
@@ -328,6 +323,7 @@ export class VisualMoveInput {
                     this.movingOverSquareCallback(this.fromSquare, this.toSquare)
                 } else if (square === this.fromSquare && this.toSquare !== undefined) {
                     this.toSquare = undefined
+                    this.movingOverSquareCallback(this.fromSquare, null)
                 }
             } else {
                 if (this.toSquare !== undefined) {

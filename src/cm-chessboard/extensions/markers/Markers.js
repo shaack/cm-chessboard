@@ -6,6 +6,7 @@
 
 import {Extension, EXTENSION_POINT} from "../../model/Extension.js"
 import {Svg} from "../../lib/Svg.js"
+import {INPUT_EVENT_TYPE} from "../../Chessboard.js"
 
 export const MARKER_TYPE = {
     square: {class: "marker-square", slice: "markerSquare"},
@@ -21,10 +22,11 @@ export class Markers extends Extension {
             this.onRedrawBoard()
         })
         this.props = {
-            autoMarkers: false, // set a MARKER_TYPE to autoMark the board
-            sprite: "markers.svg"
+            autoMarkers: MARKER_TYPE.frame, // set to `null` to disable autoMarkers
+            sprite: "markers.svg" // the sprite file of the markers
         }
         Object.assign(this.props, props)
+        this.autoMarker = {}
         if (chessboard.props.assetsCache) {
             chessboard.view.cacheSpriteToDiv("cm-chessboard-markers", this.chessboard.props.assetsUrl +
                 "extensions/markers/" + this.props.sprite)
@@ -35,6 +37,23 @@ export class Markers extends Extension {
         this.markerGroupDown = Svg.addElement(chessboard.view.markersLayer, "g", {class: "markers"})
         this.markerGroupUp = Svg.addElement(chessboard.view.markersTopLayer, "g", {class: "markers"})
         this.markers = []
+        if (this.props.autoMarkers) {
+            Object.assign(this.autoMarker, this.props.autoMarkers)
+            this.registerExtensionPoint(EXTENSION_POINT.moveInput, (event) => {
+                console.log(event)
+                this.removeMarkers(this.autoMarker)
+                if (event.type === INPUT_EVENT_TYPE.moveInputStarted ||
+                    event.type === INPUT_EVENT_TYPE.movingOverSquare ||
+                    event.type === INPUT_EVENT_TYPE.validateMoveInput) {
+                    if(event.squareFrom) {
+                        this.addMarker(this.autoMarker, event.squareFrom)
+                    }
+                    if(event.squareTo) {
+                        this.addMarker(this.autoMarker, event.squareTo)
+                    }
+                }
+            })
+        }
     }
 
     onRedrawBoard() {
