@@ -8,7 +8,7 @@ in [chess-console](https://shaack.com/projekte/chess-console/examples/load-pgn.h
 [cm-fen-editor](https://shaack.com/projekte/cm-fen-editor/). They are all nice written ES6 Modules to handle different
 aspects of chess games.
 
-> Note: With Version 6 **markers** have been moved to an extension, see the [Input callbacks example](https://shaack.com/projekte/cm-chessboard/examples/input-callbacks.html).
+> Note: With version 7 I made a heavy refactoring. The chessboard props have been changed and the files structure also. Version 7 of the chessboard will not work out of the box, after an update from a version lower than version 7.
 
 ## Features
 
