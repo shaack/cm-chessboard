@@ -16,17 +16,17 @@ aspects of chess games.
 - [Can handle moves input via click or drag](https://shaack.com/projekte/cm-chessboard/examples/validate-moves.html)
 - [Styleable via css and supports multiple piece sets](https://shaack.com/projekte/cm-chessboard/examples/different-styles.html)
 - Uses SVG for rendering
-- [Allows adding **extensions** to extend the functionality](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-arrows-extension.html)
+- [Allows adding **extensions** to extend the functionality](https://shaack.com/projekte/cm-chessboard/examples/extensions/arrows-extension.html)
 
 ## Extensions
 
 The core of cm-chessboard is small, fast and reduced to the essentials. You can extend its functionality with extensions.
 
-- [Accessibility Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-accessibility-extension.html) - makes the chessboard more accessible
-- [Arrows Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-arrows-extension.html) - renders arrows on the chessboard
+- [Accessibility Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/accessibility-extension.html) - makes the chessboard more accessible
+- [Arrows Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/arrows-extension.html) - renders arrows on the chessboard
 - [Markers Extension](https://shaack.com/projekte/cm-chessboard/examples/input-callbacks.html)  🆕 - create markers on specific squares
-- [PromotionDialog Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-promotion-dialog-extension.html) - shows a dialog to select the piece to promote to
-- [RenderVideo Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-render-video-extension.html)  🆕 - renders a video from the pieces movement on the board
+- [PromotionDialog Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/promotion-dialog-extension.html) - shows a dialog to select the piece to promote to
+- [RenderVideo Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/render-video-extension.html)  🆕 - renders a video from the pieces movement on the board
 
 ## Demo and repository
 
