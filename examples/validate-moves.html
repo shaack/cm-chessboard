@@ -75,7 +75,7 @@ board.enableMoveInput(inputHandler, COLOR.white)
 
     function inputHandler(event) {
         event.chessboard.removeMarkers(MARKER_TYPE.dot)
-        event.chessboard.removeMarkers(MARKER_TYPE.circle)
+        event.chessboard.removeMarkers(MARKER_TYPE.bevel)
         if (event.type === INPUT_EVENT_TYPE.moveInputStarted) {
             const moves = chess.moves({square: event.square, verbose: true})
             for (const move of moves) { // draw dots on possible squares
@@ -83,7 +83,7 @@ board.enableMoveInput(inputHandler, COLOR.white)
                     continue
                 }
                 if (event.chessboard.getPiece(move.to)) {
-                    event.chessboard.addMarker(MARKER_TYPE.circle, move.to)
+                    event.chessboard.addMarker(MARKER_TYPE.bevel, move.to)
                 } else {
                     event.chessboard.addMarker(MARKER_TYPE.dot, move.to)
                 }

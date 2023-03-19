@@ -29,6 +29,9 @@
     opacity: 0.11; }
   .cm-chessboard .markers .marker.marker-dot {
     fill: black;
-    opacity: 0.3; }
+    opacity: 0.2; }
+  .cm-chessboard .markers .marker.marker-bevel {
+    fill: black;
+    opacity: 0.2; }
 
 /*# sourceMappingURL=markers.css.map */
