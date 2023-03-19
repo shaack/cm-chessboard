@@ -19,10 +19,11 @@ const STATE = {
 }
 
 export const MOVE_CANCELED_REASON = {
-    secondClick: "secondClick",
+    secondClick: "secondClick", // clicked the same piece
+    secondaryClick: "secondaryClick", // right click while moving
     movedOutOfBoard: "movedOutOfBoard",
-    draggedBack: "draggedBack",
-    clickedAnotherPiece: "clickedAnotherPiece"
+    draggedBack: "draggedBack", // dragged to the start square
+    clickedAnotherPiece: "clickedAnotherPiece" // of the same color
 }
 
 const DRAG_THRESHOLD = 4
@@ -84,30 +85,29 @@ export class VisualMoveInput {
                 this.startPoint = params.point
                 if (!this.pointerMoveListener && !this.pointerUpListener) {
                     if (params.type === "mousedown") {
-
                         this.pointerMoveListener = this.onPointerMove.bind(this)
                         this.pointerMoveListener.type = "mousemove"
                         addEventListener("mousemove", this.pointerMoveListener)
-
                         this.pointerUpListener = this.onPointerUp.bind(this)
                         this.pointerUpListener.type = "mouseup"
                         addEventListener("mouseup", this.pointerUpListener)
-
                     } else if (params.type === "touchstart") {
-
                         this.pointerMoveListener = this.onPointerMove.bind(this)
                         this.pointerMoveListener.type = "touchmove"
                         addEventListener("touchmove", this.pointerMoveListener)
-
                         this.pointerUpListener = this.onPointerUp.bind(this)
                         this.pointerUpListener.type = "touchend"
                         addEventListener("touchend", this.pointerUpListener)
-
                     } else {
-                        throw Error("event type")
+                        throw Error("4b74af")
                     }
+                    if(this.contextMenuListener) {
+                        throw Error("bd272c")
+                    }
+                    this.contextMenuListener = this.onContextMenu.bind(this)
+                    addEventListener("contextmenu", this.contextMenuListener)
                 } else {
-                    throw Error("_pointerMoveListener or _pointerUpListener")
+                    throw Error("94ad0c")
                 }
                 break
 
@@ -189,18 +189,22 @@ export class VisualMoveInput {
                     removeEventListener(this.pointerUpListener.type, this.pointerUpListener)
                     this.pointerUpListener = undefined
                 }
+                if (this.contextMenuListener) {
+                    removeEventListener("contextmenu", this.contextMenuListener)
+                    this.contextMenuListener = undefined
+                }
                 this.setMoveInputState(STATE.waitForInputStart)
                 break
 
             default:
-                throw Error(`moveInputState ${newState}`)
+                throw Error(`260b09: moveInputState ${newState}`)
         }
     }
 
     createDraggablePiece(pieceName) {
         // maybe I should use the existing piece from the board and don't create a new one
         if (this.draggablePiece) {
-            throw Error("draggablePiece exists")
+            throw Error("59c195")
         }
         this.draggablePiece = Svg.createSvg(document.body)
         this.draggablePiece.classList.add("cm-chessboard-draggable-piece")
@@ -268,7 +272,7 @@ export class VisualMoveInput {
                             const startPieceName = this.chessboard.getPiece(this.fromSquare)
                             const startPieceColor = startPieceName ? startPieceName.substring(0, 1) : undefined
                             if (color && startPieceColor === pieceColor) {
-                                this.moveInputCanceledCallback(MOVE_CANCELED_REASON.clickedAnotherPiece, this.fromSquare, square)
+                                this.moveInputCanceledCallback(this.fromSquare, square, MOVE_CANCELED_REASON.clickedAnotherPiece)
                                 if (this.moveInputStartedCallback(square)) {
                                     this.setMoveInputState(STATE.pieceClickedThreshold, {
                                         square: square,
@@ -353,7 +357,7 @@ export class VisualMoveInput {
                         if (this.moveInputState === STATE.clickDragTo) {
                             this.chessboard.state.position.setPiece(this.fromSquare, this.movedPiece)
                             this.view.setPieceVisibility(this.fromSquare)
-                            this.moveInputCanceledCallback(MOVE_CANCELED_REASON.draggedBack, square, square)
+                            this.moveInputCanceledCallback(square, null, MOVE_CANCELED_REASON.draggedBack)
                             this.setMoveInputState(STATE.reset)
                         } else {
                             this.setMoveInputState(STATE.clickTo, {square: square})
@@ -365,13 +369,13 @@ export class VisualMoveInput {
                     this.setMoveInputState(STATE.clickTo, {square: square})
                 } else if (this.moveInputState === STATE.secondClickThreshold) {
                     this.setMoveInputState(STATE.reset)
-                    this.moveInputCanceledCallback(MOVE_CANCELED_REASON.secondClick, square, square)
+                    this.moveInputCanceledCallback(square, null, MOVE_CANCELED_REASON.secondClick)
                 }
             } else {
                 this.view.redrawPieces()
                 const moveStartSquare = this.fromSquare
                 this.setMoveInputState(STATE.reset)
-                this.moveInputCanceledCallback(MOVE_CANCELED_REASON.movedOutOfBoard, moveStartSquare, undefined)
+                this.moveInputCanceledCallback(moveStartSquare, null, MOVE_CANCELED_REASON.movedOutOfBoard)
             }
         } else {
             this.view.redrawPieces()
@@ -379,12 +383,15 @@ export class VisualMoveInput {
         }
     }
 
-    reset() {
+    onContextMenu(e) { // while moving
+        e.preventDefault()
+        this.view.redrawPieces()
         this.setMoveInputState(STATE.reset)
+        this.moveInputCanceledCallback(this.fromSquare, null, MOVE_CANCELED_REASON.secondaryClick)
     }
 
     destroy() {
-        this.reset()
+        this.setMoveInputState(STATE.reset)
     }
 
 }
