@@ -8,7 +8,7 @@ in [chess-console](https://shaack.com/projekte/chess-console/examples/load-pgn.h
 [cm-fen-editor](https://shaack.com/projekte/cm-fen-editor/). They are all nice written ES6 Modules to handle different
 aspects of chess games.
 
-> Note: With version 7, I made a heavy allover refactoring. The chessboard props have been changed and the files structure also. Version 7 of the chessboard will not work out of the box, after an update from a previous version. Also with version 7 comes the move cancelling via secondary mouse button.
+> Note: With version 7, I made a heavy allover refactoring. The chessboard props have been changed and the files structure also. Version 7 of the cm-chessboard will not work out of the box after an update from a previous version. Also with version 7 comes the move cancelling via secondary mouse button.
 
 ## Features
 
