@@ -51,9 +51,12 @@ export class Markers extends Extension {
 
     drawAutoMarkers(event) {
         this.removeMarkers(this.autoMarker)
+        if (event.type === INPUT_EVENT_TYPE.moveInputStarted &&
+            !event.moveInputCallbackResult) {
+            return
+        }
         if (event.type === INPUT_EVENT_TYPE.moveInputStarted ||
-            event.type === INPUT_EVENT_TYPE.movingOverSquare ||
-            event.type === INPUT_EVENT_TYPE.validateMoveInput) {
+            event.type === INPUT_EVENT_TYPE.movingOverSquare) {
             if (event.squareFrom) {
                 this.addMarker(this.autoMarker, event.squareFrom)
             }

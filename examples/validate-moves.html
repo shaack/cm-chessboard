@@ -75,10 +75,15 @@ board.enableMoveInput(inputHandler, COLOR.white)
     function inputHandler(event) {
         console.log("event", event)
         event.chessboard.removeMarkers(MARKER_TYPE.dot)
+        event.chessboard.removeMarkers(MARKER_TYPE.circle)
         if (event.type === INPUT_EVENT_TYPE.moveInputStarted) {
             const moves = chess.moves({square: event.square, verbose: true})
             for (const move of moves) { // draw dots on possible squares
-                event.chessboard.addMarker(MARKER_TYPE.dot, move.to)
+                if(event.chessboard.getPiece(move.to)) {
+                    event.chessboard.addMarker(MARKER_TYPE.circle, move.to)
+                } else {
+                    event.chessboard.addMarker(MARKER_TYPE.dot, move.to)
+                }
             }
             return moves.length > 0
         } else if (event.type === INPUT_EVENT_TYPE.validateMoveInput) {
@@ -104,6 +109,8 @@ board.enableMoveInput(inputHandler, COLOR.white)
                 console.warn("invalid move", move)
             }
             return result
+        } else if (event.type === INPUT_EVENT_TYPE.validateMoveInput) {
+
         }
     }
 

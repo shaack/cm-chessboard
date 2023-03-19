@@ -15,7 +15,7 @@
   .cm-chessboard .markers .marker.marker-circle {
     stroke: #000000;
     stroke-width: 3px;
-    opacity: 0.4; }
+    opacity: 0.3; }
   .cm-chessboard .markers .marker.marker-circle-primary {
     stroke: #0009bd;
     stroke-width: 3px;
