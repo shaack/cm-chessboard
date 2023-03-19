@@ -1,16 +1,45 @@
+$marker-color: #000000;
+$marker-color-primary: #0009bd;
+$marker-color-danger: #aa0000;
+
 .cm-chessboard {
   .markers {
     pointer-events: none;
+
     .marker {
       &.marker-frame {
-        stroke: black;
+        stroke: $marker-color;
         stroke-width: 1.8px;
         opacity: 0.5;
       }
 
-      &.marker-frame-red {
-        stroke: #aa0000;
+      &.marker-frame-primary {
+        stroke: $marker-color-primary;
         stroke-width: 1.8px;
+        opacity: 0.4;
+      }
+
+      &.marker-frame-danger {
+        stroke: $marker-color-danger;
+        stroke-width: 1.8px;
+        opacity: 0.4;
+      }
+
+      &.marker-circle {
+        stroke: $marker-color;
+        stroke-width: 3px;
+        opacity: 0.4;
+      }
+
+      &.marker-circle-primary {
+        stroke: $marker-color-primary;
+        stroke-width: 3px;
+        opacity: 0.4;
+      }
+
+      &.marker-circle-danger {
+        stroke: $marker-color-danger;
+        stroke-width: 3px;
         opacity: 0.4;
       }
 
@@ -24,17 +53,6 @@
         opacity: 0.3;
       }
 
-      &.marker-circle {
-        stroke: #000055;
-        stroke-width: 3px;
-        opacity: 0.4;
-      }
-
-      &.marker-circle-red {
-        stroke: #aa0000;
-        stroke-width: 3px;
-        opacity: 0.4;
-      }
     }
   }
 }
