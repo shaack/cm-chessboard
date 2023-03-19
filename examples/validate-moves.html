@@ -69,17 +69,20 @@ board.enableMoveInput(inputHandler, COLOR.white)
 <script type="module">
     import {INPUT_EVENT_TYPE, COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
     import {MARKER_TYPE, Markers} from "../src/cm-chessboard/extensions/markers/Markers.js"
+    import {PromotionDialog} from "../src/cm-chessboard/extensions/promotion-dialog/PromotionDialog.js"
 
     const chess = new Chess()
 
     function inputHandler(event) {
-        console.log("event", event)
         event.chessboard.removeMarkers(MARKER_TYPE.dot)
         event.chessboard.removeMarkers(MARKER_TYPE.circle)
         if (event.type === INPUT_EVENT_TYPE.moveInputStarted) {
             const moves = chess.moves({square: event.square, verbose: true})
             for (const move of moves) { // draw dots on possible squares
-                if(event.chessboard.getPiece(move.to)) {
+                if (move.promotion && move.promotion !== "q") {
+                    continue
+                }
+                if (event.chessboard.getPiece(move.to)) {
                     event.chessboard.addMarker(MARKER_TYPE.circle, move.to)
                 } else {
                     event.chessboard.addMarker(MARKER_TYPE.dot, move.to)
@@ -119,7 +122,10 @@ board.enableMoveInput(inputHandler, COLOR.white)
         assetsUrl: "../assets/",
         style: {pieces: {file: "staunty.svg"}},
         orientation: COLOR.white,
-        extensions: [{class: Markers, props: {autoMarkers: MARKER_TYPE.square}}]
+        extensions: [
+            {class: Markers, props: {autoMarkers: MARKER_TYPE.square}},
+            {class: PromotionDialog}
+        ]
     })
     board.enableMoveInput(inputHandler, COLOR.white)
 </script>
