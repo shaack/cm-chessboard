@@ -62,7 +62,7 @@ export class Chessboard {
                 aspectRatio: 1, // height/width of the board
                 pieces: {
                     type: PIECES_FILE_TYPE.svgSprite, // pieces are in a SVG sprite, no other type supported for now
-                    file: "standard.svg", // the filename of the sprite in `assets/chessboard/pieces/`
+                    file: "standard.svg", // the filename of the sprite in `assets/pieces/`
                     tileSize: 40 // the tile size in the sprite
                 },
                 animationDuration: 300 // pieces animation duration in milliseconds. Disable all animations with `0`.

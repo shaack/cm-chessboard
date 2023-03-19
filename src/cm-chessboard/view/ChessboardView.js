@@ -418,6 +418,6 @@ export class ChessboardView {
     }
 
     getSpriteUrl() {
-        return this.chessboard.props.assetsUrl + "chessboard/pieces/" + this.chessboard.props.style.pieces.file
+        return this.chessboard.props.assetsUrl + "pieces/" + this.chessboard.props.style.pieces.file
     }
 }
