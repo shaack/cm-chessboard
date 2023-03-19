@@ -31,7 +31,7 @@
             if (event.type === SQUARE_SELECT_TYPE.primary) {
                 markerType = MARKER_TYPE.dot
             } else {
-                markerType = MARKER_TYPE.circle
+                markerType = MARKER_TYPE.circlePrimary
             }
             const markersOnSquare = board1.getMarkers(markerType, event.square)
             if (markersOnSquare.length > 0) {
@@ -54,14 +54,15 @@
     board2.enableMoveInput(() => {
         return true
     })
-    const marker = {class: "marker-circle-red", slice: "markerCircle"}
+    // define your own marker
+    const myOwnMarker = {class: "marker-circle-danger", slice: "markerCircle"}
     board2.enableSquareSelect((event) => {
         if (event.type === SQUARE_SELECT_TYPE.secondary && event.mouseEvent.type === "mousedown") {
-            const markersOnSquare = board2.getMarkers(marker, event.square)
+            const markersOnSquare = board2.getMarkers(myOwnMarker, event.square)
             if (markersOnSquare.length > 0) {
-                board2.removeMarkers(marker, event.square)
+                board2.removeMarkers(myOwnMarker, event.square)
             } else {
-                board2.addMarker(marker, event.square)
+                board2.addMarker(myOwnMarker, event.square)
             }
         }
     })

@@ -9,10 +9,14 @@ import {Svg} from "../../lib/Svg.js"
 import {INPUT_EVENT_TYPE} from "../../Chessboard.js"
 
 export const MARKER_TYPE = {
-    square: {class: "marker-square", slice: "markerSquare"},
     frame: {class: "marker-frame", slice: "markerFrame"},
-    dot: {class: "marker-dot", slice: "markerDot", position: 'above'},
-    circle: {class: "marker-circle", slice: "markerCircle"}
+    framePrimary: {class: "marker-frame-primary", slice: "markerFrame"},
+    frameDanger: {class: "marker-frame-danger", slice: "markerFrame"},
+    circle: {class: "marker-circle", slice: "markerCircle"},
+    circlePrimary: {class: "marker-circle-primary", slice: "markerCircle"},
+    circleDanger: {class: "marker-circle-danger", slice: "markerCircle"},
+    square: {class: "marker-square", slice: "markerSquare"},
+    dot: {class: "marker-dot", slice: "markerDot", position: 'above'}
 }
 
 export class Markers extends Extension {
