@@ -101,11 +101,10 @@ export class VisualMoveInput {
                     } else {
                         throw Error("4b74af")
                     }
-                    if(this.contextMenuListener) {
-                        throw Error("bd272c")
+                    if(!this.contextMenuListener) {
+                        this.contextMenuListener = this.onContextMenu.bind(this)
+                        addEventListener("contextmenu", this.contextMenuListener)
                     }
-                    this.contextMenuListener = this.onContextMenu.bind(this)
-                    addEventListener("contextmenu", this.contextMenuListener)
                 } else {
                     throw Error("94ad0c")
                 }
