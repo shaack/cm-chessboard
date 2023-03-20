@@ -45,6 +45,8 @@ div.board {
   margin-bottom: 20px; }
   div.board.board-small {
     max-width: 320px; }
+  div.board.board-large {
+    max-width: 680px; }
 
 .clearfix::after {
   content: "";

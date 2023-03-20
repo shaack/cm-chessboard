@@ -15,55 +15,8 @@
 <p>Input enabled for white. <a href="https://github.com/jhlywa/chess.js">chess.js</a> does the validation and answers
     with random moves.</p>
 <h2 class="cm-visually-hidden">The Board</h2>
-<div class="board" id="board"></div>
+<div class="board board-large" id="board"></div>
 <h2 class="cm-visually-hidden">The Sourcecode of the example</h2>
-<pre>
-import {INPUT_EVENT_TYPE, COLOR, Chessboard, MARKER_TYPE} from "../src/cm-chessboard/Chessboard.js"
-
-const chess = new Chess()
-
-function inputHandler(event) {
-    console.log("event", event)
-    event.chessboard.removeMarkers(MARKER_TYPE.dot)
-    if (event.type === INPUT_EVENT_TYPE.moveInputStarted) {
-        const moves = chess.moves({square: event.square, verbose: true});
-        for (const move of moves) { // draw dots on possible squares
-            event.chessboard.addMarker(MARKER_TYPE.dot, move.to)
-        }
-        return moves.length > 0
-    } else if (event.type === INPUT_EVENT_TYPE.validateMoveInput) {
-        const move = {from: event.squareFrom, to: event.squareTo}
-        const result = chess.move(move)
-        if (result) {
-            event.chessboard.disableMoveInput()
-            this.chessboard.state.moveInputProcess.then(() => { // wait for the move input process has finished
-                this.chessboard.setPosition(chess.fen(), true).then(() => { // update position, maybe castled and wait for animation has finished
-                    const possibleMoves = chess.moves({verbose: true})
-                    if (possibleMoves.length > 0) {
-                        const randomIndex = Math.floor(Math.random() * possibleMoves.length)
-                        const randomMove = possibleMoves[randomIndex]
-                        setTimeout(() => { // smoother with 500ms delay
-                            chess.move({from: randomMove.from, to: randomMove.to})
-                            event.chessboard.enableMoveInput(inputHandler, COLOR.white)
-                            event.chessboard.setPosition(chess.fen(), true)
-                        }, 500)
-                    }
-                })
-            })
-        } else {
-            console.warn("invalid move", move)
-        }
-        return result
-    }
-}
-
-const board = new Chessboard(document.getElementById("board"), {
-    position: chess.fen(),
-    style: {pieces: {file: "staunty.svg"}},
-    orientation: COLOR.white
-})
-board.enableMoveInput(inputHandler, COLOR.white)
-</pre>
 <div id="output"></div>
 <!--suppress JSUnresolvedFunction -->
 <script type="module">

@@ -67,6 +67,9 @@ div.board {
   &.board-small {
     max-width: 320px;
   }
+  &.board-large {
+    max-width: 680px;
+  }
 }
 
 .clearfix::after {
