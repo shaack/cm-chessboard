@@ -21,7 +21,7 @@ $border: $square-black, $frame-bg: $square-white,) {
         .border {
           stroke: $border;
           stroke-width: 0.7%;
-          fill: $square-white;
+          fill: $square-black;
         }
       }
     }
@@ -30,7 +30,7 @@ $border: $square-black, $frame-bg: $square-white,) {
         .border {
           stroke: $border;
           stroke-width: 0;
-          fill: $square-white;
+          fill: $square-black;
         }
       }
     }
@@ -42,7 +42,7 @@ $border: $square-black, $frame-bg: $square-white,) {
           stroke: none;
         }
         .border-inner {
-          fill: transparent;
+          fill: $square-black;
           stroke: $border;
           stroke-width: 0.7%;
         }

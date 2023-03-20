@@ -67,7 +67,7 @@ board.enableMoveInput(inputHandler, COLOR.white)
 <div id="output"></div>
 <!--suppress JSUnresolvedFunction -->
 <script type="module">
-    import {INPUT_EVENT_TYPE, COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
+    import {INPUT_EVENT_TYPE, COLOR, Chessboard, BORDER_TYPE} from "../src/cm-chessboard/Chessboard.js"
     import {MARKER_TYPE, Markers} from "../src/cm-chessboard/extensions/markers/Markers.js"
     import {PromotionDialog} from "../src/cm-chessboard/extensions/promotion-dialog/PromotionDialog.js"
 
@@ -120,7 +120,7 @@ board.enableMoveInput(inputHandler, COLOR.white)
     const board = new Chessboard(document.getElementById("board"), {
         position: chess.fen(),
         assetsUrl: "../assets/",
-        style: {pieces: {file: "staunty.svg"}},
+        style: {borderType: BORDER_TYPE.none, pieces: {file: "staunty.svg"}},
         orientation: COLOR.white,
         extensions: [
             {class: Markers, props: {autoMarkers: MARKER_TYPE.square}},
