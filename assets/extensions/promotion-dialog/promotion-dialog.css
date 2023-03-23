@@ -2,9 +2,9 @@ svg.cm-chessboard .promotion-dialog-group rect, svg.cm-chessboard .promotion-dia
   animation: fade-in 0.25s ease-in; }
 
 svg.cm-chessboard .promotion-dialog-group .promotion-dialog {
-  fill: black;
-  fill-opacity: 0.3;
-  stroke: rgba(0, 0, 0, 0.3); }
+  fill: white;
+  fill-opacity: 0.7;
+  stroke: rgba(0, 0, 0, 0.4); }
 
 svg.cm-chessboard .promotion-dialog-group .promotion-dialog-button {
   fill: transparent;
