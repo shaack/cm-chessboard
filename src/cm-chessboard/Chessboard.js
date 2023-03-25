@@ -39,6 +39,8 @@ export const PIECES_FILE_TYPE = {
     svgSprite: "svgSprite"
 }
 
+export {FEN}
+
 export class Chessboard {
 
     constructor(context, props = {}) {
