@@ -23,14 +23,12 @@ export class PromotionDialog extends Extension {
         this.registerExtensionPoint(EXTENSION_POINT.animation, this.onAnimation.bind(this))
         this.registerMethod("showPromotionDialog", this.showPromotionDialog)
         this.promotionDialogGroup = Svg.addElement(chessboard.view.markersTopLayer, "g", {class: "promotion-dialog-group"})
-        Utils.delegate(this.promotionDialogGroup, "click", ".promotion-dialog-button",
-            this.promotionDialogOnClickPiece.bind(this))
         this.state = {
             displayState: DISPLAY_STATE.hidden,
+            callback: undefined,
             dialogParams: {
                 square: undefined,
-                color: undefined,
-                callback: undefined
+                color: undefined
             }
         }
     }
@@ -39,7 +37,7 @@ export class PromotionDialog extends Extension {
     showPromotionDialog(square, color, callback) {
         this.state.dialogParams.square = square
         this.state.dialogParams.color = color
-        this.state.dialogParams.callback = callback
+        this.state.callback = callback
         this.setDisplayState(DISPLAY_STATE.displayRequested)
     }
 
@@ -137,14 +135,47 @@ export class PromotionDialog extends Extension {
     }
 
     promotionDialogOnClickPiece(event) {
-        this.state.isShown = false
-        this.chessboard.disableSquareSelect()
-        this.state.callback({square: this.state.square, piece: event.target.dataset.piece})
+        if(event.button !== 2) {
+            if (event.target.dataset.piece) {
+                this.state.callback({square: this.state.dialogParams.square, piece: event.target.dataset.piece})
+                this.setDisplayState(DISPLAY_STATE.hidden)
+            } else {
+                this.promotionDialogOnCancel(event)
+            }
+        }
     }
 
+    promotionDialogOnCancel(event) {
+        if(this.state.displayState === DISPLAY_STATE.shown) {
+            event.preventDefault()
+            this.setDisplayState(DISPLAY_STATE.hidden)
+            this.state.callback({square: this.state.square, piece: null})
+        }
+    }
+
+    contextMenu(event) {
+        event.preventDefault()
+        this.setDisplayState(DISPLAY_STATE.hidden)
+        this.state.callback({square: this.state.square, piece: null})
+    }
+
+
     setDisplayState(displayState) {
-        console.log("displayState", displayState)
         this.state.displayState = displayState
+        if(displayState === DISPLAY_STATE.shown) {
+            this.clickDelegate = Utils.delegate(this.chessboard.context,
+                "mousedown",
+                "*",
+                this.promotionDialogOnClickPiece.bind(this))
+
+            // add right click to cancel
+            this.contextMenuListener = this.contextMenu.bind(this)
+            this.chessboard.context.addEventListener("contextmenu", this.contextMenuListener)
+        } else if(displayState === DISPLAY_STATE.hidden) {
+            this.clickDelegate.remove()
+            console.log("e16536 removeEventListener")
+            this.chessboard.context.removeEventListener("contextmenu", this.contextMenuListener)
+        }
         this.redrawDialog()
     }
 
