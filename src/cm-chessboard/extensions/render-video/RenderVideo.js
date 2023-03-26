@@ -5,6 +5,7 @@
  */
 
 import {Extension, EXTENSION_POINT} from "../../model/Extension.js"
+import {ANIMATION_EVENT_TYPE} from "../../view/PositionAnimationsQueue.js"
 
 export class RenderVideo extends Extension {
 
@@ -31,7 +32,7 @@ export class RenderVideo extends Extension {
         console.log("recorder mediaType", this.props.mediaType)
         this.makeSpriteInline()
         this.registerExtensionPoint(EXTENSION_POINT.animation, async (event) => {
-            if(event.event === "frame") {
+            if(event.type === ANIMATION_EVENT_TYPE.frame) {
                 if (this.recorder && this.recorder.state === "recording") {
                     await this.cloneImageAndRender()
                 }

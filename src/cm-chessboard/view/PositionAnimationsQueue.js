@@ -12,7 +12,7 @@ import {EXTENSION_POINT} from "../model/Extension.js"
 * https://medium.com/@karenmarkosyan/how-to-manage-promises-into-dynamic-queue-with-vanilla-javascript-9d0d1f8d4df5
 */
 
-export const ANIMATION_EVENT = {
+export const ANIMATION_EVENT_TYPE = {
     start: "start",
     frame: "frame",
     end: "end"
@@ -174,7 +174,7 @@ export class PositionsAnimation {
         if (!this.startTime) {
             this.startTime = time
             this.view.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.animation, {
-                event: ANIMATION_EVENT.start
+                type: ANIMATION_EVENT_TYPE.start
             })
         }
         const timeDiff = time - this.startTime
@@ -189,7 +189,7 @@ export class PositionsAnimation {
                 }
             })
             this.view.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.animation, {
-                event: ANIMATION_EVENT.end
+                type: ANIMATION_EVENT_TYPE.end
             })
             this.callback()
             return
@@ -200,7 +200,6 @@ export class PositionsAnimation {
             progress = 1
         }
         this.animatedElements.forEach((animatedItem) => {
-            // console.log("animatedItem", animatedItem)
             if (animatedItem.element) {
                 switch (animatedItem.type) {
                     case CHANGE_TYPE.move:
@@ -223,7 +222,7 @@ export class PositionsAnimation {
             }
         })
         this.view.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.animation, {
-            event: ANIMATION_EVENT.frame,
+            type: ANIMATION_EVENT_TYPE.frame,
             progress: progress
         })
     }
@@ -254,7 +253,6 @@ export class PositionAnimationsQueue extends PromiseQueue {
                 if (this.queue.length > 0) {
                     duration = duration / (1 + Math.pow(this.queue.length / 5, 2))
                 }
-                // console.log("duration", duration, animated, "this.chessboard.props.animationDuration", this.chessboard.props.animationDuration)
                 new PositionsAnimation(this.chessboard.view,
                     positionFrom, positionTo, animated ? duration : 0,
                     () => {
