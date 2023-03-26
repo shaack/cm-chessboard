@@ -19,8 +19,8 @@ export class PromotionDialog extends Extension {
 
     constructor(chessboard, props = {}) {
         super(chessboard, props)
-        this.registerExtensionPoint(EXTENSION_POINT.redrawBoard, this.onRedrawBoard.bind(this))
-        this.registerExtensionPoint(EXTENSION_POINT.animation, this.onAnimation.bind(this))
+        this.registerExtensionPoint(EXTENSION_POINT.redrawBoard, this.extensionPointRedrawBoard.bind(this))
+        this.registerExtensionPoint(EXTENSION_POINT.animation, this.extensionPointAnimation.bind(this))
         this.registerMethod("showPromotionDialog", this.showPromotionDialog)
         this.promotionDialogGroup = Svg.addElement(chessboard.view.markersTopLayer, "g", {class: "promotion-dialog-group"})
         this.state = {
@@ -42,13 +42,11 @@ export class PromotionDialog extends Extension {
     }
 
     // private
-    // on EXTENSION_POINT.redrawBoard
-    onRedrawBoard() {
+    extensionPointRedrawBoard() {
         this.redrawDialog()
     }
 
-    // on EXTENSION_POINT.animation
-    onAnimation(event) {
+    extensionPointAnimation(event) {
         if (event.type === ANIMATION_EVENT_TYPE.end) {
             if (this.state.displayState === DISPLAY_STATE.displayRequested) {
                 this.setDisplayState(DISPLAY_STATE.shown)
@@ -159,7 +157,6 @@ export class PromotionDialog extends Extension {
         this.state.callback({square: this.state.square, piece: null})
     }
 
-
     setDisplayState(displayState) {
         this.state.displayState = displayState
         if(displayState === DISPLAY_STATE.shown) {
@@ -167,8 +164,6 @@ export class PromotionDialog extends Extension {
                 "mousedown",
                 "*",
                 this.promotionDialogOnClickPiece.bind(this))
-
-            // add right click to cancel
             this.contextMenuListener = this.contextMenu.bind(this)
             this.chessboard.context.addEventListener("contextmenu", this.contextMenuListener)
         } else if(displayState === DISPLAY_STATE.hidden) {
