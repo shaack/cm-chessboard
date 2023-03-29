@@ -290,12 +290,14 @@ export class ChessboardView {
     }
 
     getPieceElement(square) {
-        if (square.length < 2) {
-            throw new Error("980e03")
+        if (!square || square.length < 2) {
+            console.warn("invalid square", square)
+            return null
         }
         const piece = this.piecesGroup.querySelector(`g[data-square='${square}']`)
         if (!piece) {
             console.warn("no piece on", square)
+            return null
         }
         return piece
     }
