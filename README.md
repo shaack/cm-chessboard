@@ -154,7 +154,7 @@ and `slice` is the `id` in `sprite.svg`. See also [Create your own custom marker
 below.
 
 [Example for **addMarker**, **getMarkers** and
-**removeMarkers**](https://shaack.com/projekte/cm-chessboard/examples/context-input.html)
+**removeMarkers**](https://shaack.com/projekte/cm-chessboard/examples/extensions/markers-extension.html)
 
 ### getMarkers(type = undefined, square = undefined)
 
@@ -249,7 +249,7 @@ board.enableSquareSelect((event) => {
 })
 ```
 
-[Example for **enableSquareSelect**](https://shaack.com/projekte/cm-chessboard/examples/input-callbacks.html)
+[Example for **enableSquareSelect**](https://shaack.com/projekte/cm-chessboard/examples/extensions/markers-extension.html)
 
 **`event.square`** contains the coordinates of the user input.
 
@@ -290,7 +290,7 @@ Important is the id "markerCircle". You can set the marker
 with `board.addMarker({class: "markerSquare", slice: "markerSquare"}, "e4")`
 "emphasize" is the css class, which defines the color and opacity of the marker. "slice" is the id of the marker in the
 SVG. This is
-also demonstrated in the [mark squares example](https://shaack.com/projekte/cm-chessboard/examples/input-callbacks.html)
+also demonstrated in the [mark squares example](https://shaack.com/projekte/cm-chessboard/examples/extensions/markers-extension.html)
 .
 
 The color and stroke-width of the marker is defined in the css (or scss). You could also define your marker completely
@@ -381,7 +381,7 @@ const chessboard = new Chessboard(document.getElementById("board"), {
 
 Add methods to the main chessboard from your extension with `this.registerMethod("name", callback)`
 like `addArrow(type, from, to)` in the
-[Arrows extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-arrows-extension.html).
+[Arrows extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/arrows-extension.html).
 
 ```js
 this.registerMethod("addArrow", this.addArrow)
@@ -398,7 +398,7 @@ of the current position in the alt tag of the board image and enables a form to 
 can also display the board as HTML table and the pieces as list.
 
 See
-example [Accessibility extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-accessibility-extension.html)
+example [Accessibility extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/accessibility-extension.html)
 
 ##### Usage
 
@@ -429,7 +429,7 @@ const chessboard = new Chessboard(document.getElementById("board"), {
 
 Draw arrows on the board.
 
-Example: [Arrows extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/chessboard-arrows-extension.html)
+Example: [Arrows extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/arrows-extension.html)
 
 ##### Methods
 
