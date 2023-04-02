@@ -38,4 +38,15 @@ export class Utils {
         return target
     }
 
+    static createTask() {
+        let resolve, reject
+        const promise = new Promise(function (_resolve, _reject) {
+            resolve = _resolve
+            reject = _reject
+        })
+        promise.resolve = resolve
+        promise.reject = reject
+        return promise
+    }
+
 }
