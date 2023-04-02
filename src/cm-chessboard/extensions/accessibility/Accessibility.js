@@ -38,9 +38,9 @@ export class Accessibility extends Extension {
         super(chessboard, props)
         this.props = {
             brailleNotationInAlt: true, // show the braille notation of the position in the alt attribute of the SVG image
-            boardAsTable: false, // display the board additionally as HTML table
-            movePieceForm: false, // display a form to move a piece (from, to, move)
-            piecesAsList: false, // display the pieces additionally as List
+            boardAsTable: true, // display the board additionally as HTML table
+            movePieceForm: true, // display a form to move a piece (from, to, move)
+            piecesAsList: true, // display the pieces additionally as List
             visuallyHidden: true // hide all those extra outputs visually but keep them accessible for screen readers and braille displays
         }
         Object.assign(this.props, props)
