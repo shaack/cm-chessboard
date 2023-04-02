@@ -34,7 +34,6 @@
         ]
     })
     chessboard.enableMoveInput((event) => {
-        console.log("8610fe", event)
         if (event.type === INPUT_EVENT_TYPE.validateMoveInput) {
             if (event.squareTo.charAt(1) === "8" && event.piece.charAt(1) === "p") {
                 chessboard.showPromotionDialog(event.squareTo, COLOR.white, (event) => {

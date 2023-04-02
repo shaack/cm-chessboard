@@ -103,7 +103,7 @@ export class VisualMoveInput {
                     }
                     if(!this.contextMenuListener) {
                         this.contextMenuListener = this.onContextMenu.bind(this)
-                        addEventListener("contextmenu", this.contextMenuListener)
+                        this.chessboard.view.svg.addEventListener("contextmenu", this.contextMenuListener)
                     }
                 } else {
                     throw Error("94ad0c")

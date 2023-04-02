@@ -2,6 +2,7 @@
 
 // define markers (for all themes)
 .cm-chessboard {
+
   .board {
     &.input-enabled {
       .square {
@@ -9,15 +10,18 @@
       }
     }
   }
+
   .pieces {
     pointer-events: none;
   }
 }
+
 .cm-chessboard-content {
   .list-inline {
     padding-left: 0;
     list-style: none;
   }
+
   .list-inline-item {
     display: inline-block;
 
@@ -41,16 +45,17 @@
       margin-right: 1rem;
     }
   }
-
 }
 
 .cm-visually-hidden {
-  position: absolute;
-  left: -10000px;
-  top: auto;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important; // Fix for https://github.com/twbs/bootstrap/issues/25686
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 // define themes

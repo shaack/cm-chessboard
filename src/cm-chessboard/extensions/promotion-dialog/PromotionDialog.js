@@ -160,16 +160,15 @@ export class PromotionDialog extends Extension {
     setDisplayState(displayState) {
         this.state.displayState = displayState
         if(displayState === DISPLAY_STATE.shown) {
-            this.clickDelegate = Utils.delegate(this.chessboard.context,
+            this.clickDelegate = Utils.delegate(this.chessboard.view.svg,
                 "mousedown",
                 "*",
                 this.promotionDialogOnClickPiece.bind(this))
             this.contextMenuListener = this.contextMenu.bind(this)
-            this.chessboard.context.addEventListener("contextmenu", this.contextMenuListener)
+            this.chessboard.view.svg.addEventListener("contextmenu", this.contextMenuListener)
         } else if(displayState === DISPLAY_STATE.hidden) {
             this.clickDelegate.remove()
-            console.log("e16536 removeEventListener")
-            this.chessboard.context.removeEventListener("contextmenu", this.contextMenuListener)
+            this.chessboard.view.svg.removeEventListener("contextmenu", this.contextMenuListener)
         }
         this.redrawDialog()
     }
