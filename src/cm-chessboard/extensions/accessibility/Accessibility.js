@@ -9,6 +9,7 @@ import {piecesTranslations, renderPieceTitle} from "../../lib/I18n.js"
 
 const hlTranslations = {
     de: {
+        chessboard: "Schachbrett",
         pieces_lists: "Figurenlisten",
         board_as_table: "Schachbrett als Tabelle",
         move_piece: "Figur bewegen",
@@ -17,9 +18,11 @@ const hlTranslations = {
         move: "Zug ausführen",
         input_white_enabled: "Eingabe Weiß aktiviert",
         input_black_enabled: "Eingabe Schwarz aktiviert",
-        input_disabled: "Eingabe deaktiviert"
+        input_disabled: "Eingabe deaktiviert",
+        pieces: "Figuren",
     },
     en: {
+        chessboard: "Chessboard",
         pieces_lists: "Pieces lists",
         board_as_table: "Chessboard as table",
         move_piece: "Move piece",
@@ -28,7 +31,8 @@ const hlTranslations = {
         move: "Make move",
         input_white_enabled: "Input white enabled",
         input_black_enabled: "Input black enabled",
-        input_disabled: "Input disabled"
+        input_disabled: "Input disabled",
+        pieces: "Pieces"
     }
 }
 
@@ -49,7 +53,7 @@ export class Accessibility extends Extension {
         this.t = this.translations[this.lang]
         this.th = hlTranslations[this.lang]
         if (this.props.movePieceForm) {
-            this.movePieceFormContainer = this.createElement(`<div><h3>${this.th.move_piece}</h3><form>
+            this.movePieceFormContainer = this.createElement(`<div><h3 id="hl_form_${this.chessboard.id}">${this.th.move_piece}</h3><form aria-labelledby="hl_form_${this.chessboard.id}">
             <label for="move_piece_input_from_${chessboard.id}">${this.th.from}</label><input class="input-from" type="text" size="2" id="move_piece_input_from_${chessboard.id}"/>
             <label for="move_piece_input_to_${chessboard.id}">${this.th.to}</label><input class="input-to" type="text" size="2" id="move_piece_input_to_${chessboard.id}"/>
             <button type="submit" class="button-move">${this.th.move}</button>
@@ -79,7 +83,7 @@ export class Accessibility extends Extension {
             this.chessboard.context.appendChild(this.movePieceFormContainer)
         }
         if (this.props.boardAsTable) {
-            this.boardAsTableContainer = this.createElement(`<div><h3>${this.th.board_as_table}</h3><div class="table"></div></div>`)
+            this.boardAsTableContainer = this.createElement(`<div><h3 id="hl_table_${this.chessboard.id}">${this.th.board_as_table}</h3><div class="table"></div></div>`)
             this.boardAsTable = this.boardAsTableContainer.querySelector(".table")
             this.chessboard.context.appendChild(this.boardAsTableContainer)
             if (this.props.visuallyHidden) {
@@ -87,7 +91,7 @@ export class Accessibility extends Extension {
             }
         }
         if (this.props.piecesAsList) {
-            this.piecesListContainer = this.createElement(`<div><h3>${this.th.pieces_lists}</h3><div class="list"></div></div>`)
+            this.piecesListContainer = this.createElement(`<div><h3 id="hl_lists_${this.chessboard.id}">${this.th.pieces_lists}</h3><div class="list"></div></div>`)
             this.piecesList = this.piecesListContainer.querySelector(".list")
             this.chessboard.context.appendChild(this.piecesListContainer)
             if (this.props.visuallyHidden) {
@@ -169,9 +173,9 @@ ${listB}`
             }
         }
         this.piecesList.innerHTML = `
-        <h4 id="white_${this.chessboard.id}">${this.t.colors_long.w}</h4>
+        <h4 id="white_${this.chessboard.id}">${this.th.pieces} ${this.t.colors_long.w}</h4>
         <ul aria-labelledby="white_${this.chessboard.id}" class="list-inline">${listW}</ul>
-        <h4 id="black_${this.chessboard.id}">${this.t.colors_long.b}</h4>
+        <h4 id="black_${this.chessboard.id}">${this.th.pieces} ${this.t.colors_long.b}</h4>
         <ul aria-labelledby="black_${this.chessboard.id}" class="list-inline">${listB}</ul>`
     }
 
@@ -184,7 +188,7 @@ ${listB}`
             files.reverse()
             squares.reverse()
         }
-        let html = `<table><!--<caption>${this.th.board_as_table}</caption>--><tr><th></th>`
+        let html = `<table aria-labelledby="hl_table_${this.chessboard.id}"><tr><th></th>`
         for (const rank of ranks) {
             html += `<th scope='col'>${rank}</th>`
         }
