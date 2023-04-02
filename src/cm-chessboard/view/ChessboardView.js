@@ -96,7 +96,7 @@ export class ChessboardView {
         this.svg.setAttribute("role", "img")
         this.updateMetrics()
         this.boardGroup = Svg.addElement(this.svg, "g", {class: "board"})
-        this.coordinatesGroup = Svg.addElement(this.svg, "g", {class: "coordinates"})
+        this.coordinatesGroup = Svg.addElement(this.svg, "g", {class: "coordinates", "aria-hidden": "true"})
         this.markersLayer = Svg.addElement(this.svg, "g", {class: "markers-layer"})
         this.piecesLayer = Svg.addElement(this.svg, "g", {class: "pieces-layer"})
         this.piecesGroup = Svg.addElement(this.piecesLayer, "g", {class: "pieces"})
