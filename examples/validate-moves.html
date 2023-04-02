@@ -23,6 +23,7 @@
     import {INPUT_EVENT_TYPE, COLOR, Chessboard, BORDER_TYPE} from "../src/cm-chessboard/Chessboard.js"
     import {MARKER_TYPE, Markers} from "../src/cm-chessboard/extensions/markers/Markers.js"
     import {PromotionDialog} from "../src/cm-chessboard/extensions/promotion-dialog/PromotionDialog.js"
+    import {Accessibility} from "../src/cm-chessboard/extensions/accessibility/Accessibility.js"
 
     const chess = new Chess()
 
@@ -77,7 +78,8 @@
         orientation: COLOR.white,
         extensions: [
             {class: Markers, props: {autoMarkers: MARKER_TYPE.square}},
-            {class: PromotionDialog}
+            {class: PromotionDialog},
+            {class: Accessibility, props: {visuallyHidden: true}}
         ]
     })
     board.enableMoveInput(inputHandler, COLOR.white)
