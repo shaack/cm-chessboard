@@ -19,13 +19,12 @@ new Chessboard(document.getElementById("board1"), {
 })
 new Chessboard(document.getElementById("board2"), {
     position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR w Gkq - 4 11",
-    assetsCache: false,
-    style: {pieces: {file: "staunty.svg"}},
+    style: {pieces: {file: "staunty.svg"},cssClass: "green", borderType: BORDER_TYPE.frame},
     orientation: COLOR.black
 })
 </pre>
 <script type="module">
-    import {COLOR, Chessboard} from "../src/cm-chessboard/Chessboard.js"
+    import {COLOR, Chessboard, BORDER_TYPE} from "../src/cm-chessboard/Chessboard.js"
     import {FEN} from "../src/cm-chessboard/model/Position.js"
 
     new Chessboard(document.getElementById("board1"), {
@@ -36,7 +35,7 @@ new Chessboard(document.getElementById("board2"), {
         position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR w Gkq - 4 11",
         assetsUrl: "../assets/",
         assetsCache: false,
-        style: {pieces: {file: "staunty.svg"}},
+        style: {pieces: {file: "staunty.svg"},cssClass: "green", borderType: BORDER_TYPE.frame},
         orientation: COLOR.black
     })
 </script>
