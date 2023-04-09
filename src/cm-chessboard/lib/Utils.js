@@ -38,6 +38,12 @@ export class Utils {
         return target
     }
 
+    static createDomElement(html) {
+        const template = document.createElement('template')
+        template.innerHTML = html.trim()
+        return template.content.firstChild
+    }
+
     static createTask() {
         let resolve, reject
         const promise = new Promise(function (_resolve, _reject) {

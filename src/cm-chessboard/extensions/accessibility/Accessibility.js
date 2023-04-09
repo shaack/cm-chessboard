@@ -6,8 +6,9 @@
 import {Extension, EXTENSION_POINT} from "../../model/Extension.js"
 import {COLOR, INPUT_EVENT_TYPE} from "../../Chessboard.js"
 import {piecesTranslations, renderPieceTitle} from "../../lib/I18n.js"
+import {Utils} from "../../lib/Utils.js"
 
-const hlTranslations = {
+const translations = {
     de: {
         chessboard: "Schachbrett",
         pieces_lists: "Figurenlisten",
@@ -37,100 +38,112 @@ const hlTranslations = {
 }
 
 export class Accessibility extends Extension {
-
     constructor(chessboard, props) {
         super(chessboard, props)
         this.props = {
             brailleNotationInAlt: true, // show the braille notation of the position in the alt attribute of the SVG image
-            boardAsTable: true, // display the board additionally as HTML table
             movePieceForm: true, // display a form to move a piece (from, to, move)
+            boardAsTable: true, // display the board additionally as HTML table
             piecesAsList: true, // display the pieces additionally as List
             visuallyHidden: true // hide all those extra outputs visually but keep them accessible for screen readers and braille displays
         }
         Object.assign(this.props, props)
         this.lang = chessboard.props.language
-        this.translations = piecesTranslations
-        this.t = this.translations[this.lang]
-        this.th = hlTranslations[this.lang]
-        if (this.props.movePieceForm) {
-            this.movePieceFormContainer = this.createElement(`<div><h3 id="hl_form_${this.chessboard.id}">${this.th.move_piece}</h3><form aria-labelledby="hl_form_${this.chessboard.id}">
-            <label for="move_piece_input_from_${chessboard.id}">${this.th.from}</label><input class="input-from" type="text" size="2" id="move_piece_input_from_${chessboard.id}"/>
-            <label for="move_piece_input_to_${chessboard.id}">${this.th.to}</label><input class="input-to" type="text" size="2" id="move_piece_input_to_${chessboard.id}"/>
-            <button type="submit" class="button-move">${this.th.move}</button>
-            </form><div class="input-status" aria-live="polite"></div></div>`)
-            this.form = this.movePieceFormContainer.querySelector("form")
-            this.inputFrom = this.form.querySelector(".input-from")
-            this.inputTo = this.form.querySelector(".input-to")
-            this.moveButton = this.form.querySelector(".button-move")
-            if (this.props.visuallyHidden) {
-                this.movePieceFormContainer.classList.add("cm-visually-hidden")
+        this.tPieces = piecesTranslations[this.lang]
+        this.t = translations[this.lang]
+        this.components = []
+        if(this.props.movePieceForm || this.props.boardAsTable || this.props.piecesAsList) {
+            const container = document.createElement("div")
+            container.classList.add("cm-chessboard-accessibility")
+            this.chessboard.context.appendChild(container)
+            if(this.props.visuallyHidden) {
+                container.classList.add("visually-hidden")
             }
-            this.form.addEventListener("submit", (evt) => {
-                evt.preventDefault()
-                if (this.chessboard.view.moveInputCallback({
-                    chessboard: this.chessboard,
-                    type: INPUT_EVENT_TYPE.validateMoveInput,
-                    squareFrom: this.inputFrom.value,
-                    squareTo: this.inputTo.value
-                })) {
-                    this.chessboard.movePiece(this.inputFrom.value, this.inputTo.value,
-                        true).then(() => {
-                        this.inputFrom.value = ""
-                        this.inputTo.value = ""
-                    })
-                }
-            })
-            this.chessboard.context.appendChild(this.movePieceFormContainer)
-        }
-        if (this.props.boardAsTable) {
-            this.boardAsTableContainer = this.createElement(`<div><h3 id="hl_table_${this.chessboard.id}">${this.th.board_as_table}</h3><div class="table"></div></div>`)
-            this.boardAsTable = this.boardAsTableContainer.querySelector(".table")
-            this.chessboard.context.appendChild(this.boardAsTableContainer)
-            if (this.props.visuallyHidden) {
-                this.boardAsTableContainer.classList.add("cm-visually-hidden")
+            if (this.props.movePieceForm) {
+                this.components.push(new MovePieceForm(container, this))
             }
-        }
-        if (this.props.piecesAsList) {
-            this.piecesListContainer = this.createElement(`<div><h3 id="hl_lists_${this.chessboard.id}">${this.th.pieces_lists}</h3><div class="list"></div></div>`)
-            this.piecesList = this.piecesListContainer.querySelector(".list")
-            this.chessboard.context.appendChild(this.piecesListContainer)
-            if (this.props.visuallyHidden) {
-                this.piecesListContainer.classList.add("cm-visually-hidden")
-            }
-        }
-        this.registerExtensionPoint(EXTENSION_POINT.moveInput, () => {
-            this.updateFormInputs()
-        })
-        this.registerExtensionPoint(EXTENSION_POINT.moveInputToggled, () => {
-            this.updateFormInputs()
-        })
-        this.registerExtensionPoint(EXTENSION_POINT.positionChanged, () => {
-            if(this.chessboard.state) { // not destroyed
-                this.redrawPositionInAltAttribute()
-                if (this.props.boardAsTable) {
-                    this.redrawBoardAsTable()
-                }
-                if (this.props.piecesAsList) {
-                    this.redrawPiecesLists()
-                }
-            }
-        })
-        this.registerExtensionPoint(EXTENSION_POINT.boardChanged, () => {
-            console.log("EXTENSION_POINT.boardChanged")
             if (this.props.boardAsTable) {
-                this.redrawBoardAsTable()
+                this.components.push(new BoardAsTable(container, this))
             }
-        })
-        this.redrawPositionInAltAttribute()
-        if (this.props.boardAsTable) {
-            this.redrawBoardAsTable()
+            if (this.props.piecesAsList) {
+                this.components.push(new PiecesAsList(container, this))
+            }
         }
-        if (this.props.piecesAsList) {
-            this.redrawPiecesLists()
+        if (this.props.brailleNotationInAlt) {
+            this.components.push(new BrailleNotationInAlt(this))
         }
     }
+}
 
-    updateFormInputs() {
+class BrailleNotationInAlt {
+    constructor(extension) {
+        this.extension = extension
+        extension.registerExtensionPoint(EXTENSION_POINT.positionChanged, () => {
+            this.redraw()
+        })
+    }
+
+    redraw() {
+        const pieces = this.extension.chessboard.state.position.getPieces()
+        let listW = piecesTranslations[this.extension.lang].colors.w.toUpperCase() + ":"
+        let listB = piecesTranslations[this.extension.lang].colors.b.toUpperCase() + ":"
+        for (const piece of pieces) {
+            const pieceName = piece.name === "p" ? "" : piecesTranslations[this.extension.lang].pieces[piece.name].toUpperCase()
+            if (piece.color === "w") {
+                listW += " " + pieceName + piece.position
+            } else {
+                listB += " " + pieceName + piece.position
+            }
+        }
+        const altText = `${listW}
+${listB}`
+        this.extension.chessboard.view.svg.setAttribute("alt", altText)
+    }
+}
+
+class MovePieceForm {
+    constructor(container, extension) {
+        this.chessboard = extension.chessboard
+        this.movePieceFormContainer = Utils.createDomElement(`
+<div>
+    <h3 id="hl_form_${this.chessboard.id}">${extension.t.move_piece}</h3>
+    <form aria-labelledby="hl_form_${this.chessboard.id}">
+        <label for="move_piece_input_from_${this.chessboard.id}">${extension.t.from}</label>
+        <input class="input-from" type="text" size="2" id="move_piece_input_from_${this.chessboard.id}"/>
+        <label for="move_piece_input_to_${this.chessboard.id}">${extension.t.to}</label>
+        <input class="input-to" type="text" size="2" id="move_piece_input_to_${this.chessboard.id}"/>
+        <button type="submit" class="button-move">${extension.t.move}</button>
+    </form>
+</div>`)
+        this.form = this.movePieceFormContainer.querySelector("form")
+        this.inputFrom = this.form.querySelector(".input-from")
+        this.inputTo = this.form.querySelector(".input-to")
+        this.moveButton = this.form.querySelector(".button-move")
+        if (extension.props.visuallyHidden) {
+            this.movePieceFormContainer.classList.add("visually-hidden")
+        }
+        this.form.addEventListener("submit", (evt) => {
+            evt.preventDefault()
+            if (this.chessboard.view.moveInputCallback({
+                chessboard: this.chessboard,
+                type: INPUT_EVENT_TYPE.validateMoveInput,
+                squareFrom: this.inputFrom.value,
+                squareTo: this.inputTo.value
+            })) {
+                this.chessboard.movePiece(this.inputFrom.value, this.inputTo.value,
+                    true).then(() => {
+                    this.inputFrom.value = ""
+                    this.inputTo.value = ""
+                })
+            }
+        })
+        container.appendChild(this.movePieceFormContainer)
+        extension.registerExtensionPoint(EXTENSION_POINT.moveInputToggled, () => {
+            this.redraw()
+        })
+    }
+
+    redraw() {
         if (this.inputFrom) {
             if (this.chessboard.state.inputWhiteEnabled || this.chessboard.state.inputBlackEnabled) {
                 this.inputFrom.disabled = false
@@ -143,43 +156,27 @@ export class Accessibility extends Extension {
             }
         }
     }
+}
 
-    redrawPositionInAltAttribute() {
-        const pieces = this.chessboard.state.position.getPieces()
-        let listW = piecesTranslations[this.lang].colors.w.toUpperCase() + ":"
-        let listB = piecesTranslations[this.lang].colors.b.toUpperCase() + ":"
-        for (const piece of pieces) {
-            const pieceName = piece.name === "p" ? "" : piecesTranslations[this.lang].pieces[piece.name].toUpperCase()
-            if (piece.color === "w") {
-                listW += " " + pieceName + piece.position
-            } else {
-                listB += " " + pieceName + piece.position
-            }
+class BoardAsTable {
+    constructor(container, extension) {
+        this.extension = extension
+        this.chessboard = extension.chessboard
+        this.boardAsTableContainer = Utils.createDomElement(`<div><h3 id="hl_table_${this.chessboard.id}">${extension.t.board_as_table}</h3><div class="table"></div></div>`)
+        this.boardAsTable = this.boardAsTableContainer.querySelector(".table")
+        container.appendChild(this.boardAsTableContainer)
+        if (this.chessboard.props.visuallyHidden) {
+            this.boardAsTableContainer.classList.add("visually-hidden")
         }
-        const altText = `${listW}
-${listB}`
-        this.chessboard.view.svg.setAttribute("alt", altText)
+        extension.registerExtensionPoint(EXTENSION_POINT.positionChanged, () => {
+            this.redraw()
+        })
+        extension.registerExtensionPoint(EXTENSION_POINT.boardChanged, () => {
+            this.redraw()
+        })
     }
 
-    redrawPiecesLists() {
-        const pieces = this.chessboard.state.position.getPieces()
-        let listW = ""
-        let listB = ""
-        for (const piece of pieces) {
-            if (piece.color === "w") {
-                listW += `<li class="list-inline-item">${renderPieceTitle(this.lang, piece.name)} ${piece.position}</li>`
-            } else {
-                listB += `<li class="list-inline-item">${renderPieceTitle(this.lang, piece.name)} ${piece.position}</li>`
-            }
-        }
-        this.piecesList.innerHTML = `
-        <h4 id="white_${this.chessboard.id}">${this.th.pieces} ${this.t.colors_long.w}</h4>
-        <ul aria-labelledby="white_${this.chessboard.id}" class="list-inline">${listW}</ul>
-        <h4 id="black_${this.chessboard.id}">${this.th.pieces} ${this.t.colors_long.b}</h4>
-        <ul aria-labelledby="black_${this.chessboard.id}" class="list-inline">${listB}</ul>`
-    }
-
-    redrawBoardAsTable() {
+    redraw() {
         const squares = this.chessboard.state.position.squares.slice()
         const ranks = ["a", "b", "c", "d", "e", "f", "g", "h"]
         const files = ["8", "7", "6", "5", "4", "3", "2", "1"]
@@ -201,7 +198,7 @@ ${listB}`
                 if (pieceCode) {
                     color = pieceCode.charAt(0)
                     name = pieceCode.charAt(1)
-                    html += `<td>${renderPieceTitle(this.lang, name, color)}</td>`
+                    html += `<td>${renderPieceTitle(this.extension.lang, name, color)}</td>`
                 } else {
                     html += `<td></td>`
                 }
@@ -211,11 +208,38 @@ ${listB}`
         html += "</table>"
         this.boardAsTable.innerHTML = html
     }
+}
 
-    createElement(html) {
-        const template = document.createElement('template')
-        template.innerHTML = html.trim()
-        return template.content.firstChild
+class PiecesAsList {
+    constructor(container, extension) {
+        this.extension = extension
+        this.chessboard = extension.chessboard
+        this.piecesListContainer = Utils.createDomElement(`<div><h3 id="hl_lists_${this.chessboard.id}">${extension.t.pieces_lists}</h3><div class="list"></div></div>`)
+        this.piecesList = this.piecesListContainer.querySelector(".list")
+        container.appendChild(this.piecesListContainer)
+        if (extension.props.visuallyHidden) {
+            this.piecesListContainer.classList.add("visually-hidden")
+        }
+        extension.registerExtensionPoint(EXTENSION_POINT.positionChanged, () => {
+            this.redraw()
+        })
     }
 
+    redraw() {
+        const pieces = this.chessboard.state.position.getPieces()
+        let listW = ""
+        let listB = ""
+        for (const piece of pieces) {
+            if (piece.color === "w") {
+                listW += `<li class="list-inline-item">${renderPieceTitle(this.extension.lang, piece.name)} ${piece.position}</li>`
+            } else {
+                listB += `<li class="list-inline-item">${renderPieceTitle(this.extension.lang, piece.name)} ${piece.position}</li>`
+            }
+        }
+        this.piecesList.innerHTML = `
+        <h4 id="white_${this.chessboard.id}">${this.extension.t.pieces} ${this.extension.tPieces.colors_long.w}</h4>
+        <ul aria-labelledby="white_${this.chessboard.id}" class="list-inline">${listW}</ul>
+        <h4 id="black_${this.chessboard.id}">${this.extension.t.pieces} ${this.extension.tPieces.colors_long.b}</h4>
+        <ul aria-labelledby="black_${this.chessboard.id}" class="list-inline">${listB}</ul>`
+    }
 }

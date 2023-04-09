@@ -62,12 +62,7 @@
         chessboard.setOrientation(chessboard.getOrientation() === 'w' ? 'b' : 'w')
     }
 
-    chessboard.enableMoveInput(inputHandler)
-
-    function inputHandler(event) {
-        console.log(event)
-        return true
-    }
+    chessboard.enableMoveInput(() => true)
 
 </script>
 </body>
