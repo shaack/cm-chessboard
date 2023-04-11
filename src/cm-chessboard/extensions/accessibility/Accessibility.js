@@ -119,9 +119,6 @@ class MovePieceForm {
         this.inputFrom = this.form.querySelector(".input-from")
         this.inputTo = this.form.querySelector(".input-to")
         this.moveButton = this.form.querySelector(".button-move")
-        if (extension.props.visuallyHidden) {
-            this.movePieceFormContainer.classList.add("visually-hidden")
-        }
         this.form.addEventListener("submit", (evt) => {
             evt.preventDefault()
             if (this.chessboard.view.moveInputCallback({
@@ -165,9 +162,6 @@ class BoardAsTable {
         this.boardAsTableContainer = Utils.createDomElement(`<div><h3 id="hl_table_${this.chessboard.id}">${extension.t.board_as_table}</h3><div class="table"></div></div>`)
         this.boardAsTable = this.boardAsTableContainer.querySelector(".table")
         container.appendChild(this.boardAsTableContainer)
-        if (this.chessboard.props.visuallyHidden) {
-            this.boardAsTableContainer.classList.add("visually-hidden")
-        }
         extension.registerExtensionPoint(EXTENSION_POINT.positionChanged, () => {
             this.redraw()
         })
@@ -217,9 +211,6 @@ class PiecesAsList {
         this.piecesListContainer = Utils.createDomElement(`<div><h3 id="hl_lists_${this.chessboard.id}">${extension.t.pieces_lists}</h3><div class="list"></div></div>`)
         this.piecesList = this.piecesListContainer.querySelector(".list")
         container.appendChild(this.piecesListContainer)
-        if (extension.props.visuallyHidden) {
-            this.piecesListContainer.classList.add("visually-hidden")
-        }
         extension.registerExtensionPoint(EXTENSION_POINT.positionChanged, () => {
             this.redraw()
         })
