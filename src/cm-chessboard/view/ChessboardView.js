@@ -60,10 +60,6 @@ export class ChessboardView {
         }
         this.chessboard.context.removeEventListener("mousedown", this.pointerDownListener)
         this.chessboard.context.removeEventListener("touchstart", this.pointerDownListener)
-        this.animationQueue = []
-        if (this.currentAnimation) {
-            cancelAnimationFrame(this.currentAnimation.frameHandle)
-        }
         Svg.removeElement(this.svg)
     }
 
