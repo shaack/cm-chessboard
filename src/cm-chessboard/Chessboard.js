@@ -189,15 +189,13 @@ export class Chessboard {
 
     destroy() {
         this.state.invokeExtensionPoints(EXTENSION_POINT.destroy)
+        if(this.state.squareSelectEnabled) {
+            this.disableSquareSelect()
+        }
         this.positionAnimationsQueue.destroy()
         this.view.destroy()
         this.view = undefined
         this.state = undefined
-        if (this.squareSelectListener) {
-            this.context.removeEventListener("contextmenu", this.squareSelectListener)
-            this.context.removeEventListener("mouseup", this.squareSelectListener)
-            this.context.removeEventListener("touchend", this.squareSelectListener)
-        }
     }
 
 }
