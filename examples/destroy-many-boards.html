@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>cm-chessboard</title>
     <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
     <link rel="stylesheet" href="styles/examples.css"/>
     <link rel="stylesheet" href="../assets/chessboard.css"/>
     <!--suppress CssUnusedSymbol -->
@@ -32,6 +31,8 @@
 <script type="module">
     import {Chessboard} from "../src/cm-chessboard/Chessboard.js"
     import {FEN} from "../src/cm-chessboard/model/Position.js"
+    import {Chess} from "https://cdn.jsdelivr.net/npm/chess.mjs@1/src/chess.mjs/Chess.js"
+
     const boardsDiv = document.getElementById("boards")
     const boardDiv = document.createElement("div")
     boardDiv.setAttribute("class", "board1")

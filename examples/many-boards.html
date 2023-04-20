@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"/>
     <link rel="stylesheet" href="styles/examples.css"/>
     <link rel="stylesheet" href="../assets/chessboard.css"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
     <!--suppress CssUnusedSymbol -->
     <style>
         div.board {
@@ -24,6 +23,7 @@
 <!--suppress JSUnresolvedFunction -->
 <script type="module">
     import {Chessboard} from "../src/cm-chessboard/Chessboard.js"
+    import {Chess} from "https://cdn.jsdelivr.net/npm/chess.mjs@1/src/chess.mjs/Chess.js"
 
     const boardsDiv = document.getElementById("boards")
     const game = new Chess()
