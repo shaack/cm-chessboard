@@ -36,10 +36,10 @@
     chessboard.enableMoveInput((event) => {
         if (event.type === INPUT_EVENT_TYPE.validateMoveInput) {
             if (event.squareTo.charAt(1) === "8" && event.piece.charAt(1) === "p") {
-                chessboard.showPromotionDialog(event.squareTo, COLOR.white, (event) => {
-                    console.log("48a99d Piece selected", event.piece)
-                    if (event.piece) {
-                        chessboard.setPiece(event.square, event.piece, true)
+                chessboard.showPromotionDialog(event.squareTo, COLOR.white, (result) => {
+                    console.log("Promotion result", result)
+                    if (result.piece) {
+                        chessboard.setPiece(result.square, result.piece, true)
                     } else {
                         chessboard.setPosition(position)
                     }

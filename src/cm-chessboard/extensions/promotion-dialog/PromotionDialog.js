@@ -147,14 +147,14 @@ export class PromotionDialog extends Extension {
         if(this.state.displayState === DISPLAY_STATE.shown) {
             event.preventDefault()
             this.setDisplayState(DISPLAY_STATE.hidden)
-            this.state.callback({square: this.state.square, piece: null})
+            this.state.callback(null)
         }
     }
 
     contextMenu(event) {
         event.preventDefault()
         this.setDisplayState(DISPLAY_STATE.hidden)
-        this.state.callback({square: this.state.square, piece: null})
+        this.state.callback(null)
     }
 
     setDisplayState(displayState) {

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="styles/examples.css"/>
     <link rel="stylesheet" href="../assets/chessboard.css"/>
     <link rel="stylesheet" href="../assets/extensions/markers/markers.css"/>
+    <link rel="stylesheet" href="../assets/extensions/promotion-dialog/promotion-dialog.css"/>
 </head>
 <body>
 <h1><a href="../">cm-chessboard</a></h1>
@@ -25,6 +26,19 @@
 
     const chess = new Chess()
 
+    function makeEngineMove(chessboard) {
+        const possibleMoves = chess.moves({verbose: true})
+        if (possibleMoves.length > 0) {
+            const randomIndex = Math.floor(Math.random() * possibleMoves.length)
+            const randomMove = possibleMoves[randomIndex]
+            setTimeout(() => { // smoother with 500ms delay
+                chess.move({from: randomMove.from, to: randomMove.to})
+                chessboard.setPosition(chess.fen(), true)
+                chessboard.enableMoveInput(inputHandler, COLOR.white)
+            }, 500)
+        }
+    }
+
     function inputHandler(event) {
         event.chessboard.removeMarkers(MARKER_TYPE.dot)
         event.chessboard.removeMarkers(MARKER_TYPE.bevel)
@@ -42,30 +56,36 @@
             }
             return moves.length > 0
         } else if (event.type === INPUT_EVENT_TYPE.validateMoveInput) {
-            const move = {from: event.squareFrom, to: event.squareTo}
+            const move = {from: event.squareFrom, to: event.squareTo, promotion: event.promotion}
             const result = chess.move(move)
             if (result) {
                 event.chessboard.disableMoveInput()
                 this.chessboard.state.moveInputProcess.then(() => { // wait for the move input process has finished
                     this.chessboard.setPosition(chess.fen(), true).then(() => { // update position, maybe castled and wait for animation has finished
-                        const possibleMoves = chess.moves({verbose: true})
-                        if (possibleMoves.length > 0) {
-                            const randomIndex = Math.floor(Math.random() * possibleMoves.length)
-                            const randomMove = possibleMoves[randomIndex]
-                            setTimeout(() => { // smoother with 500ms delay
-                                chess.move({from: randomMove.from, to: randomMove.to})
-                                event.chessboard.enableMoveInput(inputHandler, COLOR.white)
-                                event.chessboard.setPosition(chess.fen(), true)
-                            }, 500)
-                        }
+                        makeEngineMove(event.chessboard)
                     })
                 })
             } else {
-                console.warn("invalid move", move)
+                // promotion?
+                let possibleMoves = chess.moves({square: event.squareFrom, verbose: true})
+                for (const possibleMove of possibleMoves) {
+                    if (possibleMove.promotion && possibleMove.to === event.squareTo) {
+                        event.chessboard.showPromotionDialog(event.squareTo, COLOR.white, (result) => {
+                            console.log("promotion result", result)
+                            if (result) {
+                                chess.move({from: event.squareFrom, to: event.squareTo, promotion: result.piece.charAt(1)})
+                                event.chessboard.setPosition(chess.fen(), true)
+                                makeEngineMove(event.chessboard)
+                            } else {
+                                event.chessboard.setPosition(chess.fen(), true)
+                                event.chessboard.enableMoveInput(inputHandler, COLOR.white)
+                            }
+                        })
+                        return true
+                    }
+                }
             }
             return result
-        } else if (event.type === INPUT_EVENT_TYPE.validateMoveInput) {
-
         }
     }
 
