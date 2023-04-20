@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="styles/examples.css"/>
     <link rel="stylesheet" href="../assets/chessboard.css"/>
     <link rel="stylesheet" href="../assets/extensions/markers/markers.css"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
 </head>
 <body>
 <h1><a href="../">cm-chessboard</a></h1>
@@ -16,12 +15,13 @@
     with random moves.</p>
 <div class="board board-large" id="board"></div>
 <div id="output"></div>
-<!--suppress JSUnresolvedFunction -->
+
 <script type="module">
     import {INPUT_EVENT_TYPE, COLOR, Chessboard, BORDER_TYPE} from "../src/cm-chessboard/Chessboard.js"
     import {MARKER_TYPE, Markers} from "../src/cm-chessboard/extensions/markers/Markers.js"
     import {PromotionDialog} from "../src/cm-chessboard/extensions/promotion-dialog/PromotionDialog.js"
     import {Accessibility} from "../src/cm-chessboard/extensions/accessibility/Accessibility.js"
+    import {Chess} from "https://cdn.jsdelivr.net/npm/chess.mjs@1/src/chess.mjs/Chess.js"
 
     const chess = new Chess()
 

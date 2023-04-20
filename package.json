@@ -31,5 +31,7 @@
   "devDependencies": {
     "teevi": "^2.2.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "cm-chess": "^2.5.0"
+  }
 }
