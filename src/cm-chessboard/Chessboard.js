@@ -170,7 +170,7 @@ export class Chessboard {
         this.context.addEventListener("contextmenu", this.squareSelectListener)
         this.context.addEventListener("mousedown", this.squareSelectListener)
         this.context.addEventListener("mouseup", this.squareSelectListener)
-        this.context.addEventListener("touchstart", this.squareSelectListener)
+        this.context.addEventListener("touchstart", this.squareSelectListener, {passive: false})
         this.context.addEventListener("touchend", this.squareSelectListener)
         this.state.squareSelectEnabled = true
         this.view.visualizeInputState()
