@@ -11,7 +11,7 @@
     }
   }
 
-  .pieces {
+  .coordinates, .markers-layer, .pieces-layer, .markers-top-layer {
     pointer-events: none;
   }
 }

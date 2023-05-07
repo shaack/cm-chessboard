@@ -38,7 +38,7 @@
             if (event.squareTo.charAt(1) === "8" && event.piece.charAt(1) === "p") {
                 chessboard.showPromotionDialog(event.squareTo, COLOR.white, (result) => {
                     console.log("Promotion result", result)
-                    if (result.piece) {
+                    if (result && result.piece) {
                         chessboard.setPiece(result.square, result.piece, true)
                     } else {
                         chessboard.setPosition(position)

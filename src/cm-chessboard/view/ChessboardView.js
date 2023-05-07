@@ -97,6 +97,7 @@ export class ChessboardView {
         this.piecesLayer = Svg.addElement(this.svg, "g", {class: "pieces-layer"})
         this.piecesGroup = Svg.addElement(this.piecesLayer, "g", {class: "pieces"})
         this.markersTopLayer = Svg.addElement(this.svg, "g", {class: "markers-top-layer"})
+        this.interactiveTopLayer = Svg.addElement(this.svg, "g", {class: "interactive-top-layer"})
     }
 
     updateMetrics() {

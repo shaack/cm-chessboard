@@ -1,7 +1,7 @@
 .cm-chessboard .board.input-enabled .square {
   cursor: pointer; }
 
-.cm-chessboard .pieces {
+.cm-chessboard .coordinates, .cm-chessboard .markers-layer, .cm-chessboard .pieces-layer, .cm-chessboard .markers-top-layer {
   pointer-events: none; }
 
 .cm-chessboard-content .list-inline {

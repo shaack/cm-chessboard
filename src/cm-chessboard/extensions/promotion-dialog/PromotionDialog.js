@@ -22,7 +22,7 @@ export class PromotionDialog extends Extension {
         this.registerExtensionPoint(EXTENSION_POINT.redrawBoard, this.extensionPointRedrawBoard.bind(this))
         this.registerExtensionPoint(EXTENSION_POINT.animation, this.extensionPointAnimation.bind(this))
         this.registerMethod("showPromotionDialog", this.showPromotionDialog)
-        this.promotionDialogGroup = Svg.addElement(chessboard.view.markersTopLayer, "g", {class: "promotion-dialog-group"})
+        this.promotionDialogGroup = Svg.addElement(chessboard.view.interactiveTopLayer, "g", {class: "promotion-dialog-group"})
         this.state = {
             displayState: DISPLAY_STATE.hidden,
             callback: undefined,
