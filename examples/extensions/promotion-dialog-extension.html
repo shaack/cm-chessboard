@@ -20,9 +20,9 @@
         onclick="window.switchOrientation()">Switch Orientation
 </button>
 <script type="module">
-    import {Chessboard, COLOR, INPUT_EVENT_TYPE} from "../../src/cm-chessboard/Chessboard.js"
-    import {PromotionDialog} from "../../src/cm-chessboard/extensions/promotion-dialog/PromotionDialog.js"
-    import {Markers} from "../../src/cm-chessboard/extensions/markers/Markers.js"
+    import {Chessboard, COLOR, INPUT_EVENT_TYPE} from "../../src/Chessboard.js"
+    import {PromotionDialog} from "../../src/extensions/promotion-dialog/PromotionDialog.js"
+    import {Markers} from "../../src/extensions/markers/Markers.js"
 
     const position = "4k3/1P6/8/8/6r1/8/8/2R1K3 w - - 0 1"
     const chessboard = new Chessboard(document.getElementById("chessboard"), {

@@ -5,9 +5,9 @@
  */
 
 import {describe, it, assert} from "../node_modules/teevi/src/teevi.js"
-import {ChessboardState} from "../src/cm-chessboard/model/ChessboardState.js"
-import {PositionsAnimation} from "../src/cm-chessboard/view/PositionAnimationsQueue.js"
-import {Position} from "../src/cm-chessboard/model/Position.js"
+import {ChessboardState} from "../src/model/ChessboardState.js"
+import {PositionsAnimation} from "../src/view/PositionAnimationsQueue.js"
+import {Position} from "../src/model/Position.js"
 
 describe("TestPiecesAnimation", () => {
     it("should calculate square distances", () => {

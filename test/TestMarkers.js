@@ -5,8 +5,8 @@
  */
 
 import {describe, it, assert} from "../node_modules/teevi/src/teevi.js"
-import {Chessboard} from "../src/cm-chessboard/Chessboard.js"
-import {MARKER_TYPE, Markers} from "../src/cm-chessboard/extensions/markers/Markers.js"
+import {Chessboard} from "../src/Chessboard.js"
+import {MARKER_TYPE, Markers} from "../src/extensions/markers/Markers.js"
 
 describe("TestMarkers", () => {
 

@@ -5,8 +5,8 @@
  */
 
 import {describe, it, assert} from "../node_modules/teevi/src/teevi.js"
-import {PIECE, Chessboard} from "../src/cm-chessboard/Chessboard.js"
-import {FEN} from "../src/cm-chessboard/model/Position.js"
+import {PIECE, Chessboard} from "../src/Chessboard.js"
+import {FEN} from "../src/model/Position.js"
 
 describe("TestChessboard", () => {
 

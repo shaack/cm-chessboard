@@ -45,9 +45,9 @@ function inputHandler(event) {
 </button>
 <div id="output" style="width: 100%; overflow: hidden"></div>
 <script type="module">
-    import {INPUT_EVENT_TYPE, Chessboard} from "../src/cm-chessboard/Chessboard.js"
-    import {FEN} from "../src/cm-chessboard/model/Position.js"
-    import {MARKER_TYPE, Markers} from "../src/cm-chessboard/extensions/markers/Markers.js"
+    import {INPUT_EVENT_TYPE, Chessboard} from "../src/Chessboard.js"
+    import {FEN} from "../src/model/Position.js"
+    import {MARKER_TYPE, Markers} from "../src/extensions/markers/Markers.js"
 
     window.board = new Chessboard(document.getElementById("board"), {
         position: FEN.start,

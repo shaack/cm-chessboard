@@ -41,7 +41,7 @@ The core of cm-chessboard is small, fast and reduced to the essentials. You can 
 
 **Option 2:** Download the code from [GitHub](https://github.com/shaack/cm-chessboard).
 
-**Option 3:** Use it via CDN https://cdn.jsdelivr.net/npm/cm-chessboard@7/src/cm-chessboard/Chessboard.js
+**Option 3:** Use it via CDN https://cdn.jsdelivr.net/npm/cm-chessboard@7/src/Chessboard.js
 
 After installation, copy the sprite in `cm-chessboard/assets/images/` to your projects `assets/images/`
 folder. If you put the sprite somewhere else you have to configure the location
@@ -56,14 +56,14 @@ dependencies.
 Preconditions for using cm-chessboard in a web page:
 
 1. **include the css:** `assets/styles/cm-chessboard.css`
-2. **import the ES6 module:** `import {Chessboard} from "PATH/TO/src/cm-chessboard/Chessboard.js"`
+2. **import the ES6 module:** `import {Chessboard} from "PATH/TO/src/Chessboard.js"`
 
 Example, showing a FEN:
 
 ```html
 
 <script type="module">
-    import {Chessboard} from "./src/cm-chessboard/Chessboard.js"
+    import {Chessboard} from "./src/Chessboard.js"
 
     new Chessboard(document.getElementById("containerId"),
             {position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR"})
