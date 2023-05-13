@@ -81,7 +81,7 @@ export class Chessboard {
         this.state.orientation = this.props.orientation
         // instantiate extensions
         for (const extensionData of this.props.extensions) {
-            this.extensions.push(new extensionData.class(this, extensionData.props))
+            this.addExtension(extensionData.class, extensionData.props)
         }
         this.view.redrawBoard()
         this.state.position = new Position(this.props.position)
@@ -187,9 +187,13 @@ export class Chessboard {
         this.view.visualizeInputState()
     }
 
+    addExtension(extensionClass, props) {
+        this.extensions.push(new extensionClass(this, props))
+    }
+
     destroy() {
         this.state.invokeExtensionPoints(EXTENSION_POINT.destroy)
-        if(this.state.squareSelectEnabled) {
+        if (this.state.squareSelectEnabled) {
             this.disableSquareSelect()
         }
         this.positionAnimationsQueue.destroy()
