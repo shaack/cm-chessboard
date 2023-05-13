@@ -15,7 +15,7 @@ export const ARROW_TYPE = {
 
 export class Arrows extends Extension {
     constructor(chessboard, props = {}) {
-        super(chessboard, props)
+        super(chessboard)
         this.registerExtensionPoint(EXTENSION_POINT.redrawBoard, () => {
             this.onRedrawBoard()
         })

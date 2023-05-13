@@ -39,7 +39,7 @@ const translations = {
 
 export class Accessibility extends Extension {
     constructor(chessboard, props) {
-        super(chessboard, props)
+        super(chessboard)
         this.props = {
             brailleNotationInAlt: true, // show the braille notation of the position in the alt attribute of the SVG image
             movePieceForm: true, // display a form to move a piece (from, to, move)

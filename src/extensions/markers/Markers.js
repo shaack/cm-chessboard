@@ -22,7 +22,7 @@ export const MARKER_TYPE = {
 
 export class Markers extends Extension {
     constructor(chessboard, props = {}) {
-        super(chessboard, props)
+        super(chessboard)
         this.registerExtensionPoint(EXTENSION_POINT.redrawBoard, () => {
             this.onRedrawBoard()
         })

@@ -10,7 +10,7 @@ import {ANIMATION_EVENT_TYPE} from "../../view/PositionAnimationsQueue.js"
 export class RenderVideo extends Extension {
 
     constructor(chessboard, props) {
-        super(chessboard, props)
+        super(chessboard)
         this.props = {
             mediaType: "auto",
             safariMode: true

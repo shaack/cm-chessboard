@@ -16,9 +16,8 @@ export const EXTENSION_POINT = {
 
 export class Extension {
 
-    constructor(chessboard, props) {
+    constructor(chessboard) {
         this.chessboard = chessboard
-        this.props = props
     }
 
     registerExtensionPoint(name, callback) {
