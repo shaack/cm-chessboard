@@ -188,7 +188,19 @@ export class Chessboard {
     }
 
     addExtension(extensionClass, props) {
+        if(this.hasExtension(extensionClass)) {
+            throw Error("extension \"" + extensionClass.name + "\" already added")
+        }
         this.extensions.push(new extensionClass(this, props))
+    }
+
+    hasExtension(extensionClass) {
+        for (const extension of this.extensions) {
+            if (extension instanceof extensionClass) {
+                return true
+            }
+        }
+        return false
     }
 
     destroy() {
