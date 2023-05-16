@@ -302,6 +302,9 @@ export class ChessboardView {
     // enable and disable move input //
 
     enableMoveInput(eventHandler, color = undefined) {
+        if(this.moveInputCallback) {
+            throw Error("moveInput already enabled")
+        }
         if (color === COLOR.white) {
             this.chessboard.state.inputWhiteEnabled = true
         } else if (color === COLOR.black) {
