@@ -119,7 +119,7 @@ after the animation finished.
 
 ### getPiece(square)
 
-Returns the piece on a square or `undefined` if the square is empty.
+Returns the piece on a square or `null` if the square is empty.
 
 ### movePiece(squareFrom, squareTo, animated = false)
 

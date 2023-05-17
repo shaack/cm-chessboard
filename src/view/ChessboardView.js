@@ -302,7 +302,7 @@ export class ChessboardView {
 
     // enable and disable move input //
 
-    enableMoveInput(eventHandler, color = undefined) {
+    enableMoveInput(eventHandler, color = null) {
         if (this.moveInputCallback) {
             throw Error("moveInput already enabled")
         }
@@ -324,7 +324,7 @@ export class ChessboardView {
         this.chessboard.state.inputWhiteEnabled = false
         this.chessboard.state.inputBlackEnabled = false
         this.chessboard.state.inputEnabled = false
-        this.moveInputCallback = undefined
+        this.moveInputCallback = null
         this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInputToggled, {enabled: false})
         this.visualizeInputState()
     }

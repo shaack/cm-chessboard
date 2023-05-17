@@ -10,23 +10,13 @@ export const FEN = {
 
 export class Position {
 
-    constructor(fen = undefined) {
+    constructor(fen = FEN.empty) {
         this.squares = new Array(64).fill(null)
         this.setFen(fen)
     }
 
     setFen(fen = FEN.empty) {
-        let fenNormalized
-        if (fen === "start") {
-            console.warn("setting the position with the strings 'start' or 'empty' is deprecated, use FEN.start or FEN.empty", "used:", fen)
-            fenNormalized = FEN.start
-        } else if (fen === "empty" || fen === undefined) {
-            console.warn("setting the position with the strings 'start' or 'empty' is deprecated, use FEN.start or FEN.empty", "used:", fen)
-            fenNormalized = FEN.empty
-        } else {
-            fenNormalized = fen
-        }
-        const parts = fenNormalized.replace(/^\s*/, "").replace(/\s*$/, "").split(/\/|\s/)
+        const parts = fen.replace(/^\s*/, "").replace(/\s*$/, "").split(/\/|\s/)
         for (let part = 0; part < 8; part++) {
             const row = parts[7 - part].replace(/\d/g, (str) => {
                 const numSpaces = parseInt(str)
@@ -86,29 +76,29 @@ export class Position {
         const sort = (a, b) => {
             return sortBy.indexOf(a.name) - sortBy.indexOf(b.name)
         }
-        for(let i=0; i<64; i++) {
+        for (let i = 0; i < 64; i++) {
             const piece = this.squares[i]
-            if(piece) {
+            if (piece) {
                 pieces.push({
                     name: piece.charAt(1),
-                    color:  piece.charAt(0),
+                    color: piece.charAt(0),
                     position: Position.indexToSquare(i)
                 })
             }
         }
-        if(sortBy) {
+        if (sortBy) {
             pieces.sort(sort)
         }
         return pieces
     }
 
     movePiece(squareFrom, squareTo) {
-        if(!this.squares[Position.squareToIndex(squareFrom)]) {
+        if (!this.squares[Position.squareToIndex(squareFrom)]) {
             console.warn("no piece on", squareFrom)
             return
         }
         this.squares[Position.squareToIndex(squareTo)] = this.squares[Position.squareToIndex(squareFrom)]
-        this.squares[Position.squareToIndex(squareFrom)] = undefined
+        this.squares[Position.squareToIndex(squareFrom)] = null
     }
 
     setPiece(square, piece) {

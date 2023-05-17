@@ -25,10 +25,10 @@ export class PromotionDialog extends Extension {
         this.promotionDialogGroup = Svg.addElement(chessboard.view.interactiveTopLayer, "g", {class: "promotion-dialog-group"})
         this.state = {
             displayState: DISPLAY_STATE.hidden,
-            callback: undefined,
+            callback: null,
             dialogParams: {
-                square: undefined,
-                color: undefined
+                square: null,
+                color: null
             }
         }
     }

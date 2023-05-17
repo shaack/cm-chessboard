@@ -110,7 +110,7 @@ export class PositionsAnimation {
         }
         appearedList.forEach((appeared) => {
             let shortestDistance = 8
-            let foundMoved = undefined
+            let foundMoved = null
             disappearedList.forEach((disappeared) => {
                 if (appeared.piece === disappeared.piece) {
                     const moveDistance = PositionsAnimation.squareDistance(appeared.index, disappeared.index)
