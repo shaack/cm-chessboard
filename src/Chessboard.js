@@ -19,7 +19,8 @@ export const INPUT_EVENT_TYPE = {
     moveInputStarted: "moveInputStarted",
     movingOverSquare: "movingOverSquare", // while dragging or hover after click
     validateMoveInput: "validateMoveInput",
-    moveInputCanceled: "moveInputCanceled"
+    moveInputCanceled: "moveInputCanceled",
+    moveInputFinished: "moveInputFinished"
 }
 export const SQUARE_SELECT_TYPE = {
     primary: "primary",
@@ -63,7 +64,7 @@ export class Chessboard {
                 borderType: BORDER_TYPE.none, // "thin" thin border, "frame" wide border with coordinates in it, "none" no border
                 aspectRatio: 1, // height/width of the board
                 pieces: {
-                    type: PIECES_FILE_TYPE.svgSprite, // pieces are in a SVG sprite, no other type supported for now
+                    type: PIECES_FILE_TYPE.svgSprite, // pieces are in an SVG sprite, no other type supported for now
                     file: "standard.svg", // the filename of the sprite in `assets/pieces/`
                     tileSize: 40 // the tile size in the sprite
                 },
