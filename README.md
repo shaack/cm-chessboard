@@ -380,6 +380,8 @@ const chessboard = new Chessboard(document.getElementById("board"), {
 
 ### registerMethod(name, callback)
 
+> Deprecated 2023-05-18, just add methods directly to the chessboard class instance.
+
 Add methods to the main chessboard from your extension with `this.registerMethod("name", callback)`
 like `addArrow(type, from, to)` in the
 [Arrows extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/arrows-extension.html).

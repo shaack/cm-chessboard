@@ -27,7 +27,9 @@ export class Extension {
         this.chessboard.state.extensionPoints[name].push(callback)
     }
 
+    /** @deprecated 2023-05-18 */
     registerMethod(name, callback) {
+        console.warn("registerMethod is deprecated, just add methods directly to the chessboard instance")
         if (!this.chessboard[name]) {
             this.chessboard[name] = (...args) => {
                 return callback.apply(this, args)

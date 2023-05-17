@@ -9,6 +9,7 @@ import {ANIMATION_EVENT_TYPE} from "../../view/PositionAnimationsQueue.js"
 
 export class RenderVideo extends Extension {
 
+    /** @constructor */
     constructor(chessboard, props) {
         super(chessboard)
         this.props = {
@@ -38,7 +39,7 @@ export class RenderVideo extends Extension {
                 }
             }
         })
-        this.registerMethod("recorderInit", () => {
+        chessboard.recorderInit = () => {
             return new Promise((resolve) => {
                 let all = document.querySelectorAll("svg *")
                 for (let i = 0; i < all.length; i++) {
@@ -72,8 +73,8 @@ export class RenderVideo extends Extension {
                     resolve()
                 }, 100)
             })
-        })
-        this.registerMethod("recorderStart", () => {
+        }
+        chessboard.recorderStart = () => {
             return new Promise((resolve) => {
                 if (this.recorder && this.recorder.state === "recording") {
                     console.error("recorder is running")
@@ -84,11 +85,11 @@ export class RenderVideo extends Extension {
                 console.log("recorder", this.recorder.state)
                 resolve()
             })
-        })
+        }
         /**
          * returns the url of the recorded media
          */
-        this.registerMethod("recorderStop", () => {
+        chessboard.recorderStop = () => {
             return new Promise(async (resolve, reject) => {
                 if (!this.recorder || this.recorder.state !== "recording") {
                     reject("recorder is not recording")
@@ -100,8 +101,8 @@ export class RenderVideo extends Extension {
                     resolve(URL.createObjectURL(new Blob(this.recordedData, {type: this.props.mediaType})))
                 }, 200)
             })
-        })
-        this.registerMethod("recorderPause", (ms) => {
+        }
+        chessboard.recorderPause = (ms) => {
             return new Promise(async (resolve) => {
                 await this.cloneImageAndRender()
                 const interval = setInterval(async () => {
@@ -113,7 +114,7 @@ export class RenderVideo extends Extension {
                     resolve()
                 }, ms)
             })
-        })
+        }
     }
 
     async cloneImageAndRender() {

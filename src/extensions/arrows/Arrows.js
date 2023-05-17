@@ -14,6 +14,8 @@ export const ARROW_TYPE = {
 }
 
 export class Arrows extends Extension {
+
+    /** @constructor */
     constructor(chessboard, props = {}) {
         super(chessboard)
         this.registerExtensionPoint(EXTENSION_POINT.redrawBoard, () => {
@@ -27,9 +29,9 @@ export class Arrows extends Extension {
             this.chessboard.view.cacheSpriteToDiv("cm-chessboard-arrows",
                 this.chessboard.props.assetsUrl + "extensions/arrows/" + this.props.sprite)
         }
-        this.registerMethod("addArrow", this.addArrow)
-        this.registerMethod("getArrows", this.getArrows)
-        this.registerMethod("removeArrows", this.removeArrows)
+        chessboard.addArrow = this.addArrow.bind(this)
+        chessboard.getArrows = this.getArrows.bind(this)
+        chessboard.removeArrows = this.removeArrows.bind(this)
         this.arrowGroup = Svg.addElement(chessboard.view.markersTopLayer, "g", {class: "arrows"})
         this.arrows = []
     }

@@ -17,11 +17,12 @@ const DISPLAY_STATE = {
 
 export class PromotionDialog extends Extension {
 
+    /** @constructor */
     constructor(chessboard) {
         super(chessboard)
         this.registerExtensionPoint(EXTENSION_POINT.redrawBoard, this.extensionPointRedrawBoard.bind(this))
         this.registerExtensionPoint(EXTENSION_POINT.animation, this.extensionPointAnimation.bind(this))
-        this.registerMethod("showPromotionDialog", this.showPromotionDialog)
+        chessboard.showPromotionDialog = this.showPromotionDialog.bind(this)
         this.promotionDialogGroup = Svg.addElement(chessboard.view.interactiveTopLayer, "g", {class: "promotion-dialog-group"})
         this.state = {
             displayState: DISPLAY_STATE.hidden,

@@ -21,6 +21,8 @@ export const MARKER_TYPE = {
 }
 
 export class Markers extends Extension {
+
+    /** @constructor */
     constructor(chessboard, props = {}) {
         super(chessboard)
         this.registerExtensionPoint(EXTENSION_POINT.redrawBoard, () => {
@@ -35,9 +37,9 @@ export class Markers extends Extension {
             chessboard.view.cacheSpriteToDiv("cm-chessboard-markers", this.chessboard.props.assetsUrl +
                 "extensions/markers/" + this.props.sprite)
         }
-        this.registerMethod("addMarker", this.addMarker)
-        this.registerMethod("getMarkers", this.getMarkers)
-        this.registerMethod("removeMarkers", this.removeMarkers)
+        chessboard.addMarker = this.addMarker.bind(this)
+        chessboard.getMarkers = this.getMarkers.bind(this)
+        chessboard.removeMarkers = this.removeMarkers.bind(this)
         this.markerGroupDown = Svg.addElement(chessboard.view.markersLayer, "g", {class: "markers"})
         this.markerGroupUp = Svg.addElement(chessboard.view.markersTopLayer, "g", {class: "markers"})
         this.markers = []
