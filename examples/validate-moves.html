@@ -74,6 +74,7 @@
                             if (result) {
                                 chess.move({from: event.squareFrom, to: event.squareTo, promotion: result.piece.charAt(1)})
                                 event.chessboard.setPosition(chess.fen(), true)
+                                event.chessboard.disableMoveInput()
                                 makeEngineMove(event.chessboard)
                             } else {
                                 event.chessboard.setPosition(chess.fen(), true)

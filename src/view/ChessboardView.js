@@ -223,10 +223,12 @@ export class ChessboardView {
 
     redrawPieces(squares = this.chessboard.state.position.squares) {
         const childNodes = Array.from(this.piecesGroup.childNodes)
+        const isDragging = this.visualMoveInput.isDragging()
         for (let i = 0; i < 64; i++) {
             const pieceName = squares[i]
             if (pieceName) {
-                this.drawPieceOnSquare(Position.indexToSquare(i), pieceName)
+                const square = Position.indexToSquare(i)
+                this.drawPieceOnSquare(square, pieceName, isDragging && square === this.visualMoveInput.fromSquare)
             }
         }
         for (const childNode of childNodes) {
@@ -250,10 +252,13 @@ export class ChessboardView {
         return pieceGroup
     }
 
-    drawPieceOnSquare(square, pieceName) {
+    drawPieceOnSquare(square, pieceName, hidden = false) {
         const pieceGroup = Svg.addElement(this.piecesGroup, "g", {})
         pieceGroup.setAttribute("data-piece", pieceName)
         pieceGroup.setAttribute("data-square", square)
+        if(hidden) {
+            pieceGroup.setAttribute("visibility","hidden")
+        }
         const point = this.squareToPoint(square)
         const transform = (this.svg.createSVGTransform())
         transform.setTranslate(point.x, point.y)
@@ -302,7 +307,7 @@ export class ChessboardView {
     // enable and disable move input //
 
     enableMoveInput(eventHandler, color = undefined) {
-        if(this.moveInputCallback) {
+        if (this.moveInputCallback) {
             throw Error("moveInput already enabled")
         }
         if (color === COLOR.white) {
