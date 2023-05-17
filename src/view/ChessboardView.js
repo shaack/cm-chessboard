@@ -13,7 +13,7 @@ import {Svg} from "../lib/Svg.js"
 export class ChessboardView {
     constructor(chessboard) {
         this.chessboard = chessboard
-        this.moveInput = new VisualMoveInput(this,
+        this.visualMoveInput = new VisualMoveInput(this,
             this.moveInputStartedCallback.bind(this),
             this.movingOverSquareCallback.bind(this),
             this.validateMoveInputCallback.bind(this),
@@ -47,11 +47,11 @@ export class ChessboardView {
     }
 
     pointerDownHandler(e) {
-        this.moveInput.onPointerDown(e)
+        this.visualMoveInput.onPointerDown(e)
     }
 
     destroy() {
-        this.moveInput.destroy()
+        this.visualMoveInput.destroy()
         if (this.resizeObserver) {
             this.resizeObserver.unobserve(this.chessboard.context)
         }

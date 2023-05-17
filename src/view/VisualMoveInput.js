@@ -390,6 +390,10 @@ export class VisualMoveInput {
         this.moveInputCanceledCallback(this.fromSquare, null, MOVE_CANCELED_REASON.secondaryClick)
     }
 
+    isDragging() {
+        return this.moveInputState === MOVE_INPUT_STATE.dragTo || this.moveInputState === MOVE_INPUT_STATE.clickDragTo
+    }
+
     destroy() {
         this.setMoveInputState(MOVE_INPUT_STATE.reset)
     }
