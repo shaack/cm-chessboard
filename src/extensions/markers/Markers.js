@@ -31,7 +31,6 @@ export class Markers extends Extension {
             sprite: "markers.svg" // the sprite file of the markers
         }
         Object.assign(this.props, props)
-        this.autoMarker = {}
         if (chessboard.props.assetsCache) {
             chessboard.view.cacheSpriteToDiv("cm-chessboard-markers", this.chessboard.props.assetsUrl +
                 "extensions/markers/" + this.props.sprite)
@@ -43,7 +42,7 @@ export class Markers extends Extension {
         this.markerGroupUp = Svg.addElement(chessboard.view.markersTopLayer, "g", {class: "markers"})
         this.markers = []
         if (this.props.autoMarkers) {
-            Object.assign(this.autoMarker, this.props.autoMarkers)
+            Object.assign(this.props.autoMarkers, this.props.autoMarkers)
             this.registerExtensionPoint(EXTENSION_POINT.moveInput, (event) => {
                 this.drawAutoMarkers(event)
             })
@@ -51,7 +50,9 @@ export class Markers extends Extension {
     }
 
     drawAutoMarkers(event) {
-        this.removeMarkers(this.autoMarker)
+        if(event.type !== INPUT_EVENT_TYPE.moveInputFinished) {
+            this.removeMarkers(this.props.autoMarkers)
+        }
         if (event.type === INPUT_EVENT_TYPE.moveInputStarted &&
             !event.moveInputCallbackResult) {
             return
@@ -59,10 +60,10 @@ export class Markers extends Extension {
         if (event.type === INPUT_EVENT_TYPE.moveInputStarted ||
             event.type === INPUT_EVENT_TYPE.movingOverSquare) {
             if (event.squareFrom) {
-                this.addMarker(this.autoMarker, event.squareFrom)
+                this.addMarker(this.props.autoMarkers, event.squareFrom)
             }
             if (event.squareTo) {
-                this.addMarker(this.autoMarker, event.squareTo)
+                this.addMarker(this.props.autoMarkers, event.squareTo)
             }
         }
     }

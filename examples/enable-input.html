@@ -47,7 +47,7 @@ function inputHandler(event) {
 <script type="module">
     import {INPUT_EVENT_TYPE, Chessboard} from "../src/Chessboard.js"
     import {FEN} from "../src/model/Position.js"
-    import {MARKER_TYPE, Markers} from "../src/extensions/markers/Markers.js"
+    import {Markers} from "../src/extensions/markers/Markers.js"
 
     window.board = new Chessboard(document.getElementById("board"), {
         position: FEN.start,
@@ -59,8 +59,7 @@ function inputHandler(event) {
     window.board.enableMoveInput(inputHandler)
 
     function inputHandler(event) {
-        console.log(event)
-        window.board.removeMarkers(MARKER_TYPE.frame)
+        // console.log(event)
         switch (event.type) {
             case INPUT_EVENT_TYPE.moveInputStarted:
                 log(`moveInputStarted: ${event.square}`)
