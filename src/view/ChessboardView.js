@@ -13,11 +13,7 @@ import {Svg} from "../lib/Svg.js"
 export class ChessboardView {
     constructor(chessboard) {
         this.chessboard = chessboard
-        this.visualMoveInput = new VisualMoveInput(this,
-            this.moveInputStartedCallback.bind(this),
-            this.movingOverSquareCallback.bind(this),
-            this.validateMoveInputCallback.bind(this),
-            this.moveInputCanceledCallback.bind(this))
+        this.visualMoveInput = new VisualMoveInput(this)
         if (chessboard.props.assetsCache) {
             this.cacheSpriteToDiv("cm-chessboard-sprite", this.getSpriteUrl())
         }
@@ -388,6 +384,20 @@ export class ChessboardView {
             reason: reason,
             squareFrom: squareFrom,
             squareTo: squareTo
+        }
+        this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
+        if (this.moveInputCallback) {
+            this.moveInputCallback(data)
+        }
+    }
+
+    moveInputFinishedCallback(squareFrom, squareTo, legalMove) {
+        const data = {
+            chessboard: this.chessboard,
+            type: INPUT_EVENT_TYPE.moveInputFinished,
+            squareFrom: squareFrom,
+            squareTo: squareTo,
+            legalMove: legalMove
         }
         this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
         if (this.moveInputCallback) {

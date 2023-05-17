@@ -30,27 +30,32 @@ const DRAG_THRESHOLD = 4
 
 export class VisualMoveInput {
 
-    constructor(view, moveInputStartedCallback, movingOverSquareCallback, validateMoveInputCallback, moveInputCanceledCallback) {
+    constructor(view) {
         this.view = view
         this.chessboard = view.chessboard
         this.moveInputState = null
+        this.fromSquare = null
+        this.toSquare = null
         this.moveInputStartedCallback = (square) => {
-            const result = moveInputStartedCallback(square)
+            const result = view.moveInputStartedCallback(square)
             if (result) {
                 this.chessboard.state.moveInputProcess = Utils.createTask()
+                this.chessboard.state.moveInputProcess.then((result) => {
+                    view.moveInputFinishedCallback(this.fromSquare, this.toSquare, result)
+                })
             }
             return result
         }
         this.movingOverSquareCallback = (fromSquare, toSquare) => {
-            movingOverSquareCallback(fromSquare, toSquare)
+            view.movingOverSquareCallback(fromSquare, toSquare)
         }
         this.validateMoveInputCallback = (fromSquare, toSquare) => {
-            const result = validateMoveInputCallback(fromSquare, toSquare)
+            const result = view.validateMoveInputCallback(fromSquare, toSquare)
             this.chessboard.state.moveInputProcess.resolve(result)
             return result
         }
         this.moveInputCanceledCallback = (fromSquare, toSquare, reason) => {
-            moveInputCanceledCallback(fromSquare, toSquare, reason)
+            view.moveInputCanceledCallback(fromSquare, toSquare, reason)
             this.chessboard.state.moveInputProcess.resolve()
         }
         this.setMoveInputState(MOVE_INPUT_STATE.waitForInputStart)

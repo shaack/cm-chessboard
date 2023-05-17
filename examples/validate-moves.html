@@ -39,6 +39,8 @@
     }
 
     function inputHandler(event) {
+        console.log("inputHandler", event)
+        console.log("fen", event.chessboard.getPosition())
         event.chessboard.removeMarkers(MARKER_TYPE.dot)
         event.chessboard.removeMarkers(MARKER_TYPE.bevel)
         if (event.type === INPUT_EVENT_TYPE.moveInputStarted) {
@@ -58,7 +60,6 @@
             const move = {from: event.squareFrom, to: event.squareTo, promotion: event.promotion}
             const result = chess.move(move)
             if (result) {
-                event.chessboard.disableMoveInput()
                 this.chessboard.state.moveInputProcess.then(() => { // wait for the move input process has finished
                     this.chessboard.setPosition(chess.fen(), true).then(() => { // update position, maybe castled and wait for animation has finished
                         makeEngineMove(event.chessboard)
@@ -74,11 +75,11 @@
                             if (result) {
                                 chess.move({from: event.squareFrom, to: event.squareTo, promotion: result.piece.charAt(1)})
                                 event.chessboard.setPosition(chess.fen(), true)
-                                event.chessboard.disableMoveInput()
                                 makeEngineMove(event.chessboard)
                             } else {
-                                event.chessboard.setPosition(chess.fen(), true)
+                                // promotion canceled
                                 event.chessboard.enableMoveInput(inputHandler, COLOR.white)
+                                event.chessboard.setPosition(chess.fen(), true)
                             }
                         })
                         return true
@@ -86,13 +87,17 @@
                 }
             }
             return result
+        } else if (event.type === INPUT_EVENT_TYPE.moveInputFinished) {
+            if(event.legalMove) {
+                event.chessboard.disableMoveInput()
+            }
         }
     }
 
     const board = new Chessboard(document.getElementById("board"), {
         position: chess.fen(),
         assetsUrl: "../assets/",
-        style: {borderType: BORDER_TYPE.none, pieces: {file: "staunty.svg"}},
+        style: {borderType: BORDER_TYPE.none, pieces: {file: "staunty.svg"}, animationDuration: 300},
         orientation: COLOR.white,
         extensions: [
             {class: Markers, props: {autoMarkers: MARKER_TYPE.square}},
