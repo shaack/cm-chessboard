@@ -70,7 +70,7 @@ export class Chessboard {
                 },
                 animationDuration: 300 // pieces animation duration in milliseconds. Disable all animations with `0`.
             },
-            extensions: [ /* {class: ExtensionClass, props: { ... }} */] // add extensions here
+            extensions: [ /* {class: Ex2tensionClass, props: { ... }} */] // add extensions here
         }
         Utils.mergeObjects(this.props, props)
         if (this.props.language !== "de" && this.props.language !== "en") {
