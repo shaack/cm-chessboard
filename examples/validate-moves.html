@@ -40,11 +40,12 @@
 
     function inputHandler(event) {
         console.log("inputHandler", event)
-        console.log("fen", event.chessboard.getPosition())
-        event.chessboard.removeMarkers(MARKER_TYPE.dot)
-        event.chessboard.removeMarkers(MARKER_TYPE.bevel)
+        if(event.type !== INPUT_EVENT_TYPE.moveInputFinished) {
+            event.chessboard.removeMarkers(MARKER_TYPE.dot)
+            event.chessboard.removeMarkers(MARKER_TYPE.bevel)
+        }
         if (event.type === INPUT_EVENT_TYPE.moveInputStarted) {
-            const moves = chess.moves({square: event.square, verbose: true})
+            const moves = chess.moves({square: event.squareFrom, verbose: true})
             for (const move of moves) { // draw dots on possible squares
                 if (move.promotion && move.promotion !== "q") {
                     continue
