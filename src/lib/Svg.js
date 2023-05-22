@@ -28,10 +28,10 @@ export class Svg {
      * @param parent
      * @param name
      * @param attributes
-     * @param sibling
+     * @param sibling // TODO remove this parameter (2023-05-22)
      * @returns {Element}
      */
-    static addElement(parent, name, attributes, sibling = undefined) {
+    static addElement(parent, name, attributes = {}, sibling = undefined) {
         let element = document.createElementNS(SVG_NAMESPACE, name)
         if (name === "use") {
             attributes["xlink:href"] = attributes["href"] // fix for safari
