@@ -30,7 +30,7 @@ function inputHandler(event) {
     window.board.removeMarkers(MARKER_TYPE.frame)
     switch (event.type) {
         case INPUT_EVENT_TYPE.moveInputStarted:
-            log(`moveInputStarted: ${event.square}`)
+            log(`moveInputStarted: ${event.squareFrom}`)
             return true
         case INPUT_EVENT_TYPE.validateMoveInput:
             log(`validateMoveInput: ${event.squareFrom}-${event.squareTo}`)
@@ -62,7 +62,7 @@ function inputHandler(event) {
         // console.log(event)
         switch (event.type) {
             case INPUT_EVENT_TYPE.moveInputStarted:
-                log(`moveInputStarted: ${event.square}`)
+                log(`moveInputStarted: ${event.squareFrom}`)
                 return true
             case INPUT_EVENT_TYPE.validateMoveInput:
                 log(`validateMoveInput: ${event.squareFrom}-${event.squareTo}`)
