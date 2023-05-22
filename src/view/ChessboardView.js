@@ -335,6 +335,7 @@ export class ChessboardView {
         const data = {
             chessboard: this.chessboard,
             type: INPUT_EVENT_TYPE.moveInputStarted,
+            square: square, /** square is deprecated, use squareFrom (2023-05-22) */
             squareFrom: square,
             piece: this.chessboard.getPiece(square)
         }
