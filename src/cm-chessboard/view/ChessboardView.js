@@ -509,7 +509,7 @@ export class Svg {
                 }
             }
         }
-        if (sibling !== undefined) {
+        if (sibling === undefined) {
           parent.appendChild(element)
         } else {
           parent.insertBefore(element, sibling)
