@@ -28,10 +28,9 @@ export class Svg {
      * @param parent
      * @param name
      * @param attributes
-     * @param sibling // TODO remove this parameter (2023-05-22)
      * @returns {Element}
      */
-    static addElement(parent, name, attributes = {}, sibling = undefined) {
+    static addElement(parent, name, attributes = {}) {
         let element = document.createElementNS(SVG_NAMESPACE, name)
         if (name === "use") {
             attributes["xlink:href"] = attributes["href"] // fix for safari
@@ -46,11 +45,7 @@ export class Svg {
                 }
             }
         }
-        if (sibling !== undefined) {
-            parent.appendChild(element)
-        } else {
-            parent.insertBefore(element, sibling)
-        }
+        parent.appendChild(element)
         return element
     }
 
