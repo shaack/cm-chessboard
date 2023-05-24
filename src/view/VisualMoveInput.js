@@ -199,6 +199,11 @@ export class VisualMoveInput {
                     this.contextMenuListener = null
                 }
                 this.setMoveInputState(MOVE_INPUT_STATE.waitForInputStart)
+                // set temporarily hidden pieces visible again
+                const hiddenPieces = this.view.piecesGroup.querySelectorAll("[visibility=hidden]")
+                for (let i = 0; i < hiddenPieces.length; i++) {
+                    hiddenPieces[i].removeAttribute("visibility")
+                }
                 break
 
             default:

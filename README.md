@@ -208,7 +208,7 @@ board.enableMoveInput((event) => {
 
 The event has the following **`event.type`**:
 
-- **`INPUT_EVENT_TYPE.moveInputStarted`**: User started the move input, `event.square` contains the coordinates. Return true or false to validate the start square.
+- **`INPUT_EVENT_TYPE.moveInputStarted`**: User started the move input, `event.squareFrom` contains the coordinates. Return true or false to validate the start square.
 - **`INPUT_EVENT_TYPE.validateMoveInput`**: User finished the move input, `event.squareFrom` and `event.squareTo` contain the coordinates. Return true or false to validate the move input.
 - **`INPUT_EVENT_TYPE.moveInputCanceled`**: User canceled the move with clicking again on the start square or clicking outside the board.
 
@@ -216,7 +216,7 @@ The event has the following **`event.type`**:
 chessboard.enableMoveInput((event) => {
   switch (event.type) {
     case INPUT_EVENT_TYPE.moveInputStarted:
-      console.log(`moveInputStarted: ${event.square}`)
+      console.log(`moveInputStarted: ${event.squareFrom}`)
       // return `true`, if input is accepted/valid, `false` aborts the interaction, the piece will not move
       return true
     case INPUT_EVENT_TYPE.validateMoveInput:
