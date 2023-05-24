@@ -6,6 +6,7 @@
 import {FEN, Position} from "../model/Position.js"
 import {Svg} from "../lib/Svg.js"
 import {EXTENSION_POINT} from "../model/Extension.js"
+import {Utils} from "../lib/Utils.js"
 
 /*
 * Thanks to markosyan for the idea of the PromiseQueue
@@ -92,6 +93,10 @@ export class PositionsAnimation {
         } else {
             console.error("fromPosition", fromPosition, "toPosition", toPosition)
         }
+        this.view.positionsAnimationTask = Utils.createTask()
+        this.view.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.animation, {
+            type: ANIMATION_EVENT_TYPE.start
+        })
     }
 
     static seekChanges(fromSquares, toSquares) {
@@ -173,21 +178,18 @@ export class PositionsAnimation {
         }
         if (!this.startTime) {
             this.startTime = time
-            this.view.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.animation, {
-                type: ANIMATION_EVENT_TYPE.start
-            })
         }
         const timeDiff = time - this.startTime
         if (timeDiff <= this.duration) {
             this.frameHandle = requestAnimationFrame(this.animationStep.bind(this))
         } else {
             cancelAnimationFrame(this.frameHandle)
-            // console.log("ANIMATION FINISHED")
             this.animatedElements.forEach((animatedItem) => {
                 if (animatedItem.type === CHANGE_TYPE.disappear) {
                     Svg.removeElement(animatedItem.element)
                 }
             })
+            this.view.positionsAnimationTask.resolve()
             this.view.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.animation, {
                 type: ANIMATION_EVENT_TYPE.end
             })

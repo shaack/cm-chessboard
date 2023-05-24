@@ -30,7 +30,7 @@ export class ChessboardView {
                 window.addEventListener("resize", this.resizeListener)
             }
         }
-
+        this.positionsAnimationTask = Promise.resolve()
         this.pointerDownListener = this.pointerDownHandler.bind(this)
         this.pointerDownListener = this.pointerDownHandler.bind(this)
         this.context.addEventListener("mousedown", this.pointerDownListener)
