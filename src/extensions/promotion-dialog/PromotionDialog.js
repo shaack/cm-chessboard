@@ -7,7 +7,6 @@ import {Extension, EXTENSION_POINT} from "../../model/Extension.js"
 import {COLOR, PIECE} from "../../Chessboard.js"
 import {Svg} from "../../lib/Svg.js"
 import {Utils} from "../../lib/Utils.js"
-import {ANIMATION_EVENT_TYPE} from "../../view/PositionAnimationsQueue.js"
 
 const DISPLAY_STATE = {
     hidden: "hidden",
@@ -21,7 +20,6 @@ export class PromotionDialog extends Extension {
     constructor(chessboard) {
         super(chessboard)
         this.registerExtensionPoint(EXTENSION_POINT.redrawBoard, this.extensionPointRedrawBoard.bind(this))
-        this.registerExtensionPoint(EXTENSION_POINT.animation, this.extensionPointAnimation.bind(this))
         chessboard.showPromotionDialog = this.showPromotionDialog.bind(this)
         chessboard.isPromotionDialogShown = this.isPromotionDialogShown.bind(this)
         this.promotionDialogGroup = Svg.addElement(chessboard.view.interactiveTopLayer, "g", {class: "promotion-dialog-group"})
@@ -35,14 +33,21 @@ export class PromotionDialog extends Extension {
         }
     }
 
-    // public (registerMethod)
+    // public (chessboard.showPromotionDialog)
     showPromotionDialog(square, color, callback) {
         this.state.dialogParams.square = square
         this.state.dialogParams.color = color
         this.state.callback = callback
         this.setDisplayState(DISPLAY_STATE.displayRequested)
+        setTimeout(() => {
+                this.chessboard.view.positionsAnimationTask.then(() => {
+                    this.setDisplayState(DISPLAY_STATE.shown)
+                })
+            }
+        )
     }
 
+    // public (chessboard.isPromotionDialogShown)
     isPromotionDialogShown() {
         return this.state.displayState === DISPLAY_STATE.shown ||
             this.state.displayState === DISPLAY_STATE.displayRequested
@@ -51,14 +56,6 @@ export class PromotionDialog extends Extension {
     // private
     extensionPointRedrawBoard() {
         this.redrawDialog()
-    }
-
-    extensionPointAnimation(event) {
-        if (event.type === ANIMATION_EVENT_TYPE.end) {
-            if (this.state.displayState === DISPLAY_STATE.displayRequested) {
-                this.setDisplayState(DISPLAY_STATE.shown)
-            }
-        }
     }
 
     drawPieceButton(piece, point) {
