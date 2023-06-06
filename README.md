@@ -451,10 +451,12 @@ you can call `chessboard.removeArrows(undefined, "e2")` and so on...
 
 To get all arrows, call `chessboard.getArrows()` without parameters, as with `removeArrows(type, from, to)`.
 
-## Usage with React
+## Usage with JS Frameworks
 
-There exists a ticket from someone who is using cm-chessboard with react:
-https://github.com/shaack/cm-chessboard/issues/20
+- Works with **Vue** out of the box
+- Works with **Svelte** out of the box
+- I don't use **React**, but there exists a ticket from someone who is using cm-chessboard with react: https://github.com/shaack/cm-chessboard/issues/20
+- It should work also with **all other JS frameworks**, because cm-chessboard is written in standard ES6 and has **no dependencies**.
 
 ## Licenses
 
