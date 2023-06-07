@@ -78,7 +78,7 @@ examples.
 Below is the default configuration
 
 ```javascript
-        this.props = {
+this.props = {
   position: FEN.empty, // set position as fen, use FEN.start or FEN.empty as shortcuts
   orientation: COLOR.white, // white on bottom
   responsive: true, // resize the board automatically to the size of the context element
