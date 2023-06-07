@@ -9,6 +9,7 @@ import {BORDER_TYPE, COLOR, INPUT_EVENT_TYPE} from "../Chessboard.js"
 import {Position} from "../model/Position.js"
 import {EXTENSION_POINT} from "../model/Extension.js"
 import {Svg} from "../lib/Svg.js"
+import {Utils} from "../lib/Utils.js"
 
 export class ChessboardView {
     constructor(chessboard) {
@@ -437,6 +438,10 @@ export class ChessboardView {
     }
 
     getSpriteUrl() {
-        return this.chessboard.props.assetsUrl + "pieces/" + this.chessboard.props.style.pieces.file
+        if(Utils.isAbsoluteUrl(this.chessboard.props.style.pieces.file)) {
+            return this.chessboard.props.style.pieces.file
+        } else {
+            return this.chessboard.props.assetsUrl + this.chessboard.props.style.pieces.file
+        }
     }
 }

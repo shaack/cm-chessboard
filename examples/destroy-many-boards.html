@@ -40,7 +40,7 @@
     const largeBoard = new Chessboard(boardDiv, {
         position: FEN.start,
         assetsUrl: "../assets/",
-        style: {pieces: {file: "staunty.svg"}}
+        style: {pieces: {file: "pieces/staunty.svg"}}
     })
     const chess = new Chess()
     for (let i = 0; i < 5000; i++) {
@@ -51,7 +51,7 @@
             const board = new Chessboard(boardDiv, {
                 position: chess.fen(),
                 assetsUrl: "../assets/",
-                style: {pieces: {file: "staunty.svg"}}
+                style: {pieces: {file: "pieces/staunty.svg"}}
             })
             makeRandomMove()
             largeBoard.setPosition(chess.fen(), true)

@@ -20,7 +20,7 @@
 const board = new Chessboard(document.getElementById("board"), {
     position: FEN.start,
     assetsUrl: "../assets/",
-    style: {pieces: {file: "staunty.svg"}},
+    style: {pieces: {file: "pieces/staunty.svg"}},
     extensions: [{class: Markers}]
 })
 
@@ -52,7 +52,7 @@ function inputHandler(event) {
     window.board = new Chessboard(document.getElementById("board"), {
         position: FEN.start,
         assetsUrl: "../assets/",
-        style: {pieces: {file: "staunty.svg"}},
+        style: {pieces: {file: "pieces/staunty.svg"}},
         extensions: [{class: Markers}]
     })
 

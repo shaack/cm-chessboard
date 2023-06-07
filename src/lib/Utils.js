@@ -55,4 +55,8 @@ export class Utils {
         return promise
     }
 
+    static isAbsoluteUrl(url) {
+        return url.indexOf("://") !== -1 || url.startsWith("/")
+    }
+
 }

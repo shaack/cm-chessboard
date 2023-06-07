@@ -31,7 +31,7 @@
             cssClass: "green",
             borderType: BORDER_TYPE.frame,
             pieces: {
-                file: "staunty.svg"
+                file: "pieces/staunty.svg"
             }
         }
     })
@@ -51,7 +51,7 @@
         style: {
             cssClass: "chess-club",
             borderType: BORDER_TYPE.frame,
-            pieces: {file: "staunty.svg"}
+            pieces: {file: "pieces/staunty.svg"}
         }
     })
     new Chessboard(document.getElementById("board4"), {
@@ -68,14 +68,14 @@
         position: FEN.start,
         assetsUrl: "../assets/",
         assetsCache: false,
-        style: {borderType: BORDER_TYPE.none, pieces: {file: "staunty.svg"}},
+        style: {borderType: BORDER_TYPE.none, pieces: {file: "pieces/staunty.svg"}},
     })
     new Chessboard(document.getElementById("board6"), {
         position: FEN.start,
         assetsUrl: "../assets/",
         assetsCache: false,
         style: {
-            pieces: {file: "staunty.svg"}, cssClass: "blue",
+            pieces: {file: "pieces/staunty.svg"}, cssClass: "blue",
             borderType: BORDER_TYPE.frame
         },
     })

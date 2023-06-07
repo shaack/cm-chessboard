@@ -28,10 +28,7 @@
     const chessboard = new Chessboard(document.getElementById("chessboard"), {
         position: position,
         assetsUrl: "../../assets/",
-        extensions: [
-            {class: PromotionDialog},
-            {class: Markers}
-        ]
+        extensions: [{class: PromotionDialog}, {class: Markers}]
     })
     chessboard.enableMoveInput((event) => {
         if (event.type === INPUT_EVENT_TYPE.validateMoveInput) {

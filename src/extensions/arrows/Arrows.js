@@ -6,6 +6,7 @@
 
 import {Extension, EXTENSION_POINT} from "../../model/Extension.js"
 import {Svg} from "../../lib/Svg.js"
+import {Utils} from "../../lib/Utils.js"
 
 export const ARROW_TYPE = {
     default: {class: "arrow-default", slice: "arrowDefault", headSize: 7},
@@ -22,12 +23,11 @@ export class Arrows extends Extension {
             this.onRedrawBoard()
         })
         this.props = {
-            sprite: "arrows.svg"
+            sprite: "extensions/arrows/arrows.svg"
         }
         Object.assign(this.props, props)
         if (this.chessboard.props.assetsCache) {
-            this.chessboard.view.cacheSpriteToDiv("cm-chessboard-arrows",
-                this.chessboard.props.assetsUrl + "extensions/arrows/" + this.props.sprite)
+            this.chessboard.view.cacheSpriteToDiv("cm-chessboard-arrows", this.getSpriteUrl())
         }
         chessboard.addArrow = this.addArrow.bind(this)
         chessboard.getArrows = this.getArrows.bind(this)
@@ -52,8 +52,7 @@ export class Arrows extends Extension {
         const view = this.chessboard.view
         const sqfrom = document.querySelectorAll('[data-square="' + arrow.from + '"]')[0]
         const sqto = document.querySelectorAll('[data-square="' + arrow.to + '"]')[0]
-        const spriteUrl = this.chessboard.props.assetsCache ? "" : this.chessboard.props.assetsUrl +
-            "extensions/arrows/" + this.props.sprite
+        const spriteUrl = this.chessboard.props.assetsCache ? "" : this.getSpriteUrl()
         const defs = Svg.addElement(arrowsGroup, "defs")
         const id = "arrow-" + arrow.from + arrow.to
         const marker = Svg.addElement(defs, "marker", {
@@ -108,6 +107,14 @@ export class Arrows extends Extension {
     removeArrows(type = undefined, from = undefined, to = undefined) {
         this.arrows = this.arrows.filter((arrow) => !arrow.matches(from, to, type))
         this.chessboard.view.redrawBoard()
+    }
+
+    getSpriteUrl() {
+        if(Utils.isAbsoluteUrl(this.props.sprite)) {
+            return this.props.sprite
+        } else {
+            return this.chessboard.props.assetsUrl + this.props.sprite
+        }
     }
 }
 

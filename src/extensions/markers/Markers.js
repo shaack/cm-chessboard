@@ -7,6 +7,7 @@
 import {Extension, EXTENSION_POINT} from "../../model/Extension.js"
 import {Svg} from "../../lib/Svg.js"
 import {INPUT_EVENT_TYPE} from "../../Chessboard.js"
+import {Utils} from "../../lib/Utils.js"
 
 export const MARKER_TYPE = {
     frame: {class: "marker-frame", slice: "markerFrame"},
@@ -30,12 +31,11 @@ export class Markers extends Extension {
         })
         this.props = {
             autoMarkers: MARKER_TYPE.frame, // set to `null` to disable autoMarkers
-            sprite: "markers.svg" // the sprite file of the markers
+            sprite: "extensions/markers/markers.svg" // the sprite file of the markers
         }
         Object.assign(this.props, props)
         if (chessboard.props.assetsCache) {
-            chessboard.view.cacheSpriteToDiv("cm-chessboard-markers", this.chessboard.props.assetsUrl +
-                "extensions/markers/" + this.props.sprite)
+            chessboard.view.cacheSpriteToDiv("cm-chessboard-markers", this.getSpriteUrl())
         }
         chessboard.addMarker = this.addMarker.bind(this)
         chessboard.getMarkers = this.getMarkers.bind(this)
@@ -95,8 +95,7 @@ export class Markers extends Extension {
         const transform = (this.chessboard.view.svg.createSVGTransform())
         transform.setTranslate(point.x, point.y)
         markerGroup.transform.baseVal.appendItem(transform)
-        const spriteUrl = this.chessboard.props.assetsCache ? "" : this.chessboard.props.assetsUrl +
-            "extensions/markers/" + this.props.sprite
+        const spriteUrl = this.chessboard.props.assetsCache ? "" : this.getSpriteUrl()
         const markerUse = Svg.addElement(markerGroup, "use",
             {href: `${spriteUrl}#${marker.type.slice}`, class: "marker " + marker.type.class})
         const transformScale = (this.chessboard.view.svg.createSVGTransform())
@@ -135,6 +134,14 @@ export class Markers extends Extension {
         }
         this.markers = this.markers.filter((marker) => !marker.matches(square, type))
         this.onRedrawBoard()
+    }
+
+    getSpriteUrl() {
+        if(Utils.isAbsoluteUrl(this.props.sprite)) {
+            return this.props.sprite
+        } else {
+            return this.chessboard.props.assetsUrl + this.props.sprite
+        }
     }
 }
 
