@@ -64,7 +64,7 @@ export class ChessboardView {
     cacheSpriteToDiv(wrapperId, url) {
         if (!document.getElementById(wrapperId)) {
             const wrapper = document.createElement("div")
-            wrapper.style.display = "none"
+            wrapper.style.transform = "scale(0)"
             wrapper.id = wrapperId
             document.body.appendChild(wrapper)
             const xhr = new XMLHttpRequest()
