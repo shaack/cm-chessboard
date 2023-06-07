@@ -65,6 +65,8 @@ export class ChessboardView {
         if (!document.getElementById(wrapperId)) {
             const wrapper = document.createElement("div")
             wrapper.style.transform = "scale(0)"
+            wrapper.style.position = "absolute"
+            wrapper.setAttribute("aria-hidden", "true")
             wrapper.id = wrapperId
             document.body.appendChild(wrapper)
             const xhr = new XMLHttpRequest()
