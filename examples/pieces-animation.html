@@ -65,7 +65,9 @@ await board.movePiece("d5", "f4")
         return board.setPosition(position, animated)
     }
     window.switchOrientation = (animated) => {
-        board.setOrientation(board.getOrientation() === 'w' ? 'b' : 'w', animated)
+        board.setOrientation(board.getOrientation() === 'w' ? 'b' : 'w', animated).then(() => {
+            console.log("board.getOrientation()", board.getOrientation())
+        })
     }
     window.movePiece = () => {
         const squareFrom = document.getElementById("moveFrom").value
