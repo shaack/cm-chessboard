@@ -41,7 +41,9 @@ export class VisualMoveInput {
             if (result) {
                 this.chessboard.state.moveInputProcess = Utils.createTask()
                 this.chessboard.state.moveInputProcess.then((result) => {
-                    view.moveInputFinishedCallback(this.fromSquare, this.toSquare, result)
+                    if(this.moveInputState === MOVE_INPUT_STATE.waitForInputStart) {
+                        view.moveInputFinishedCallback(this.fromSquare, this.toSquare, result)
+                    }
                 })
             }
             return result
