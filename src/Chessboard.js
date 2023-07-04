@@ -88,6 +88,7 @@ export class Chessboard {
         this.state.position = new Position(this.props.position)
         this.view.redrawPieces()
         this.state.invokeExtensionPoints(EXTENSION_POINT.positionChanged)
+        this.initialized = Promise.resolve()
     }
 
     // API //

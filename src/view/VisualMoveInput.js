@@ -8,14 +8,14 @@ import {Svg} from "../lib/Svg.js"
 import {Utils} from "../lib/Utils.js"
 
 const MOVE_INPUT_STATE = {
-    waitForInputStart: 0,
-    pieceClickedThreshold: 1,
-    clickTo: 2,
-    secondClickThreshold: 3,
-    dragTo: 4,
-    clickDragTo: 5,
-    moveDone: 6,
-    reset: 7
+    waitForInputStart: "waitForInputStart",
+    pieceClickedThreshold: "pieceClickedThreshold",
+    clickTo: "clickTo",
+    secondClickThreshold: "secondClickThreshold",
+    dragTo: "dragTo",
+    clickDragTo: "clickDragTo",
+    moveDone: "moveDone",
+    reset: "reset"
 }
 
 export const MOVE_CANCELED_REASON = {
@@ -41,7 +41,8 @@ export class VisualMoveInput {
             if (result) {
                 this.chessboard.state.moveInputProcess = Utils.createTask()
                 this.chessboard.state.moveInputProcess.then((result) => {
-                    if(this.moveInputState === MOVE_INPUT_STATE.waitForInputStart) {
+                    if (this.moveInputState === MOVE_INPUT_STATE.waitForInputStart ||
+                        this.moveInputState === MOVE_INPUT_STATE.moveDone) {
                         view.moveInputFinishedCallback(this.fromSquare, this.toSquare, result)
                     }
                 })
@@ -109,7 +110,7 @@ export class VisualMoveInput {
                     } else {
                         throw Error("4b74af")
                     }
-                    if(!this.contextMenuListener) {
+                    if (!this.contextMenuListener) {
                         this.contextMenuListener = this.onContextMenu.bind(this)
                         this.chessboard.view.svg.addEventListener("contextmenu", this.contextMenuListener)
                     }
@@ -323,7 +324,10 @@ export class VisualMoveInput {
         if (this.moveInputState === MOVE_INPUT_STATE.pieceClickedThreshold || this.moveInputState === MOVE_INPUT_STATE.secondClickThreshold) {
             if (Math.abs(this.startPoint.x - clientX) > DRAG_THRESHOLD || Math.abs(this.startPoint.y - clientY) > DRAG_THRESHOLD) {
                 if (this.moveInputState === MOVE_INPUT_STATE.secondClickThreshold) {
-                    this.setMoveInputState(MOVE_INPUT_STATE.clickDragTo, {square: this.fromSquare, piece: this.movedPiece})
+                    this.setMoveInputState(MOVE_INPUT_STATE.clickDragTo, {
+                        square: this.fromSquare,
+                        piece: this.movedPiece
+                    })
                 } else {
                     this.setMoveInputState(MOVE_INPUT_STATE.dragTo, {square: this.fromSquare, piece: this.movedPiece})
                 }
