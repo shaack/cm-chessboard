@@ -110,14 +110,23 @@ export class Position {
     }
 
     static squareToIndex(square) {
-        const file = square.substring(0, 1).charCodeAt(0) - 97
-        const rank = square.substring(1, 2) - 1
-        return 8 * rank + file
+        const coordinates = Position.squareToCoordinates(square)
+        return coordinates[0] + coordinates[1] * 8
     }
 
     static indexToSquare(index) {
-        const file = String.fromCharCode(index % 8 + 97)
-        const rank = Math.floor(index / 8) + 1
+        return this.coordinatesToSquare([Math.floor(index % 8), index / 8])
+    }
+
+    static squareToCoordinates(square) {
+        const file = square.charCodeAt(0) - 97
+        const rank = square.charCodeAt(1) - 49
+        return [file, rank]
+    }
+
+    static coordinatesToSquare(coordinates) {
+        const file = String.fromCharCode(coordinates[0] + 97)
+        const rank = String.fromCharCode(coordinates[1] + 49)
         return file + rank
     }
 
