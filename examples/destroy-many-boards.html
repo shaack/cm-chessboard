@@ -26,7 +26,7 @@
 </head>
 <body>
 <h1><a href="../">cm-chessboard</a></h1>
-<h2>Stress Test: Create and destroy 5,000 responsive boards</h2>
+<h2>Stress Test: Create and destroy 5,000 boards // <span id="counter"></span></h2>
 <div id="boards"></div>
 <script type="module">
     import {Chessboard} from "../src/Chessboard.js"
@@ -43,8 +43,11 @@
         style: {pieces: {file: "pieces/staunty.svg"}}
     })
     const chess = new Chess()
+    let count = 0;
     for (let i = 0; i < 5000; i++) {
         setTimeout(() => {
+            count++
+            document.getElementById("counter").innerText = "" + count
             const boardDiv = document.createElement("div")
             boardDiv.setAttribute("class", "board")
             boardsDiv.appendChild(boardDiv)
@@ -61,11 +64,15 @@
             }, 10000)
         }, i * 100)
     }
+
     function makeRandomMove() {
-        const possibleMoves = chess.moves();
-        if (possibleMoves.length === 0) return;
-        const randomIndex = Math.floor(Math.random() * possibleMoves.length);
-        chess.move(possibleMoves[randomIndex]);
+        if(chess.game_over()) {
+            chess.reset()
+        }
+        const possibleMoves = chess.moves()
+        if (possibleMoves.length === 0) return
+        const randomIndex = Math.floor(Math.random() * possibleMoves.length)
+        chess.move(possibleMoves[randomIndex])
     }
 
 </script>
