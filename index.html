@@ -48,8 +48,11 @@ It works, it is cool and it is easy to use. 👍</p>
     const interval = setInterval(() => {
         makeRandomMove()
         board.setPosition(chess.fen(), true)
-    }, 1000)
+    }, 500)
     function makeRandomMove() {
+        if(chess.game_over()) {
+            chess.reset()
+        }
         const possibleMoves = chess.moves()
         if (possibleMoves.length === 0) {
             clearInterval(interval)
