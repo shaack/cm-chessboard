@@ -24,7 +24,7 @@ export class Svg {
     }
 
     /**
-     * Add an Element to a SVG DOM
+     * Add an Element to an SVG DOM
      * @param parent
      * @param name
      * @param attributes
@@ -50,10 +50,14 @@ export class Svg {
     }
 
     /**
-     * Remove an Element from a SVG DOM
+     * Remove an element from an SVG DOM
      * @param element
      */
     static removeElement(element) {
+        if(!element) {
+            console.warn("removeElement, element is", element)
+            return
+        }
         if (element.parentNode) {
             element.parentNode.removeChild(element)
         } else {
