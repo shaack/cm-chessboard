@@ -71,7 +71,6 @@ export class Arrows extends Extension {
             href: `${spriteUrl}#${arrow.type.slice}`,
         })
 
-
         const x1 = sqfrom.x.baseVal.value + (sqfrom.width.baseVal.value / 2)
         const x2 = sqto.x.baseVal.value + (sqto.width.baseVal.value / 2)
         const y1 = sqfrom.y.baseVal.value + (sqfrom.height.baseVal.value / 2)
@@ -86,7 +85,6 @@ export class Arrows extends Extension {
         lineFill.setAttribute('class', 'arrow-line')
         lineFill.setAttribute("marker-end", "url(#" + id + ")")
         lineFill.setAttribute('stroke-width', width + "px")
-
     }
 
     addArrow(type, from, to) {
