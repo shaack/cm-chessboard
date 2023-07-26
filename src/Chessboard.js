@@ -164,7 +164,8 @@ export class Chessboard {
                 return
             }
             eventHandler({
-                mouseEvent: e,
+                mouseEvent: e, // deprecated, use pointerEvent instead
+                pointerEvent: e,
                 chessboard: this,
                 type: e.button === 2 ? SQUARE_SELECT_TYPE.secondary : SQUARE_SELECT_TYPE.primary,
                 square: square
