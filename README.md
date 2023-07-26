@@ -138,13 +138,13 @@ Move a piece from `squareFrom` to `squareTo`. Returns a **Promise**, which is re
 
 ### setPosition(fen, animated = false)
 
-Sets the position as `fen`. Returns a **Promise**, which is resolved, after the animation finished.
+Sets the position as `fen` or only the position part of a `fen`. Returns a **Promise**, which is resolved, after the animation finished.
 
 [Example for **setPosition**](https://shaack.com/projekte/cm-chessboard/examples/pieces-animation.html)
 
 ### getPosition()
 
-Returns the board position as `fen`.
+Returns the board position in form of the position part of a `fen`.
 
 ### addMarker(type, square)
 
@@ -247,7 +247,7 @@ Disables moves via user input.
 
 ### enableSquareSelect(eventHandler)
 
-> This one is deprecated and will be removed in future versions, because you can directly add events to the `chessboard.context` and then read the square from `event.target.getAttribute("data-square")`
+> `enableSquareSelect` is deprecated and will be removed in future versions, because you can directly add events to the `chessboard.context` and then read the square from `event.target.getAttribute("data-square")`.
 
 Enables primary and secondary pointer events on squares.
 On desktop devices this means left and right click on squares.
@@ -263,8 +263,7 @@ board.enableSquareSelect((event) => {
 })
 ```
 
-[Example for **enableSquareSelect
-**](https://shaack.com/projekte/cm-chessboard/examples/extensions/markers-extension.html)
+[Example for pointer events handling](https://shaack.com/projekte/cm-chessboard/examples/extensions/markers-extension.html)
 
 **`event.square`** contains the coordinates of the user input.
 
