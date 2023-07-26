@@ -17,7 +17,7 @@
 <div style="clear: both"></div>
 <button onclick="window.removeDots()">Remove dots</button>
 <script type="module">
-    import {Chessboard, SQUARE_SELECT_TYPE} from "../../src/Chessboard.js"
+    import {Chessboard} from "../../src/Chessboard.js"
     import {FEN} from "../../src/model/Position.js"
     import {MARKER_TYPE, Markers} from "../../src/extensions/markers/Markers.js"
 
@@ -26,21 +26,23 @@
         assetsUrl: "../../assets/",
         extensions: [{class: Markers}]
     })
-    board1.enableSquareSelect((event) => {
-        console.log("SquareSelect board1", event)
-        if (event.mouseEvent.type === "mousedown") {
-            let markerType
-            if (event.type === SQUARE_SELECT_TYPE.primary) {
-                markerType = MARKER_TYPE.dot
-            } else {
-                markerType = MARKER_TYPE.circlePrimary
-            }
-            const markersOnSquare = board1.getMarkers(markerType, event.square)
-            if (markersOnSquare.length > 0) {
-                board1.removeMarkers(markerType, event.square)
-            } else {
-                board1.addMarker(markerType, event.square)
-            }
+    board1.context.addEventListener("contextmenu", (event) => {
+        event.preventDefault()
+    })
+    board1.context.addEventListener("mousedown", (event) => {
+        console.log("mousedown board1", event)
+        let markerType
+        if (event.button === 0) {
+            markerType = MARKER_TYPE.dot
+        } else {
+            markerType = MARKER_TYPE.circlePrimary
+        }
+        const square = event.target.getAttribute("data-square")
+        const markersOnSquare = board1.getMarkers(markerType, square)
+        if (markersOnSquare.length > 0) {
+            board1.removeMarkers(markerType, square)
+        } else {
+            board1.addMarker(markerType, square)
         }
     })
     window.removeDots = () => {
@@ -58,13 +60,17 @@
     })
     // define your own marker
     const myOwnMarker = {class: "marker-circle-danger", slice: "markerCircle"}
-    board2.enableSquareSelect((event) => {
-        if (event.type === SQUARE_SELECT_TYPE.secondary && event.mouseEvent.type === "mousedown") {
-            const markersOnSquare = board2.getMarkers(myOwnMarker, event.square)
+    board2.context.addEventListener("contextmenu", (event) => {
+        event.preventDefault()
+    })
+    board2.context.addEventListener("mousedown", (event) => {
+        if (event.button === 2) {
+            const square = event.target.getAttribute("data-square")
+            const markersOnSquare = board2.getMarkers(myOwnMarker, square)
             if (markersOnSquare.length > 0) {
-                board2.removeMarkers(myOwnMarker, event.square)
+                board2.removeMarkers(myOwnMarker, square)
             } else {
-                board2.addMarker(myOwnMarker, event.square)
+                board2.addMarker(myOwnMarker, square)
             }
         }
     })

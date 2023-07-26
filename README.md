@@ -8,7 +8,9 @@ in [chess-console](https://shaack.com/projekte/chess-console/examples/load-pgn.h
 [cm-fen-editor](https://shaack.com/projekte/cm-fen-editor/). They are all nice written ES6 Modules to handle different
 aspects of chess games.
 
-> Note: With version 7, I made a heavy allover refactoring. The chessboard props have been changed and the files structure also. Version 7 of the cm-chessboard will not work out of the box after an update from a previous version. Also with version 7 comes the move cancelling via secondary mouse button.
+> Note: With version 7, I made a heavy allover refactoring. The chessboard props have been changed and the files
+> structure also. Version 7 of the cm-chessboard will not work out of the box after an update from a previous version.
+> Also with version 7 comes the move cancelling via secondary mouse button.
 
 ## Features
 
@@ -16,17 +18,24 @@ aspects of chess games.
 - [Can handle moves input via click or drag](https://shaack.com/projekte/cm-chessboard/examples/validate-moves.html)
 - [Styleable via css and supports multiple piece sets](https://shaack.com/projekte/cm-chessboard/examples/different-styles.html)
 - Uses SVG for rendering
-- [Allows adding **extensions** to extend the functionality](https://shaack.com/projekte/cm-chessboard/examples/extensions/arrows-extension.html)
+- [Allows adding **extensions
+  ** to extend the functionality](https://shaack.com/projekte/cm-chessboard/examples/extensions/arrows-extension.html)
 
 ## Extensions
 
-The core of cm-chessboard is small, fast and reduced to the essentials. You can extend its functionality with extensions.
+The core of cm-chessboard is small, fast and reduced to the essentials. You can extend its functionality with
+extensions.
 
-- [Accessibility Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/accessibility-extension.html) - makes the chessboard more accessible
-- [Arrows Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/arrows-extension.html) - renders arrows on the chessboard
-- [Markers Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/markers-extension.html)  🆕 - create markers on specific squares
-- [PromotionDialog Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/promotion-dialog-extension.html)  🆕 - shows a dialog to select the piece to promote to
-- [RenderVideo Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/render-video-extension.html)  🆕 - renders a video from the pieces movement on the board
+- [Accessibility Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/accessibility-extension.html) -
+  makes the chessboard more accessible
+- [Arrows Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/arrows-extension.html) - renders
+  arrows on the chessboard
+- [Markers Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/markers-extension.html)  🆕 - create
+  markers on specific squares
+- [PromotionDialog Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/promotion-dialog-extension.html)
+  🆕 - shows a dialog to select the piece to promote to
+- [RenderVideo Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/render-video-extension.html)
+  🆕 - renders a video from the pieces movement on the board
 
 ## Demo and repository
 
@@ -79,25 +88,25 @@ Below is the default configuration
 
 ```javascript
 this.props = {
-  position: FEN.empty, // set position as fen, use FEN.start or FEN.empty as shortcuts
-  orientation: COLOR.white, // white on bottom
-  responsive: true, // resize the board automatically to the size of the context element
-  language: navigator.language.substring(0, 2).toLowerCase(), // supports "de" and "en" for now, used for pieces naming
-  assetsUrl: "./assets/", // put all css and sprites in this folder, will be ignored for absolute urls of assets files
-  assetsCache: true, // cache sprites
-  style: {
-    cssClass: "default", // set the css theme of the board, try "green", "blue" or "chess-club"
-    showCoordinates: true, // show ranks and files
-    borderType: BORDER_TYPE.none, // "thin" thin border, "frame" wide border with coordinates in it, "none" no border
-    aspectRatio: 1, // height/width of the board
-    pieces: {
-      type: PIECES_FILE_TYPE.svgSprite, // pieces are in an SVG sprite, no other type supported for now
-      file: "pieces/standard.svg", // the filename of the sprite in `assetsUrl` or an absolute url like `https://…` or `/…`
-      tileSize: 40 // the tile size in the sprite
+    position: FEN.empty, // set position as fen, use FEN.start or FEN.empty as shortcuts
+    orientation: COLOR.white, // white on bottom
+    responsive: true, // resize the board automatically to the size of the context element
+    language: navigator.language.substring(0, 2).toLowerCase(), // supports "de" and "en" for now, used for pieces naming
+    assetsUrl: "./assets/", // put all css and sprites in this folder, will be ignored for absolute urls of assets files
+    assetsCache: true, // cache sprites
+    style: {
+        cssClass: "default", // set the css theme of the board, try "green", "blue" or "chess-club"
+        showCoordinates: true, // show ranks and files
+        borderType: BORDER_TYPE.none, // "thin" thin border, "frame" wide border with coordinates in it, "none" no border
+        aspectRatio: 1, // height/width of the board
+        pieces: {
+            type: PIECES_FILE_TYPE.svgSprite, // pieces are in an SVG sprite, no other type supported for now
+            file: "pieces/standard.svg", // the filename of the sprite in `assetsUrl` or an absolute url like `https://…` or `/…`
+            tileSize: 40 // the tile size in the sprite
+        },
+        animationDuration: 300 // pieces animation duration in milliseconds. Disable all animations with `0`.
     },
-    animationDuration: 300 // pieces animation duration in milliseconds. Disable all animations with `0`.
-  },
-  extensions: [ /* {class: ExtensionClass, props: { ... }} */] // add extensions here
+    extensions: [ /* {class: ExtensionClass, props: { ... }} */] // add extensions here
 }
 ```
 
@@ -208,24 +217,27 @@ board.enableMoveInput((event) => {
 
 The event has the following **`event.type`**:
 
-- **`INPUT_EVENT_TYPE.moveInputStarted`**: User started the move input, `event.squareFrom` contains the coordinates. Return true or false to validate the start square.
-- **`INPUT_EVENT_TYPE.validateMoveInput`**: User finished the move input, `event.squareFrom` and `event.squareTo` contain the coordinates. Return true or false to validate the move input.
-- **`INPUT_EVENT_TYPE.moveInputCanceled`**: User canceled the move with clicking again on the start square or clicking outside the board.
+- **`INPUT_EVENT_TYPE.moveInputStarted`**: User started the move input, `event.squareFrom` contains the coordinates.
+  Return true or false to validate the start square.
+- **`INPUT_EVENT_TYPE.validateMoveInput`**: User finished the move input, `event.squareFrom` and `event.squareTo`
+  contain the coordinates. Return true or false to validate the move input.
+- **`INPUT_EVENT_TYPE.moveInputCanceled`**: User canceled the move with clicking again on the start square or clicking
+  outside the board.
 
 ```javascript
 chessboard.enableMoveInput((event) => {
-  switch (event.type) {
-    case INPUT_EVENT_TYPE.moveInputStarted:
-      console.log(`moveInputStarted: ${event.squareFrom}`)
-      // return `true`, if input is accepted/valid, `false` aborts the interaction, the piece will not move
-      return true
-    case INPUT_EVENT_TYPE.validateMoveInput:
-      console.log(`validateMoveInput: ${event.squareFrom}-${event.squareTo}`)
-      // return true, if input is accepted/valid, `false` takes the move back
-      return true
-    case INPUT_EVENT_TYPE.moveInputCanceled:
-      console.log(`moveInputCanceled`)
-  }
+    switch (event.type) {
+        case INPUT_EVENT_TYPE.moveInputStarted:
+            console.log(`moveInputStarted: ${event.squareFrom}`)
+            // return `true`, if input is accepted/valid, `false` aborts the interaction, the piece will not move
+            return true
+        case INPUT_EVENT_TYPE.validateMoveInput:
+            console.log(`validateMoveInput: ${event.squareFrom}-${event.squareTo}`)
+            // return true, if input is accepted/valid, `false` takes the move back
+            return true
+        case INPUT_EVENT_TYPE.moveInputCanceled:
+            console.log(`moveInputCanceled`)
+    }
 }, COLOR.white)
 ```
 
@@ -234,6 +246,8 @@ chessboard.enableMoveInput((event) => {
 Disables moves via user input.
 
 ### enableSquareSelect(eventHandler)
+
+> This one is deprecated and will be removed in future versions, because you can directly add events to the `chessboard.context` and then read the square from `event.target.getAttribute("data-square")`
 
 Enables primary and secondary pointer events on squares.
 On desktop devices this means left and right click on squares.
@@ -249,7 +263,8 @@ board.enableSquareSelect((event) => {
 })
 ```
 
-[Example for **enableSquareSelect**](https://shaack.com/projekte/cm-chessboard/examples/extensions/markers-extension.html)
+[Example for **enableSquareSelect
+**](https://shaack.com/projekte/cm-chessboard/examples/extensions/markers-extension.html)
 
 **`event.square`** contains the coordinates of the user input.
 
@@ -290,7 +305,8 @@ Important is the id "markerCircle". You can set the marker
 with `board.addMarker({class: "markerSquare", slice: "markerSquare"}, "e4")`
 "emphasize" is the css class, which defines the color and opacity of the marker. "slice" is the id of the marker in the
 SVG. This is
-also demonstrated in the [mark squares example](https://shaack.com/projekte/cm-chessboard/examples/extensions/markers-extension.html)
+also demonstrated in
+the [mark squares example](https://shaack.com/projekte/cm-chessboard/examples/extensions/markers-extension.html)
 .
 
 The color and stroke-width of the marker is defined in the css (or scss). You could also define your marker completely
@@ -353,13 +369,13 @@ Currently possible extension points are defined in `Extension.js`.
 
 ```js
 export const EXTENSION_POINT = {
-  positionChanged: "positionChanged", // the positions of the pieces was changed
-  boardChanged: "boardChanged", // the board (orientation) was changed
-  moveInputToggled: "moveInputToggled", // move input was enabled or disabled
-  moveInput: "moveInput", // move started, moving over a square, validating or canceled
-  redrawBoard: "redrawBoard", // called after redrawing the board
-  animation: "animation", // called on animation start, end and on every animation frame
-  destroy: "destroy" // called, before the board is destroyed
+    positionChanged: "positionChanged", // the positions of the pieces was changed
+    boardChanged: "boardChanged", // the board (orientation) was changed
+    moveInputToggled: "moveInputToggled", // move input was enabled or disabled
+    moveInput: "moveInput", // move started, moving over a square, validating or canceled
+    redrawBoard: "redrawBoard", // called after redrawing the board
+    animation: "animation", // called on animation start, end and on every animation frame
+    destroy: "destroy" // called, before the board is destroyed
 }
 ```
 
@@ -455,8 +471,10 @@ To get all arrows, call `chessboard.getArrows()` without parameters, as with `re
 
 - Works with **Vue** out of the box
 - Works with **Svelte** out of the box
-- I don't use **React**, but there exists a ticket from someone who is using cm-chessboard with react: https://github.com/shaack/cm-chessboard/issues/20
-- It should work also with **all other JS frameworks**, because cm-chessboard is written in standard ES6 and has **no dependencies**.
+- I don't use **React**, but there exists a ticket from someone who is using cm-chessboard with
+  react: https://github.com/shaack/cm-chessboard/issues/20
+- It should work also with **all other JS frameworks**, because cm-chessboard is written in standard ES6 and has **no
+  dependencies**.
 
 ## Licenses
 

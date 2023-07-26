@@ -22,6 +22,7 @@ export const INPUT_EVENT_TYPE = {
     moveInputCanceled: "moveInputCanceled",
     moveInputFinished: "moveInputFinished"
 }
+/** @deprecated */
 export const SQUARE_SELECT_TYPE = {
     primary: "primary",
     secondary: "secondary"
@@ -151,7 +152,13 @@ export class Chessboard {
         this.view.disableMoveInput()
     }
 
+    /**
+     * This will be removed in the future, because you can directly assign events
+     * to the `chessboard.context` and then read the square from the `event.target`
+     * @deprecated
+     */
     enableSquareSelect(eventHandler) {
+        console.warn("chessboard.enableSquareSelect() is deprecated will be removed in future versions");
         if (this.squareSelectListener) {
             console.warn("squareSelectListener already existing")
             return
@@ -164,8 +171,7 @@ export class Chessboard {
                 return
             }
             eventHandler({
-                mouseEvent: e, // deprecated, use pointerEvent instead
-                pointerEvent: e,
+                mouseEvent: e,
                 chessboard: this,
                 type: e.button === 2 ? SQUARE_SELECT_TYPE.secondary : SQUARE_SELECT_TYPE.primary,
                 square: square
@@ -180,6 +186,9 @@ export class Chessboard {
         this.view.visualizeInputState()
     }
 
+    /**
+     * @deprecated
+     */
     disableSquareSelect() {
         this.context.removeEventListener("contextmenu", this.squareSelectListener)
         this.context.removeEventListener("mousedown", this.squareSelectListener)
