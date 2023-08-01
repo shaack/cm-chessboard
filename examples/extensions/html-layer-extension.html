@@ -6,8 +6,14 @@
     <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"/>
     <link rel="stylesheet" href="../styles/examples.css"/>
     <link rel="stylesheet" href="../../assets/chessboard.css"/>
+    <link rel="stylesheet" href="../../assets/extensions/markers/markers.css"/>
     <style>
-        .html-layer {
+        /*noinspection CssUnusedSymbol*/
+        .board .html-layer {
+            background-color: rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+        }
+        .board .html-layer div {
             position: absolute;
             top: 30%;
             left: 1rem;
@@ -32,17 +38,21 @@
 <script type="module">
     import {Chessboard, FEN} from "../../src/Chessboard.js"
     import {HtmlLayer} from "../../src/extensions/html-layer/HtmlLayer.js"
+    import {Markers} from "../../src/extensions/markers/Markers.js"
 
     const board = new Chessboard(document.getElementById("board"), {
         position: FEN.start,
         assetsUrl: "../../assets/",
-        extensions: [{class: HtmlLayer}]
+        extensions: [{class: HtmlLayer}, {class: Markers}]
     })
     board.enableMoveInput(() => true)
     let layer = null
     window.addLayer = () => {
        if(!layer) {
-           layer = board.addHtmlLayer("<div class='html-layer'>Welcome to cm-chessboard!</div>")
+           layer = board.addHtmlLayer("<div>Welcome to cm-chessboard!</div>")
+           layer.addEventListener("click", () => {
+               window.removeLayer()
+           })
        }
     }
     window.removeLayer = () => {

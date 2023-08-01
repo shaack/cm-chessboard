@@ -17,6 +17,7 @@ export class HtmlLayer extends Extension {
         const layer = document.createElement("div")
         this.chessboard.context.appendChild(layer)
         this.chessboard.context.style.position = "relative"
+        layer.classList.add("html-layer")
         layer.style.position = "absolute"
         layer.style.top = "0"
         layer.style.left = "0"
