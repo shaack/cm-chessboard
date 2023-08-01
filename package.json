@@ -1,6 +1,6 @@
 {
   "name": "cm-chessboard",
-  "version": "7.8.0",
+  "version": "7.8.1",
   "description": "A JavaScript chessboard which is lightweight, ES6 module based, responsive, SVG rendered and without dependencies.",
   "keywords": [
     "chess",
