@@ -12,6 +12,7 @@
 <h1><a href="../../">cm-chessboard</a></h1>
 <h2>Example: Persistence Extension</h2>
 <p>This extension stores the board position in localStorage and automatically loads the board on creation.</p>
+<p>Alpha version, do not use in production.</p>
 <div class="board" id="board"></div>
 <script type="module">
     import {Chessboard, FEN} from "../../src/Chessboard.js"
@@ -19,6 +20,7 @@
 
     const board = new Chessboard(document.getElementById("board"), {
         assetsUrl: "../../assets/",
+        // todo initialPosition should be a property of cm-chessboard
         extensions: [{class: Persistence, props: {initialPosition: FEN.start}}]
     })
     board.enableMoveInput(() => true)
