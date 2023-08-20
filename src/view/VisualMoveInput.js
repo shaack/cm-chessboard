@@ -314,6 +314,7 @@ export class VisualMoveInput {
             pageX = e.pageX
             pageY = e.pageY
             target = e.target
+            e.preventDefault() // trying to prevent strange safari desktop bug, selecting the whole page on drag
         } else if (e.type === "touchmove") {
             clientX = e.touches[0].clientX
             clientY = e.touches[0].clientY
