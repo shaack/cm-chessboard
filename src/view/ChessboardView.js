@@ -343,13 +343,10 @@ export class ChessboardView {
             piece: this.chessboard.getPiece(square)
         }
         if (this.moveInputCallback) {
-            // the old move input validator
             data.moveInputCallbackResult = this.moveInputCallback(data)
         }
-        // the new extension points
-        const extensionPointsResult = this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
-        // validates, when moveInputCallbackResult and extensionPointsResults are true
-        return !(extensionPointsResult === false || !data.moveInputCallbackResult)
+        this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
+        return data.moveInputCallbackResult
     }
 
     movingOverSquareCallback(squareFrom, squareTo) {
@@ -374,10 +371,8 @@ export class ChessboardView {
         if (this.moveInputCallback) {
             data.moveInputCallbackResult = this.moveInputCallback(data)
         }
-        // the new extension points
-        const extensionPointsResult = this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
-        // validates, when moveInputCallbackResult and extensionPointsResult are true
-        return !(extensionPointsResult === false || !data.moveInputCallbackResult)
+        this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
+        return data.moveInputCallbackResult
     }
 
     moveInputCanceledCallback(squareFrom, squareTo, reason) {
@@ -388,10 +383,10 @@ export class ChessboardView {
             squareFrom: squareFrom,
             squareTo: squareTo
         }
-        this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
         if (this.moveInputCallback) {
             this.moveInputCallback(data)
         }
+        this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
     }
 
     moveInputFinishedCallback(squareFrom, squareTo, legalMove) {
@@ -402,10 +397,10 @@ export class ChessboardView {
             squareTo: squareTo,
             legalMove: legalMove
         }
-        this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
         if (this.moveInputCallback) {
             this.moveInputCallback(data)
         }
+        this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
     }
 
     // Helpers //
