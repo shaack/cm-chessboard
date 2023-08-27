@@ -18,8 +18,8 @@ aspects of chess games.
 - [Can handle moves input via click or drag](https://shaack.com/projekte/cm-chessboard/examples/validate-moves.html)
 - [Styleable via css and supports multiple piece sets](https://shaack.com/projekte/cm-chessboard/examples/different-styles.html)
 - Uses SVG for rendering
-- [Allows adding **extensions
-  ** to extend the functionality](https://shaack.com/projekte/cm-chessboard/examples/extensions/arrows-extension.html)
+- [Allows adding **extensions** to extend the
+functionality](https://shaack.com/projekte/cm-chessboard/examples/extensions/arrows-extension.html)
 
 ## Extensions
 
