@@ -1,6 +1,6 @@
 # cm-chessboard
 
-A JavaScript chessboard which is lightweight, ES6 module based, responsive, SVG rendered and **without dependencies**.
+A JavaScript chessboard which is lightweight, ES7 module based, responsive, SVG rendered and **without dependencies**.
 
 cm-chessboard is the main chessboard of
 [chessmail.eu](https://www.chessmail.eu) and [chessmail.de](https://www.chessmail.de). It is also used
@@ -14,7 +14,7 @@ aspects of chess games.
 
 ## Features
 
-- **No dependencies**, just clean ES6
+- **No dependencies**, just clean ES7
 - [Can handle moves input via click or drag](https://shaack.com/projekte/cm-chessboard/examples/validate-moves.html)
 - [Styleable via css and supports multiple piece sets](https://shaack.com/projekte/cm-chessboard/examples/different-styles.html)
 - Uses SVG for rendering
@@ -65,7 +65,7 @@ dependencies.
 Preconditions for using cm-chessboard in a web page:
 
 1. **include the css:** `assets/styles/cm-chessboard.css`
-2. **import the ES6 module:** `import {Chessboard} from "PATH/TO/src/Chessboard.js"`
+2. **import the ES7 module:** `import {Chessboard} from "PATH/TO/src/Chessboard.js"`
 
 Example, showing a FEN:
 
@@ -472,7 +472,7 @@ To get all arrows, call `chessboard.getArrows()` without parameters, as with `re
 - Works with **Svelte** out of the box
 - I don't use **React**, but there exists a ticket from someone who is using cm-chessboard with
   react: https://github.com/shaack/cm-chessboard/issues/20
-- It should work also with **all other JS frameworks**, because cm-chessboard is written in standard ES6 and has **no
+- It should work also with **all other JS frameworks**, because cm-chessboard is written in standard ES7 and has **no
   dependencies**.
 
 ## Licenses
