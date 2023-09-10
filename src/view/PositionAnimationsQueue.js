@@ -145,7 +145,6 @@ export class PositionsAnimation {
 
     createAnimation(fromSquares, toSquares) {
         const changes = PositionsAnimation.seekChanges(fromSquares, toSquares)
-        // console.log("changes", changes)
         const animatedElements = []
         changes.forEach((change) => {
             const animatedItem = {
@@ -172,7 +171,6 @@ export class PositionsAnimation {
     }
 
     animationStep(time) {
-        // console.log("animationStep", time)
         if(!this.view || !this.view.chessboard.state) { // board was destroyed
             return
         }

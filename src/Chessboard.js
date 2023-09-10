@@ -122,7 +122,7 @@ export class Chessboard {
     async setOrientation(color, animated = false) {
         const position = this.state.position.clone()
         if (this.boardTurning) {
-            console.log("setOrientation is only once in queue allowed")
+            console.warn("setOrientation is only once in queue allowed")
             return
         }
         this.boardTurning = true

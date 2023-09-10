@@ -78,10 +78,10 @@ export class Arrows extends Extension {
 
         const width = ((view.scalingX + view.scalingY) / 2) * 4
         let lineFill = Svg.addElement(arrowsGroup, "line")
-        lineFill.setAttribute('x1', x1)
-        lineFill.setAttribute('x2', x2)
-        lineFill.setAttribute('y1', y1)
-        lineFill.setAttribute('y2', y2)
+        lineFill.setAttribute('x1', x1.toString())
+        lineFill.setAttribute('x2', x2.toString())
+        lineFill.setAttribute('y1', y1.toString())
+        lineFill.setAttribute('y2', y2.toString())
         lineFill.setAttribute('class', 'arrow-line')
         lineFill.setAttribute("marker-end", "url(#" + id + ")")
         lineFill.setAttribute('stroke-width', width + "px")

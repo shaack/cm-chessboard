@@ -10,7 +10,6 @@ export class ChessboardState {
     constructor() {
         this.position = new Position()
         this.orientation = undefined
-        this.markers = []
         this.inputWhiteEnabled = false
         this.inputBlackEnabled = false
         this.inputEnabled = false
