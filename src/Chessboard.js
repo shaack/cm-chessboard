@@ -70,7 +70,8 @@ export class Chessboard {
                     file: "pieces/standard.svg", // the filename of the sprite in `assets/pieces/` or an absolute url like `https://…` or `/…`
                     tileSize: 40 // the tile size in the sprite
                 },
-                animationDuration: 300 // pieces animation duration in milliseconds. Disable all animations with `0`.
+                // pieces animation duration in milliseconds. Disable all animations with `0`. Respects the operating system settings for reduced motion.
+                animationDuration: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 300
             },
             extensions: [ /* {class: ExtensionClass, props: { ... }} */] // add extensions here
         }
