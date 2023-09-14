@@ -14,6 +14,11 @@ const DISPLAY_STATE = {
     shown: "shown"
 }
 
+export const PROMOTION_DIALOG_RESULT_TYPE = {
+    pieceSelected: "pieceSelected",
+    canceled: "canceled"
+}
+
 export class PromotionDialog extends Extension {
 
     /** @constructor */
@@ -138,7 +143,13 @@ export class PromotionDialog extends Extension {
     promotionDialogOnClickPiece(event) {
         if (event.button !== 2) {
             if (event.target.dataset.piece) {
-                this.state.callback({square: this.state.dialogParams.square, piece: event.target.dataset.piece})
+                if(this.state.callback) {
+                    this.state.callback({
+                        type: PROMOTION_DIALOG_RESULT_TYPE.pieceSelected,
+                        square: this.state.dialogParams.square,
+                        piece: event.target.dataset.piece
+                    })
+                }
                 this.setDisplayState(DISPLAY_STATE.hidden)
             } else {
                 this.promotionDialogOnCancel(event)
@@ -150,14 +161,18 @@ export class PromotionDialog extends Extension {
         if (this.state.displayState === DISPLAY_STATE.shown) {
             event.preventDefault()
             this.setDisplayState(DISPLAY_STATE.hidden)
-            this.state.callback(null)
+            if(this.state.callback) {
+                this.state.callback({type: PROMOTION_DIALOG_RESULT_TYPE.canceled})
+            }
         }
     }
 
     contextMenu(event) {
         event.preventDefault()
         this.setDisplayState(DISPLAY_STATE.hidden)
-        this.state.callback(null)
+        if(this.state.callback) {
+            this.state.callback({type: PROMOTION_DIALOG_RESULT_TYPE.canceled})
+        }
     }
 
     setDisplayState(displayState) {

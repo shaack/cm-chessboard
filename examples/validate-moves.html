@@ -19,7 +19,7 @@
 <script type="module">
     import {INPUT_EVENT_TYPE, COLOR, Chessboard, BORDER_TYPE} from "../src/Chessboard.js"
     import {MARKER_TYPE, Markers} from "../src/extensions/markers/Markers.js"
-    import {PromotionDialog} from "../src/extensions/promotion-dialog/PromotionDialog.js"
+    import {PROMOTION_DIALOG_RESULT_TYPE, PromotionDialog} from "../src/extensions/promotion-dialog/PromotionDialog.js"
     import {Accessibility} from "../src/extensions/accessibility/Accessibility.js"
     import {Chess} from "https://cdn.jsdelivr.net/npm/chess.mjs@1/src/chess.mjs/Chess.js"
 
@@ -73,7 +73,7 @@
                     if (possibleMove.promotion && possibleMove.to === event.squareTo) {
                         event.chessboard.showPromotionDialog(event.squareTo, COLOR.white, (result) => {
                             console.log("promotion result", result)
-                            if (result) {
+                            if (result.type === PROMOTION_DIALOG_RESULT_TYPE.pieceSelected) {
                                 chess.move({from: event.squareFrom, to: event.squareTo, promotion: result.piece.charAt(1)})
                                 event.chessboard.setPosition(chess.fen(), true)
                                 makeEngineMove(event.chessboard)
