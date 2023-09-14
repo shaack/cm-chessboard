@@ -65,8 +65,8 @@ export class VisualMoveInput {
     }
 
     moveInputCanceledCallback(fromSquare, toSquare, reason) {
-            this.view.moveInputCanceledCallback(fromSquare, toSquare, reason)
-            this.chessboard.state.moveInputProcess.resolve()
+        this.view.moveInputCanceledCallback(fromSquare, toSquare, reason)
+        this.chessboard.state.moveInputProcess.resolve()
     }
 
     setMoveInputState(newState, params = undefined) {
@@ -240,14 +240,15 @@ export class VisualMoveInput {
 
     onPointerDown(e) {
         if (!(e.type === "mousedown" && e.button === 0 || e.type === "touchstart")) {
-            return;
+            return
         }
-
+        if(e.type === "mousedown") { // another try to prevent strange safari desktop select all bug
+            e.preventDefault()
+        }
         const square = e.target.getAttribute("data-square")
         if (!square) { // pointer on square
-            return;
+            return
         }
-
         const pieceName = this.chessboard.getPiece(square)
         let color
         if (pieceName) {
