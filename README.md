@@ -246,32 +246,6 @@ chessboard.enableMoveInput((event) => {
 
 Disables moves via user input.
 
-### enableSquareSelect(eventHandler)
-
-> `enableSquareSelect` is deprecated and will be removed in future versions, because you can directly add events to the `chessboard.context` and then read the square from `event.target.getAttribute("data-square")`.
-
-Enables primary and secondary pointer events on squares.
-On desktop devices this means left and right click on squares.
-
-```javascript
-board.enableSquareSelect((event) => {
-    switch (event.type) {
-        case SQUARE_SELECT_TYPE.primary:
-        // left click
-        case SQUARE_SELECT_TYPE.secondary:
-        // right click
-    }
-})
-```
-
-[Example for pointer events handling](https://shaack.com/projekte/cm-chessboard/examples/extensions/markers-extension.html)
-
-**`event.square`** contains the coordinates of the user input.
-
-### disableSquareSelect()
-
-Disables the square select.
-
 ## Piece sets
 
 cm-chessboard supports alternative piece sets. A piece set is defined in an SVG sprite. cm-chessboard is shipped with

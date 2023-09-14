@@ -153,54 +153,6 @@ export class Chessboard {
         this.view.disableMoveInput()
     }
 
-    /**
-     * This will be removed in the future, because you can directly assign events
-     * to the `chessboard.context` and then read the square from the `event.target`
-     * @deprecated
-     */
-    enableSquareSelect(eventHandler) {
-        console.warn("chessboard.enableSquareSelect() is deprecated will be removed in future versions");
-        if (this.squareSelectListener) {
-            console.warn("squareSelectListener already existing")
-            return
-        }
-        this.squareSelectListener = function (e) {
-            const square = e.target.getAttribute("data-square")
-            if (e.type === "contextmenu") {
-                // disable context menu
-                e.preventDefault()
-                return
-            }
-            eventHandler({
-                mouseEvent: e,
-                chessboard: this,
-                type: e.button === 2 ? SQUARE_SELECT_TYPE.secondary : SQUARE_SELECT_TYPE.primary,
-                square: square
-            })
-        }
-        this.context.addEventListener("contextmenu", this.squareSelectListener)
-        this.context.addEventListener("mousedown", this.squareSelectListener)
-        this.context.addEventListener("mouseup", this.squareSelectListener)
-        this.context.addEventListener("touchstart", this.squareSelectListener, {passive: false})
-        this.context.addEventListener("touchend", this.squareSelectListener)
-        this.state.squareSelectEnabled = true
-        this.view.visualizeInputState()
-    }
-
-    /**
-     * @deprecated
-     */
-    disableSquareSelect() {
-        this.context.removeEventListener("contextmenu", this.squareSelectListener)
-        this.context.removeEventListener("mousedown", this.squareSelectListener)
-        this.context.removeEventListener("mouseup", this.squareSelectListener)
-        this.context.removeEventListener("touchstart", this.squareSelectListener)
-        this.context.removeEventListener("touchend", this.squareSelectListener)
-        this.squareSelectListener = undefined
-        this.state.squareSelectEnabled = false
-        this.view.visualizeInputState()
-    }
-
     addExtension(extensionClass, props) {
         if(this.getExtension(extensionClass)) {
             throw Error("extension \"" + extensionClass.name + "\" already added")
@@ -219,9 +171,6 @@ export class Chessboard {
 
     destroy() {
         this.state.invokeExtensionPoints(EXTENSION_POINT.destroy)
-        if (this.state.squareSelectEnabled) {
-            this.disableSquareSelect()
-        }
         this.positionAnimationsQueue.destroy()
         this.view.destroy()
         this.view = undefined

@@ -306,7 +306,7 @@ export class ChessboardView {
     // enable and disable move input //
 
     enableMoveInput(eventHandler, color = null) {
-        if (this.moveInputCallback) {
+        if (this.chessboard.state.moveInputCallback) {
             throw Error("moveInput already enabled")
         }
         if (color === COLOR.white) {
@@ -317,8 +317,7 @@ export class ChessboardView {
             this.chessboard.state.inputWhiteEnabled = true
             this.chessboard.state.inputBlackEnabled = true
         }
-        this.chessboard.state.inputEnabled = true
-        this.moveInputCallback = eventHandler
+        this.chessboard.state.moveInputCallback = eventHandler
         this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInputToggled, {enabled: true, color: color})
         this.visualizeInputState()
     }
@@ -326,8 +325,7 @@ export class ChessboardView {
     disableMoveInput() {
         this.chessboard.state.inputWhiteEnabled = false
         this.chessboard.state.inputBlackEnabled = false
-        this.chessboard.state.inputEnabled = false
-        this.moveInputCallback = null
+        this.chessboard.state.moveInputCallback = null
         this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInputToggled, {enabled: false})
         this.visualizeInputState()
     }
@@ -342,8 +340,8 @@ export class ChessboardView {
             squareFrom: square,
             piece: this.chessboard.getPiece(square)
         }
-        if (this.moveInputCallback) {
-            data.moveInputCallbackResult = this.moveInputCallback(data)
+        if (this.chessboard.state.moveInputCallback) {
+            data.moveInputCallbackResult = this.chessboard.state.moveInputCallback(data)
         }
         this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
         return data.moveInputCallbackResult
@@ -368,8 +366,8 @@ export class ChessboardView {
             squareTo: squareTo,
             piece: this.chessboard.getPiece(squareFrom)
         }
-        if (this.moveInputCallback) {
-            data.moveInputCallbackResult = this.moveInputCallback(data)
+        if (this.chessboard.state.moveInputCallback) {
+            data.moveInputCallbackResult = this.chessboard.state.moveInputCallback(data)
         }
         this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
         return data.moveInputCallbackResult
@@ -383,8 +381,8 @@ export class ChessboardView {
             squareFrom: squareFrom,
             squareTo: squareTo
         }
-        if (this.moveInputCallback) {
-            this.moveInputCallback(data)
+        if (this.chessboard.state.moveInputCallback) {
+            this.chessboard.state.moveInputCallback(data)
         }
         this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
     }
@@ -397,8 +395,8 @@ export class ChessboardView {
             squareTo: squareTo,
             legalMove: legalMove
         }
-        if (this.moveInputCallback) {
-            this.moveInputCallback(data)
+        if (this.chessboard.state.moveInputCallback) {
+            this.chessboard.state.moveInputCallback(data)
         }
         this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
     }
@@ -407,7 +405,7 @@ export class ChessboardView {
 
     visualizeInputState() {
         if (this.chessboard.state) { // fix https://github.com/shaack/cm-chessboard/issues/47
-            if (this.chessboard.state.inputWhiteEnabled || this.chessboard.state.inputBlackEnabled || this.chessboard.state.squareSelectEnabled) {
+            if (this.chessboard.state.inputWhiteEnabled || this.chessboard.state.inputBlackEnabled) {
                 this.boardGroup.setAttribute("class", "board input-enabled")
             } else {
                 this.boardGroup.setAttribute("class", "board")

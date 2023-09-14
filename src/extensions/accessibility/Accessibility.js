@@ -121,7 +121,7 @@ class MovePieceForm {
         this.moveButton = this.form.querySelector(".button-move")
         this.form.addEventListener("submit", (evt) => {
             evt.preventDefault()
-            if (this.chessboard.view.moveInputCallback({
+            if (this.chessboard.state.moveInputCallback({
                 chessboard: this.chessboard,
                 type: INPUT_EVENT_TYPE.validateMoveInput,
                 squareFrom: this.inputFrom.value,

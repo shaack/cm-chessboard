@@ -61,8 +61,8 @@
             const move = {from: event.squareFrom, to: event.squareTo, promotion: event.promotion}
             const result = chess.move(move)
             if (result) {
-                this.chessboard.state.moveInputProcess.then(() => { // wait for the move input process has finished
-                    this.chessboard.setPosition(chess.fen(), true).then(() => { // update position, maybe castled and wait for animation has finished
+                event.chessboard.state.moveInputProcess.then(() => { // wait for the move input process has finished
+                    event.chessboard.setPosition(chess.fen(), true).then(() => { // update position, maybe castled and wait for animation has finished
                         makeEngineMove(event.chessboard)
                     })
                 })

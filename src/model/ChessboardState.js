@@ -12,10 +12,13 @@ export class ChessboardState {
         this.orientation = undefined
         this.inputWhiteEnabled = false
         this.inputBlackEnabled = false
-        this.inputEnabled = false
-        this.squareSelectEnabled = false
+        this.moveInputCallback = null
         this.extensionPoints = {}
         this.moveInputProcess = Promise.resolve()
+    }
+
+    inputEnabled() {
+        return this.inputWhiteEnabled || this.inputBlackEnabled
     }
 
     invokeExtensionPoints(name, data = {}) {
