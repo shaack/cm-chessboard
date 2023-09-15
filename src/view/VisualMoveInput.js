@@ -244,6 +244,7 @@ export class VisualMoveInput {
         }
         if(e.type === "mousedown") { // another try to prevent strange safari desktop select all bug
             e.preventDefault()
+            e.stopPropagation()
         }
         const square = e.target.getAttribute("data-square")
         if (!square) { // pointer on square
@@ -317,6 +318,7 @@ export class VisualMoveInput {
             pageY = e.pageY
             target = e.target
             e.preventDefault() // trying to prevent strange safari desktop bug, selecting the whole page on drag
+            e.stopPropagation()
         } else if (e.type === "touchmove") {
             clientX = e.touches[0].clientX
             clientY = e.touches[0].clientY

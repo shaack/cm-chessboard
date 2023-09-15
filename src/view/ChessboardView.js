@@ -127,7 +127,7 @@ export class ChessboardView {
             this.redrawBoard()
             this.redrawPieces()
         }
-        this.svg.setAttribute("width", "100%") // safari bugfix
+        this.svg.setAttribute("width", "100%")
         this.svg.setAttribute("height", "100%")
     }
 
