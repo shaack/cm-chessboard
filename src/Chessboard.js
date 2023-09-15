@@ -46,7 +46,6 @@ export {FEN}
 export class Chessboard {
 
     constructor(context, props = {}) {
-        this.initialized = Promise.resolve()
         if (!context) {
             throw new Error("container element is " + context)
         }

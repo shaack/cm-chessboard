@@ -24,7 +24,7 @@ describe("TestBoard", () => {
             assetsUrl: "../assets/",
             position: FEN.start
         })
-        assert.equal(chessboard.view.context.childNodes.length, 1)
+        assert.equal(chessboard.view.container.childNodes.length, 1)
         chessboard.destroy()
         assert.equal(chessboard.state, undefined)
     })

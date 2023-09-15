@@ -18,8 +18,8 @@ export class ChessboardView {
         if (chessboard.props.assetsCache) {
             this.cacheSpriteToDiv("cm-chessboard-sprite", this.getSpriteUrl())
         }
-        this.context = document.createElement("div")
-        this.chessboard.context.appendChild(this.context)
+        this.container = document.createElement("div")
+        this.chessboard.context.appendChild(this.container)
         if (chessboard.props.responsive) {
             if (typeof ResizeObserver !== "undefined") {
                 this.resizeObserver = new ResizeObserver(() => {
@@ -34,8 +34,8 @@ export class ChessboardView {
         this.positionsAnimationTask = Promise.resolve()
         this.pointerDownListener = this.pointerDownHandler.bind(this)
         this.pointerDownListener = this.pointerDownHandler.bind(this)
-        this.context.addEventListener("mousedown", this.pointerDownListener)
-        this.context.addEventListener("touchstart", this.pointerDownListener, {passive: false})
+        this.container.addEventListener("mousedown", this.pointerDownListener)
+        this.container.addEventListener("touchstart", this.pointerDownListener, {passive: false})
 
         this.createSvgAndGroups()
         this.updateMetrics()
@@ -80,7 +80,7 @@ export class ChessboardView {
     }
 
     createSvgAndGroups() {
-        this.svg = Svg.createSvg(this.context)
+        this.svg = Svg.createSvg(this.container)
         // let description = document.createElement("description")
         // description.innerText = "Chessboard"
         // description.id = "svg-description"
@@ -101,8 +101,8 @@ export class ChessboardView {
 
     updateMetrics() {
         const piecesTileSize = this.chessboard.props.style.pieces.tileSize
-        this.width = this.context.clientWidth
-        this.height = this.context.clientWidth * (this.chessboard.props.style.aspectRatio || 1)
+        this.width = this.container.clientWidth
+        this.height = this.container.clientWidth * (this.chessboard.props.style.aspectRatio || 1)
         if (this.chessboard.props.style.borderType === BORDER_TYPE.frame) {
             this.borderSize = this.width / 25
         } else if (this.chessboard.props.style.borderType === BORDER_TYPE.thin) {
@@ -120,9 +120,9 @@ export class ChessboardView {
     }
 
     handleResize() {
-        this.context.style.width = this.chessboard.context.clientWidth + "px"
-        this.context.style.height = (this.chessboard.context.clientWidth * this.chessboard.props.style.aspectRatio) + "px"
-        if (this.context.clientWidth !== this.width || this.context.clientHeight !== this.height) {
+        this.container.style.width = this.chessboard.context.clientWidth + "px"
+        this.container.style.height = (this.chessboard.context.clientWidth * this.chessboard.props.style.aspectRatio) + "px"
+        if (this.container.clientWidth !== this.width || this.container.clientHeight !== this.height) {
             this.updateMetrics()
             this.redrawBoard()
             this.redrawPieces()
