@@ -132,9 +132,10 @@ export class ChessboardView {
     }
 
     redrawBoard() {
+        this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.beforeRedrawBoard)
         this.redrawSquares()
         this.drawCoordinates()
-        this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.redrawBoard)
+        this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.afterRedrawBoard)
         this.visualizeInputState()
     }
 

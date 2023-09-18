@@ -24,7 +24,7 @@ export class PromotionDialog extends Extension {
     /** @constructor */
     constructor(chessboard) {
         super(chessboard)
-        this.registerExtensionPoint(EXTENSION_POINT.redrawBoard, this.extensionPointRedrawBoard.bind(this))
+        this.registerExtensionPoint(EXTENSION_POINT.afterRedrawBoard, this.extensionPointRedrawBoard.bind(this))
         chessboard.showPromotionDialog = this.showPromotionDialog.bind(this)
         chessboard.isPromotionDialogShown = this.isPromotionDialogShown.bind(this)
         this.promotionDialogGroup = Svg.addElement(chessboard.view.interactiveTopLayer, "g", {class: "promotion-dialog-group"})

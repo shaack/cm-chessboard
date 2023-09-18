@@ -19,7 +19,7 @@ export class Arrows extends Extension {
     /** @constructor */
     constructor(chessboard, props = {}) {
         super(chessboard)
-        this.registerExtensionPoint(EXTENSION_POINT.redrawBoard, () => {
+        this.registerExtensionPoint(EXTENSION_POINT.afterRedrawBoard, () => {
             this.onRedrawBoard()
         })
         this.props = {
