@@ -14,17 +14,30 @@
 <pre>
 new Chessboard(document.getElementById("board"), {
         position: FEN.start,
-        style: {aspectRatio: 0.9}
+        assetsUrl: "../assets/",
+        style: {
+            aspectRatio: 0.9,
+            pieces: {file: "pieces/staunty.svg"},
+            borderType: BORDER_TYPE.frame
+        },
+        extensions: [{class: AutoBorderNone}]
     })
 </pre>
+<p>Also uses the "AutoBorderNone" extension to switch off the frame border below 560px width.</p>
 <script type="module">
-    import {Chessboard} from "../src/Chessboard.js"
+    import {BORDER_TYPE, Chessboard} from "../src/Chessboard.js"
     import {FEN} from "../src/model/Position.js"
+    import {AutoBorderNone} from "../src/extensions/auto-border-none/AutoBorderNone.js"
 
     new Chessboard(document.getElementById("board"), {
         position: FEN.start,
         assetsUrl: "../assets/",
-        style: {aspectRatio: 0.9, pieces: {file: "pieces/staunty.svg"}}
+        style: {
+            aspectRatio: 0.9,
+            pieces: {file: "pieces/staunty.svg"},
+            borderType: BORDER_TYPE.frame
+        },
+        extensions: [{class: AutoBorderNone}]
     })
 </script>
 </body>

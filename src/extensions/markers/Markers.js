@@ -1,9 +1,8 @@
 /**
- * Authors and copyright: Laura Campo Alberca (@lauracampoalberca) and Stefan Haack (@shaack)
+ * Author and copyright: Stefan Haack (https://shaack.com)
  * Repository: https://github.com/shaack/cm-chessboard
  * License: MIT, see file 'LICENSE'
  */
-
 import {Extension, EXTENSION_POINT} from "../../model/Extension.js"
 import {Svg} from "../../lib/Svg.js"
 import {INPUT_EVENT_TYPE} from "../../Chessboard.js"
