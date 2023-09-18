@@ -10,7 +10,7 @@ export class AutoBorderNone extends Extension {
         super(chessboard)
         this.props = {
             chessboardBorderType: chessboard.props.style.borderType,
-            borderNoneBelow: 560 // pixels width of the board, where the border is set to none
+            borderNoneBelow: 550 // pixels width of the board, where the border is set to none
         }
         Object.assign(this.props, props)
         this.registerExtensionPoint(EXTENSION_POINT.beforeRedrawBoard, this.extensionPointBeforeRedrawBoard.bind(this))
