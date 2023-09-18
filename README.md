@@ -349,7 +349,6 @@ export const EXTENSION_POINT = {
     moveInput: "moveInput", // move started, moving over a square, validating or canceled
     beforeRedrawBoard: "beforeRedrawBoard", // called before redrawing the board
     afterRedrawBoard: "afterRedrawBoard", // called after redrawing the board
-    redrawBoard: "redrawBoard", // called after redrawing the board, DEPRECATED, use afterRedrawBoard
     animation: "animation", // called on animation start, end and on every animation frame
     destroy: "destroy" // called, before the board is destroyed
 }
