@@ -11,9 +11,7 @@ export class Persistence extends Extension {
         console.warn("The Persistence extension is work in progress, don't use it in production.")
         this.props = props
         this.registerExtensionPoint(EXTENSION_POINT.positionChanged, this.savePosition.bind(this))
-        chessboard.initialized.then(() => {
-            this.loadPosition()
-        })
+        this.loadPosition()
     }
 
     savePosition() {

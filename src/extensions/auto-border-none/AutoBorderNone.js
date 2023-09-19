@@ -16,10 +16,15 @@ export class AutoBorderNone extends Extension {
         this.registerExtensionPoint(EXTENSION_POINT.beforeRedrawBoard, this.extensionPointBeforeRedrawBoard.bind(this))
     }
     extensionPointBeforeRedrawBoard() {
+        let newBorderType
         if(this.chessboard.view.width < this.props.borderNoneBelow){
-            this.chessboard.props.style.borderType = "none"
+            newBorderType = "none"
         } else {
-            this.chessboard.props.style.borderType = this.props.chessboardBorderType
+            newBorderType = this.props.chessboardBorderType
+        }
+        if(newBorderType !== this.chessboard.props.style.borderType) {
+            this.chessboard.props.style.borderType = newBorderType
+            this.chessboard.view.updateMetrics()
         }
     }
 }
