@@ -1,17 +1,20 @@
+$darkenCoordinates: 8%;
+
 @mixin cm-chessboard-theme($name,
-$square-white, $square-black,
-$coordinates-white: $square-black, $coordinates-black: $square-white,
-$coordinates-frame: $square-black,
-$border: $square-black, $frame-bg: $square-white,) {
+$light, $dark,
+$coordinates-light: mix(black, $dark, $darkenCoordinates),
+$coordinates-dark: mix(white, $light, $darkenCoordinates),
+$coordinates-frame:  mix(black, $dark, $darkenCoordinates),
+$border: $dark, $frame-bg: $light) {
   .cm-chessboard.#{$name} {
     .board {
       .square {
         &.white {
-          fill: $square-white;
+          fill: $light;
         }
 
         &.black {
-          fill: $square-black;
+          fill: $dark;
         }
       }
     }
@@ -21,7 +24,7 @@ $border: $square-black, $frame-bg: $square-white,) {
         .border {
           stroke: $border;
           stroke-width: 0.7%;
-          fill: $square-black;
+          fill: $dark;
         }
       }
     }
@@ -30,7 +33,7 @@ $border: $square-black, $frame-bg: $square-white,) {
         .border {
           stroke: $border;
           stroke-width: 0;
-          fill: $square-black;
+          fill: $dark;
         }
       }
     }
@@ -42,7 +45,7 @@ $border: $square-black, $frame-bg: $square-white,) {
           stroke: none;
         }
         .border-inner {
-          fill: $square-black;
+          fill: $dark;
           stroke: $border;
           stroke-width: 0.7%;
         }
@@ -57,10 +60,10 @@ $border: $square-black, $frame-bg: $square-white,) {
         font-size: 7px;
         cursor: default;
         &.black {
-          fill: $coordinates-black;
+          fill: $coordinates-dark;
         }
         &.white {
-          fill: $coordinates-white;
+          fill: $coordinates-light;
         }
       }
     }

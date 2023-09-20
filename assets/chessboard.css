@@ -61,13 +61,13 @@
   pointer-events: none;
   user-select: none; }
   .cm-chessboard.default .coordinates .coordinate {
-    fill: #c5a076;
+    fill: #b5936d;
     font-size: 7px;
     cursor: default; }
     .cm-chessboard.default .coordinates .coordinate.black {
-      fill: #ecdab9; }
+      fill: #eeddbf; }
     .cm-chessboard.default .coordinates .coordinate.white {
-      fill: #c5a076; }
+      fill: #b5936d; }
 
 .cm-chessboard.default-contrast .board .square.white {
   fill: #ecdab9; }
@@ -98,7 +98,7 @@
   pointer-events: none;
   user-select: none; }
   .cm-chessboard.default-contrast .coordinates .coordinate {
-    fill: #c5a076;
+    fill: #b5936d;
     font-size: 7px;
     cursor: default; }
     .cm-chessboard.default-contrast .coordinates .coordinate.black {
@@ -135,13 +135,13 @@
   pointer-events: none;
   user-select: none; }
   .cm-chessboard.green .coordinates .coordinate {
-    fill: #4c946a;
+    fill: #468862;
     font-size: 7px;
     cursor: default; }
     .cm-chessboard.green .coordinates .coordinate.black {
-      fill: #E0DDCC; }
+      fill: #e2e0d0; }
     .cm-chessboard.green .coordinates .coordinate.white {
-      fill: #4c946a; }
+      fill: #468862; }
 
 .cm-chessboard.blue .board .square.white {
   fill: #d8ecfb; }
@@ -172,13 +172,13 @@
   pointer-events: none;
   user-select: none; }
   .cm-chessboard.blue .coordinates .coordinate {
-    fill: #86afcf;
+    fill: #7ba1be;
     font-size: 7px;
     cursor: default; }
     .cm-chessboard.blue .coordinates .coordinate.black {
-      fill: #d8ecfb; }
+      fill: #dbeefb; }
     .cm-chessboard.blue .coordinates .coordinate.white {
-      fill: #86afcf; }
+      fill: #7ba1be; }
 
 .cm-chessboard.chess-club .board .square.white {
   fill: #E6D3B1; }
@@ -283,12 +283,12 @@
   pointer-events: none;
   user-select: none; }
   .cm-chessboard.black-and-white .coordinates .coordinate {
-    fill: #9c9c9c;
+    fill: #909090;
     font-size: 7px;
     cursor: default; }
     .cm-chessboard.black-and-white .coordinates .coordinate.black {
-      fill: #ffffff; }
+      fill: white; }
     .cm-chessboard.black-and-white .coordinates .coordinate.white {
-      fill: #9c9c9c; }
+      fill: #909090; }
 
 /*# sourceMappingURL=chessboard.css.map */
