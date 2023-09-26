@@ -12,7 +12,7 @@ export const EXTENSION_POINT = {
     beforeRedrawBoard: "beforeRedrawBoard", // called before redrawing the board
     afterRedrawBoard: "afterRedrawBoard", // called after redrawing the board
     redrawBoard: "redrawBoard", // called after redrawing the board, DEPRECATED, use afterRedrawBoard 2023-09-18
-    animation: "animation", // called on animation start, end and on every animation frame
+    animation: "animation", // called on animation start, end, and on every animation frame
     destroy: "destroy" // called, before the board is destroyed
 }
 
@@ -23,7 +23,7 @@ export class Extension {
     }
 
     registerExtensionPoint(name, callback) {
-        if(name === EXTENSION_POINT.redrawBoard) {
+        if(name === EXTENSION_POINT.redrawBoard) { // deprecated 2023-09-18
             console.warn("EXTENSION_POINT.redrawBoard is deprecated, use EXTENSION_POINT.afterRedrawBoard")
             name = EXTENSION_POINT.afterRedrawBoard
         }
