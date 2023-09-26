@@ -87,7 +87,7 @@ To enable the user to move the pieces, you have to enable the move input.
 const board = new Chessboard(document.getElementById("board"), {
         position: FEN.start,
         assetsUrl: "../assets/",
-        extensions: [{class: Markers}] // Looks better with markers
+        extensions: [{class: Markers}] // Looks better with markers. (Don't forget to also include the CSS for the markers)
     })
 
     board.enableMoveInput(inputHandler) // This enables the move input
