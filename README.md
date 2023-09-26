@@ -5,12 +5,7 @@ A JavaScript chessboard which is lightweight, ES6 module based, responsive, SVG 
 cm-chessboard is the main chessboard of
 [chessmail.eu](https://www.chessmail.eu) and [chessmail.de](https://www.chessmail.de). It is also used
 in [chess-console](https://shaack.com/projekte/chess-console/examples/load-pgn.html) and in
-[cm-fen-editor](https://shaack.com/projekte/cm-fen-editor/). They are all nice written ES6 Modules to handle different
-aspects of chess games.
-
-> Note: With version 7, I made a heavy allover refactoring. The chessboard props have been changed and the files
-> structure also. Version 7 of the cm-chessboard will not work out of the box after an update from a previous version.
-> Also with version 7 comes the move cancelling via secondary mouse button.
+[cm-fen-editor](https://shaack.com/projekte/cm-fen-editor/). They are all nice written ES6 Modules to handle different aspects of chess games.
 
 ## Features
 
@@ -18,24 +13,18 @@ aspects of chess games.
 - [Can handle moves input via click or drag](https://shaack.com/projekte/cm-chessboard/examples/validate-moves.html)
 - [Styleable via css and supports multiple piece sets](https://shaack.com/projekte/cm-chessboard/examples/different-styles.html)
 - Uses SVG for rendering
-- [Allows adding **extensions** to extend the
+- [Allows adding extensions to extend the
 functionality](https://shaack.com/projekte/cm-chessboard/examples/extensions/arrows-extension.html)
 
 ## Extensions
 
-The core of cm-chessboard is small, fast and reduced to the essentials. You can extend its functionality with
-extensions.
+The core of cm-chessboard is small, fast and reduced to the essentials. You can easily extend its functionality with extensions.
 
-- [Accessibility Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/accessibility-extension.html) -
-  makes the chessboard more accessible
-- [Arrows Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/arrows-extension.html) - renders
-  arrows on the chessboard
-- [Markers Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/markers-extension.html)  🆕 - create
-  markers on specific squares
-- [PromotionDialog Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/promotion-dialog-extension.html)
-  🆕 - shows a dialog to select the piece to promote to
-- [RenderVideo Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/render-video-extension.html)
-  🆕 - renders a video from the pieces movement on the board
+- [Markers Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/markers-extension.html) ⇨ create markers on specific squares
+- [Arrows Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/arrows-extension.html) ⇨ renders arrows on the chessboard
+- [Accessibility Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/accessibility-extension.html) ⇨ makes the chessboard more accessible
+- [PromotionDialog Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/promotion-dialog-extension.html) ⇨ shows a dialog to select the piece to promote to
+- [RenderVideo Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/render-video-extension.html) ⇨ renders a video from the pieces movement on the board (beta version for now)
 
 ## Demo and repository
 
@@ -52,32 +41,23 @@ extensions.
 - **Option 2:** Download the code from [GitHub](https://github.com/shaack/cm-chessboard).
 - **Option 3:** Use it via CDN https://cdn.jsdelivr.net/npm/cm-chessboard@8/src/Chessboard.js
 
-### Step 2: Include the CSS
+### Step 2: Create your cm-chessboard page
 
-- In your HTML include the CSS file `./assets/styles/cm-chessboard.css` or copy the CSS to your own CSS file. You can also use the SCSS version.
-- Some extensions, like "[Markers](https://shaack.com/projekte/cm-chessboard/examples/extensions/markers-extension.html)", "[Promotion Dialog](https://shaack.com/projekte/cm-chessboard/examples/extensions/promotion-dialog-extension.html)" or "[Arrows](https://shaack.com/projekte/cm-chessboard/examples/extensions/arrows-extension.html)" need additional CSS. See the examples.
-
-### Step 3: Configure the assets URL
-
-After installation, you need to configure the `assetsUrl` in the chessboard props. The assetsUrl must be the path to the `assets` folder of this project, where the pieces SVGs and other resources are located. 
-
-If you use the npm package or the CDN version, you can copy the `assets` folder from `node_modules/cm-chessboard/assets` to your project.
-
-### Example
-
-Include the CSS file
+#### Step 2a: Include the CSS file
 
 ```html
 <link rel="stylesheet" href="./node_modules/cm-chessboard/assets/styles/cm-chessboard.css">
 ```
 
-Create a `div` as the container ("context") of the chessboard.
+- Some extensions, like "[Markers](https://shaack.com/projekte/cm-chessboard/examples/extensions/markers-extension.html)", "[Promotion Dialog](https://shaack.com/projekte/cm-chessboard/examples/extensions/promotion-dialog-extension.html)" or "[Arrows](https://shaack.com/projekte/cm-chessboard/examples/extensions/arrows-extension.html)" need additional CSS. See the examples.
+
+#### Step 2b: Create a container for the chessboard
 
 ```html
 <div id="board"></div>
 ```
 
-Create the chessboard in your JavaScript code.
+#### Step 2c: Create the chessboard in your JavaScript code.
 
 ```html
 <script type="module">
@@ -90,11 +70,15 @@ Create the chessboard in your JavaScript code.
 </script>
 ```
 
+You need to configure the `assetsUrl` in your chessboard props (the second parameter). The `assetsUrl` must be the path to the `assets` folder of this project, where the pieces SVGs and other resources are located. 
+
+You can also copy the `assets` folder from `cm-chessboard/assets` to your project and modify the content.
+
 #### See also
 
 - [Simple cm-chessboard example online](https://shaack.com/projekte/cm-chessboard/examples/simple-boards.html)
 
-### Enable pieces moving
+### Step 3: (Optional) Enable user input
 
 To enable the user to move the pieces, you have to enable the move input.
 
@@ -102,10 +86,10 @@ To enable the user to move the pieces, you have to enable the move input.
 const board = new Chessboard(document.getElementById("board"), {
         position: FEN.start,
         assetsUrl: "../assets/",
-        extensions: [{class: Markers}] // looks better with markers
+        extensions: [{class: Markers}] // Looks better with markers
     })
 
-    board.enableMoveInput(inputHandler) // enable user input
+    board.enableMoveInput(inputHandler) // This enables the move input
 
     function inputHandler(event) {
         console.log(event)
@@ -121,6 +105,10 @@ const board = new Chessboard(document.getElementById("board"), {
                 break
             case INPUT_EVENT_TYPE.moveInputFinished:
                 log(`moveInputFinished`)
+                break
+            case INPUT_EVENT_TYPE.movingOverSquare:
+                log(`movingOverSquare: ${event.square}`)
+                break
         }
     }
 ```
