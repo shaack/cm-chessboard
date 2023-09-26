@@ -60,13 +60,14 @@ The core of cm-chessboard is small, fast and reduced to the essentials. You can 
 #### Step 2c: Create the chessboard in your JavaScript code.
 
 ```html
-<script type="module">
-    import {Chessboard} from "./src/Chessboard.js"
 
-    const board = new Chessboard(document.getElementById("board"), {
-        position: FEN.start,
-        assetsUrl: "./node_modules/cm-chessboard/assets/" // or wherever you copied the assets folder to
-    })
+<script type="module">
+  import {Chessboard, FEN} from "./path/to/Chessboard.js"
+
+  const board = new Chessboard(document.getElementById("board"), {
+    position: FEN.start,
+    assetsUrl: "./path/to/assets/" // wherever you copied the assets folder to, could also be in the node_modules folder
+  })
 </script>
 ```
 
