@@ -15,9 +15,11 @@
 <br style="clear: both"/>
 <pre>
 new Chessboard(document.getElementById("board1"), {
+    assetsUrl: "../assets/",
     position: FEN.start
 })
 new Chessboard(document.getElementById("board2"), {
+    assetsUrl: "../assets/",
     position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR w Gkq - 4 11",
     style: {pieces: {file: "pieces/staunty.svg"},cssClass: "green", borderType: BORDER_TYPE.frame},
     orientation: COLOR.black
@@ -28,13 +30,13 @@ new Chessboard(document.getElementById("board2"), {
     import {FEN} from "../src/model/Position.js"
 
     new Chessboard(document.getElementById("board1"), {
-        position: FEN.start,
-        assetsUrl: "../assets/"
+        assetsUrl: "../assets/",
+        position: FEN.start
     })
     new Chessboard(document.getElementById("board2"), {
-        position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR w Gkq - 4 11",
         assetsUrl: "../assets/",
         assetsCache: false,
+        position: "rn2k1r1/ppp1pp1p/3p2p1/5bn1/P7/2N2B2/1PPPPP2/2BNK1RR w Gkq - 4 11",
         style: {pieces: {file: "pieces/staunty.svg"},cssClass: "green", borderType: BORDER_TYPE.frame},
         orientation: COLOR.black
     })

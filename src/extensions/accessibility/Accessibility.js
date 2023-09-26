@@ -5,7 +5,7 @@
  */
 import {Extension, EXTENSION_POINT} from "../../model/Extension.js"
 import {COLOR, INPUT_EVENT_TYPE} from "../../Chessboard.js"
-import {piecesTranslations, renderPieceTitle} from "../../lib/I18n.js"
+import {piecesTranslations, renderPieceTitle} from "./I18n.js"
 import {Utils} from "../../lib/Utils.js"
 
 const translations = {
@@ -41,6 +41,7 @@ export class Accessibility extends Extension {
     constructor(chessboard, props) {
         super(chessboard)
         this.props = {
+            language: navigator.language.substring(0, 2).toLowerCase(), // supports "de" and "en" for now, used for pieces naming
             brailleNotationInAlt: true, // show the braille notation of the position in the alt attribute of the SVG image
             movePieceForm: true, // display a form to move a piece (from, to, move)
             boardAsTable: true, // display the board additionally as HTML table
@@ -48,7 +49,10 @@ export class Accessibility extends Extension {
             visuallyHidden: true // hide all those extra outputs visually but keep them accessible for screen readers and braille displays
         }
         Object.assign(this.props, props)
-        this.lang = chessboard.props.language
+        if (this.props.language !== "de" && this.props.language !== "en") {
+            this.props.language = "en"
+        }
+        this.lang = this.props.language
         this.tPieces = piecesTranslations[this.lang]
         this.t = translations[this.lang]
         this.components = []

@@ -56,9 +56,8 @@ export class Chessboard {
             position: FEN.empty, // set position as fen, use FEN.start or FEN.empty as shortcuts
             orientation: COLOR.white, // white on bottom
             responsive: true, // resize the board automatically to the size of the context element
-            language: navigator.language.substring(0, 2).toLowerCase(), // supports "de" and "en" for now, used for pieces naming
             assetsUrl: "./assets/", // put all css and sprites in this folder, will be ignored for absolute urls of assets files
-            assetsCache: true, // cache sprites
+            assetsCache: true, // cache the sprites, deactivate if you want to use multiple pieces sets in one page
             style: {
                 cssClass: "default", // set the css theme of the board, try "green", "blue" or "chess-club"
                 showCoordinates: true, // show ranks and files
@@ -74,9 +73,6 @@ export class Chessboard {
             extensions: [ /* {class: ExtensionClass, props: { ... }} */] // add extensions here
         }
         Utils.mergeObjects(this.props, props)
-        if (this.props.language !== "de" && this.props.language !== "en") {
-            this.props.language = "en"
-        }
         this.state = new ChessboardState()
         this.view = new ChessboardView(this)
         this.positionAnimationsQueue = new PositionAnimationsQueue(this)
