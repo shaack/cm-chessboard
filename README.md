@@ -218,25 +218,34 @@ board.enableMoveInput((event) => {
 The event has the following **`event.type`**:
 
 - **`INPUT_EVENT_TYPE.moveInputStarted`**: User started the move input, `event.squareFrom` contains the coordinates.
-  Return true or false to validate the start square.
-- **`INPUT_EVENT_TYPE.validateMoveInput`**: User finished the move input, `event.squareFrom` and `event.squareTo`
-  contain the coordinates. Return true or false to validate the move input.
-- **`INPUT_EVENT_TYPE.moveInputCanceled`**: User canceled the move with clicking again on the start square or clicking
-  outside the board.
+  Return `true` or `false` to validate the start square. `false` cancels the move.
+- **`INPUT_EVENT_TYPE.validateMoveInput`**: To validate the users move input. `event.squareFrom` and `event.squareTo`
+  contain the coordinates. Return `true` or `false` to validate the move. `false` cancels the move.
+- **`INPUT_EVENT_TYPE.moveInputCanceled`**: The user canceled the move with clicking again on the start square, clicking
+  outside the board or right click.
+- **`INPUT_EVENT_TYPE.moveInputFinished`**: Fired after the move was made.
+- **`INPUT_EVENT_TYPE.movingOverSquare`**: Fired, when the user moves the piece over a square. `event.square` contains
+  the coordinates.
 
 ```javascript
 chessboard.enableMoveInput((event) => {
+    console.log("move input", event)
     switch (event.type) {
         case INPUT_EVENT_TYPE.moveInputStarted:
-            console.log(`moveInputStarted: ${event.squareFrom}`)
-            // return `true`, if input is accepted/valid, `false` aborts the interaction, the piece will not move
-            return true
+            log(`moveInputStarted: ${event.squareFrom}`)
+            return true // false cancels move
         case INPUT_EVENT_TYPE.validateMoveInput:
-            console.log(`validateMoveInput: ${event.squareFrom}-${event.squareTo}`)
-            // return true, if input is accepted/valid, `false` takes the move back
-            return true
+            log(`validateMoveInput: ${event.squareFrom}-${event.squareTo}`)
+            return true // false cancels move
         case INPUT_EVENT_TYPE.moveInputCanceled:
-            console.log(`moveInputCanceled`)
+            log(`moveInputCanceled`)
+            break
+        case INPUT_EVENT_TYPE.moveInputFinished:
+            log(`moveInputFinished`)
+            break
+        case INPUT_EVENT_TYPE.movingOverSquare:
+            log(`movingOverSquare: ${event.square}`)
+            break
     }
 }, COLOR.white)
 ```
