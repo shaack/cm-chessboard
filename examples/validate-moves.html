@@ -45,6 +45,9 @@
 
     function inputHandler(event) {
         console.log("inputHandler", event)
+        if(event.type === INPUT_EVENT_TYPE.movingOverSquare) {
+            return // ignore this event
+        }
         if(event.type !== INPUT_EVENT_TYPE.moveInputFinished) {
             event.chessboard.removeMarkers(MARKER_TYPE.dot)
             event.chessboard.removeMarkers(MARKER_TYPE.bevel)

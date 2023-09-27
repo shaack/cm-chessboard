@@ -352,6 +352,9 @@ export class ChessboardView {
             squareTo: squareTo,
             piece: this.chessboard.getPiece(squareFrom)
         }
+        if (this.chessboard.state.moveInputCallback) {
+            data.moveInputCallbackResult = this.chessboard.state.moveInputCallback(data)
+        }
         this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
     }
 

@@ -27,16 +27,22 @@ const board = new Chessboard(document.getElementById("board"), {
 board.enableMoveInput(inputHandler)
 function inputHandler(event) {
     console.log(event)
-    window.board.removeMarkers(MARKER_TYPE.frame)
     switch (event.type) {
         case INPUT_EVENT_TYPE.moveInputStarted:
             log(`moveInputStarted: ${event.squareFrom}`)
-            return true
+            return true // false cancels move
         case INPUT_EVENT_TYPE.validateMoveInput:
             log(`validateMoveInput: ${event.squareFrom}-${event.squareTo}`)
-            return true
+            return true // false cancels move
         case INPUT_EVENT_TYPE.moveInputCanceled:
             log(`moveInputCanceled`)
+            break
+        case INPUT_EVENT_TYPE.moveInputFinished:
+            log(`moveInputFinished`)
+            break
+        case INPUT_EVENT_TYPE.movingOverSquare:
+            log(`movingOverSquare: ${event.squareTo}`)
+            break
     }
 }
 </pre>
@@ -63,12 +69,19 @@ function inputHandler(event) {
         switch (event.type) {
             case INPUT_EVENT_TYPE.moveInputStarted:
                 log(`moveInputStarted: ${event.squareFrom}`)
-                return true
+                return true // false cancels move
             case INPUT_EVENT_TYPE.validateMoveInput:
                 log(`validateMoveInput: ${event.squareFrom}-${event.squareTo}`)
-                return true
+                return true // false cancels move
             case INPUT_EVENT_TYPE.moveInputCanceled:
                 log(`moveInputCanceled`)
+                break
+            case INPUT_EVENT_TYPE.moveInputFinished:
+                log(`moveInputFinished`)
+                break
+            case INPUT_EVENT_TYPE.movingOverSquare:
+                log(`movingOverSquare: ${event.squareTo}`)
+                break
         }
     }
 
