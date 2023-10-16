@@ -179,7 +179,7 @@ export class PromotionDialog extends Extension {
         this.state.displayState = displayState
         if (displayState === DISPLAY_STATE.shown) {
             this.clickDelegate = Utils.delegate(this.chessboard.view.svg,
-                "mousedown",
+                "pointerdown",
                 "*",
                 this.promotionDialogOnClickPiece.bind(this))
             this.contextMenuListener = this.contextMenu.bind(this)
