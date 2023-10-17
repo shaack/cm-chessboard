@@ -23,7 +23,9 @@ export class ChessboardView {
         if (chessboard.props.responsive) {
             if (typeof ResizeObserver !== "undefined") {
                 this.resizeObserver = new ResizeObserver(() => {
-                    this.handleResize()
+                    setTimeout(() => { // prevents "ResizeObserver loop completed with undelivered notifications."
+                        this.handleResize()
+                    })
                 })
                 this.resizeObserver.observe(this.chessboard.context)
             } else {
@@ -252,8 +254,8 @@ export class ChessboardView {
         const pieceGroup = Svg.addElement(this.piecesGroup, "g", {})
         pieceGroup.setAttribute("data-piece", pieceName)
         pieceGroup.setAttribute("data-square", square)
-        if(hidden) {
-            pieceGroup.setAttribute("visibility","hidden")
+        if (hidden) {
+            pieceGroup.setAttribute("visibility", "hidden")
         }
         const point = this.squareToPoint(square)
         const transform = (this.svg.createSVGTransform())
@@ -431,7 +433,7 @@ export class ChessboardView {
     }
 
     getSpriteUrl() {
-        if(Utils.isAbsoluteUrl(this.chessboard.props.style.pieces.file)) {
+        if (Utils.isAbsoluteUrl(this.chessboard.props.style.pieces.file)) {
             return this.chessboard.props.style.pieces.file
         } else {
             return this.chessboard.props.assetsUrl + this.chessboard.props.style.pieces.file
