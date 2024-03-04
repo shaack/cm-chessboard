@@ -44,11 +44,8 @@ await board.movePiece("c3", "d5")
 await board.movePiece("d5", "f4")
 </pre>
 <script type="module">
-    import {
-      Chessboard,
-      PIECE,
-      FEN
-    } from '../src/index.js'
+    import {Chessboard, PIECE} from "../src/Chessboard.js"
+    import {FEN} from "../src/model/Position.js"
 
     const board = new Chessboard(document.getElementById("board"),
         {
