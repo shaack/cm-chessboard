@@ -26,8 +26,12 @@ new Chessboard(document.getElementById("board2"), {
 })
 </pre>
 <script type="module">
-    import {COLOR, Chessboard, BORDER_TYPE} from "../src/Chessboard.js"
-    import {FEN} from "../src/model/Position.js"
+    import {
+      COLOR,
+      Chessboard,
+      BORDER_TYPE,
+      FEN
+    } from '../src/index.js'
 
     new Chessboard(document.getElementById("board1"), {
         assetsUrl: "../assets/",
