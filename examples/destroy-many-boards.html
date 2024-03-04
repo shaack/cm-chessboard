@@ -29,8 +29,10 @@
 <h2>Stress Test: Create and destroy 5,000 boards ⇨ <span id="counter"></span></h2>
 <div id="boards"></div>
 <script type="module">
-    import {Chessboard} from "../src/Chessboard.js"
-    import {FEN} from "../src/model/Position.js"
+    import {
+      Chessboard,
+      FEN
+    } from '../src/index.js'
     import {Chess} from "https://cdn.jsdelivr.net/npm/chess.mjs@1/src/chess.mjs/Chess.js"
 
     const boardsDiv = document.getElementById("boards")
