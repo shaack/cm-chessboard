@@ -147,8 +147,12 @@ export class Chessboard {
         this.view.disableMoveInput()
     }
 
+    isMoveInputEnabled() {
+        return this.state.inputWhiteEnabled || this.state.inputBlackEnabled
+    }
+
     addExtension(extensionClass, props) {
-        if(this.getExtension(extensionClass)) {
+        if (this.getExtension(extensionClass)) {
             throw Error("extension \"" + extensionClass.name + "\" already added")
         }
         this.extensions.push(new extensionClass(this, props))
