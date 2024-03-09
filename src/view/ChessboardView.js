@@ -120,8 +120,8 @@ export class ChessboardView {
     }
 
     handleResize() {
-        this.container.style.width = Math.floor(this.chessboard.context.clientWidth) + "px"
-        this.container.style.height =  Math.floor(this.chessboard.context.clientWidth * this.chessboard.props.style.aspectRatio) + "px"
+        this.container.style.width = (this.chessboard.context.clientWidth) + "px"
+        this.container.style.height = (this.chessboard.context.clientWidth * this.chessboard.props.style.aspectRatio) + "px"
         if (this.container.clientWidth !== this.width || this.container.clientHeight !== this.height) {
             this.updateMetrics()
             this.redrawBoard()
