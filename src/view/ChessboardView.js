@@ -89,6 +89,7 @@ export class ChessboardView {
         this.svg.setAttribute("class", "cm-chessboard border-type-" + this.chessboard.props.style.borderType + " " + cssClass)
         // this.svg.setAttribute("aria-describedby", "svg-description")
         this.svg.setAttribute("role", "img")
+        this.svg.setAttribute("style", "position: relative; top: -0.5px") // fix 1px offset
         this.updateMetrics()
         this.boardGroup = Svg.addElement(this.svg, "g", {class: "board"})
         this.coordinatesGroup = Svg.addElement(this.svg, "g", {class: "coordinates", "aria-hidden": "true"})
