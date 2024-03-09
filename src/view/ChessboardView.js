@@ -89,7 +89,6 @@ export class ChessboardView {
         this.svg.setAttribute("class", "cm-chessboard border-type-" + this.chessboard.props.style.borderType + " " + cssClass)
         // this.svg.setAttribute("aria-describedby", "svg-description")
         this.svg.setAttribute("role", "img")
-        this.svg.setAttribute("style", "position: relative; top: -0.5px") // fix for 1px offset
         this.updateMetrics()
         this.boardGroup = Svg.addElement(this.svg, "g", {class: "board"})
         this.coordinatesGroup = Svg.addElement(this.svg, "g", {class: "coordinates", "aria-hidden": "true"})
@@ -121,8 +120,8 @@ export class ChessboardView {
     }
 
     handleResize() {
-        this.container.style.width = this.chessboard.context.clientWidth + "px"
-        this.container.style.height = (this.chessboard.context.clientWidth * this.chessboard.props.style.aspectRatio) + "px"
+        this.container.style.width = Math.floor(this.chessboard.context.clientWidth) + "px"
+        this.container.style.height =  Math.floor(this.chessboard.context.clientWidth * this.chessboard.props.style.aspectRatio) + "px"
         if (this.container.clientWidth !== this.width || this.container.clientHeight !== this.height) {
             this.updateMetrics()
             this.redrawBoard()
