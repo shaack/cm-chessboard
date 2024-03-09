@@ -57,6 +57,7 @@ export class ChessboardView {
         this.chessboard.context.removeEventListener("mousedown", this.pointerDownListener)
         this.chessboard.context.removeEventListener("touchstart", this.pointerDownListener)
         Svg.removeElement(this.svg)
+        this.container.remove()
     }
 
     // Sprite //
