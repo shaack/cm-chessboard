@@ -49,21 +49,12 @@
             return // ignore this event
         }
         if(event.type !== INPUT_EVENT_TYPE.moveInputFinished) {
-            event.chessboard.removeMarkers(MARKER_TYPE.dot)
-            event.chessboard.removeMarkers(MARKER_TYPE.bevel)
+            event.chessboard.removeLegalMovesMarkers()
         }
         if (event.type === INPUT_EVENT_TYPE.moveInputStarted) {
+            // mark legal moves
             const moves = chess.moves({square: event.squareFrom, verbose: true})
-            for (const move of moves) { // draw dots on possible squares
-                if (move.promotion && move.promotion !== "q") {
-                    continue
-                }
-                if (event.chessboard.getPiece(move.to)) {
-                    event.chessboard.addMarker(MARKER_TYPE.bevel, move.to)
-                } else {
-                    event.chessboard.addMarker(MARKER_TYPE.dot, move.to)
-                }
-            }
+            event.chessboard.addLegalMovesMarkers(moves)
             return moves.length > 0
         } else if (event.type === INPUT_EVENT_TYPE.validateMoveInput) {
             const move = {from: event.squareFrom, to: event.squareTo, promotion: event.promotion}

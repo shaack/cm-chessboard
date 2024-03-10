@@ -39,6 +39,8 @@ export class Markers extends Extension {
         chessboard.addMarker = this.addMarker.bind(this)
         chessboard.getMarkers = this.getMarkers.bind(this)
         chessboard.removeMarkers = this.removeMarkers.bind(this)
+        chessboard.addLegalMovesMarkers = this.addLegalMovesMarkers.bind(this)
+        chessboard.removeLegalMovesMarkers = this.removeLegalMovesMarkers.bind(this)
         this.markerGroupDown = Svg.addElement(chessboard.view.markersLayer, "g", {class: "markers"})
         this.markerGroupUp = Svg.addElement(chessboard.view.markersTopLayer, "g", {class: "markers"})
         this.markers = []
@@ -80,6 +82,24 @@ export class Markers extends Extension {
                 this.drawMarker(marker)
             }
         )
+    }
+
+    addLegalMovesMarkers(moves) {
+        for (const move of moves) {
+            if (move.promotion && move.promotion !== "q") {
+                continue
+            }
+            if (this.chessboard.getPiece(move.to)) {
+                this.chessboard.addMarker(MARKER_TYPE.bevel, move.to)
+            } else {
+                this.chessboard.addMarker(MARKER_TYPE.dot, move.to)
+            }
+        }
+    }
+
+    removeLegalMovesMarkers() {
+        this.chessboard.removeMarkers(MARKER_TYPE.bevel)
+        this.chessboard.removeMarkers(MARKER_TYPE.dot)
     }
 
     drawMarker(marker) {
