@@ -8,39 +8,19 @@ import {ChessboardState} from "./model/ChessboardState.js"
 import {FEN, Position} from "./model/Position.js"
 import {PositionAnimationsQueue} from "./view/PositionAnimationsQueue.js"
 import {EXTENSION_POINT} from "./model/Extension.js"
-import {ChessboardView} from "./view/ChessboardView.js"
+import {ChessboardView, COLOR, INPUT_EVENT_TYPE, BORDER_TYPE} from "./view/ChessboardView.js"
 import {Utils} from "./lib/Utils.js"
 
-export const COLOR = {
-    white: "w",
-    black: "b"
-}
-export const INPUT_EVENT_TYPE = {
-    moveInputStarted: "moveInputStarted",
-    movingOverSquare: "movingOverSquare", // while dragging or hover after click
-    validateMoveInput: "validateMoveInput",
-    moveInputCanceled: "moveInputCanceled",
-    moveInputFinished: "moveInputFinished"
-}
-/** @deprecated */
-export const SQUARE_SELECT_TYPE = {
-    primary: "primary",
-    secondary: "secondary"
-}
-export const BORDER_TYPE = {
-    none: "none", // no border
-    thin: "thin", // thin border
-    frame: "frame" // wide border with coordinates in it
-}
 export const PIECE = {
     wp: "wp", wb: "wb", wn: "wn", wr: "wr", wq: "wq", wk: "wk",
     bp: "bp", bb: "bb", bn: "bn", br: "br", bq: "bq", bk: "bk"
 }
-
 export const PIECES_FILE_TYPE = {
     svgSprite: "svgSprite"
 }
-
+export {COLOR}
+export {INPUT_EVENT_TYPE}
+export {BORDER_TYPE}
 export {FEN}
 
 export class Chessboard {

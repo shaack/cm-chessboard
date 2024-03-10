@@ -5,11 +5,27 @@
  */
 
 import {VisualMoveInput} from "./VisualMoveInput.js"
-import {BORDER_TYPE, COLOR, INPUT_EVENT_TYPE} from "../Chessboard.js"
 import {Position} from "../model/Position.js"
 import {EXTENSION_POINT} from "../model/Extension.js"
 import {Svg} from "../lib/Svg.js"
 import {Utils} from "../lib/Utils.js"
+
+export const COLOR = {
+    white: "w",
+    black: "b"
+}
+export const INPUT_EVENT_TYPE = {
+    moveInputStarted: "moveInputStarted",
+    movingOverSquare: "movingOverSquare", // while dragging or hover after click
+    validateMoveInput: "validateMoveInput",
+    moveInputCanceled: "moveInputCanceled",
+    moveInputFinished: "moveInputFinished"
+}
+export const BORDER_TYPE = {
+    none: "none", // no border
+    thin: "thin", // thin border
+    frame: "frame" // wide border with coordinates in it
+}
 
 export class ChessboardView {
     constructor(chessboard) {
