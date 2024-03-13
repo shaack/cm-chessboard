@@ -25,9 +25,12 @@ new Chessboard(document.getElementById("board"), {
 </pre>
 <p>This example also uses the "AutoBorderNone" extension, which switches off the frame border on smaller boards.</p>
 <script type="module">
-    import {BORDER_TYPE, Chessboard} from "../src/Chessboard.js"
-    import {FEN} from "../src/model/Position.js"
-    import {AutoBorderNone} from "../src/extensions/auto-border-none/AutoBorderNone.js"
+    import {
+      BORDER_TYPE,
+      Chessboard,
+      FEN,
+      AutoBorderNone
+    } from '../src/index.js'
 
     new Chessboard(document.getElementById("board"), {
         position: FEN.start,

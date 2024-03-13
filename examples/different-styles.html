@@ -20,8 +20,11 @@
 <div class="board" id="board8"></div>
 <div class="board" id="board9"></div>
 <script type="module">
-    import {Chessboard, BORDER_TYPE} from "../src/Chessboard.js"
-    import {FEN} from "../src/model/Position.js"
+    import {
+      Chessboard,
+      BORDER_TYPE,
+      FEN
+    } from '../src/index.js'
 
     new Chessboard(document.getElementById("board1"), {
         position: FEN.start,
