@@ -15,6 +15,9 @@ export const PIECE = {
     wp: "wp", wb: "wb", wn: "wn", wr: "wr", wq: "wq", wk: "wk",
     bp: "bp", bb: "bb", bn: "bn", br: "br", bq: "bq", bk: "bk"
 }
+export const PIECE_TYPE = {
+    pawn: "p", knight: "n", bishop: "b", rook: "r", queen: "q", king: "k"
+}
 export const PIECES_FILE_TYPE = {
     svgSprite: "svgSprite"
 }

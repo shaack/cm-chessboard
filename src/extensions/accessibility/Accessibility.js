@@ -92,7 +92,7 @@ class BrailleNotationInAlt {
         let listW = piecesTranslations[this.extension.lang].colors.w.toUpperCase() + ":"
         let listB = piecesTranslations[this.extension.lang].colors.b.toUpperCase() + ":"
         for (const piece of pieces) {
-            const pieceName = piece.name === "p" ? "" : piecesTranslations[this.extension.lang].pieces[piece.name].toUpperCase()
+            const pieceName = piece.type === "p" ? "" : piecesTranslations[this.extension.lang].pieces[piece.type].toUpperCase()
             if (piece.color === "w") {
                 listW += " " + pieceName + piece.position
             } else {
@@ -226,9 +226,9 @@ class PiecesAsList {
         let listB = ""
         for (const piece of pieces) {
             if (piece.color === "w") {
-                listW += `<li class="list-inline-item">${renderPieceTitle(this.extension.lang, piece.name)} ${piece.position}</li>`
+                listW += `<li class="list-inline-item">${renderPieceTitle(this.extension.lang, piece.type)} ${piece.position}</li>`
             } else {
-                listB += `<li class="list-inline-item">${renderPieceTitle(this.extension.lang, piece.name)} ${piece.position}</li>`
+                listB += `<li class="list-inline-item">${renderPieceTitle(this.extension.lang, piece.type)} ${piece.position}</li>`
             }
         }
         this.piecesList.innerHTML = `
