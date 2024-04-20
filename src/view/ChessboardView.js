@@ -61,7 +61,6 @@ export class ChessboardView {
         }
         this.positionsAnimationTask = Promise.resolve()
         this.pointerDownListener = this.pointerDownHandler.bind(this)
-        this.pointerDownListener = this.pointerDownHandler.bind(this)
         this.container.addEventListener("mousedown", this.pointerDownListener)
         this.container.addEventListener("touchstart", this.pointerDownListener, {passive: false})
         this.createSvgAndGroups()
