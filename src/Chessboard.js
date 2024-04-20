@@ -132,7 +132,7 @@ export class Chessboard {
         return this.state.inputWhiteEnabled || this.state.inputBlackEnabled
     }
 
-    enableSquareSelect(event = POINTER_EVENTS.pointerdown, eventHandler) {
+    enableSquareSelect(eventType = POINTER_EVENTS.pointerdown, eventHandler) {
         if (!this.squareSelectListener) {
             this.squareSelectListener = function (e) {
                 const square = e.target.getAttribute("data-square")
@@ -144,13 +144,13 @@ export class Chessboard {
                 })
             }
         }
-        this.context.addEventListener(event, this.squareSelectListener)
+        this.context.addEventListener(eventType, this.squareSelectListener)
         this.state.squareSelectEnabled = true
         this.view.visualizeInputState()
     }
 
-    disableSquareSelect(event) {
-        this.context.removeEventListener(event, this.squareSelectListener)
+    disableSquareSelect(eventType) {
+        this.context.removeEventListener(eventType, this.squareSelectListener)
         this.squareSelectListener = undefined
         this.state.squareSelectEnabled = false
         this.view.visualizeInputState()
