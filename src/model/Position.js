@@ -130,6 +130,10 @@ export class Position {
         return file + rank
     }
 
+    toString() {
+        return this.getFen()
+    }
+
     clone() {
         const cloned = new Position()
         cloned.squares = this.squares.slice(0)
