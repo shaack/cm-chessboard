@@ -71,7 +71,7 @@ export class Position {
         return parts.join("/")
     }
 
-    getPieces(pieceType = undefined, pieceColor = undefined, sortBy = ['k', 'q', 'r', 'b', 'n', 'p']) {
+    getPieces(pieceColor = undefined, pieceType = undefined, sortBy = ['k', 'q', 'r', 'b', 'n', 'p']) {
         const pieces = []
         const sort = (a, b) => {
             return sortBy.indexOf(a.name) - sortBy.indexOf(b.name)
