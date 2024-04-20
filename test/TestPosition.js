@@ -5,7 +5,8 @@
  */
 
 import {describe, it, assert} from "../node_modules/teevi/src/teevi.js"
-import {Position} from "../src/model/Position.js"
+import {FEN, Position} from "../src/model/Position.js"
+import {COLOR, PIECE_TYPE} from "../src/Chessboard.js"
 
 describe("TestPosition", () => {
     it("should convert square to index", () => {
@@ -22,4 +23,21 @@ describe("TestPosition", () => {
         assert.equal(Position.indexToSquare(38), "g5")
         assert.equal(Position.indexToSquare(63), "h8")
     })
+    it("should return the correct FEN string", () => {
+        const position = new Position(FEN.start)
+        assert.equal(position.getFen(), "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR")
+    })
+    it("should find the correct pieces", () => {
+        const position = new Position("8/5P2/8/1P3r2/8/8/1P3P1P/8")
+        const blackPiece = position.getPieces(undefined, COLOR.black)
+        assert.equal(blackPiece.length, 1)
+        assert.equal(blackPiece[0].type, PIECE_TYPE.rook)
+        assert.equal(blackPiece[0].square, "f5")
+        const whitePieces = position.getPieces(undefined, COLOR.white)
+        assert.equal(whitePieces.length, 5)
+        const rooks = position.getPieces(PIECE_TYPE.rook)
+        assert.equal(rooks.length, 1)
+        assert.equal(rooks[0].square, "f5")
+    })
 })
+
