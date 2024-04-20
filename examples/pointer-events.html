@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>cm-chessboard</title>
+    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"/>
+    <link rel="stylesheet" href="./styles/examples.css"/>
+    <link rel="stylesheet" href="./../assets/chessboard.css"/>
+    <link rel="stylesheet" href="./../assets/extensions/markers/markers.css"/>
+</head>
+<body>
+<h1><a href="../../">cm-chessboard</a></h1>
+<h2>Example: Pointer Events</h2>
+<p>Click on the board, the events are logged into the console.</p>
+<div class="board" id="board"></div>
+<script type="module">
+    import {Chessboard} from "./../src/Chessboard.js"
+    import {FEN, POINTER_EVENTS} from "../src/Chessboard.js"
+
+    const board = new Chessboard(document.getElementById("board"), {
+        position: FEN.start,
+        assetsUrl: "../assets/"
+    })
+
+    for (const pointerEvent in POINTER_EVENTS) {
+        console.log("pointerEvent", pointerEvent)
+        board.enableSquareSelect(pointerEvent, (event) => {
+            console.log(event)
+        })
+    }
+</script>
+</body>

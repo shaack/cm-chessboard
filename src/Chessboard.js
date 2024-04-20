@@ -8,7 +8,7 @@ import {ChessboardState} from "./model/ChessboardState.js"
 import {FEN, Position} from "./model/Position.js"
 import {PositionAnimationsQueue} from "./view/PositionAnimationsQueue.js"
 import {EXTENSION_POINT} from "./model/Extension.js"
-import {ChessboardView, COLOR, INPUT_EVENT_TYPE, BORDER_TYPE} from "./view/ChessboardView.js"
+import {ChessboardView, COLOR, INPUT_EVENT_TYPE, BORDER_TYPE, POINTER_EVENTS} from "./view/ChessboardView.js"
 import {Utils} from "./lib/Utils.js"
 
 export const PIECE = {
@@ -20,6 +20,7 @@ export const PIECES_FILE_TYPE = {
 }
 export {COLOR}
 export {INPUT_EVENT_TYPE}
+export {POINTER_EVENTS}
 export {BORDER_TYPE}
 export {FEN}
 
@@ -129,6 +130,34 @@ export class Chessboard {
 
     isMoveInputEnabled() {
         return this.state.inputWhiteEnabled || this.state.inputBlackEnabled
+    }
+
+    enableSquareSelect(event = POINTER_EVENTS.pointerdown, eventHandler) {
+        if (!this.squareSelectListener) {
+            this.squareSelectListener = function (e) {
+                const square = e.target.getAttribute("data-square")
+                eventHandler({
+                    eventType: e.type,
+                    event: e,
+                    chessboard: this,
+                    square: square
+                })
+            }
+        }
+        this.context.addEventListener(event, this.squareSelectListener)
+        this.state.squareSelectEnabled = true
+        this.view.visualizeInputState()
+    }
+
+    disableSquareSelect(event) {
+        this.context.removeEventListener(event, this.squareSelectListener)
+        this.squareSelectListener = undefined
+        this.state.squareSelectEnabled = false
+        this.view.visualizeInputState()
+    }
+
+    isSquareSelectEnabled() {
+        return this.state.squareSelectEnabled
     }
 
     addExtension(extensionClass, props) {

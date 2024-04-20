@@ -21,6 +21,16 @@ export const INPUT_EVENT_TYPE = {
     moveInputCanceled: "moveInputCanceled",
     moveInputFinished: "moveInputFinished"
 }
+export const POINTER_EVENTS = {
+    pointercancel: "pointercancel",
+    pointerdown: "pointerdown",
+    pointerenter: "pointerenter",
+    pointerleave: "pointerleave",
+    pointermove: "pointermove",
+    pointerout: "pointerout",
+    pointerover: "pointerover",
+    pointerup: "pointerup"
+}
 export const BORDER_TYPE = {
     none: "none", // no border
     thin: "thin", // thin border
