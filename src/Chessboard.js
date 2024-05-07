@@ -115,9 +115,8 @@ export class Chessboard {
         return this.state.position.getPiece(square)
     }
 
-    /** return the position object since 2024-04-20 (8.7.0) */
     getPosition() {
-        return this.state.position
+        return this.state.position.getFen()
     }
 
     getOrientation() {
