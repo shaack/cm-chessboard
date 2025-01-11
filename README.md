@@ -389,9 +389,7 @@ const chessboard = new Chessboard(document.getElementById("board"), {
 - License for the Wikimedia SVG-pieces (
   chessboard-sprite.svg): [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)
 
-## cm-chess
+---
 
-You may also be interested in [cm-chess](https://github.com/shaack/cm-chess), it is like
-[chess.js](https://github.com/jhlywa/chess.js), but in ES6 and can handle games and PGNs with variants, NAGs and
-comments.
-
+Find more high quality JavaScript modules from [shaack.com](https://shaack.com)
+on [our projects page](https://shaack.com/works).
