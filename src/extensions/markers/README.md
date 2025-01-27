@@ -44,7 +44,7 @@ The markerCircle is defined in the SVG as a circle with a radius of 18:
 </g>
 ```
 
-Has this CSS, where stoke color, width and opacity are defined:
+Has this CSS, where stroke color, width and opacity are defined:
 
 ```css
 marker.marker-circle-red {
