@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!--
+Testpage for https://github.com/shaack/cm-chessboard/pull/149
+-->
+<html lang="en">
+<head>
+    <title>Arrows Example</title>
+    <link rel="stylesheet" href="../../assets/chessboard.css">
+    <link rel="stylesheet" href="../styles/examples.css"/>
+    <link rel="stylesheet" href="../../assets/extensions/arrows/arrows.css">
+    <style type='text/css'>
+        #board1 { width: 30%; }
+        #board2 { width: 30%; }
+    </style>
+
+    <script type='module'>
+        import {Chessboard} from '../../src/Chessboard.js'
+        import {Arrows, ARROW_TYPE} from "../../src/extensions/arrows/Arrows.js"
+        window.Chessboard = Chessboard;
+        window.Arrows = Arrows;
+        window.ARROW_TYPE = ARROW_TYPE;
+    </script>
+
+    <script type='text/javascript'>
+        let brd1;
+        let brd2;
+        function init() {
+            brd1 = new Chessboard(document.getElementById('board1'), {
+                assetsUrl: "../../assets/",
+                extensions: [
+                    {class: Arrows},
+                ]
+            });
+            brd1.addArrow(ARROW_TYPE.pointy, 'a1', 'b3')
+            brd1.setPiece('a1', 'wn')
+
+            brd2 = new Chessboard(document.getElementById('board2'), {
+                assetsUrl: "../../assets/",
+                extensions: [
+                    {class: Arrows},
+                ]
+            });
+            brd2.setOrientation('b');
+            brd2.addArrow(ARROW_TYPE.pointy, 'a1', 'b3')
+            brd2.setPiece('a1', 'wn')
+        }
+    </script>
+
+</head>
+<body onload='init()'>
+
+<div id='board1' style="margin-bottom: 0.5rem"></div>
+<button onclick="brd1.setOrientation(brd1.getOrientation() === 'w' ? 'b' : 'w')">Toggle1</button>
+
+<div id='board2' style="margin-bottom: 0.5rem"></div>
+<button onclick="brd2.setOrientation(brd2.getOrientation() === 'w' ? 'b' : 'w')">Toggle2</button>
+
+</body>
+</html>
