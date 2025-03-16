@@ -46,12 +46,18 @@ export class Arrows extends Extension {
     }
 
     drawArrow(arrow) {
+        const a1 = this.chessboard.view.squareToPoint('a1')
+        const h1 = this.chessboard.view.squareToPoint('h1')
+        const a8 = this.chessboard.view.squareToPoint('a8')
+        const halfSquareWidth = Math.abs((h1.x - a1.x) / 14)
+        const halfSquareHeight = Math.abs((a1.y - a8.y) / 14)
+
         const arrowsGroup = Svg.addElement(this.arrowGroup, "g")
         arrowsGroup.setAttribute("data-arrow", arrow.from + arrow.to)
         arrowsGroup.setAttribute("class", "arrow " + arrow.type.class)
         const view = this.chessboard.view
-        const sqfrom = document.querySelectorAll('[data-square="' + arrow.from + '"]')[0]
-        const sqto = document.querySelectorAll('[data-square="' + arrow.to + '"]')[0]
+        const ptFrom = view.squareToPoint(arrow.from)
+        const ptTo = view.squareToPoint(arrow.to)
         const spriteUrl = this.chessboard.props.assetsCache ? "" : this.getSpriteUrl()
         const defs = Svg.addElement(arrowsGroup, "defs")
         const id = "arrow-" + arrow.from + arrow.to
@@ -71,10 +77,10 @@ export class Arrows extends Extension {
             href: `${spriteUrl}#${arrow.type.slice}`,
         })
 
-        const x1 = sqfrom.x.baseVal.value + (sqfrom.width.baseVal.value / 2)
-        const x2 = sqto.x.baseVal.value + (sqto.width.baseVal.value / 2)
-        const y1 = sqfrom.y.baseVal.value + (sqfrom.height.baseVal.value / 2)
-        const y2 = sqto.y.baseVal.value + (sqto.height.baseVal.value / 2)
+        const x1 = ptFrom.x + halfSquareWidth
+        const x2 = ptTo.x + halfSquareHeight
+        const y1 = ptFrom.y + halfSquareWidth
+        const y2 = ptTo.y + halfSquareHeight
 
         const width = ((view.scalingX + view.scalingY) / 2) * 4
         let lineFill = Svg.addElement(arrowsGroup, "line")
