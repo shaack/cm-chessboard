@@ -29,7 +29,7 @@ export class Arrows extends Extension {
             // default chosen to preserve previous appearance where radius = 0.36 * min(squareWidth, squareHeight)
             // which corresponds to 0.72 of half the square size (0.36 / 0.5 = 0.72)
             offsetFrom: 0,
-            offsetTo: 0.72
+            offsetTo: 0.55
         }
         Object.assign(this.props, props)
         if (this.chessboard.props.assetsCache) {
@@ -98,7 +98,7 @@ export class Arrows extends Extension {
         const x2 = cx2 - ux * rTo
         const y2 = cy2 - uy * rTo
 
-        const width = ((view.scalingX + view.scalingY) / 2) * 4
+        const width = ((view.scalingX + view.scalingY) / 2) * 8
         let lineFill = Svg.addElement(arrowsGroup, "line")
         lineFill.setAttribute('x1', x1.toString())
         lineFill.setAttribute('x2', x2.toString())

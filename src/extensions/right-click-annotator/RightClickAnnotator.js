@@ -9,9 +9,14 @@
  * Redrawing the same arrow or marker removes it.
  */
 import {Extension, EXTENSION_POINT} from "../../model/Extension.js"
-import {Arrows, ARROW_TYPE} from "../arrows/Arrows.js"
+import {Arrows} from "../arrows/Arrows.js"
 import {Markers, MARKER_TYPE} from "../markers/Markers.js"
 import {Svg} from "../../lib/Svg.js"
+
+export const ARROW_TYPE = {
+    default: {class: "arrow-default", slice: "arrowDefault", headSize: 7},
+    danger: {class: "arrow-danger", slice: "arrowDefault", headSize: 7}
+}
 
 // Define persistent type objects for matching (strict equality used in core extensions)
 const ARROW_GREEN = {class: "arrow-green", slice: "arrowDefault", headSize: 7}
@@ -217,7 +222,7 @@ export class RightClickAnnotator extends Extension {
         const x2 = cx2 - ux * rTo
         const y2 = cy2 - uy * rTo
 
-        const width = ((view.scalingX + view.scalingY) / 2) * 4
+        const width = ((view.scalingX + view.scalingY) / 2) * 8
         let lineFill = Svg.addElement(arrowsGroup, "line")
         lineFill.setAttribute('x1', x1.toString())
         lineFill.setAttribute('x2', x2.toString())
