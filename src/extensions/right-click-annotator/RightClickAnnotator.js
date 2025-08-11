@@ -105,6 +105,7 @@ export class RightClickAnnotator extends Extension {
             if (existing && existing.length > 0) {
                 this.chessboard.removeArrows(arrowType, start.square, endSquare)
             } else {
+                this.chessboard.removeArrows(undefined, start.square, endSquare)
                 this.chessboard.addArrow(arrowType, start.square, endSquare)
             }
         } else if (start.square) {
