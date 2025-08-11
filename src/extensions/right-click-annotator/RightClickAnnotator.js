@@ -11,6 +11,7 @@
 import {Extension, EXTENSION_POINT} from "../../model/Extension.js"
 import {Arrows, ARROW_TYPE} from "../arrows/Arrows.js"
 import {Markers, MARKER_TYPE} from "../markers/Markers.js"
+import {Svg} from "../../lib/Svg.js"
 
 // Define persistent type objects for matching (strict equality used in core extensions)
 const ARROW_GREEN = {class: "arrow-green", slice: "arrowDefault", headSize: 7}
@@ -34,19 +35,33 @@ export class RightClickAnnotator extends Extension {
 
         this.onContextMenu = this.onContextMenu.bind(this)
         this.onMouseDown = this.onMouseDown.bind(this)
+        this.onMouseMove = this.onMouseMove.bind(this)
         this.onMouseUp = this.onMouseUp.bind(this)
 
         this.dragStart = undefined // {square, modifiers}
+        this.previewGroup = undefined
+        this.previewActiveTo = undefined // cache last to-square for preview
 
         this.chessboard.context.addEventListener("contextmenu", this.onContextMenu)
         this.chessboard.context.addEventListener("mousedown", this.onMouseDown)
+        this.chessboard.context.addEventListener("mousemove", this.onMouseMove)
         this.chessboard.context.addEventListener("mouseup", this.onMouseUp)
+        this.chessboard.context.addEventListener("mouseleave", this.onMouseUp)
+
+        // ensure preview group exists after redraws
+        this.registerExtensionPoint(EXTENSION_POINT.afterRedrawBoard, () => {
+            this.ensurePreviewGroup()
+        })
 
         this.registerExtensionPoint(EXTENSION_POINT.destroy, () => {
             this.chessboard.context.removeEventListener("contextmenu", this.onContextMenu)
             this.chessboard.context.removeEventListener("mousedown", this.onMouseDown)
+            this.chessboard.context.removeEventListener("mousemove", this.onMouseMove)
             this.chessboard.context.removeEventListener("mouseup", this.onMouseUp)
+            this.chessboard.context.removeEventListener("mouseleave", this.onMouseUp)
         })
+        // create preview group now
+        this.ensurePreviewGroup()
     }
 
     onContextMenu(event) {
@@ -73,12 +88,11 @@ export class RightClickAnnotator extends Extension {
     }
 
     onMouseUp(event) {
-        if (event.button !== 2) {
-            return
-        }
+        // clear preview regardless of button, but only act on right-button release
         const start = this.dragStart
         this.dragStart = undefined
-        if (!start) {
+        this.clearPreview()
+        if (!start || event.button !== 2) {
             return
         }
         const endSquare = this.findSquareFromEvent(event) || start.square
@@ -112,6 +126,83 @@ export class RightClickAnnotator extends Extension {
         }
         const el = target.closest && target.closest("[data-square]")
         return el ? el.getAttribute("data-square") : undefined
+    }
+
+    ensurePreviewGroup() {
+        // create or reset preview group used for transient arrow drawing
+        if (!this.chessboard?.view?.markersTopLayer) {
+            return
+        }
+        if (this.previewGroup && this.previewGroup.parentNode) {
+            // keep and clear existing
+            this.clearPreview()
+            return
+        }
+        this.previewGroup = Svg.addElement(this.chessboard.view.markersTopLayer, "g", {class: "right-click-annotator-preview"})
+    }
+
+    clearPreview() {
+        if (!this.previewGroup) return
+        while (this.previewGroup.firstChild) {
+            this.previewGroup.removeChild(this.previewGroup.firstChild)
+        }
+        this.previewActiveTo = undefined
+    }
+
+    onMouseMove(event) {
+        if (!this.dragStart) {
+            return
+        }
+        // Only show preview for right-button drag if still pressed (best-effort); some browsers may not keep buttons state reliably
+        // We rely mainly on our dragStart flag and clear on mouseup/mouseleave
+        const toSquare = this.findSquareFromEvent(event)
+        if (!toSquare || toSquare === this.dragStart.square) {
+            this.clearPreview()
+            return
+        }
+        if (this.previewActiveTo === toSquare) {
+            return // no change
+        }
+        this.previewActiveTo = toSquare
+        const colorKey = this.modifiersToColorKey(this.dragStart.modifiers)
+        const {arrowType} = this.typesForColorKey(colorKey)
+        this.drawPreviewArrow(this.dragStart.square, toSquare, arrowType)
+    }
+
+    drawPreviewArrow(from, to, type) {
+        this.ensurePreviewGroup()
+        this.clearPreview()
+        const view = this.chessboard.view
+        const arrowsGroup = Svg.addElement(this.previewGroup, "g", {class: "arrow " + type.class})
+        const ptFrom = view.squareToPoint(from)
+        const ptTo = view.squareToPoint(to)
+        const defs = Svg.addElement(arrowsGroup, "defs")
+        const id = "arrow-preview-" + from + to
+        const marker = Svg.addElement(defs, "marker", {
+            id: id,
+            markerWidth: type.headSize,
+            markerHeight: type.headSize,
+            refX: 20,
+            refY: 20,
+            viewBox: "0 0 40 40",
+            orient: "auto",
+            class: "arrow-head",
+        })
+        const spriteUrl = this.chessboard.props.assetsCache ? "" : this.chessboard.getExtension(Arrows)?.getSpriteUrl?.() || this.chessboard.props.assetsUrl + "extensions/arrows/arrows.svg"
+        Svg.addElement(marker, "use", {href: `${spriteUrl}#${type.slice}`})
+        const x1 = ptFrom.x + view.squareWidth / 2
+        const x2 = ptTo.x + view.squareHeight / 2
+        const y1 = ptFrom.y + view.squareWidth / 2
+        const y2 = ptTo.y + view.squareHeight / 2
+        const width = ((view.scalingX + view.scalingY) / 2) * 4
+        let lineFill = Svg.addElement(arrowsGroup, "line")
+        lineFill.setAttribute('x1', x1.toString())
+        lineFill.setAttribute('x2', x2.toString())
+        lineFill.setAttribute('y1', y1.toString())
+        lineFill.setAttribute('y2', y2.toString())
+        lineFill.setAttribute('class', 'arrow-line')
+        lineFill.setAttribute("marker-end", "url(#" + id + ")")
+        lineFill.setAttribute('stroke-width', width + "px")
     }
 
     modifiersToColorKey(modifiers) {
