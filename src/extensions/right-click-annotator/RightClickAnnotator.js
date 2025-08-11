@@ -113,6 +113,7 @@ export class RightClickAnnotator extends Extension {
             if (existingMarkers && existingMarkers.length > 0) {
                 this.chessboard.removeMarkers(circleType, start.square)
             } else {
+                this.chessboard.removeMarkers(undefined, start.square)
                 this.chessboard.addMarker(circleType, start.square)
             }
         }
