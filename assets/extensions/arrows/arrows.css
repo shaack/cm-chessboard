@@ -28,4 +28,22 @@
   stroke-linecap: round;
   opacity: 0.5; }
 
+/* custom colors for RightClickAnnotator */
+.cm-chessboard .arrow-green .arrow-head {
+  fill: #2e7d32; /* green */
+  fill-rule: nonzero;
+  fill-opacity: 1; }
+.cm-chessboard .arrow-green .arrow-line {
+  stroke: #2e7d32;
+  stroke-linecap: round;
+  opacity: 0.5; }
+.cm-chessboard .arrow-orange .arrow-head {
+  fill: #ff9800; /* orange */
+  fill-rule: nonzero;
+  fill-opacity: 1; }
+.cm-chessboard .arrow-orange .arrow-line {
+  stroke: #ff9800;
+  stroke-linecap: round;
+  opacity: 0.5; }
+
 /*# sourceMappingURL=arrows.css.map */

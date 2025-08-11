@@ -34,4 +34,14 @@
     fill: black;
     opacity: 0.2; }
 
-/*# sourceMappingURL=markers.css.map */
+  /* custom colors for RightClickAnnotator */
+  .cm-chessboard .markers .marker.marker-circle-green {
+    stroke: #2e7d32; /* green */
+    stroke-width: 3px;
+    opacity: 0.4; }
+  .cm-chessboard .markers .marker.marker-circle-orange {
+    stroke: #ff9800; /* orange */
+    stroke-width: 3px;
+    opacity: 0.4; }
+
+  /*# sourceMappingURL=markers.css.map */
