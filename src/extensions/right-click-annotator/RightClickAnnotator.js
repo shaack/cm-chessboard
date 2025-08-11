@@ -192,10 +192,31 @@ export class RightClickAnnotator extends Extension {
         })
         const spriteUrl = this.chessboard.props.assetsCache ? "" : this.chessboard.getExtension(Arrows)?.getSpriteUrl?.() || this.chessboard.props.assetsUrl + "extensions/arrows/arrows.svg"
         Svg.addElement(marker, "use", {href: `${spriteUrl}#${type.slice}`})
-        const x1 = ptFrom.x + view.squareWidth / 2
-        const x2 = ptTo.x + view.squareHeight / 2
-        const y1 = ptFrom.y + view.squareWidth / 2
-        const y2 = ptTo.y + view.squareHeight / 2
+        // Compute centers of start and end squares
+        const cx1 = ptFrom.x + view.squareWidth / 2
+        const cy1 = ptFrom.y + view.squareHeight / 2
+        const cx2 = ptTo.x + view.squareWidth / 2
+        const cy2 = ptTo.y + view.squareHeight / 2
+
+        // Offset the line so it starts/ends at the edge of an invisible circle inside each square
+        const dx = cx2 - cx1
+        const dy = cy2 - cy1
+        const len = Math.hypot(dx, dy) || 1
+        const ux = dx / len
+        const uy = dy / len
+        // get offsets from Arrows extension props to match final arrow rendering
+        const arrowsExt = this.chessboard.getExtension(Arrows)
+        const offsetFrom = arrowsExt?.props?.offsetFrom ?? 0.72
+        const offsetTo = arrowsExt?.props?.offsetTo ?? 0.72
+        const halfMin = Math.min(view.squareWidth, view.squareHeight) / 2
+        const clamp01 = (v) => Math.max(0, Math.min(1, v))
+        const rFrom = halfMin * clamp01(offsetFrom)
+        const rTo = halfMin * clamp01(offsetTo)
+        const x1 = cx1 + ux * rFrom
+        const y1 = cy1 + uy * rFrom
+        const x2 = cx2 - ux * rTo
+        const y2 = cy2 - uy * rTo
+
         const width = ((view.scalingX + view.scalingY) / 2) * 4
         let lineFill = Svg.addElement(arrowsGroup, "line")
         lineFill.setAttribute('x1', x1.toString())

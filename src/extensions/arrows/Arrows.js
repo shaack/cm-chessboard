@@ -23,7 +23,13 @@ export class Arrows extends Extension {
             this.onRedrawBoard()
         })
         this.props = {
-            sprite: "extensions/arrows/arrows.svg"
+            sprite: "extensions/arrows/arrows.svg",
+            // offset factors relative to half the square size (0.0 .. 1.0)
+            // 0.0 = start/end in the center; 1.0 = at the outer edge of the inscribed circle (half the square)
+            // default chosen to preserve previous appearance where radius = 0.36 * min(squareWidth, squareHeight)
+            // which corresponds to 0.72 of half the square size (0.36 / 0.5 = 0.72)
+            offsetFrom: 0,
+            offsetTo: 0.72
         }
         Object.assign(this.props, props)
         if (this.chessboard.props.assetsCache) {
@@ -70,10 +76,27 @@ export class Arrows extends Extension {
             href: `${spriteUrl}#${arrow.type.slice}`,
         })
 
-        const x1 = ptFrom.x + view.squareWidth / 2
-        const x2 = ptTo.x + view.squareHeight / 2
-        const y1 = ptFrom.y + view.squareWidth / 2
-        const y2 = ptTo.y + view.squareHeight / 2
+        // Compute centers of start and end squares
+        const cx1 = ptFrom.x + view.squareWidth / 2
+        const cy1 = ptFrom.y + view.squareHeight / 2
+        const cx2 = ptTo.x + view.squareWidth / 2
+        const cy2 = ptTo.y + view.squareHeight / 2
+
+        // Offset the line so it starts/ends at the edge of an invisible circle inside each square
+        const dx = cx2 - cx1
+        const dy = cy2 - cy1
+        const len = Math.hypot(dx, dy) || 1
+        const ux = dx / len
+        const uy = dy / len
+        // compute radii from props: factor relative to half of the square size
+        const halfMin = Math.min(view.squareWidth, view.squareHeight) / 2
+        const clamp01 = (v) => Math.max(0, Math.min(1, v))
+        const rFrom = halfMin * clamp01(this.props.offsetFrom)
+        const rTo = halfMin * clamp01(this.props.offsetTo)
+        const x1 = cx1 + ux * rFrom
+        const y1 = cy1 + uy * rFrom
+        const x2 = cx2 - ux * rTo
+        const y2 = cy2 - uy * rTo
 
         const width = ((view.scalingX + view.scalingY) / 2) * 4
         let lineFill = Svg.addElement(arrowsGroup, "line")
