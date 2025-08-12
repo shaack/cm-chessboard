@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="styles/examples.css"/>
     <link rel="stylesheet" href="../assets/chessboard.css"/>
     <link rel="stylesheet" href="../assets/extensions/markers/markers.css"/>
+    <link rel="stylesheet" href="../assets/extensions/arrows/arrows.css"/>
     <link rel="stylesheet" href="../assets/extensions/promotion-dialog/promotion-dialog.css"/>
 </head>
 <body>
@@ -22,6 +23,7 @@
     import {PROMOTION_DIALOG_RESULT_TYPE, PromotionDialog} from "../src/extensions/promotion-dialog/PromotionDialog.js"
     import {Accessibility} from "../src/extensions/accessibility/Accessibility.js"
     import {Chess} from "https://cdn.jsdelivr.net/npm/chess.mjs@1/src/chess.mjs/Chess.js"
+    import {RightClickAnnotator} from "../src/extensions/right-click-annotator/RightClickAnnotator.js";
 
     const chess = new Chess()
 
@@ -101,6 +103,7 @@
         orientation: COLOR.white,
         extensions: [
             {class: Markers, props: {autoMarkers: MARKER_TYPE.square}},
+            {class: RightClickAnnotator},
             {class: PromotionDialog},
             {class: Accessibility, props: {visuallyHidden: true}}
         ]

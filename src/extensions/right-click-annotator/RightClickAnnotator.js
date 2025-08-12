@@ -64,7 +64,6 @@ export class RightClickAnnotator extends Extension {
     }
 
     onContextMenu(event) {
-        // prevent default context menu on chessboard
         event.preventDefault()
     }
 
