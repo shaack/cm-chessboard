@@ -5,6 +5,7 @@
  */
 
 import {Extension, EXTENSION_POINT} from "../../model/Extension.js"
+import {Svg} from "../../lib/Svg.js"
 import {Utils} from "../../lib/Utils.js"
 
 export const ARROW_TYPE = {

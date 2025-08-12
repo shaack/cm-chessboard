@@ -15,6 +15,7 @@ export const MARKER_TYPE = {
     circle: {class: "marker-circle", slice: "markerCircle"},
     circlePrimary: {class: "marker-circle-primary", slice: "markerCircle"},
     circleDanger: {class: "marker-circle-danger", slice: "markerCircle"},
+    circleDangerFilled: {class: "marker-circle-danger-filled", slice: "markerCircleFilled"},
     square: {class: "marker-square", slice: "markerSquare"},
     dot: {class: "marker-dot", slice: "markerDot", position: 'above'},
     bevel: {class: "marker-bevel", slice: "markerBevel"}

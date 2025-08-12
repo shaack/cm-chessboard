@@ -1,47 +1,91 @@
 .cm-chessboard .markers {
-  pointer-events: none; }
-  .cm-chessboard .markers .marker.marker-frame {
-    stroke: #000000;
-    stroke-width: 1.8px;
-    opacity: 0.5; }
-  .cm-chessboard .markers .marker.marker-frame-primary {
-    stroke: #0009bd;
-    stroke-width: 1.8px;
-    opacity: 0.4; }
-  .cm-chessboard .markers .marker.marker-frame-danger {
-    stroke: #aa0000;
-    stroke-width: 1.8px;
-    opacity: 0.4; }
-  .cm-chessboard .markers .marker.marker-circle {
-    stroke: #000000;
-    stroke-width: 3px;
-    opacity: 0.3; }
-  .cm-chessboard .markers .marker.marker-circle-primary {
-    stroke: #0009bd;
-    stroke-width: 3px;
-    opacity: 0.4; }
-  .cm-chessboard .markers .marker.marker-circle-danger {
-    stroke: #aa0000;
-    stroke-width: 3px;
-    opacity: 0.4; }
-  .cm-chessboard .markers .marker.marker-square {
-    fill: black;
-    opacity: 0.11; }
-  .cm-chessboard .markers .marker.marker-dot {
-    fill: black;
-    opacity: 0.2; }
-  .cm-chessboard .markers .marker.marker-bevel {
-    fill: black;
-    opacity: 0.2; }
+  pointer-events: none;
+}
+.cm-chessboard .markers .marker.marker-frame {
+  stroke: black;
+  stroke-width: 1.8px;
+  opacity: 0.5;
+}
+.cm-chessboard .markers .marker.marker-frame-primary, .cm-chessboard .markers .marker.marker-frame-info {
+  stroke: blue;
+  stroke-width: 1.8px;
+  opacity: 0.4;
+}
+.cm-chessboard .markers .marker.marker-frame-danger {
+  stroke: red;
+  stroke-width: 1.8px;
+  opacity: 0.4;
+}
+.cm-chessboard .markers .marker.marker-frame-warning {
+  stroke: orange;
+  stroke-width: 1.8px;
+  opacity: 0.4;
+}
+.cm-chessboard .markers .marker.marker-circle {
+  stroke: black;
+  stroke-width: 3px;
+  opacity: 0.3;
+}
+.cm-chessboard .markers .marker.marker-circle-primary {
+  stroke: blue;
+  stroke-width: 3px;
+  opacity: 0.4;
+}
+.cm-chessboard .markers .marker.marker-circle-info {
+  stroke: blue;
+  stroke-width: 3px;
+  opacity: 0.4;
+}
+.cm-chessboard .markers .marker.marker-circle-info-filled {
+  stroke: blue;
+  fill: blue;
+  stroke-width: 3px;
+  opacity: 0.4;
+}
+.cm-chessboard .markers .marker.marker-circle-danger {
+  stroke: red;
+  stroke-width: 3px;
+  opacity: 0.4;
+}
+.cm-chessboard .markers .marker.marker-circle-danger-filled {
+  stroke: red;
+  fill: red;
+  stroke-width: 3px;
+  opacity: 0.4;
+}
+.cm-chessboard .markers .marker.marker-circle-warning {
+  stroke: orange;
+  stroke-width: 3px;
+  opacity: 0.4;
+}
+.cm-chessboard .markers .marker.marker-circle-warning-filled {
+  stroke: orange;
+  fill: orange;
+  stroke-width: 3px;
+  opacity: 0.4;
+}
+.cm-chessboard .markers .marker.marker-circle-success {
+  stroke: green;
+  stroke-width: 3px;
+  opacity: 0.4;
+}
+.cm-chessboard .markers .marker.marker-circle-success-filled {
+  stroke: green;
+  fill: green;
+  stroke-width: 3px;
+  opacity: 0.4;
+}
+.cm-chessboard .markers .marker.marker-square {
+  fill: black;
+  opacity: 0.11;
+}
+.cm-chessboard .markers .marker.marker-dot {
+  fill: black;
+  opacity: 0.2;
+}
+.cm-chessboard .markers .marker.marker-bevel {
+  fill: black;
+  opacity: 0.2;
+}
 
-  /* custom colors for RightClickAnnotator */
-  .cm-chessboard .markers .marker.marker-circle-green {
-    stroke: #2e7d32; /* green */
-    stroke-width: 3px;
-    opacity: 0.4; }
-  .cm-chessboard .markers .marker.marker-circle-orange {
-    stroke: #ff9800; /* orange */
-    stroke-width: 3px;
-    opacity: 0.4; }
-
-  /*# sourceMappingURL=markers.css.map */
+/*# sourceMappingURL=markers.css.map */
