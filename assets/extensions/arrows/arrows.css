@@ -1,49 +1,47 @@
-.cm-chessboard .arrow-default .arrow-head {
-  fill: blue;
+.cm-chessboard .arrow-warning .arrow-head {
+  fill: orange;
   fill-rule: nonzero;
-  fill-opacity: 1; }
-
-.cm-chessboard .arrow-default .arrow-line {
-  stroke: blue;
+}
+.cm-chessboard .arrow-warning .arrow-line {
+  stroke: orange;
   stroke-linecap: round;
-  opacity: 0.5; }
-
+  opacity: 0.6;
+}
 .cm-chessboard .arrow-danger .arrow-head {
   fill: red;
   fill-rule: nonzero;
-  fill-opacity: 1; }
-
+}
 .cm-chessboard .arrow-danger .arrow-line {
   stroke: red;
   stroke-linecap: round;
-  opacity: 0.5; }
-
-.cm-chessboard .arrow-pointy .arrow-head {
+  opacity: 0.5;
+}
+.cm-chessboard .arrow-success .arrow-head {
+  fill: green;
+  fill-rule: nonzero;
+}
+.cm-chessboard .arrow-success .arrow-line {
+  stroke: green;
+  stroke-linecap: round;
+  opacity: 0.5;
+}
+.cm-chessboard .arrow-info .arrow-head {
+  fill: blue;
+  fill-rule: nonzero;
+}
+.cm-chessboard .arrow-info .arrow-line {
+  stroke: blue;
+  stroke-linecap: butt;
+  opacity: 0.4;
+}
+.cm-chessboard .arrow-neutral .arrow-head {
   fill: black;
   fill-rule: nonzero;
-  fill-opacity: 1; }
-
-.cm-chessboard .arrow-pointy .arrow-line {
+}
+.cm-chessboard .arrow-neutral .arrow-line {
   stroke: black;
   stroke-linecap: round;
-  opacity: 0.5; }
-
-/* custom colors for RightClickAnnotator */
-.cm-chessboard .arrow-green .arrow-head {
-  fill: #2e7d32; /* green */
-  fill-rule: nonzero;
-  fill-opacity: 1; }
-.cm-chessboard .arrow-green .arrow-line {
-  stroke: #2e7d32;
-  stroke-linecap: round;
-  opacity: 0.5; }
-.cm-chessboard .arrow-orange .arrow-head {
-  fill: #ff9800; /* orange */
-  fill-rule: nonzero;
-  fill-opacity: 1; }
-.cm-chessboard .arrow-orange .arrow-line {
-  stroke: #ff9800;
-  stroke-linecap: round;
-  opacity: 0.5; }
+  opacity: 0.5;
+}
 
 /*# sourceMappingURL=arrows.css.map */

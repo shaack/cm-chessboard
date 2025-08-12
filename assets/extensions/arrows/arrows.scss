@@ -1,21 +1,19 @@
 .cm-chessboard {
-  .arrow-default {
+  .arrow-warning {
     .arrow-head {
-      fill: blue;
+      fill: orange;
       fill-rule: nonzero;
-      fill-opacity: 1;
     }
     .arrow-line {
-      stroke: blue;
+      stroke: orange;
       stroke-linecap: round;
-      opacity: 0.5;
+      opacity: 0.6;
     }
   }
   .arrow-danger {
     .arrow-head {
       fill: red;
       fill-rule: nonzero;
-      fill-opacity: 1;
     }
     .arrow-line {
       stroke: red;
@@ -23,11 +21,32 @@
       opacity: 0.5;
     }
   }
-  .arrow-pointy {
+  .arrow-success {
+    .arrow-head {
+      fill: green;
+      fill-rule: nonzero;
+    }
+    .arrow-line {
+      stroke: green;
+      stroke-linecap: round;
+      opacity: 0.5;
+    }
+  }
+  .arrow-info {
+    .arrow-head {
+      fill: blue;
+      fill-rule: nonzero;
+    }
+    .arrow-line {
+      stroke: blue;
+      stroke-linecap: butt;
+      opacity: 0.4;
+    }
+  }
+  .arrow-neutral {
     .arrow-head {
       fill: black;
       fill-rule: nonzero;
-      fill-opacity: 1;
     }
     .arrow-line {
       stroke: black;

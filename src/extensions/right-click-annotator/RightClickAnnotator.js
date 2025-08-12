@@ -14,16 +14,11 @@ import {Markers, MARKER_TYPE} from "../markers/Markers.js"
 import {Svg} from "../../lib/Svg.js"
 
 export const ARROW_TYPE = {
-    default: {class: "arrow-default", slice: "arrowDefault", headSize: 7},
-    danger: {class: "arrow-danger", slice: "arrowDefault", headSize: 7}
+    warning: { class: "arrow-warning", slice: "arrowDefault", headSize: 7}
 }
+export const MARKER_TYPE = {
 
-// Define persistent type objects for matching (strict equality used in core extensions)
-const ARROW_GREEN = {class: "arrow-green", slice: "arrowDefault", headSize: 7}
-const ARROW_ORANGE = {class: "arrow-orange", slice: "arrowDefault", headSize: 7}
-
-const CIRCLE_GREEN = {class: "marker-circle-green", slice: "markerCircle"}
-const CIRCLE_ORANGE = {class: "marker-circle-orange", slice: "markerCircle"}
+}
 
 export class RightClickAnnotator extends Extension {
     constructor(chessboard, props = {}) {
@@ -237,7 +232,7 @@ export class RightClickAnnotator extends Extension {
         if (modifiers.shift && modifiers.alt) return "orange"
         if (modifiers.shift) return "red"
         if (modifiers.alt) return "blue"
-        return "green"
+        return "orange"
     }
 
     typesForColorKey(colorKey) {

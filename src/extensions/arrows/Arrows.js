@@ -5,13 +5,14 @@
  */
 
 import {Extension, EXTENSION_POINT} from "../../model/Extension.js"
-import {Svg} from "../../lib/Svg.js"
 import {Utils} from "../../lib/Utils.js"
 
 export const ARROW_TYPE = {
-    default: {class: "arrow-default", slice: "arrowDefault", headSize: 7},
-    danger: {class: "arrow-danger", slice: "arrowDefault", headSize: 7},
-    pointy: {class: "arrow-pointy", slice: "arrowPointy", headSize: 7},
+    default: {class: "arrow-success"},
+    success: {class: "arrow-success"},
+    warning: {class: "arrow-warning"},
+    info: {class: "arrow-info"},
+    danger: {class: "arrow-danger"}
 }
 
 export class Arrows extends Extension {
@@ -24,10 +25,8 @@ export class Arrows extends Extension {
         })
         this.props = {
             sprite: "extensions/arrows/arrows.svg",
-            // offset factors relative to half the square size (0.0 .. 1.0)
-            // 0.0 = start/end in the center; 1.0 = at the outer edge of the inscribed circle (half the square)
-            // default chosen to preserve previous appearance where radius = 0.36 * min(squareWidth, squareHeight)
-            // which corresponds to 0.72 of half the square size (0.36 / 0.5 = 0.72)
+            slice: "arrowDefault",
+            headSize: 7,
             offsetFrom: 0,
             offsetTo: 0.55
         }
@@ -63,8 +62,8 @@ export class Arrows extends Extension {
         const id = "arrow-" + arrow.from + arrow.to
         const marker = Svg.addElement(defs, "marker", {
             id: id,
-            markerWidth: arrow.type.headSize,
-            markerHeight: arrow.type.headSize,
+            markerWidth: this.props.headSize,
+            markerHeight: this.props.headSize,
             refX: 20,
             refY: 20,
             viewBox: "0 0 40 40",
@@ -73,7 +72,7 @@ export class Arrows extends Extension {
         })
 
         Svg.addElement(marker, "use", {
-            href: `${spriteUrl}#${arrow.type.slice}`,
+            href: `${spriteUrl}#${this.props.slice}`,
         })
 
         // Compute centers of start and end squares
