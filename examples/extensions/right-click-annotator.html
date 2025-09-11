@@ -14,6 +14,7 @@
 <h2>Example: RightClickAnnotator extension</h2>
 <p>Right-click to toggle green markers. Right-click + drag to draw green arrows. Use Alt for blue, Shift for red, Shift+Alt for orange.</p>
 <div class="board" id="board"></div>
+<button id="removeAllButton">Remove all annotations</button>
 <script type="module">
     import {Chessboard} from "../../src/Chessboard.js"
     import {FEN} from "../../src/model/Position.js"
@@ -23,6 +24,11 @@
         position: FEN.start,
         assetsUrl: "../../assets/",
         extensions: [{class: RightClickAnnotator}]
+    })
+
+    document.getElementById("removeAllButton").addEventListener("click", (event) => {
+        board.removeArrows()
+        board.removeMarkers()
     })
 </script>
 </body>

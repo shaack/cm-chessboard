@@ -28,6 +28,8 @@ export const MARKER_TYPE = {
 }
 
 export class RightClickAnnotator extends Extension {
+
+    /** @constructor */
     constructor(chessboard, props = {}) {
         super(chessboard)
         this.props = props || {}
@@ -61,6 +63,32 @@ export class RightClickAnnotator extends Extension {
             this.chessboard.context.removeEventListener("mouseup", this.onMouseUp)
             this.chessboard.context.removeEventListener("mouseleave", this.onMouseUp)
         })
+
+        // register public API
+        this.chessboard.getAnnotations = this.chessboard.getArrows.bind(this.chessboard)
+        this.chessboard.setAnnotations = this.chessboard.setAnnotations.bind(this.chessboard)
+    }
+
+    getAnnotations() {
+        return {
+            arrows: this.chessboard.getArrows(),
+            markers: this.chessboard.getMarkers()
+        }
+    }
+
+    setAnnotations(annotations) {
+        this.chessboard.removeArrows()
+        this.chessboard.removeMarkers()
+        if (annotations.arrows) {
+            for (const arrow of annotations.arrows) {
+                this.chessboard.addArrow(arrow.type, arrow.from, arrow.to)
+            }
+        }
+        if (annotations.markers) {
+            for (const marker of annotations.markers) {
+                this.chessboard.addMarker(marker.type, marker.square)
+            }
+        }
     }
 
     onContextMenu(event) {
