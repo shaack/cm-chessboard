@@ -20,7 +20,7 @@ functionality](https://shaack.com/projekte/cm-chessboard/examples/extensions/arr
 
 The core of cm-chessboard is small, fast and reduced to the essentials. You can easily extend its functionality with extensions.
 
-- [RightClickAnnotator](https://shaack.com/projekte/cm-chessboard/examples/extensions/right-click-annotator.html) ⇨ Uses [Markers Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/markers-extension.html) and [Arrows Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/arrows-extension.html) and adds the handling mouse events to draw them on the board.
+- [RightClickAnnotator](https://shaack.com/projekte/cm-chessboard/examples/extensions/right-click-annotator.html) ⇨ Uses [Markers Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/markers-extension.html) and [Arrows Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/arrows-extension.html). Adds the handling of mouse events to draw them on the board.
   - [Markers Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/markers-extension.html) ⇨ create markers on specific squares
   - [Arrows Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/arrows-extension.html) ⇨ renders arrows on the chessboard
 - [Accessibility Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/accessibility-extension.html) ⇨ makes the chessboard more accessible
