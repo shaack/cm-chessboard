@@ -65,8 +65,8 @@ export class RightClickAnnotator extends Extension {
         })
 
         // register public API
-        this.chessboard.getAnnotations = this.chessboard.getArrows.bind(this.chessboard)
-        this.chessboard.setAnnotations = this.chessboard.setAnnotations.bind(this.chessboard)
+        this.chessboard.getAnnotations = this.getAnnotations.bind(this.chessboard)
+        this.chessboard.setAnnotations = this.setAnnotations.bind(this.chessboard)
     }
 
     getAnnotations() {
