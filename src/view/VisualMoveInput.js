@@ -286,16 +286,20 @@ export class VisualMoveInput {
                     const startPieceName = this.chessboard.getPiece(this.fromSquare)
                     const startPieceColor = startPieceName ? startPieceName.substring(0, 1) : null
                     if (color && startPieceColor === pieceColor) {
-                        this.moveInputCanceledCallback(this.fromSquare, square, MOVE_CANCELED_REASON.clickedAnotherPiece)
-                        if (this.moveInputStartedCallback(square)) {
-                            this.setMoveInputState(MOVE_INPUT_STATE.pieceClickedThreshold, {
-                                square: square,
-                                piece: pieceName,
-                                point: point,
-                                type: e.type
-                            })
-                        } else {
-                            this.setMoveInputState(MOVE_INPUT_STATE.reset)
+                        // added to allow chess960 castling
+                        const result = this.validateMoveInputCallback(this.fromSquare, square)
+                        if(!result) {
+                            this.moveInputCanceledCallback(this.fromSquare, square, MOVE_CANCELED_REASON.clickedAnotherPiece)
+                            if (this.moveInputStartedCallback(square)) {
+                                this.setMoveInputState(MOVE_INPUT_STATE.pieceClickedThreshold, {
+                                    square: square,
+                                    piece: pieceName,
+                                    point: point,
+                                    type: e.type
+                                })
+                            } else {
+                                this.setMoveInputState(MOVE_INPUT_STATE.reset)
+                            }
                         }
                     } else {
                         this.setMoveInputState(MOVE_INPUT_STATE.moveDone, {square: square})

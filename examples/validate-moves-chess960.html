@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>cm-chessboard</title>
+    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"/>
+    <link rel="stylesheet" href="styles/examples.css"/>
+    <link rel="stylesheet" href="../assets/chessboard.css"/>
+    <link rel="stylesheet" href="../assets/extensions/markers/markers.css"/>
+    <link rel="stylesheet" href="../assets/extensions/arrows/arrows.css"/>
+    <link rel="stylesheet" href="../assets/extensions/promotion-dialog/promotion-dialog.css"/>
+</head>
+<body>
+<h1><a href="../">cm-chessboard</a></h1>
+<h2>Example: Input enabled with move validation and promotion dialog</h2>
+<p>Input enabled for white. <a href="https://github.com/jhlywa/chess.js">chess.js</a> does the validation and answers
+    with random moves.</p>
+<div class="board board-large" id="board"></div>
+<div id="output"></div>
+
+<script type="module">
+    import {INPUT_EVENT_TYPE, COLOR, Chessboard, BORDER_TYPE} from "../src/Chessboard.js"
+    import {MARKER_TYPE, Markers} from "../src/extensions/markers/Markers.js"
+    import {PROMOTION_DIALOG_RESULT_TYPE, PromotionDialog} from "../src/extensions/promotion-dialog/PromotionDialog.js"
+    import {Accessibility} from "../src/extensions/accessibility/Accessibility.js"
+    import {Chess} from "https://cdn.jsdelivr.net/npm/chess.mjs@2/src/Chess.js"
+    import {RightClickAnnotator} from "../src/extensions/right-click-annotator/RightClickAnnotator.js"
+
+    const chess = new Chess("bnrqnkrb/pppppppp/8/8/8/8/PPPPPPPP/BNRQNKRB w KQkq - 0 1", {chess960: true})
+
+    let seed = 71
+
+    function random() {
+        const x = Math.sin(seed++) * 10000
+        return x - Math.floor(x)
+    }
+
+    function makeEngineMove(chessboard) {
+        const possibleMoves = chess.moves({verbose: true})
+        if (possibleMoves.length > 0) {
+            const randomIndex = Math.floor(random() * possibleMoves.length)
+            const randomMove = possibleMoves[randomIndex]
+            setTimeout(() => { // smoother with 500ms delay
+                chess.move({from: randomMove.from, to: randomMove.to})
+                chessboard.setPosition(chess.fen(), true)
+                chessboard.enableMoveInput(inputHandler, COLOR.white)
+            }, 500)
+        }
+    }
+
+    function inputHandler(event) {
+        console.log("inputHandler", event)
+        if (event.type === INPUT_EVENT_TYPE.movingOverSquare) {
+            return // ignore this event
+        }
+        if (event.type !== INPUT_EVENT_TYPE.moveInputFinished) {
+            event.chessboard.removeLegalMovesMarkers()
+        }
+        if (event.type === INPUT_EVENT_TYPE.moveInputStarted) {
+            // mark legal moves
+            const moves = chess.moves({square: event.squareFrom, verbose: true})
+            event.chessboard.addLegalMovesMarkers(moves)
+            return moves.length > 0
+        } else if (event.type === INPUT_EVENT_TYPE.validateMoveInput) {
+            const move = {from: event.squareFrom, to: event.squareTo, promotion: event.promotion}
+            const result = chess.move(move)
+            if (result) {
+                event.chessboard.state.moveInputProcess.then(() => { // wait for the move input process has finished
+                    event.chessboard.setPosition(chess.fen(), true).then(() => { // update position, maybe castled and wait for animation has finished
+                        makeEngineMove(event.chessboard)
+                    })
+                })
+            } else {
+                // promotion?
+                let possibleMoves = chess.moves({square: event.squareFrom, verbose: true})
+                for (const possibleMove of possibleMoves) {
+                    if (possibleMove.promotion && possibleMove.to === event.squareTo) {
+                        event.chessboard.showPromotionDialog(event.squareTo, COLOR.white, (result) => {
+                            console.log("promotion result", result)
+                            if (result.type === PROMOTION_DIALOG_RESULT_TYPE.pieceSelected) {
+                                chess.move({
+                                    from: event.squareFrom,
+                                    to: event.squareTo,
+                                    promotion: result.piece.charAt(1)
+                                })
+                                event.chessboard.setPosition(chess.fen(), true)
+                                makeEngineMove(event.chessboard)
+                            } else {
+                                // promotion canceled
+                                event.chessboard.enableMoveInput(inputHandler, COLOR.white)
+                                event.chessboard.setPosition(chess.fen(), true)
+                            }
+                        })
+                        return true
+                    }
+                }
+            }
+            return result
+        } else if (event.type === INPUT_EVENT_TYPE.moveInputFinished) {
+            if (event.legalMove) {
+                event.chessboard.disableMoveInput()
+            }
+        }
+    }
+
+    const board = new Chessboard(document.getElementById("board"), {
+        position: chess.fen(),
+        assetsUrl: "../assets/",
+        style: {borderType: BORDER_TYPE.none, pieces: {file: "pieces/staunty.svg"}, animationDuration: 300},
+        orientation: COLOR.white,
+        extensions: [
+            {class: Markers, props: {autoMarkers: MARKER_TYPE.square}},
+            {class: RightClickAnnotator},
+            {class: PromotionDialog},
+            {class: Accessibility, props: {visuallyHidden: true}}
+        ]
+    })
+    board.enableMoveInput(inputHandler, COLOR.white)
+</script>
+</body>
+</html>

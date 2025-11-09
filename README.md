@@ -15,10 +15,11 @@ in [chess-console](https://shaack.com/projekte/chess-console/examples/load-pgn.h
 - Uses SVG for rendering
 - [Allows adding extensions to extend the
 functionality](https://shaack.com/projekte/cm-chessboard/examples/extensions/arrows-extension.html)
+- [Supports chess960 (Freestyle) castling input](https://shaack.com/projekte/cm-chessboard/examples/validate-moves-chess960.html)
 
 ## Extensions
 
-The core of cm-chessboard is small, fast and reduced to the essentials. You can easily extend its functionality with extensions.
+The core of cm-chessboard is small, fast and reduced to the essentials. You can extend its functionality with extensions.
 
 - [RightClickAnnotator](https://shaack.com/projekte/cm-chessboard/examples/extensions/right-click-annotator.html) ⇨ Uses [Markers Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/markers-extension.html) and [Arrows Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/arrows-extension.html). Adds the handling of mouse events to draw them on the board.
   - [Markers Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/markers-extension.html) ⇨ create markers on specific squares
