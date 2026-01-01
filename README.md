@@ -373,6 +373,9 @@ const chessboard = new Chessboard(document.getElementById("board"), {
 })
 ```
 
+#### Keyboard Shortcut
+
+When `movePieceForm` is enabled, press **Shift+Option+E** (Mac) or **Shift+Alt+E** (Windows/Linux) to focus the "Move from" input field.
 
 ## Usage with JS Frameworks
 

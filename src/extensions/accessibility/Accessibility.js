@@ -142,6 +142,16 @@ class MovePieceForm {
         extension.registerExtensionPoint(EXTENSION_POINT.moveInputToggled, () => {
             this.redraw()
         })
+        this.keydownListener = (event) => {
+            if (event.shiftKey && event.altKey && event.code === 'KeyE') {
+                event.preventDefault()
+                this.inputFrom.focus()
+            }
+        }
+        document.addEventListener("keydown", this.keydownListener)
+        extension.registerExtensionPoint(EXTENSION_POINT.destroy, () => {
+            document.removeEventListener("keydown", this.keydownListener)
+        })
     }
 
     redraw() {
