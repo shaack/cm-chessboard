@@ -12,6 +12,12 @@ svg.cm-chessboard .promotion-dialog-group .promotion-dialog-button {
   svg.cm-chessboard .promotion-dialog-group .promotion-dialog-button:hover {
     fill: rgba(0, 0, 0, 0.2); }
 
+svg.cm-chessboard .promotion-dialog-group .promotion-dialog-button-group {
+  outline: none; }
+  svg.cm-chessboard .promotion-dialog-group .promotion-dialog-button-group:focus .promotion-dialog-button {
+    stroke: rgba(0, 0, 0, 0.3);
+    stroke-width: 2px; }
+
 svg.cm-chessboard .promotion-dialog-group .piece {
   pointer-events: none; }
 
