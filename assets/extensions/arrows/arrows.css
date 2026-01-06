@@ -34,13 +34,13 @@
   stroke-linecap: butt;
   opacity: 0.4;
 }
-.cm-chessboard .arrow-neutral .arrow-head {
-  fill: black;
+.cm-chessboard .arrow-secondary .arrow-head {
+  fill: #666;
   fill-rule: nonzero;
 }
-.cm-chessboard .arrow-neutral .arrow-line {
-  stroke: black;
-  stroke-linecap: round;
+.cm-chessboard .arrow-secondary .arrow-line {
+  stroke: #666;
+  stroke-linecap: butt;
   opacity: 0.5;
 }
 

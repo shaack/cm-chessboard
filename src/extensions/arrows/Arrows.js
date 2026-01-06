@@ -11,6 +11,7 @@ import {Utils} from "../../lib/Utils.js"
 export const ARROW_TYPE = {
     default: {class: "arrow-success"},
     success: {class: "arrow-success"},
+    secondary: {class: "arrow-secondary"},
     warning: {class: "arrow-warning"},
     info: {class: "arrow-info"},
     danger: {class: "arrow-danger"}

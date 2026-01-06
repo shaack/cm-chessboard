@@ -43,14 +43,14 @@
       opacity: 0.4;
     }
   }
-  .arrow-neutral {
+  .arrow-secondary {
     .arrow-head {
-      fill: black;
+      fill: #666;
       fill-rule: nonzero;
     }
     .arrow-line {
-      stroke: black;
-      stroke-linecap: round;
+      stroke: #666;
+      stroke-linecap: butt;
       opacity: 0.5;
     }
   }
