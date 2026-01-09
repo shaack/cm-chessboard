@@ -25,7 +25,7 @@
     import {Markers} from "../../src/extensions/markers/Markers.js"
     import {Accessibility} from "../../src/extensions/accessibility/Accessibility.js"
 
-    const position = "4k3/1P6/8/8/6r1/8/8/2R1K3 w - - 0 1"
+    const position = "4k3/1P6/8/8/6r1/8/61p/2R1K3 w - - 0 1"
     const chessboard = new Chessboard(document.getElementById("chessboard"), {
         position: position,
         assetsUrl: "../../assets/",
@@ -39,7 +39,7 @@
     })
     chessboard.enableMoveInput((event) => {
         if (event.type === INPUT_EVENT_TYPE.validateMoveInput) {
-            if (event.squareTo.charAt(1) === "8" && event.piece.charAt(1) === "p") {
+            if (event.squareTo.charAt(1) === "8" || event.squareTo.charAt(1) === "1" && event.piece.charAt(1) === "p") {
                 chessboard.showPromotionDialog(event.squareTo, COLOR.white, (result) => {
                     console.log("Promotion result", result)
                     if (result && result.piece) {

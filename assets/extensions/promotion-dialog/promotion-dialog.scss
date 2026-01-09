@@ -11,6 +11,13 @@ svg.cm-chessboard {
       stroke: rgba(0, 0, 0, 0.4);
     }
 
+    .promotion-dialog-button-group {
+      outline: none;
+      &:focus .promotion-dialog-button {
+        stroke: rgba(0, 0, 0, 0.3);
+        stroke-width: 1px; }
+    }
+
     .promotion-dialog-button {
       fill: transparent;
       cursor: pointer;
@@ -18,6 +25,9 @@ svg.cm-chessboard {
       &:hover {
         fill: rgba(0, 0, 0, 0.2)
       }
+
+      outline: none;
+
     }
 
     .piece {
@@ -25,6 +35,8 @@ svg.cm-chessboard {
     }
   }
 }
+
+
 
 @keyframes fade-in {
   0% {
