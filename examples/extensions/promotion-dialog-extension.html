@@ -23,12 +23,19 @@
     import {Chessboard, COLOR, INPUT_EVENT_TYPE} from "../../src/Chessboard.js"
     import {PromotionDialog} from "../../src/extensions/promotion-dialog/PromotionDialog.js"
     import {Markers} from "../../src/extensions/markers/Markers.js"
+    import {Accessibility} from "../../src/extensions/accessibility/Accessibility.js"
 
     const position = "4k3/1P6/8/8/6r1/8/8/2R1K3 w - - 0 1"
     const chessboard = new Chessboard(document.getElementById("chessboard"), {
         position: position,
         assetsUrl: "../../assets/",
-        extensions: [{class: PromotionDialog}, {class: Markers}]
+        extensions: [{class: PromotionDialog}, {class: Markers}, {class: Accessibility, props: {
+                brailleNotationInAlt: true, // show the braille notation of the game in the alt attribute of the SVG
+                boardAsTable: true, // display the board additionally as HTML table
+                movePieceForm: true, // display a form to move a piece (from, to, move)
+                piecesAsList: true, // display the pieces additionally as List
+                visuallyHidden: true // hide all those extra outputs visually but keep them accessible for screen readers and braille displays
+            }}]
     })
     chessboard.enableMoveInput((event) => {
         if (event.type === INPUT_EVENT_TYPE.validateMoveInput) {
