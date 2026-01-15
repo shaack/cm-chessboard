@@ -32,6 +32,12 @@
   white-space: nowrap;
   border: 0; }
 
+.cm-chessboard-accessibility button:disabled,
+.cm-chessboard-accessibility button:disabled:hover {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none; }
+
 .cm-chessboard.default .board .square.white {
   fill: #ecdab9; }
 
