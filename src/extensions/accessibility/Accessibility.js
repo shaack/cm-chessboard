@@ -459,11 +459,13 @@ class KeyboardMoveInput {
                 this.announce(this.t.move_canceled)
             } else {
                 // Try to make the move
+                const fromPiece = this.chessboard.getPiece(this.fromSquare)
                 const result = this.chessboard.state.moveInputCallback({
                     chessboard: this.chessboard,
                     type: INPUT_EVENT_TYPE.validateMoveInput,
                     squareFrom: this.fromSquare,
-                    squareTo: square
+                    squareTo: square,
+                    piece: fromPiece
                 })
                 if (result) {
                     const fromSquare = this.fromSquare
@@ -500,7 +502,7 @@ class KeyboardMoveInput {
     getCurrentSquare() {
         const file = String.fromCharCode(97 + this.focusedFile) // 'a' + file
         const rank = this.focusedRank + 1
-        return file + rank
+        return `${file}${rank}`
     }
 
     announceCurrentSquare() {
