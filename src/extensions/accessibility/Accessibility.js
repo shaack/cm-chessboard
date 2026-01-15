@@ -8,6 +8,8 @@ import {COLOR, INPUT_EVENT_TYPE} from "../../Chessboard.js"
 import {piecesTranslations, renderPieceTitle} from "./I18n.js"
 import {Utils} from "../../lib/Utils.js"
 
+import {Svg} from "../../lib/Svg.js"
+
 const translations = {
     de: {
         chessboard: "Schachbrett",
@@ -21,6 +23,10 @@ const translations = {
         input_black_enabled: "Eingabe Schwarz aktiviert",
         input_disabled: "Eingabe deaktiviert",
         pieces: "Figuren",
+        empty_square: "leer",
+        move_from: "Zug von",
+        move_to: "Zug nach",
+        move_canceled: "Zug abgebrochen"
     },
     en: {
         chessboard: "Chessboard",
@@ -33,7 +39,11 @@ const translations = {
         input_white_enabled: "Input white enabled",
         input_black_enabled: "Input black enabled",
         input_disabled: "Input disabled",
-        pieces: "Pieces"
+        pieces: "Pieces",
+        empty_square: "empty",
+        move_from: "Move from",
+        move_to: "Move to",
+        move_canceled: "Move canceled"
     }
 }
 
@@ -46,6 +56,7 @@ export class Accessibility extends Extension {
             movePieceForm: true, // display a form to move a piece (from, to, move)
             boardAsTable: true, // display the board additionally as HTML table
             piecesAsList: true, // display the pieces additionally as List
+            keyboardMoveInput: true, // enable keyboard navigation on the board with arrow keys
             visuallyHidden: true // hide all those extra outputs visually but keep them accessible for screen readers and braille displays
         }
         Object.assign(this.props, props)
@@ -75,6 +86,9 @@ export class Accessibility extends Extension {
         }
         if (this.props.brailleNotationInAlt) {
             this.components.push(new BrailleNotationInAlt(this))
+        }
+        if (this.props.keyboardMoveInput) {
+            this.components.push(new KeyboardMoveInput(this))
         }
     }
 }
@@ -246,5 +260,295 @@ class PiecesAsList {
         <ul aria-labelledby="white_${this.chessboard.id}" class="list-inline">${listW}</ul>
         <h4 id="black_${this.chessboard.id}">${this.extension.t.pieces} ${this.extension.tPieces.colors_long.b}</h4>
         <ul aria-labelledby="black_${this.chessboard.id}" class="list-inline">${listB}</ul>`
+    }
+}
+
+class KeyboardMoveInput {
+    constructor(extension) {
+        this.extension = extension
+        this.chessboard = extension.chessboard
+        this.t = extension.t
+        this.tPieces = extension.tPieces
+
+        // Current focus position (file 0-7, rank 0-7)
+        this.focusedFile = 0 // a-h
+        this.focusedRank = 0 // 1-8 (0 = rank 1)
+
+        // Move selection state
+        this.fromSquare = null
+
+        // Create focus indicator group in SVG
+        this.focusIndicatorGroup = Svg.addElement(
+            this.chessboard.view.markersTopLayer,
+            "g",
+            {class: "keyboard-focus-indicator"}
+        )
+
+        // Create live region for screen reader announcements
+        this.liveRegion = document.createElement("div")
+        this.liveRegion.setAttribute("aria-live", "polite")
+        this.liveRegion.setAttribute("aria-atomic", "true")
+        this.liveRegion.className = "cm-chessboard-keyboard-live-region visually-hidden"
+        this.liveRegion.style.cssText = "position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;"
+        this.chessboard.context.appendChild(this.liveRegion)
+
+        // Make SVG focusable
+        this.chessboard.view.svg.setAttribute("tabindex", "0")
+        this.chessboard.view.svg.setAttribute("role", "application")
+        this.chessboard.view.svg.setAttribute("aria-label", this.t.chessboard)
+
+        // Bind event handlers
+        this.handleKeyDown = this.handleKeyDown.bind(this)
+        this.handleFocus = this.handleFocus.bind(this)
+        this.handleBlur = this.handleBlur.bind(this)
+
+        this.chessboard.view.svg.addEventListener("keydown", this.handleKeyDown)
+        this.chessboard.view.svg.addEventListener("focus", this.handleFocus)
+        this.chessboard.view.svg.addEventListener("blur", this.handleBlur)
+
+        // Register extension points
+        extension.registerExtensionPoint(EXTENSION_POINT.afterRedrawBoard, () => {
+            this.redrawFocusIndicator()
+        })
+        extension.registerExtensionPoint(EXTENSION_POINT.destroy, () => {
+            this.destroy()
+        })
+        extension.registerExtensionPoint(EXTENSION_POINT.moveInputToggled, () => {
+            // Reset move selection when input is toggled
+            this.fromSquare = null
+            this.redrawFocusIndicator()
+        })
+    }
+
+    handleFocus() {
+        this.redrawFocusIndicator()
+        this.announceCurrentSquare()
+    }
+
+    handleBlur() {
+        this.clearFocusIndicator()
+    }
+
+    handleKeyDown(event) {
+        const orientation = this.chessboard.state.orientation
+
+        switch (event.key) {
+            case "ArrowRight":
+                event.preventDefault()
+                if (orientation === COLOR.white) {
+                    this.focusedFile = Math.min(7, this.focusedFile + 1)
+                } else {
+                    this.focusedFile = Math.max(0, this.focusedFile - 1)
+                }
+                this.redrawFocusIndicator()
+                this.announceCurrentSquare()
+                break
+
+            case "ArrowLeft":
+                event.preventDefault()
+                if (orientation === COLOR.white) {
+                    this.focusedFile = Math.max(0, this.focusedFile - 1)
+                } else {
+                    this.focusedFile = Math.min(7, this.focusedFile + 1)
+                }
+                this.redrawFocusIndicator()
+                this.announceCurrentSquare()
+                break
+
+            case "ArrowUp":
+                event.preventDefault()
+                if (orientation === COLOR.white) {
+                    this.focusedRank = Math.min(7, this.focusedRank + 1)
+                } else {
+                    this.focusedRank = Math.max(0, this.focusedRank - 1)
+                }
+                this.redrawFocusIndicator()
+                this.announceCurrentSquare()
+                break
+
+            case "ArrowDown":
+                event.preventDefault()
+                if (orientation === COLOR.white) {
+                    this.focusedRank = Math.max(0, this.focusedRank - 1)
+                } else {
+                    this.focusedRank = Math.min(7, this.focusedRank + 1)
+                }
+                this.redrawFocusIndicator()
+                this.announceCurrentSquare()
+                break
+
+            case "Enter":
+            case " ":
+                event.preventDefault()
+                this.selectSquare()
+                break
+
+            case "Escape":
+                event.preventDefault()
+                if (this.fromSquare) {
+                    this.fromSquare = null
+                    this.redrawFocusIndicator()
+                    this.announce(this.t.move_canceled)
+                }
+                break
+        }
+    }
+
+    selectSquare() {
+        if (!this.chessboard.state.inputWhiteEnabled && !this.chessboard.state.inputBlackEnabled) {
+            return // Input not enabled
+        }
+
+        const square = this.getCurrentSquare()
+        const piece = this.chessboard.getPiece(square)
+
+        if (!this.fromSquare) {
+            // Selecting "from" square
+            if (piece) {
+                const pieceColor = piece.charAt(0)
+                // Check if the piece color matches enabled input
+                if ((pieceColor === "w" && this.chessboard.state.inputWhiteEnabled) ||
+                    (pieceColor === "b" && this.chessboard.state.inputBlackEnabled)) {
+                    // Trigger moveInputStarted callback
+                    const startResult = this.chessboard.state.moveInputCallback({
+                        chessboard: this.chessboard,
+                        type: INPUT_EVENT_TYPE.moveInputStarted,
+                        square: square,
+                        squareFrom: square,
+                        piece: piece
+                    })
+                    if (startResult) {
+                        this.fromSquare = square
+                        this.redrawFocusIndicator()
+                        this.announce(this.t.move_from + " " + square)
+                    }
+                }
+            }
+        } else {
+            // Selecting "to" square
+            if (square === this.fromSquare) {
+                // Clicking same square cancels
+                this.fromSquare = null
+                this.redrawFocusIndicator()
+                this.announce(this.t.move_canceled)
+            } else {
+                // Try to make the move
+                const result = this.chessboard.state.moveInputCallback({
+                    chessboard: this.chessboard,
+                    type: INPUT_EVENT_TYPE.validateMoveInput,
+                    squareFrom: this.fromSquare,
+                    squareTo: square
+                })
+                if (result) {
+                    const fromSquare = this.fromSquare
+                    this.fromSquare = null
+                    this.chessboard.movePiece(fromSquare, square, true).then(() => {
+                        this.redrawFocusIndicator()
+                    })
+                    this.announce(this.t.move_to + " " + square)
+                } else {
+                    // Invalid move - check if clicking on own piece to start new move
+                    if (piece) {
+                        const pieceColor = piece.charAt(0)
+                        if ((pieceColor === "w" && this.chessboard.state.inputWhiteEnabled) ||
+                            (pieceColor === "b" && this.chessboard.state.inputBlackEnabled)) {
+                            const startResult = this.chessboard.state.moveInputCallback({
+                                chessboard: this.chessboard,
+                                type: INPUT_EVENT_TYPE.moveInputStarted,
+                                square: square,
+                                squareFrom: square,
+                                piece: piece
+                            })
+                            if (startResult) {
+                                this.fromSquare = square
+                                this.redrawFocusIndicator()
+                                this.announce(this.t.move_from + " " + square)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    getCurrentSquare() {
+        const file = String.fromCharCode(97 + this.focusedFile) // 'a' + file
+        const rank = this.focusedRank + 1
+        return file + rank
+    }
+
+    announceCurrentSquare() {
+        const square = this.getCurrentSquare()
+        const piece = this.chessboard.getPiece(square)
+        let announcement = square
+        if (piece) {
+            const pieceType = piece.charAt(1)
+            const pieceColor = piece.charAt(0)
+            announcement += " " + renderPieceTitle(this.extension.lang, pieceType, pieceColor)
+        } else {
+            announcement += " " + this.t.empty_square
+        }
+        if (this.fromSquare) {
+            announcement += " (" + this.t.move_from + " " + this.fromSquare + ")"
+        }
+        this.announce(announcement)
+    }
+
+    announce(message) {
+        this.liveRegion.textContent = ""
+        setTimeout(() => {
+            this.liveRegion.textContent = message
+        }, 50)
+    }
+
+    redrawFocusIndicator() {
+        this.clearFocusIndicator()
+
+        // Only show if SVG is focused
+        if (document.activeElement !== this.chessboard.view.svg) {
+            return
+        }
+
+        const square = this.getCurrentSquare()
+        const point = this.chessboard.view.squareToPoint(square)
+        const squareWidth = this.chessboard.view.squareWidth
+        const squareHeight = this.chessboard.view.squareHeight
+
+        // Draw focus indicator
+        Svg.addElement(this.focusIndicatorGroup, "rect", {
+            x: point.x,
+            y: point.y,
+            width: squareWidth,
+            height: squareHeight,
+            class: "keyboard-focus"
+        })
+
+        // If we have a from square selected, also highlight it
+        if (this.fromSquare) {
+            const fromPoint = this.chessboard.view.squareToPoint(this.fromSquare)
+            Svg.addElement(this.focusIndicatorGroup, "rect", {
+                x: fromPoint.x,
+                y: fromPoint.y,
+                width: squareWidth,
+                height: squareHeight,
+                class: "keyboard-from-square"
+            })
+        }
+    }
+
+    clearFocusIndicator() {
+        while (this.focusIndicatorGroup.firstChild) {
+            this.focusIndicatorGroup.removeChild(this.focusIndicatorGroup.firstChild)
+        }
+    }
+
+    destroy() {
+        this.chessboard.view.svg.removeEventListener("keydown", this.handleKeyDown)
+        this.chessboard.view.svg.removeEventListener("focus", this.handleFocus)
+        this.chessboard.view.svg.removeEventListener("blur", this.handleBlur)
+        if (this.liveRegion && this.liveRegion.parentNode) {
+            this.liveRegion.parentNode.removeChild(this.liveRegion)
+        }
+        this.clearFocusIndicator()
     }
 }

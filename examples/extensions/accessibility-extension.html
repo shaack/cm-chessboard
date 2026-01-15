@@ -26,7 +26,15 @@
     <li>Display the chessboard additionally as HTML table</li>
     <li>Display a form to move a piece (from, to, move)</li>
     <li>Display the pieces additionally as List</li>
+    <li>Keyboard navigation on the board (arrow keys to navigate, Enter/Space to select, Escape to cancel)</li>
     <li>Display these features visually hidden or not</li>
+</ul>
+<h3>Keyboard Navigation</h3>
+<p>Click the board or press Tab to focus it, then use:</p>
+<ul>
+    <li><strong>Arrow keys</strong> - Navigate between squares</li>
+    <li><strong>Enter / Space</strong> - Select a piece (first press) or target square (second press)</li>
+    <li><strong>Escape</strong> - Cancel the current move</li>
 </ul>
 <h3>The chessboard</h3>
 <div class="board" id="board"></div>
@@ -53,6 +61,7 @@
                     boardAsTable: true, // display the board additionally as HTML table
                     movePieceForm: true, // display a form to move a piece (from, to, move)
                     piecesAsList: true, // display the pieces additionally as List
+                    keyboardMoveInput: true, // enable keyboard navigation on the board with arrow keys
                     visuallyHidden: false // hide all those extra outputs visually but keep them accessible for screen readers and braille displays
                 }
 
