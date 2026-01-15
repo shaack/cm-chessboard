@@ -144,12 +144,13 @@ export class PromotionDialog extends Extension {
             const squareCenterPoint = this.chessboard.view.squareToPoint(this.state.dialogParams.square)
             squareCenterPoint.x = squareCenterPoint.x + squareWidth / 2
             squareCenterPoint.y = squareCenterPoint.y + squareHeight / 2
-            let turned = false
+            this.turned = false
             const rank = parseInt(this.state.dialogParams.square.charAt(1), 10)
             if (this.chessboard.getOrientation() === COLOR.white && rank < 5 ||
                 this.chessboard.getOrientation() === COLOR.black && rank >= 5) {
-                turned = true
+                this.turned = true
             }
+            const turned = this.turned
             const offsetY = turned ? -4 * squareHeight : 0
             const offsetX = squareCenterPoint.x + squareWidth > this.chessboard.view.width ? -squareWidth : 0
             Svg.addElement(this.promotionDialogGroup,
@@ -282,12 +283,28 @@ export class PromotionDialog extends Extension {
         }
         switch (event.key) {
             case "ArrowDown":
+                event.preventDefault()
+                if (this.turned) {
+                    this.focusedIndex = (this.focusedIndex - 1 + 4) % 4
+                } else {
+                    this.focusedIndex = (this.focusedIndex + 1) % 4
+                }
+                this.focusButton(this.focusedIndex)
+                break
             case "ArrowRight":
                 event.preventDefault()
                 this.focusedIndex = (this.focusedIndex + 1) % 4
                 this.focusButton(this.focusedIndex)
                 break
             case "ArrowUp":
+                event.preventDefault()
+                if (this.turned) {
+                    this.focusedIndex = (this.focusedIndex + 1) % 4
+                } else {
+                    this.focusedIndex = (this.focusedIndex - 1 + 4) % 4
+                }
+                this.focusButton(this.focusedIndex)
+                break
             case "ArrowLeft":
                 event.preventDefault()
                 this.focusedIndex = (this.focusedIndex - 1 + 4) % 4
