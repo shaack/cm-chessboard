@@ -149,12 +149,20 @@ class MovePieceForm {
                     true).then(() => {
                     this.inputFrom.value = ""
                     this.inputTo.value = ""
+                    this.updateButtonState()
                 })
             }
         })
         container.appendChild(this.movePieceFormContainer)
         extension.registerExtensionPoint(EXTENSION_POINT.moveInputToggled, () => {
             this.redraw()
+        })
+        // Update button state when input values change
+        this.inputFrom.addEventListener("input", () => {
+            this.updateButtonState()
+        })
+        this.inputTo.addEventListener("input", () => {
+            this.updateButtonState()
         })
         this.keydownListener = (event) => {
             if (event.shiftKey && event.altKey && event.code === 'KeyE') {
@@ -166,6 +174,14 @@ class MovePieceForm {
         extension.registerExtensionPoint(EXTENSION_POINT.destroy, () => {
             document.removeEventListener("keydown", this.keydownListener)
         })
+        // Initial button state
+        this.updateButtonState()
+    }
+
+    updateButtonState() {
+        const inputEnabled = this.chessboard.state.inputWhiteEnabled || this.chessboard.state.inputBlackEnabled
+        const hasValues = this.inputFrom.value.trim() !== "" && this.inputTo.value.trim() !== ""
+        this.moveButton.disabled = !inputEnabled || !hasValues
     }
 
     redraw() {
@@ -173,12 +189,11 @@ class MovePieceForm {
             if (this.chessboard.state.inputWhiteEnabled || this.chessboard.state.inputBlackEnabled) {
                 this.inputFrom.disabled = false
                 this.inputTo.disabled = false
-                this.moveButton.disabled = false
             } else {
                 this.inputFrom.disabled = true
                 this.inputTo.disabled = true
-                this.moveButton.disabled = true
             }
+            this.updateButtonState()
         }
     }
 }
