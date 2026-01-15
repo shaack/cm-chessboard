@@ -178,10 +178,21 @@ class MovePieceForm {
         this.updateButtonState()
     }
 
+    isValidSquare(value) {
+        const square = value.trim().toLowerCase()
+        if (square.length !== 2) {
+            return false
+        }
+        const file = square.charAt(0)
+        const rank = square.charAt(1)
+        return file >= 'a' && file <= 'h' && rank >= '1' && rank <= '8'
+    }
+
     updateButtonState() {
         const inputEnabled = this.chessboard.state.inputWhiteEnabled || this.chessboard.state.inputBlackEnabled
-        const hasValues = this.inputFrom.value.trim() !== "" && this.inputTo.value.trim() !== ""
-        this.moveButton.disabled = !inputEnabled || !hasValues
+        const isValidFrom = this.isValidSquare(this.inputFrom.value)
+        const isValidTo = this.isValidSquare(this.inputTo.value)
+        this.moveButton.disabled = !inputEnabled || !isValidFrom || !isValidTo
     }
 
     redraw() {
