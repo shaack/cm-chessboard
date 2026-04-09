@@ -39,4 +39,47 @@ describe("TestMarkers", () => {
         chessboard.destroy()
     })
 
+    it("should reject invalid input", () => {
+        const chessboard = new Chessboard(document.getElementById("TestMarkers"), {
+            assetsUrl: "../assets/",
+            extensions: [{class: Markers}]
+        })
+        chessboard.addMarker(null, "e5")
+        chessboard.addMarker(MARKER_TYPE.square, null)
+        chessboard.addMarker("string-not-allowed", "e5")
+        chessboard.addMarker(MARKER_TYPE.square, {invalid: "object"})
+        assert.equal(chessboard.getMarkers().length, 0)
+        chessboard.destroy()
+    })
+
+    it("should batch addLegalMovesMarkers without intermediate redraws", () => {
+        const chessboard = new Chessboard(document.getElementById("TestMarkers"), {
+            assetsUrl: "../assets/",
+            extensions: [{class: Markers}]
+        })
+        const moves = [
+            {to: "e3"}, {to: "e4"}, {to: "d3"}, {to: "f3"}, {to: "d4"}, {to: "f4"}
+        ]
+        chessboard.addLegalMovesMarkers(moves)
+        assert.equal(chessboard.getMarkers(MARKER_TYPE.dot).length, 6)
+        chessboard.removeLegalMovesMarkers()
+        assert.equal(chessboard.getMarkers(MARKER_TYPE.dot).length, 0)
+        chessboard.destroy()
+    })
+
+    it("should clean up grafted methods and SVG groups on destroy", () => {
+        const chessboard = new Chessboard(document.getElementById("TestMarkers"), {
+            assetsUrl: "../assets/",
+            extensions: [{class: Markers}]
+        })
+        chessboard.addMarker(MARKER_TYPE.frame, "e4")
+        assert.equal(typeof chessboard.addMarker, "function")
+        chessboard.destroy()
+        assert.equal(chessboard.addMarker, undefined)
+        assert.equal(chessboard.getMarkers, undefined)
+        assert.equal(chessboard.removeMarkers, undefined)
+        assert.equal(chessboard.addLegalMovesMarkers, undefined)
+        assert.equal(chessboard.removeLegalMovesMarkers, undefined)
+    })
+
 })
