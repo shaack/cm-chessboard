@@ -85,15 +85,20 @@ export class PositionsAnimation {
 
     constructor(view, fromPosition, toPosition, duration, callback) {
         this.view = view
-        if (fromPosition && toPosition) {
-            this.animatedElements = this.createAnimation(fromPosition.squares, toPosition.squares)
-            this.duration = duration
-            this.callback = callback
-            this.frameHandle = requestAnimationFrame(this.animationStep.bind(this))
-        } else {
-            console.error("fromPosition", fromPosition, "toPosition", toPosition)
-        }
+        this.callback = callback
+        this.boundAnimationStep = this.animationStep.bind(this)
         this.view.positionsAnimationTask = Utils.createTask()
+        if (!fromPosition || !toPosition) {
+            console.error("PositionsAnimation: missing fromPosition or toPosition", fromPosition, toPosition)
+            this.view.positionsAnimationTask.resolve()
+            if (this.callback) {
+                this.callback()
+            }
+            return
+        }
+        this.animatedElements = this.createAnimation(fromPosition.squares, toPosition.squares)
+        this.duration = duration
+        this.frameHandle = requestAnimationFrame(this.boundAnimationStep)
         this.view.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.animation, {
             type: ANIMATION_EVENT_TYPE.start
         })
@@ -171,7 +176,14 @@ export class PositionsAnimation {
     }
 
     animationStep(time) {
-        if(!this.view || !this.view.chessboard.state) { // board was destroyed
+        if (!this.view || !this.view.chessboard || !this.view.chessboard.state) { // board was destroyed
+            cancelAnimationFrame(this.frameHandle)
+            if (this.view && this.view.positionsAnimationTask) {
+                this.view.positionsAnimationTask.resolve()
+            }
+            if (this.callback) {
+                this.callback()
+            }
             return
         }
         if (!this.startTime) {
@@ -179,7 +191,7 @@ export class PositionsAnimation {
         }
         const timeDiff = time - this.startTime
         if (timeDiff <= this.duration) {
-            this.frameHandle = requestAnimationFrame(this.animationStep.bind(this))
+            this.frameHandle = requestAnimationFrame(this.boundAnimationStep)
         } else {
             cancelAnimationFrame(this.frameHandle)
             this.animatedElements.forEach((animatedItem) => {

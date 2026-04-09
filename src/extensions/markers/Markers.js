@@ -6,7 +6,6 @@
 import {Extension, EXTENSION_POINT} from "../../model/Extension.js"
 import {Svg} from "../../lib/Svg.js"
 import {INPUT_EVENT_TYPE} from "../../Chessboard.js"
-import {Utils} from "../../lib/Utils.js"
 
 export const MARKER_TYPE = {
     frame: {class: "marker-frame", slice: "markerFrame"},
@@ -29,6 +28,9 @@ export class Markers extends Extension {
         this.registerExtensionPoint(EXTENSION_POINT.afterRedrawBoard, () => {
             this.onRedrawBoard()
         })
+        this.registerExtensionPoint(EXTENSION_POINT.destroy, () => {
+            this.onDestroy()
+        })
         this.props = {
             autoMarkers: MARKER_TYPE.frame, // set to `null` to disable autoMarkers
             sprite: "extensions/markers/markers.svg" // the sprite file of the markers
@@ -46,11 +48,21 @@ export class Markers extends Extension {
         this.markerGroupUp = Svg.addElement(chessboard.view.markersTopLayer, "g", {class: "markers"})
         this.markers = []
         if (this.props.autoMarkers) {
-            Object.assign(this.props.autoMarkers, this.props.autoMarkers)
             this.registerExtensionPoint(EXTENSION_POINT.moveInput, (event) => {
                 this.drawAutoMarkers(event)
             })
         }
+    }
+
+    onDestroy() {
+        this.markers.length = 0
+        Svg.removeElement(this.markerGroupDown)
+        Svg.removeElement(this.markerGroupUp)
+        delete this.chessboard.addMarker
+        delete this.chessboard.getMarkers
+        delete this.chessboard.removeMarkers
+        delete this.chessboard.addLegalMovesMarkers
+        delete this.chessboard.removeLegalMovesMarkers
     }
 
     drawAutoMarkers(event) {
@@ -73,34 +85,41 @@ export class Markers extends Extension {
     }
 
     onRedrawBoard() {
-        while (this.markerGroupUp.firstChild) {
-            this.markerGroupUp.removeChild(this.markerGroupUp.firstChild)
-        }
-        while (this.markerGroupDown.firstChild) {
-            this.markerGroupDown.removeChild(this.markerGroupDown.firstChild)
-        }
+        Svg.removeAllChildren(this.markerGroupUp)
+        Svg.removeAllChildren(this.markerGroupDown)
         this.markers.forEach((marker) => {
-                this.drawMarker(marker)
-            }
-        )
+            this.drawMarker(marker)
+        })
     }
 
     addLegalMovesMarkers(moves) {
-        for (const move of moves) {
-            if (move.promotion && move.promotion !== "q") {
-                continue
+        this.batchUpdate = true
+        try {
+            for (const move of moves) {
+                if (move.promotion && move.promotion !== "q") {
+                    continue
+                }
+                if (this.chessboard.getPiece(move.to)) {
+                    this.chessboard.addMarker(MARKER_TYPE.bevel, move.to)
+                } else {
+                    this.chessboard.addMarker(MARKER_TYPE.dot, move.to)
+                }
             }
-            if (this.chessboard.getPiece(move.to)) {
-                this.chessboard.addMarker(MARKER_TYPE.bevel, move.to)
-            } else {
-                this.chessboard.addMarker(MARKER_TYPE.dot, move.to)
-            }
+        } finally {
+            this.batchUpdate = false
+            this.onRedrawBoard()
         }
     }
 
     removeLegalMovesMarkers() {
-        this.chessboard.removeMarkers(MARKER_TYPE.bevel)
-        this.chessboard.removeMarkers(MARKER_TYPE.dot)
+        this.batchUpdate = true
+        try {
+            this.chessboard.removeMarkers(MARKER_TYPE.bevel)
+            this.chessboard.removeMarkers(MARKER_TYPE.dot)
+        } finally {
+            this.batchUpdate = false
+            this.onRedrawBoard()
+        }
     }
 
     drawMarker(marker) {
@@ -125,19 +144,21 @@ export class Markers extends Extension {
     }
 
     addMarker(type, square) {
-        if (typeof type === "string" || typeof square === "object") { // todo remove 2022-12-01
-            console.error("changed the signature of `addMarker` to `(type, square)` with v5.1.x")
+        if (!type || typeof type !== "object" || !type.slice) {
+            console.error("addMarker: invalid type", type)
+            return
+        }
+        if (!square || typeof square !== "string") {
+            console.error("addMarker: invalid square", square)
             return
         }
         this.markers.push(new Marker(square, type))
-        this.onRedrawBoard()
+        if (!this.batchUpdate) {
+            this.onRedrawBoard()
+        }
     }
 
     getMarkers(type = undefined, square = undefined) {
-        if (typeof type === "string" || typeof square === "object") { // todo remove 2022-12-01
-            console.error("changed the signature of `getMarkers` to `(type, square)` with v5.1.x")
-            return
-        }
         let markersFound = []
         this.markers.forEach((marker) => {
             if (marker.matches(square, type)) {
@@ -148,21 +169,12 @@ export class Markers extends Extension {
     }
 
     removeMarkers(type = undefined, square = undefined) {
-        if (typeof type === "string" || typeof square === "object") { // todo remove 2022-12-01
-            console.error("changed the signature of `removeMarkers` to `(type, square)` with v5.1.x")
-            return
-        }
         this.markers = this.markers.filter((marker) => !marker.matches(square, type))
-        this.onRedrawBoard()
+        if (!this.batchUpdate) {
+            this.onRedrawBoard()
+        }
     }
 
-    getSpriteUrl() {
-        if(Utils.isAbsoluteUrl(this.props.sprite)) {
-            return this.props.sprite
-        } else {
-            return this.chessboard.props.assetsUrl + this.props.sprite
-        }
-    }
 }
 
 class Marker {

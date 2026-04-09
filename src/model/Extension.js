@@ -3,6 +3,7 @@
  * Repository: https://github.com/shaack/cm-chessboard
  * License: MIT, see file 'LICENSE'
  */
+import {Utils} from "../lib/Utils.js"
 
 export const EXTENSION_POINT = {
     positionChanged: "positionChanged", // the positions of the pieces was changed
@@ -11,7 +12,6 @@ export const EXTENSION_POINT = {
     moveInput: "moveInput", // move started, moving over a square, validating or canceled
     beforeRedrawBoard: "beforeRedrawBoard", // called before redrawing the board
     afterRedrawBoard: "afterRedrawBoard", // called after redrawing the board
-    redrawBoard: "redrawBoard", // called after redrawing the board, DEPRECATED, use afterRedrawBoard 2023-09-18
     animation: "animation", // called on animation start, end, and on every animation frame
     destroy: "destroy" // called, before the board is destroyed
 }
@@ -23,26 +23,21 @@ export class Extension {
     }
 
     registerExtensionPoint(name, callback) {
-        if(name === EXTENSION_POINT.redrawBoard) { // deprecated 2023-09-18
-            console.warn("EXTENSION_POINT.redrawBoard is deprecated, use EXTENSION_POINT.afterRedrawBoard")
-            name = EXTENSION_POINT.afterRedrawBoard
-        }
         if (!this.chessboard.state.extensionPoints[name]) {
             this.chessboard.state.extensionPoints[name] = []
         }
         this.chessboard.state.extensionPoints[name].push(callback)
     }
 
-    /** @deprecated 2023-05-18 */
-    registerMethod(name, callback) {
-        console.warn("registerMethod is deprecated, just add methods directly to the chessboard instance")
-        if (!this.chessboard[name]) {
-            this.chessboard[name] = (...args) => {
-                return callback.apply(this, args)
-            }
-        } else {
-            log.error("method", name, "already exists")
+    /**
+     * Resolve the sprite url honoring absolute urls and the chessboard's assetsUrl.
+     * Subclasses that need a sprite should set `this.props.sprite`.
+     */
+    getSpriteUrl() {
+        if (Utils.isAbsoluteUrl(this.props.sprite)) {
+            return this.props.sprite
         }
+        return this.chessboard.props.assetsUrl + this.props.sprite
     }
 
 }

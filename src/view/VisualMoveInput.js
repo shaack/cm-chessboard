@@ -403,9 +403,10 @@ export class VisualMoveInput {
 
     onContextMenu(e) { // while moving
         e.preventDefault()
+        const fromSquare = this.fromSquare
         this.view.redrawPieces()
         this.setMoveInputState(MOVE_INPUT_STATE.reset)
-        this.moveInputCanceledCallback(this.fromSquare, null, MOVE_CANCELED_REASON.secondaryClick)
+        this.moveInputCanceledCallback(fromSquare, null, MOVE_CANCELED_REASON.secondaryClick)
     }
 
     isDragging() {

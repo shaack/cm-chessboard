@@ -79,8 +79,8 @@ export class ChessboardView {
         if (this.resizeListener) {
             window.removeEventListener("resize", this.resizeListener)
         }
-        this.chessboard.context.removeEventListener("mousedown", this.pointerDownListener)
-        this.chessboard.context.removeEventListener("touchstart", this.pointerDownListener)
+        this.container.removeEventListener("mousedown", this.pointerDownListener)
+        this.container.removeEventListener("touchstart", this.pointerDownListener)
         Svg.removeElement(this.svg)
         this.container.remove()
     }
@@ -141,7 +141,7 @@ export class ChessboardView {
         this.squareHeight = this.innerHeight / 8
         this.scalingX = this.squareWidth / piecesTileSize
         this.scalingY = this.squareHeight / piecesTileSize
-        this.pieceXTranslate = (this.squareWidth / 2 - piecesTileSize * this.scalingY / 2)
+        this.pieceXTranslate = (this.squareWidth / 2 - piecesTileSize * this.scalingX / 2)
     }
 
     handleResize() {
@@ -167,9 +167,7 @@ export class ChessboardView {
     // Board //
 
     redrawSquares() {
-        while (this.boardGroup.firstChild) {
-            this.boardGroup.removeChild(this.boardGroup.lastChild)
-        }
+        Svg.removeAllChildren(this.boardGroup)
 
         let boardBorder = Svg.addElement(this.boardGroup, "rect", {width: this.width, height: this.height})
         boardBorder.setAttribute("class", "border")
@@ -198,9 +196,7 @@ export class ChessboardView {
         if (!this.chessboard.props.style.showCoordinates) {
             return
         }
-        while (this.coordinatesGroup.firstChild) {
-            this.coordinatesGroup.removeChild(this.coordinatesGroup.lastChild)
-        }
+        Svg.removeAllChildren(this.coordinatesGroup)
         const inline = this.chessboard.props.style.borderType !== BORDER_TYPE.frame
         for (let file = 0; file < 8; file++) {
             let x = this.borderSize + (17 + this.chessboard.props.style.pieces.tileSize * file) * this.scalingX
@@ -362,7 +358,6 @@ export class ChessboardView {
         const data = {
             chessboard: this.chessboard,
             type: INPUT_EVENT_TYPE.moveInputStarted,
-            square: square, /** square is deprecated, use squareFrom (2023-05-22) */
             squareFrom: square,
             piece: this.chessboard.getPiece(square)
         }

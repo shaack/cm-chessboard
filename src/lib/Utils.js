@@ -25,16 +25,19 @@ export class Utils {
     }
 
     static mergeObjects(target, source) {
-        const isObject = (obj) => obj && typeof obj === 'object'
+        const isObject = (obj) => obj && typeof obj === 'object' && !Array.isArray(obj)
         if (!isObject(target) || !isObject(source)) {
             return source
         }
+        const result = Object.assign({}, target)
         for (const key of Object.keys(source)) {
-            if (source[key] instanceof Object) {
-                Object.assign(source[key], Utils.mergeObjects(target[key], source[key]))
+            if (isObject(source[key]) && isObject(target[key])) {
+                result[key] = Utils.mergeObjects(target[key], source[key])
+            } else {
+                result[key] = source[key]
             }
         }
-        Object.assign(target || {}, source)
+        Object.assign(target, result)
         return target
     }
 

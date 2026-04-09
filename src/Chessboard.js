@@ -36,6 +36,7 @@ export class Chessboard {
         this.context = context
         this.id = (Math.random() + 1).toString(36).substring(2, 8)
         this.extensions = []
+        this.boardTurning = false
         this.props = {
             position: FEN.empty, // set position as fen, use FEN.start or FEN.empty as shortcuts
             orientation: COLOR.white, // white on bottom
@@ -69,7 +70,6 @@ export class Chessboard {
         this.state.position = new Position(this.props.position)
         this.view.redrawPieces()
         this.state.invokeExtensionPoints(EXTENSION_POINT.positionChanged)
-        this.initialized = Promise.resolve() // deprecated 2023-09-19 don't use this anymore
     }
 
     // API //
@@ -99,11 +99,11 @@ export class Chessboard {
     }
 
     async setOrientation(color, animated = false) {
-        const position = this.state.position.clone()
         if (this.boardTurning) {
             console.warn("setOrientation is only once in queue allowed")
-            return
+            return Promise.resolve()
         }
+        const position = this.state.position.clone()
         this.boardTurning = true
         return this.positionAnimationsQueue.enqueueTurnBoard(position, color, animated).then(() => {
             this.boardTurning = false
@@ -137,7 +137,7 @@ export class Chessboard {
 
     enableSquareSelect(eventType = POINTER_EVENTS.pointerdown, eventHandler) {
         if (!this.squareSelectListener) {
-            this.squareSelectListener = function (e) {
+            this.squareSelectListener = (e) => {
                 const square = e.target.getAttribute("data-square")
                 eventHandler({
                     eventType: e.type,
@@ -146,15 +146,17 @@ export class Chessboard {
                     square: square
                 })
             }
+            this.squareSelectEventType = eventType
         }
         this.context.addEventListener(eventType, this.squareSelectListener)
         this.state.squareSelectEnabled = true
         this.view.visualizeInputState()
     }
 
-    disableSquareSelect(eventType) {
+    disableSquareSelect(eventType = this.squareSelectEventType) {
         this.context.removeEventListener(eventType, this.squareSelectListener)
         this.squareSelectListener = undefined
+        this.squareSelectEventType = undefined
         this.state.squareSelectEnabled = false
         this.view.visualizeInputState()
     }
@@ -180,9 +182,16 @@ export class Chessboard {
     }
 
     destroy() {
+        if (!this.state) {
+            return // already destroyed
+        }
+        if (this.squareSelectListener) {
+            this.disableSquareSelect()
+        }
         this.state.invokeExtensionPoints(EXTENSION_POINT.destroy)
         this.positionAnimationsQueue.destroy()
         this.view.destroy()
+        this.extensions.length = 0
         this.view = undefined
         this.state = undefined
     }
