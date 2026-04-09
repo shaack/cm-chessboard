@@ -103,8 +103,8 @@ export class Position {
     }
 
     movePiece(squareFrom, squareTo) {
-        const fromIndex = Position.squareToIndex(squareFrom)
-        const toIndex = Position.squareToIndex(squareTo)
+        const fromIndex = Position.validateSquare(squareFrom)
+        const toIndex = Position.validateSquare(squareTo)
         if (!this.squares[fromIndex]) {
             console.warn("no piece on", squareFrom)
             return
@@ -114,38 +114,47 @@ export class Position {
     }
 
     setPiece(square, piece) {
-        this.squares[Position.squareToIndex(square)] = piece
+        this.squares[Position.validateSquare(square)] = piece
     }
 
     getPiece(square) {
-        return this.squares[Position.squareToIndex(square)]
+        return this.squares[Position.validateSquare(square)]
     }
 
+    /**
+     * Hot-path square-to-index. No validation; assumes valid input.
+     * Callers at API boundaries should use `validateSquare` instead.
+     */
     static squareToIndex(square) {
+        return (square.charCodeAt(0) - 97) + (square.charCodeAt(1) - 49) * 8
+    }
+
+    /**
+     * Validate a square string and return its index. Throws on invalid input.
+     * Use this at user-facing API boundaries; internal code that already
+     * has a known-valid square should call `squareToIndex` for speed.
+     */
+    static validateSquare(square) {
         if (typeof square !== "string" || square.length !== 2) {
-            throw new Error("Position.squareToIndex: invalid square '" + square + "'")
+            throw new Error("Position: invalid square '" + square + "'")
         }
-        const coordinates = Position.squareToCoordinates(square)
-        if (coordinates[0] < 0 || coordinates[0] > 7 || coordinates[1] < 0 || coordinates[1] > 7) {
-            throw new Error("Position.squareToIndex: square out of range '" + square + "'")
+        const index = (square.charCodeAt(0) - 97) + (square.charCodeAt(1) - 49) * 8
+        if (index < 0 || index > 63 || (index | 0) !== index) {
+            throw new Error("Position: square out of range '" + square + "'")
         }
-        return coordinates[0] + coordinates[1] * 8
+        return index
     }
 
     static indexToSquare(index) {
-        return Position.coordinatesToSquare([index % 8, Math.floor(index / 8)])
+        return String.fromCharCode((index & 7) + 97) + String.fromCharCode((index >> 3) + 49)
     }
 
     static squareToCoordinates(square) {
-        const file = square.charCodeAt(0) - 97
-        const rank = square.charCodeAt(1) - 49
-        return [file, rank]
+        return [square.charCodeAt(0) - 97, square.charCodeAt(1) - 49]
     }
 
     static coordinatesToSquare(coordinates) {
-        const file = String.fromCharCode(coordinates[0] + 97)
-        const rank = String.fromCharCode(coordinates[1] + 49)
-        return file + rank
+        return String.fromCharCode(coordinates[0] + 97) + String.fromCharCode(coordinates[1] + 49)
     }
 
     toString() {

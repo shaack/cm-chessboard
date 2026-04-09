@@ -163,14 +163,43 @@ describe("TestPosition", () => {
         assert.equal("" + position, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR")
     })
 
-    it("squareToIndex should throw on invalid square strings", () => {
+    it("validateSquare should throw on invalid square strings", () => {
         let thrown = 0
-        try { Position.squareToIndex(null) } catch (e) { thrown++ }
-        try { Position.squareToIndex("") } catch (e) { thrown++ }
-        try { Position.squareToIndex("z9") } catch (e) { thrown++ }
-        try { Position.squareToIndex("a") } catch (e) { thrown++ }
-        try { Position.squareToIndex("a99") } catch (e) { thrown++ }
-        assert.equal(thrown, 5)
+        try { Position.validateSquare(null) } catch (e) { thrown++ }
+        try { Position.validateSquare("") } catch (e) { thrown++ }
+        try { Position.validateSquare("z9") } catch (e) { thrown++ }
+        try { Position.validateSquare("a") } catch (e) { thrown++ }
+        try { Position.validateSquare("a99") } catch (e) { thrown++ }
+        try { Position.validateSquare("@1") } catch (e) { thrown++ }
+        assert.equal(thrown, 6)
+    })
+
+    it("validateSquare should return the same index as squareToIndex for valid input", () => {
+        for (let i = 0; i < 64; i++) {
+            const sq = Position.indexToSquare(i)
+            assert.equal(Position.validateSquare(sq), Position.squareToIndex(sq))
+        }
+    })
+
+    it("setPiece should throw on invalid square (validates at API boundary)", () => {
+        const position = new Position()
+        let thrown = false
+        try { position.setPiece("z9", "wp") } catch (e) { thrown = true }
+        assert.equal(thrown, true)
+    })
+
+    it("getPiece should throw on invalid square", () => {
+        const position = new Position()
+        let thrown = false
+        try { position.getPiece("not-a-square") } catch (e) { thrown = true }
+        assert.equal(thrown, true)
+    })
+
+    it("movePiece should throw on invalid square", () => {
+        const position = new Position()
+        let thrown = false
+        try { position.movePiece("e2", "z9") } catch (e) { thrown = true }
+        assert.equal(thrown, true)
     })
 
 })
