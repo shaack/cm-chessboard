@@ -63,10 +63,9 @@ Extensions are the primary way to add functionality. They:
 **Available Extension Points** (defined in `Extension.js`):
 - `positionChanged` - Piece positions changed
 - `boardChanged` - Board orientation changed
-- `boardResized` - Board was resized
 - `moveInputToggled` - Move input enabled/disabled
 - `moveInput` - Move events (started, validating, canceled, finished)
-- `beforeRedrawBoard` / `afterRedrawBoard` - Board redraw lifecycle
+- `beforeRedrawBoard` / `afterRedrawBoard` - Board redraw lifecycle (also fired on resize)
 - `animation` - Animation lifecycle hooks
 - `destroy` - Cleanup before board destruction
 

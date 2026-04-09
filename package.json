@@ -15,6 +15,17 @@
   "type": "module",
   "module": "./src/Chessboard.js",
   "browser": "./src/Chessboard.js",
+  "exports": {
+    ".": "./src/Chessboard.js",
+    "./src/*": "./src/*",
+    "./assets/*": "./assets/*"
+  },
+  "files": [
+    "src",
+    "assets",
+    "LICENSE",
+    "README.md"
+  ],
   "scripts": {
     "test": "tput setaf 4;echo 'Run test/index.html in your browser for unit testing.'; echo ''; exit 0"
   },
