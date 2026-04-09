@@ -27,7 +27,12 @@
     "README.md"
   ],
   "scripts": {
-    "test": "tput setaf 4;echo 'Run test/index.html in your browser for unit testing.'; echo ''; exit 0"
+    "test": "tput setaf 4;echo 'Run test/index.html in your browser for Teevi unit tests, or npm run test:e2e for Playwright tests.'; echo ''; exit 0",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:ui": "playwright test --ui",
+    "benchmark": "node e2e/run-benchmark.mjs",
+    "benchmark:json": "node e2e/run-benchmark.mjs --json"
   },
   "repository": {
     "type": "git",
@@ -40,6 +45,7 @@
   },
   "homepage": "https://github.com/shaack/cm-chessboard#readme",
   "devDependencies": {
+    "@playwright/test": "^1.59.1",
     "teevi": "^2.2.4"
   }
 }

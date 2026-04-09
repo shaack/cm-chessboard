@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>e2e fixture</title>
+    <link rel="stylesheet" href="/assets/chessboard.css"/>
+    <link rel="stylesheet" href="/assets/extensions/markers/markers.css"/>
+    <link rel="stylesheet" href="/assets/extensions/arrows/arrows.css"/>
+    <link rel="stylesheet" href="/assets/extensions/promotion-dialog/promotion-dialog.css"/>
+    <style>
+        html, body { margin: 0; padding: 0; font-family: sans-serif; }
+        #board { width: 400px; height: 400px; }
+        #board2 { width: 400px; height: 400px; margin-top: 20px; }
+        #log { font-family: monospace; font-size: 12px; padding: 8px; max-height: 200px; overflow: auto; }
+    </style>
+</head>
+<body>
+<div id="board"></div>
+<div id="board2"></div>
+<div id="log"></div>
+
+<script type="module">
+    import {Chessboard, COLOR, INPUT_EVENT_TYPE, BORDER_TYPE, PIECE, FEN} from "/src/Chessboard.js"
+    import {Markers, MARKER_TYPE} from "/src/extensions/markers/Markers.js"
+    import {Arrows, ARROW_TYPE} from "/src/extensions/arrows/Arrows.js"
+    import {PromotionDialog, PROMOTION_DIALOG_RESULT_TYPE} from "/src/extensions/promotion-dialog/PromotionDialog.js"
+    import {RightClickAnnotator} from "/src/extensions/right-click-annotator/RightClickAnnotator.js"
+    import {Persistence} from "/src/extensions/persistence/Persistence.js"
+    import {HtmlLayer} from "/src/extensions/html-layer/HtmlLayer.js"
+    import {AutoBorderNone} from "/src/extensions/auto-border-none/AutoBorderNone.js"
+
+    // Expose everything to the test runner so specs can drive the board
+    // through page.evaluate without needing to maintain dozens of fixture pages.
+    window.cm = {
+        Chessboard, COLOR, INPUT_EVENT_TYPE, BORDER_TYPE, PIECE, FEN,
+        Markers, MARKER_TYPE,
+        Arrows, ARROW_TYPE,
+        PromotionDialog, PROMOTION_DIALOG_RESULT_TYPE,
+        RightClickAnnotator,
+        Persistence,
+        HtmlLayer,
+        AutoBorderNone
+    }
+
+    // Tests collect events here for assertions
+    window.events = []
+    window.logEvent = (label, data) => {
+        window.events.push({label, data, time: performance.now()})
+    }
+
+    // Helper: build a board with sensible defaults for tests.
+    // Tests should call this through page.evaluate(...).
+    window.createBoard = (opts = {}) => {
+        const containerId = opts.containerId || "board"
+        const container = document.getElementById(containerId)
+        const props = Object.assign({
+            position: FEN.start,
+            assetsUrl: "/assets/",
+            assetsCache: false, // disable caching so each test starts fresh
+            style: {
+                animationDuration: 0, // make tests deterministic
+                borderType: BORDER_TYPE.none
+            }
+        }, opts.props || {})
+        // Resolve string extension names to classes
+        if (opts.extensions) {
+            props.extensions = opts.extensions.map(e => {
+                if (typeof e === "string") {
+                    return {class: window.cm[e]}
+                }
+                if (typeof e.class === "string") {
+                    return {...e, class: window.cm[e.class]}
+                }
+                return e
+            })
+        }
+        const board = new Chessboard(container, props)
+        // Track on global for cross-call access
+        window.boards = window.boards || {}
+        window.boards[containerId] = board
+        return true
+    }
+
+    // Resolve helper to wait for the next animation frame after async ops
+    window.flush = () => new Promise(resolve => requestAnimationFrame(() => resolve()))
+
+    // Signal readiness
+    window.ready = true
+</script>
+</body>
+</html>

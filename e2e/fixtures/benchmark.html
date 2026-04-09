@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>cm-chessboard benchmark</title>
+    <link rel="stylesheet" href="/assets/chessboard.css"/>
+    <link rel="stylesheet" href="/assets/extensions/markers/markers.css"/>
+    <link rel="stylesheet" href="/assets/extensions/arrows/arrows.css"/>
+    <style>
+        html, body { margin: 0; padding: 0; font-family: -apple-system, sans-serif; }
+        #board { width: 400px; height: 400px; }
+        #out { font-family: monospace; padding: 12px; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+<div id="board"></div>
+<div id="out">running…</div>
+
+<script type="module">
+    import {Chessboard, FEN, BORDER_TYPE} from "/src/Chessboard.js"
+    import {Markers, MARKER_TYPE} from "/src/extensions/markers/Markers.js"
+    import {Arrows, ARROW_TYPE} from "/src/extensions/arrows/Arrows.js"
+    import {Position} from "/src/model/Position.js"
+
+    function median(arr) {
+        const s = arr.slice().sort((a, b) => a - b)
+        const m = Math.floor(s.length / 2)
+        return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2
+    }
+
+    function bench(label, fn, iterations = 50) {
+        // warm-up
+        for (let i = 0; i < 5; i++) fn()
+        const samples = []
+        for (let i = 0; i < iterations; i++) {
+            const t = performance.now()
+            fn()
+            samples.push(performance.now() - t)
+        }
+        return {
+            label,
+            iterations,
+            min: Math.min(...samples).toFixed(3),
+            median: median(samples).toFixed(3),
+            max: Math.max(...samples).toFixed(3),
+            total: samples.reduce((a, b) => a + b, 0).toFixed(2)
+        }
+    }
+
+    function runAll() {
+        const results = []
+
+        // ---- Pure Position tests (no DOM) ----
+        const startPos = new Position(FEN.start)
+
+        results.push(bench("Position.clone()", () => {
+            for (let i = 0; i < 1000; i++) startPos.clone()
+        }))
+
+        results.push(bench("new Position(FEN.start)", () => {
+            for (let i = 0; i < 1000; i++) new Position(FEN.start)
+        }))
+
+        results.push(bench("Position.getFen()", () => {
+            for (let i = 0; i < 1000; i++) startPos.getFen()
+        }))
+
+        results.push(bench("Position.getPieces()", () => {
+            for (let i = 0; i < 1000; i++) startPos.getPieces()
+        }))
+
+        results.push(bench("Position.squareToIndex round-trip x64", () => {
+            for (let i = 0; i < 1000; i++) {
+                for (let j = 0; j < 64; j++) {
+                    Position.squareToIndex(Position.indexToSquare(j))
+                }
+            }
+        }))
+
+        // ---- Markers extension ----
+        const board = new Chessboard(document.getElementById("board"), {
+            position: FEN.start,
+            assetsUrl: "/assets/",
+            assetsCache: false,
+            style: {borderType: BORDER_TYPE.none, animationDuration: 0},
+            extensions: [
+                {class: Markers},
+                {class: Arrows}
+            ]
+        })
+
+        // Build a realistic legal-moves array (20 squares)
+        const legalMoves = [
+            "a3","a4","b3","b4","c3","c4","d3","d4",
+            "e3","e4","f3","f4","g3","g4","h3","h4",
+            "b1","g1","c3","f3"
+        ].map(to => ({to}))
+
+        results.push(bench("Markers: addLegalMovesMarkers (20) + remove", () => {
+            board.addLegalMovesMarkers(legalMoves)
+            board.removeLegalMovesMarkers()
+        }, 100))
+
+        results.push(bench("Markers: 20 individual addMarker calls", () => {
+            for (const m of legalMoves) {
+                board.addMarker(MARKER_TYPE.dot, m.to)
+            }
+            board.removeMarkers()
+        }, 100))
+
+        // ---- Arrows extension ----
+        results.push(bench("Arrows: add+remove single arrow", () => {
+            board.addArrow(ARROW_TYPE.success, "e2", "e4")
+            board.removeArrows()
+        }, 100))
+
+        results.push(bench("Arrows: add 5 arrows then remove all", () => {
+            board.addArrow(ARROW_TYPE.success, "e2", "e4")
+            board.addArrow(ARROW_TYPE.danger, "g1", "f3")
+            board.addArrow(ARROW_TYPE.info, "b1", "c3")
+            board.addArrow(ARROW_TYPE.warning, "d2", "d4")
+            board.addArrow(ARROW_TYPE.success, "f1", "c4")
+            board.removeArrows()
+        }, 100))
+
+        // ---- Core ops involving full re-render ----
+        results.push(bench("setPosition (no animation)", () => {
+            board.setPosition(FEN.start, false)
+            board.setPosition("8/8/8/4k3/4K3/8/8/8", false)
+        }, 50))
+
+        results.push(bench("setPiece (no animation)", () => {
+            board.setPiece("e4", "wq", false)
+            board.setPiece("e4", null, false)
+        }, 100))
+
+        // Output
+        const lines = results.map(r =>
+            `${r.label.padEnd(48)} median=${r.median.padStart(8)} ms   min=${r.min.padStart(8)} ms   max=${r.max.padStart(8)} ms   total=${r.total.padStart(8)} ms`
+        )
+        document.getElementById("out").textContent = lines.join("\n")
+        window.benchmarkResults = results
+        window.benchmarkDone = true
+    }
+
+    // Wait for the next frame so layout settles
+    requestAnimationFrame(() => requestAnimationFrame(runAll))
+</script>
+</body>
+</html>

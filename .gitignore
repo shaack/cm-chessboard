@@ -2,3 +2,6 @@
 /.idea
 /node_modules
 /lib
+/test-results
+/playwright-report
+/blob-report
