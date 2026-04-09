@@ -3,25 +3,46 @@
  * Repository: https://github.com/shaack/cm-chessboard
  * License: MIT, see file 'LICENSE'
  */
-import {Extension, EXTENSION_POINT} from "../../model/Extension.js";
+import {Extension, EXTENSION_POINT} from "../../model/Extension.js"
+import {FEN} from "../../model/Position.js"
+
+const DEFAULT_STORAGE_KEY_PREFIX = "cm-chessboard:"
 
 export class Persistence extends Extension {
-    constructor(chessboard, props) {
+    constructor(chessboard, props = {}) {
         super(chessboard)
-        console.warn("The Persistence extension is work in progress, don't use it in production.")
-        this.props = props
-        this.registerExtensionPoint(EXTENSION_POINT.positionChanged, this.savePosition.bind(this))
+        this.props = {
+            storageKey: DEFAULT_STORAGE_KEY_PREFIX + (chessboard.id || "default"),
+            initialPosition: FEN.empty
+        }
+        Object.assign(this.props, props)
+        this.savePositionBound = this.savePosition.bind(this)
+        this.registerExtensionPoint(EXTENSION_POINT.positionChanged, this.savePositionBound)
         this.loadPosition()
     }
 
     savePosition() {
-        localStorage.setItem("chessboard", JSON.stringify(this.chessboard.getPosition()))
+        try {
+            localStorage.setItem(this.props.storageKey, JSON.stringify(this.chessboard.getPosition()))
+        } catch (e) {
+            console.warn("Persistence: failed to save position", e)
+        }
     }
 
     loadPosition() {
-        const position = localStorage.getItem("chessboard")
+        let position
+        try {
+            position = localStorage.getItem(this.props.storageKey)
+        } catch (e) {
+            console.warn("Persistence: failed to read position", e)
+        }
         if (position) {
-            this.chessboard.setPosition(JSON.parse(position))
+            try {
+                this.chessboard.setPosition(JSON.parse(position))
+            } catch (e) {
+                console.warn("Persistence: failed to parse stored position, using initial position", e)
+                this.chessboard.setPosition(this.props.initialPosition)
+            }
         } else {
             this.chessboard.setPosition(this.props.initialPosition)
         }

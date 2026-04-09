@@ -91,14 +91,16 @@ export class PromotionDialog extends Extension {
         this.state.dialogParams.color = color
         this.state.callback = callback
         this.setDisplayState(DISPLAY_STATE.displayRequested)
-        setTimeout(() => {
-                this.chessboard.view.positionsAnimationTask.then(() => {
-                    this.setDisplayState(DISPLAY_STATE.shown)
-                    this.announce(this.t.choosePromotion + ": " +
-                        this.pieceOrder.map(p => this.t.pieces[p]).join(", "))
-                })
-            }
-        )
+        this.showTimeoutId = setTimeout(() => {
+            this.showTimeoutId = null
+            if (!this.chessboard.view) return // destroyed
+            this.chessboard.view.positionsAnimationTask.then(() => {
+                if (this.state.displayState !== DISPLAY_STATE.displayRequested) return
+                this.setDisplayState(DISPLAY_STATE.shown)
+                this.announce(this.t.choosePromotion + ": " +
+                    this.pieceOrder.map(p => this.t.pieces[p]).join(", "))
+            })
+        })
     }
 
     // public (chessboard.isPromotionDialogShown)
@@ -135,9 +137,7 @@ export class PromotionDialog extends Extension {
     }
 
     redrawDialog() {
-        while (this.promotionDialogGroup.firstChild) {
-            this.promotionDialogGroup.removeChild(this.promotionDialogGroup.firstChild)
-        }
+        Svg.removeAllChildren(this.promotionDialogGroup)
         if (this.state.displayState === DISPLAY_STATE.shown) {
             const squareWidth = this.chessboard.view.squareWidth
             const squareHeight = this.chessboard.view.squareHeight
@@ -248,6 +248,7 @@ export class PromotionDialog extends Extension {
     }
 
     setDisplayState(displayState) {
+        const prevState = this.state.displayState
         this.state.displayState = displayState
         if (displayState === DISPLAY_STATE.shown) {
             this.clickDelegate = Utils.delegate(this.chessboard.view.svg,
@@ -259,19 +260,26 @@ export class PromotionDialog extends Extension {
             // Add keyboard listener
             document.addEventListener("keydown", this.handleKeyDown)
         } else if (displayState === DISPLAY_STATE.hidden) {
-            this.clickDelegate.remove()
-            this.chessboard.view.svg.removeEventListener("contextmenu", this.contextMenuListener)
+            if (this.clickDelegate) {
+                this.clickDelegate.remove()
+                this.clickDelegate = null
+            }
+            if (this.contextMenuListener && this.chessboard.view) {
+                this.chessboard.view.svg.removeEventListener("contextmenu", this.contextMenuListener)
+                this.contextMenuListener = null
+            }
             // Remove keyboard listener
             document.removeEventListener("keydown", this.handleKeyDown)
             // Restore focus
-            if (this.previouslyFocusedElement && this.previouslyFocusedElement.focus) {
+            if (prevState === DISPLAY_STATE.shown && this.previouslyFocusedElement && this.previouslyFocusedElement.focus) {
                 this.previouslyFocusedElement.focus()
             }
         }
         this.redrawDialog()
         // Focus first button after redraw when shown
         if (displayState === DISPLAY_STATE.shown) {
-            setTimeout(() => {
+            this.focusTimeoutId = setTimeout(() => {
+                this.focusTimeoutId = null
                 this.focusButton(0)
             }, 0)
         }
@@ -352,18 +360,42 @@ export class PromotionDialog extends Extension {
     }
 
     announce(message) {
+        if (!this.liveRegion) return
         this.liveRegion.textContent = ""
+        if (this.announceTimeoutId) {
+            clearTimeout(this.announceTimeoutId)
+        }
         // Small delay to ensure screen readers pick up the change
-        setTimeout(() => {
-            this.liveRegion.textContent = message
+        this.announceTimeoutId = setTimeout(() => {
+            this.announceTimeoutId = null
+            if (this.liveRegion) {
+                this.liveRegion.textContent = message
+            }
         }, 50)
     }
 
     destroy() {
+        if (this.state.displayState === DISPLAY_STATE.shown) {
+            this.setDisplayState(DISPLAY_STATE.hidden)
+        }
+        if (this.announceTimeoutId) {
+            clearTimeout(this.announceTimeoutId)
+            this.announceTimeoutId = null
+        }
+        if (this.focusTimeoutId) {
+            clearTimeout(this.focusTimeoutId)
+            this.focusTimeoutId = null
+        }
+        if (this.showTimeoutId) {
+            clearTimeout(this.showTimeoutId)
+            this.showTimeoutId = null
+        }
         document.removeEventListener("keydown", this.handleKeyDown)
         if (this.liveRegion && this.liveRegion.parentNode) {
             this.liveRegion.parentNode.removeChild(this.liveRegion)
         }
+        delete this.chessboard.showPromotionDialog
+        delete this.chessboard.isPromotionDialogShown
     }
 
 }

@@ -108,9 +108,9 @@ class BrailleNotationInAlt {
         for (const piece of pieces) {
             const pieceName = piece.type === "p" ? "" : piecesTranslations[this.extension.lang].pieces[piece.type].toUpperCase()
             if (piece.color === "w") {
-                listW += " " + pieceName + piece.position
+                listW += " " + pieceName + piece.square
             } else {
-                listB += " " + pieceName + piece.position
+                listB += " " + pieceName + piece.square
             }
         }
         const altText = `${listW}
@@ -276,9 +276,9 @@ class PiecesAsList {
         let listB = ""
         for (const piece of pieces) {
             if (piece.color === "w") {
-                listW += `<li class="list-inline-item">${renderPieceTitle(this.extension.lang, piece.type)} ${piece.position}</li>`
+                listW += `<li class="list-inline-item">${renderPieceTitle(this.extension.lang, piece.type)} ${piece.square}</li>`
             } else {
-                listB += `<li class="list-inline-item">${renderPieceTitle(this.extension.lang, piece.type)} ${piece.position}</li>`
+                listB += `<li class="list-inline-item">${renderPieceTitle(this.extension.lang, piece.type)} ${piece.square}</li>`
             }
         }
         this.piecesList.innerHTML = `
@@ -565,9 +565,7 @@ class KeyboardMoveInput {
     }
 
     clearFocusIndicator() {
-        while (this.focusIndicatorGroup.firstChild) {
-            this.focusIndicatorGroup.removeChild(this.focusIndicatorGroup.firstChild)
-        }
+        Svg.removeAllChildren(this.focusIndicatorGroup)
     }
 
     destroy() {

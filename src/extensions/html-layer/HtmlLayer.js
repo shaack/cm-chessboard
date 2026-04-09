@@ -3,15 +3,21 @@
  * Repository: https://github.com/shaack/cm-chessboard
  * License: MIT, see file 'LICENSE'
  */
-import {Extension} from "../../model/Extension.js"
+import {Extension, EXTENSION_POINT} from "../../model/Extension.js"
 
 export class HtmlLayer extends Extension {
     /** @constructor */
-    constructor(chessboard) {
+    constructor(chessboard, props = {}) {
         super(chessboard)
+        this.props = props
+        this.layers = []
         chessboard.addHtmlLayer = this.addHtmlLayer.bind(this)
         chessboard.removeHtmlLayer = this.removeHtmlLayer.bind(this)
+        this.registerExtensionPoint(EXTENSION_POINT.destroy, () => {
+            this.onDestroy()
+        })
     }
+
     addHtmlLayer(html) {
         const layer = document.createElement("div")
         this.chessboard.context.appendChild(layer)
@@ -23,9 +29,30 @@ export class HtmlLayer extends Extension {
         layer.style.bottom = "0"
         layer.style.right = "0"
         layer.innerHTML = html
+        this.layers.push(layer)
         return layer
     }
+
     removeHtmlLayer(layer) {
-        this.chessboard.context.removeChild(layer)
+        const index = this.layers.indexOf(layer)
+        if (index === -1) {
+            console.warn("HtmlLayer: removeHtmlLayer called with unknown layer")
+            return
+        }
+        this.layers.splice(index, 1)
+        if (layer.parentNode === this.chessboard.context) {
+            this.chessboard.context.removeChild(layer)
+        }
+    }
+
+    onDestroy() {
+        for (const layer of this.layers) {
+            if (layer.parentNode) {
+                layer.parentNode.removeChild(layer)
+            }
+        }
+        this.layers.length = 0
+        delete this.chessboard.addHtmlLayer
+        delete this.chessboard.removeHtmlLayer
     }
 }

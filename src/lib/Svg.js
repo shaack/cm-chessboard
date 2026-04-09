@@ -65,4 +65,15 @@ export class Svg {
         }
     }
 
+    /**
+     * Remove all children of an element
+     * @param element
+     */
+    static removeAllChildren(element) {
+        if (!element) return
+        while (element.firstChild) {
+            element.removeChild(element.firstChild)
+        }
+    }
+
 }

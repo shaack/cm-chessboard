@@ -6,7 +6,6 @@
 
 import {Extension, EXTENSION_POINT} from "../../model/Extension.js"
 import {Svg} from "../../lib/Svg.js"
-import {Utils} from "../../lib/Utils.js"
 
 export const ARROW_TYPE = {
     default: {class: "arrow-success"},
@@ -24,6 +23,9 @@ export class Arrows extends Extension {
         super(chessboard)
         this.registerExtensionPoint(EXTENSION_POINT.afterRedrawBoard, () => {
             this.onRedrawBoard()
+        })
+        this.registerExtensionPoint(EXTENSION_POINT.destroy, () => {
+            this.onDestroy()
         })
         this.props = {
             sprite: "extensions/arrows/arrows.svg",
@@ -43,10 +45,16 @@ export class Arrows extends Extension {
         this.arrows = []
     }
 
+    onDestroy() {
+        this.arrows.length = 0
+        Svg.removeElement(this.arrowGroup)
+        delete this.chessboard.addArrow
+        delete this.chessboard.getArrows
+        delete this.chessboard.removeArrows
+    }
+
     onRedrawBoard() {
-        while (this.arrowGroup.firstChild) {
-            this.arrowGroup.removeChild(this.arrowGroup.firstChild)
-        }
+        Svg.removeAllChildren(this.arrowGroup)
         this.arrows.forEach((arrow) => {
             this.drawArrow(arrow)
         })
@@ -111,8 +119,18 @@ export class Arrows extends Extension {
     }
 
     addArrow(type, from, to) {
+        if (!type || typeof type !== "object" || !type.class) {
+            console.error("addArrow: invalid type", type)
+            return
+        }
+        if (!from || typeof from !== "string" || !to || typeof to !== "string") {
+            console.error("addArrow: invalid from/to squares", from, to)
+            return
+        }
         this.arrows.push(new Arrow(from, to, type))
-        this.chessboard.view.redrawBoard()
+        if (!this.batchUpdate) {
+            this.onRedrawBoard()
+        }
     }
 
     getArrows(type = undefined, from = undefined, to = undefined) {
@@ -127,16 +145,11 @@ export class Arrows extends Extension {
 
     removeArrows(type = undefined, from = undefined, to = undefined) {
         this.arrows = this.arrows.filter((arrow) => !arrow.matches(from, to, type))
-        this.chessboard.view.redrawBoard()
-    }
-
-    getSpriteUrl() {
-        if(Utils.isAbsoluteUrl(this.props.sprite)) {
-            return this.props.sprite
-        } else {
-            return this.chessboard.props.assetsUrl + this.props.sprite
+        if (!this.batchUpdate) {
+            this.onRedrawBoard()
         }
     }
+
 }
 
 class Arrow {
