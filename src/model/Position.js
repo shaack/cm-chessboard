@@ -143,7 +143,7 @@ export class Position {
     }
 
     clone() {
-        const cloned = new Position()
+        const cloned = Object.create(Position.prototype)
         cloned.squares = this.squares.slice(0)
         return cloned
     }
