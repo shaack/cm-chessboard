@@ -69,4 +69,42 @@ describe("TestChessboard", () => {
         chessboard.destroy()
     })
 
+    // Regression for a production crash: the ResizeObserver callback defers
+    // handleResize() via setTimeout to avoid "ResizeObserver loop completed"
+    // warnings. If destroy() is called between the observer firing and the
+    // setTimeout running, handleResize -> redrawBoard hits
+    // `this.chessboard.state.invokeExtensionPoints(...)` where `state` is
+    // now undefined, throwing TypeError.
+    //
+    // We invalidate view.width by zeroing it so that the size-changed branch
+    // of handleResize is guaranteed to enter updateMetrics + redrawBoard.
+    // Otherwise a stable container size would short-circuit the branch and
+    // the bug path wouldn't be exercised.
+    it("should not crash when destroyed while a resize handler is pending", async () => {
+        const chessboard = new Chessboard(document.getElementById("TestBoard"), {
+            assetsUrl: "../assets/",
+            position: FEN.start
+        })
+        const view = chessboard.view
+        // Force the size-changed branch to trigger on the next handleResize
+        view.width = 0
+        view.height = 0
+        // Simulate what the ResizeObserver callback does: defer handleResize
+        // via setTimeout. This path is deterministic.
+        const pending = new Promise((resolve) => {
+            setTimeout(() => {
+                try {
+                    view.handleResize()
+                    resolve(null)
+                } catch (e) {
+                    resolve(e)
+                }
+            })
+        })
+        // Force the race: destroy the board before the setTimeout fires.
+        chessboard.destroy()
+        const error = await pending
+        assert.equal(error, null, error && error.message)
+    })
+
 })

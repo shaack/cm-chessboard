@@ -49,7 +49,12 @@ export class ChessboardView {
         if (chessboard.props.responsive) {
             if (typeof ResizeObserver !== "undefined") {
                 this.resizeObserver = new ResizeObserver(() => {
-                    setTimeout(() => { // prevents "ResizeObserver loop completed with undelivered notifications."
+                    // Defer via setTimeout to avoid "ResizeObserver loop
+                    // completed with undelivered notifications." The timeout
+                    // id is tracked so destroy() can cancel a pending call
+                    // and avoid running handleResize on a destroyed board.
+                    this.resizeTimeout = setTimeout(() => {
+                        this.resizeTimeout = null
                         this.handleResize()
                     })
                 })
@@ -75,6 +80,13 @@ export class ChessboardView {
         this.visualMoveInput.destroy()
         if (this.resizeObserver) {
             this.resizeObserver.unobserve(this.chessboard.context)
+        }
+        // Cancel any pending handleResize that the ResizeObserver callback
+        // has already scheduled via setTimeout. unobserve() stops new
+        // notifications but does not clear timeouts we scheduled ourselves.
+        if (this.resizeTimeout) {
+            clearTimeout(this.resizeTimeout)
+            this.resizeTimeout = null
         }
         if (this.resizeListener) {
             window.removeEventListener("resize", this.resizeListener)
@@ -145,6 +157,12 @@ export class ChessboardView {
     }
 
     handleResize() {
+        // Skip if the board has already been destroyed. The resizeObserver
+        // or window resize listener may fire a callback whose deferred work
+        // is still pending when destroy() runs.
+        if (!this.chessboard || !this.chessboard.state) {
+            return
+        }
         this.container.style.width = (this.chessboard.context.clientWidth) + "px"
         this.container.style.height = (this.chessboard.context.clientWidth * this.chessboard.props.style.aspectRatio) + "px"
         if (this.container.clientWidth !== this.width || this.container.clientHeight !== this.height) {
