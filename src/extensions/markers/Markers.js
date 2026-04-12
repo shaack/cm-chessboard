@@ -29,6 +29,9 @@ export class Markers extends Extension {
         this.registerExtensionPoint(EXTENSION_POINT.afterRedrawBoard, () => {
             this.onRedrawBoard()
         })
+        this.registerExtensionPoint(EXTENSION_POINT.destroy, () => {
+            this.onDestroy()
+        })
         this.props = {
             autoMarkers: MARKER_TYPE.frame, // set to `null` to disable autoMarkers
             sprite: "extensions/markers/markers.svg" // the sprite file of the markers
@@ -51,6 +54,21 @@ export class Markers extends Extension {
                 this.drawAutoMarkers(event)
             })
         }
+    }
+
+    onDestroy() {
+        this.markers.length = 0
+        if (this.markerGroupDown && this.markerGroupDown.parentNode) {
+            this.markerGroupDown.parentNode.removeChild(this.markerGroupDown)
+        }
+        if (this.markerGroupUp && this.markerGroupUp.parentNode) {
+            this.markerGroupUp.parentNode.removeChild(this.markerGroupUp)
+        }
+        delete this.chessboard.addMarker
+        delete this.chessboard.getMarkers
+        delete this.chessboard.removeMarkers
+        delete this.chessboard.addLegalMovesMarkers
+        delete this.chessboard.removeLegalMovesMarkers
     }
 
     drawAutoMarkers(event) {

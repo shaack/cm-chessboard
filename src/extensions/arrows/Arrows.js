@@ -25,6 +25,9 @@ export class Arrows extends Extension {
         this.registerExtensionPoint(EXTENSION_POINT.afterRedrawBoard, () => {
             this.onRedrawBoard()
         })
+        this.registerExtensionPoint(EXTENSION_POINT.destroy, () => {
+            this.onDestroy()
+        })
         this.props = {
             sprite: "extensions/arrows/arrows.svg",
             slice: "arrowDefault",
@@ -41,6 +44,16 @@ export class Arrows extends Extension {
         chessboard.removeArrows = this.removeArrows.bind(this)
         this.arrowGroup = Svg.addElement(chessboard.view.markersTopLayer, "g", {class: "arrows"})
         this.arrows = []
+    }
+
+    onDestroy() {
+        this.arrows.length = 0
+        if (this.arrowGroup && this.arrowGroup.parentNode) {
+            this.arrowGroup.parentNode.removeChild(this.arrowGroup)
+        }
+        delete this.chessboard.addArrow
+        delete this.chessboard.getArrows
+        delete this.chessboard.removeArrows
     }
 
     onRedrawBoard() {
