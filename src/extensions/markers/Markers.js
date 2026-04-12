@@ -104,21 +104,33 @@ export class Markers extends Extension {
     }
 
     addLegalMovesMarkers(moves) {
-        for (const move of moves) {
-            if (move.promotion && move.promotion !== "q") {
-                continue
+        this.batchUpdate = true
+        try {
+            for (const move of moves) {
+                if (move.promotion && move.promotion !== "q") {
+                    continue
+                }
+                if (this.chessboard.getPiece(move.to)) {
+                    this.chessboard.addMarker(MARKER_TYPE.bevel, move.to)
+                } else {
+                    this.chessboard.addMarker(MARKER_TYPE.dot, move.to)
+                }
             }
-            if (this.chessboard.getPiece(move.to)) {
-                this.chessboard.addMarker(MARKER_TYPE.bevel, move.to)
-            } else {
-                this.chessboard.addMarker(MARKER_TYPE.dot, move.to)
-            }
+        } finally {
+            this.batchUpdate = false
+            this.onRedrawBoard()
         }
     }
 
     removeLegalMovesMarkers() {
-        this.chessboard.removeMarkers(MARKER_TYPE.bevel)
-        this.chessboard.removeMarkers(MARKER_TYPE.dot)
+        this.batchUpdate = true
+        try {
+            this.chessboard.removeMarkers(MARKER_TYPE.bevel)
+            this.chessboard.removeMarkers(MARKER_TYPE.dot)
+        } finally {
+            this.batchUpdate = false
+            this.onRedrawBoard()
+        }
     }
 
     drawMarker(marker) {
@@ -148,7 +160,9 @@ export class Markers extends Extension {
             return
         }
         this.markers.push(new Marker(square, type))
-        this.onRedrawBoard()
+        if (!this.batchUpdate) {
+            this.onRedrawBoard()
+        }
     }
 
     getMarkers(type = undefined, square = undefined) {
@@ -171,7 +185,9 @@ export class Markers extends Extension {
             return
         }
         this.markers = this.markers.filter((marker) => !marker.matches(square, type))
-        this.onRedrawBoard()
+        if (!this.batchUpdate) {
+            this.onRedrawBoard()
+        }
     }
 
     getSpriteUrl() {

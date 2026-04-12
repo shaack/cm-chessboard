@@ -125,7 +125,7 @@ export class Arrows extends Extension {
 
     addArrow(type, from, to) {
         this.arrows.push(new Arrow(from, to, type))
-        this.chessboard.view.redrawBoard()
+        this.onRedrawBoard()
     }
 
     getArrows(type = undefined, from = undefined, to = undefined) {
@@ -140,7 +140,7 @@ export class Arrows extends Extension {
 
     removeArrows(type = undefined, from = undefined, to = undefined) {
         this.arrows = this.arrows.filter((arrow) => !arrow.matches(from, to, type))
-        this.chessboard.view.redrawBoard()
+        this.onRedrawBoard()
     }
 
     getSpriteUrl() {
