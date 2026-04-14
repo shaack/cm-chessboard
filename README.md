@@ -289,6 +289,10 @@ chessboard-sprite-staunty.svg) and a sprite of the
 Sprites must be 40x40px in size where the piece elements must have ids like
 "bp" (black pawn) or "wq" (white queen). Just open the sprite in a text editor, SVG is readable like HTML.
 
+### More piece sets
+
+[piece-packager](https://github.com/deverac/piece-packager) by @deverac ships 80+ prepackaged piece sets ready to drop into `assets/pieces/`, plus a tool to bundle your own 12 individual piece files (SVG or PNG) into a cm-chessboard-compatible sprite.
+
 ## Extensions
 
 cm-chessboard provides the ability to extend its functionality with extensions. Extensions extend the class `Extension`
