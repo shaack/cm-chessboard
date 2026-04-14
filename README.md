@@ -318,7 +318,6 @@ Currently possible extension points are defined in `Extension.js`.
 export const EXTENSION_POINT = {
     positionChanged: "positionChanged", // the positions of the pieces was changed
     boardChanged: "boardChanged", // the board (orientation) was changed
-    boardResized: "boardResized", // the board was resized
     moveInputToggled: "moveInputToggled", // move input was enabled or disabled
     moveInput: "moveInput", // move started, moving over a square, validating or canceled
     beforeRedrawBoard: "beforeRedrawBoard", // called before redrawing the board
