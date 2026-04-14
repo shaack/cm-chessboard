@@ -43,6 +43,7 @@ export class Arrows extends Extension {
         chessboard.getArrows = this.getArrows.bind(this)
         chessboard.removeArrows = this.removeArrows.bind(this)
         this.arrowGroup = Svg.addElement(chessboard.view.markersTopLayer, "g", {class: "arrows"})
+        this.instanceId = Math.random().toString(36).slice(2, 10)
         this.arrows = []
     }
 
@@ -74,7 +75,7 @@ export class Arrows extends Extension {
         const ptTo = view.squareToPoint(arrow.to)
         const spriteUrl = this.chessboard.props.assetsCache ? "" : this.getSpriteUrl()
         const defs = Svg.addElement(arrowsGroup, "defs")
-        const id = "arrow-" + arrow.from + arrow.to
+        const id = "arrow-" + this.instanceId + "-" + arrow.from + arrow.to
         const marker = Svg.addElement(defs, "marker", {
             id: id,
             markerWidth: this.props.headSize,
