@@ -69,6 +69,36 @@ describe("TestChessboard", () => {
         chessboard.destroy()
     })
 
+    // Regression for https://github.com/shaack/cm-chessboard/issues/154
+    //
+    // A setPosition() call with a null diff (positionFrom === positionTo)
+    // used to bypass the animation queue entirely and resolve on the next
+    // microtask. That's wrong when an earlier animation — here the animated
+    // movePiece — is still in the queue: the setPosition promise must wait
+    // for that to drain before resolving, otherwise callers following the
+    // "await setPosition(...); then continue" pattern run their
+    // continuation before the board is visually settled.
+    it("setPosition should wait for pending animations even on a null diff (#154)", async () => {
+        const chessboard = new Chessboard(document.getElementById("TestPosition"), {
+            assetsUrl: "../assets/",
+            position: FEN.start,
+            style: {animationDuration: 100}
+        })
+        let movePieceResolved = false
+        const movePromise = chessboard.movePiece("e2", "e4", true).then(() => {
+            movePieceResolved = true
+        })
+        // Same FEN as the position after movePiece → null diff inside
+        // setPosition. The animated movePiece above is still queued.
+        const targetFen = "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR"
+        const setPromise = chessboard.setPosition(targetFen, true).then(() => {
+            assert.equal(movePieceResolved, true,
+                "setPosition resolved before the pending movePiece animation finished")
+        })
+        await Promise.all([movePromise, setPromise])
+        chessboard.destroy()
+    })
+
     // Regression for a production crash: the ResizeObserver callback defers
     // handleResize() via setTimeout to avoid "ResizeObserver loop completed"
     // warnings. If destroy() is called between the observer firing and the

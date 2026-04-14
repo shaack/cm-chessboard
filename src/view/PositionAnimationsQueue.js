@@ -246,7 +246,10 @@ export class PositionAnimationsQueue extends PromiseQueue {
 
     async enqueuePositionChange(positionFrom, positionTo, animated) {
         if(positionFrom.getFen() === positionTo.getFen()) {
-            return Promise.resolve()
+            // No diff to animate. Still go through the queue so the promise
+            // resolves after any animations already in flight (e.g. an
+            // earlier movePiece from a drag). See issue #154.
+            return super.enqueue(() => Promise.resolve())
         } else {
             return super.enqueue(() => new Promise((resolve) => {
                 let duration = animated ? this.chessboard.props.style.animationDuration : 0
