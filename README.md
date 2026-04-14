@@ -84,7 +84,12 @@ You can also copy the `assets` folder from `cm-chessboard/assets` to your projec
 
 To enable the user to move the pieces, you have to enable the move input.
 
+Markers are provided by the [Markers extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/markers-extension.html) (not part of the core), so you need to import and enable it.
+
 ```javascript
+import {Chessboard, FEN, INPUT_EVENT_TYPE} from "./path/to/Chessboard.js"
+import {Markers} from "./path/to/extensions/markers/Markers.js"
+
 const board = new Chessboard(document.getElementById("board"), {
         position: FEN.start,
         assetsUrl: "../assets/",
