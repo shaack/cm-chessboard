@@ -28,6 +28,33 @@ Removes markers from the board.
 Only set `type` to remove all markers of `type` from the board. Set `type` to `undefined`, to remove all types
 of markers from a square. Call without parameters to remove all markers from the board.
 
+## Marker type identity
+
+Marker types are matched by **object reference**, not by structural
+equality. Two type objects that only *look* the same are intentionally
+treated as different types — this lets you have several visually
+identical marker types that can be managed independently.
+
+Always keep your marker types as module-level constants and pass the
+**same reference** to `addMarker` and `removeMarkers`:
+
+```js
+// ✅ works — same reference
+const myType = {class: "marker-frame", slice: "markerFrame"}
+board.addMarker(myType, "e4")
+board.removeMarkers(myType)        // removed
+
+// ❌ silently does nothing — different reference, even though the
+// object looks identical
+board.addMarker({class: "marker-frame", slice: "markerFrame"}, "e4")
+board.removeMarkers({class: "marker-frame", slice: "markerFrame"})
+```
+
+The same applies to the exported `MARKER_TYPE.*` constants: import them
+once and reuse that reference — don't clone them (e.g. via
+`JSON.parse(JSON.stringify(...))` or a framework store that
+deep-copies), or `removeMarkers` won't find a match.
+
 ## Create your own custom markers
 
 Just create an object like `const myMarker = {class: "markerCssClass", slice: "markerSliceId"}`, where `class` is the
