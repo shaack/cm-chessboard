@@ -31,7 +31,7 @@
 }
 .cm-chessboard .arrow-info .arrow-line {
   stroke: blue;
-  stroke-linecap: butt;
+  stroke-linecap: round;
   opacity: 0.4;
 }
 .cm-chessboard .arrow-secondary .arrow-head {
