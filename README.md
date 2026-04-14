@@ -47,7 +47,7 @@ The core of cm-chessboard is small, fast and reduced to the essentials. You can 
 #### Step 2a: Include the CSS file
 
 ```html
-<link rel="stylesheet" href="./node_modules/cm-chessboard/assets/styles/cm-chessboard.css">
+<link rel="stylesheet" href="./node_modules/cm-chessboard/assets/chessboard.css">
 ```
 
 - Some extensions, like "[Markers](https://shaack.com/projekte/cm-chessboard/examples/extensions/markers-extension.html)", "[Promotion Dialog](https://shaack.com/projekte/cm-chessboard/examples/extensions/promotion-dialog-extension.html)" or "[Arrows](https://shaack.com/projekte/cm-chessboard/examples/extensions/arrows-extension.html)" need additional CSS. See the examples.
