@@ -152,10 +152,9 @@ this.props = {
 
 ### setPiece(square, piece, animated = false)
 
-Sets a piece on a square. Example: `board.setPiece("e4", PIECE.blackKnight, true)` or
-`board.setPiece("e4", "bn")`. Remove a Piece with `board.setPiece("e4", null)`. Returns a **Promise**, which is
-resolved,
-after the animation finished.
+Sets a piece on a square. Example: `board.setPiece("e4", PIECE.bn, true)` or
+`board.setPiece("e4", "bn")`. Remove a piece with `board.setPiece("e4", null)`. Returns a **Promise**, which is
+resolved after the animation finished.
 
 ### getPiece(square)
 
@@ -177,21 +176,15 @@ Sets the position as `fen` or only the position part of a `fen`. Returns a **Pro
 
 Returns the board position in form of the position part of a `fen`.
 
-### setOrientation(color)
+### setOrientation(color, animated = false)
 
-Sets the board orientation (color at bottom). Allowed values are `COLOR.white` or `COLOR.black`.
+Sets the board orientation (color at bottom). Allowed values are `COLOR.white` or `COLOR.black`. When `animated` is `true`, the board turns with an animation. Returns a **Promise**, which is resolved after the animation finished.
 
 [Example for **setOrientation**](https://shaack.com/projekte/cm-chessboard/examples/enable-input.html)
 
 ### getOrientation()
 
 Returns the board orientation.
-
-### destroy()
-
-Removes the board from the DOM.
-
-[Example for **destroy**](https://shaack.com/projekte/cm-chessboard/examples/destroy-many-boards.html)
 
 ### enableMoveInput(eventHandler, color = undefined)
 
@@ -246,6 +239,44 @@ chessboard.enableMoveInput((event) => {
 ### disableMoveInput()
 
 Disables moves via user input.
+
+### isMoveInputEnabled()
+
+Returns `true` if move input is currently enabled for white or black.
+
+### enableSquareSelect(eventType, eventHandler)
+
+Listens for pointer events on squares and calls `eventHandler` with an object `{eventType, event, chessboard, square}`. `eventType` defaults to `POINTER_EVENTS.pointerdown`; allowed values are in `POINTER_EVENTS` (e.g. `pointerdown`, `pointerup`, `pointermove`, …).
+
+```javascript
+board.enableSquareSelect(POINTER_EVENTS.pointerdown, (event) => {
+    console.log(event.square)
+})
+```
+
+[Example for **enableSquareSelect**](https://shaack.com/projekte/cm-chessboard/examples/pointer-events.html)
+
+### disableSquareSelect(eventType)
+
+Stops listening for the given pointer event type.
+
+### isSquareSelectEnabled()
+
+Returns `true` if square select is currently enabled.
+
+### addExtension(extensionClass, props)
+
+Adds an extension at runtime. Throws if the extension class is already added.
+
+### getExtension(extensionClass)
+
+Returns the instance of an added extension, or `null` if not found.
+
+### destroy()
+
+Removes the board from the DOM.
+
+[Example for **destroy**](https://shaack.com/projekte/cm-chessboard/examples/destroy-many-boards.html)
 
 ## Piece sets
 
