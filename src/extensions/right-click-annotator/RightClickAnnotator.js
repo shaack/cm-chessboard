@@ -108,7 +108,7 @@ export class RightClickAnnotator extends Extension {
             square,
             modifiers: {
                 alt: event.altKey,
-                shift: event.shiftKey
+                shift: event.shiftKey || event.ctrlKey
             }
         }
     }
