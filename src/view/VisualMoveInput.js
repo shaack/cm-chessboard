@@ -23,7 +23,8 @@ export const MOVE_CANCELED_REASON = {
     secondaryClick: "secondaryClick", // right click while moving
     movedOutOfBoard: "movedOutOfBoard",
     draggedBack: "draggedBack", // dragged to the start square
-    clickedAnotherPiece: "clickedAnotherPiece" // of the same color
+    clickedAnotherPiece: "clickedAnotherPiece", // of the same color
+    movedPieceChanged: "movedPieceChanged" // most likely got captured
 }
 
 const DRAG_THRESHOLD = 4
@@ -36,6 +37,7 @@ export class VisualMoveInput {
         this.moveInputState = null
         this.fromSquare = null
         this.toSquare = null
+        this.movedPiece = null
 
         this.setMoveInputState(MOVE_INPUT_STATE.waitForInputStart)
     }
@@ -406,6 +408,16 @@ export class VisualMoveInput {
         this.view.redrawPieces()
         this.setMoveInputState(MOVE_INPUT_STATE.reset)
         this.moveInputCanceledCallback(this.fromSquare, null, MOVE_CANCELED_REASON.secondaryClick)
+    }
+
+    positionChanged() {
+        if (this.fromSquare) {
+            const pieceName = this.chessboard.getPiece(this.fromSquare)
+            if (pieceName != this.movedPiece) {
+                this.setMoveInputState(MOVE_INPUT_STATE.reset)
+                this.moveInputCanceledCallback(this.fromSquare, null, MOVE_CANCELED_REASON.movedPieceChanged)
+            }
+        }
     }
 
     isDragging() {
