@@ -76,15 +76,22 @@ export class RightClickAnnotator extends Extension {
         }
     }
 
+    // Remove only the arrows/markers created by this extension, leaving annotations from other sources untouched.
+    removeOwnArrows(from = undefined, to = undefined) {
+        for (const arrowType of Object.values(ARROW_TYPE)) {
+            this.chessboard.removeArrows(arrowType, from, to)
+        }
+    }
+
+    removeOwnMarkers(square = undefined) {
+        for (const markerType of Object.values(MARKER_TYPE)) {
+            this.chessboard.removeMarkers(markerType, square)
+        }
+    }
+
     setAnnotations(annotations) {
-        this.chessboard.removeArrows(ARROW_TYPE.info)
-        this.chessboard.removeArrows(ARROW_TYPE.danger)
-        this.chessboard.removeArrows(ARROW_TYPE.warning)
-        this.chessboard.removeArrows(ARROW_TYPE.success)
-        this.chessboard.removeMarkers(MARKER_TYPE.info)
-        this.chessboard.removeMarkers(MARKER_TYPE.danger)
-        this.chessboard.removeMarkers(MARKER_TYPE.warning)
-        this.chessboard.removeMarkers(MARKER_TYPE.success)
+        this.removeOwnArrows()
+        this.removeOwnMarkers()
         if (annotations.arrows) {
             for (const arrow of annotations.arrows) {
                 this.chessboard.addArrow(arrow.type, arrow.from, arrow.to)
@@ -137,10 +144,7 @@ export class RightClickAnnotator extends Extension {
             if (existing && existing.length > 0) {
                 this.chessboard.removeArrows(arrowType, start.square, endSquare)
             } else {
-                this.chessboard.removeArrows(ARROW_TYPE.info, start.square, endSquare)
-                this.chessboard.removeArrows(ARROW_TYPE.danger, start.square, endSquare)
-                this.chessboard.removeArrows(ARROW_TYPE.warning, start.square, endSquare)
-                this.chessboard.removeArrows(ARROW_TYPE.success, start.square, endSquare)
+                this.removeOwnArrows(start.square, endSquare)
                 this.chessboard.addArrow(arrowType, start.square, endSquare)
             }
         } else if (start.square) {
@@ -149,10 +153,7 @@ export class RightClickAnnotator extends Extension {
             if (existingMarkers && existingMarkers.length > 0) {
                 this.chessboard.removeMarkers(circleType, start.square)
             } else {
-                this.chessboard.removeMarkers(MARKER_TYPE.info, start.square)
-                this.chessboard.removeMarkers(MARKER_TYPE.danger, start.square)
-                this.chessboard.removeMarkers(MARKER_TYPE.warning, start.square)
-                this.chessboard.removeMarkers(MARKER_TYPE.success, start.square)
+                this.removeOwnMarkers(start.square)
                 this.chessboard.addMarker(circleType, start.square)
             }
         }
