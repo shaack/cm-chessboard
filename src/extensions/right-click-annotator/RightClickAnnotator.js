@@ -77,8 +77,14 @@ export class RightClickAnnotator extends Extension {
     }
 
     setAnnotations(annotations) {
-        this.chessboard.removeArrows()
-        this.chessboard.removeMarkers()
+        this.chessboard.removeArrows(ARROW_TYPE.info)
+        this.chessboard.removeArrows(ARROW_TYPE.danger)
+        this.chessboard.removeArrows(ARROW_TYPE.warning)
+        this.chessboard.removeArrows(ARROW_TYPE.success)
+        this.chessboard.removeMarkers(MARKER_TYPE.info)
+        this.chessboard.removeMarkers(MARKER_TYPE.danger)
+        this.chessboard.removeMarkers(MARKER_TYPE.warning)
+        this.chessboard.removeMarkers(MARKER_TYPE.success)
         if (annotations.arrows) {
             for (const arrow of annotations.arrows) {
                 this.chessboard.addArrow(arrow.type, arrow.from, arrow.to)
@@ -131,7 +137,10 @@ export class RightClickAnnotator extends Extension {
             if (existing && existing.length > 0) {
                 this.chessboard.removeArrows(arrowType, start.square, endSquare)
             } else {
-                this.chessboard.removeArrows(undefined, start.square, endSquare)
+                this.chessboard.removeArrows(ARROW_TYPE.info, start.square, endSquare)
+                this.chessboard.removeArrows(ARROW_TYPE.danger, start.square, endSquare)
+                this.chessboard.removeArrows(ARROW_TYPE.warning, start.square, endSquare)
+                this.chessboard.removeArrows(ARROW_TYPE.success, start.square, endSquare)
                 this.chessboard.addArrow(arrowType, start.square, endSquare)
             }
         } else if (start.square) {
@@ -140,7 +149,10 @@ export class RightClickAnnotator extends Extension {
             if (existingMarkers && existingMarkers.length > 0) {
                 this.chessboard.removeMarkers(circleType, start.square)
             } else {
-                this.chessboard.removeMarkers(undefined, start.square)
+                this.chessboard.removeMarkers(MARKER_TYPE.info, start.square)
+                this.chessboard.removeMarkers(MARKER_TYPE.danger, start.square)
+                this.chessboard.removeMarkers(MARKER_TYPE.warning, start.square)
+                this.chessboard.removeMarkers(MARKER_TYPE.success, start.square)
                 this.chessboard.addMarker(circleType, start.square)
             }
         }
