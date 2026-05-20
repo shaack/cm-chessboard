@@ -56,7 +56,7 @@ export class Accessibility extends Extension {
             movePieceForm: true, // display a form to move a piece (from, to, move)
             boardAsTable: true, // display the board additionally as HTML table
             piecesAsList: true, // display the pieces additionally as List
-            keyboardMoveInput: true, // enable keyboard navigation on the board with arrow keys
+            keyboardMoveInput: false, // enable keyboard navigation on the board with arrow keys
             visuallyHidden: true // hide all those extra outputs visually but keep them accessible for screen readers and braille displays
         }
         Object.assign(this.props, props)
