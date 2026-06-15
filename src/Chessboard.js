@@ -93,6 +93,7 @@ export class Chessboard {
         const positionTo = new Position(fen)
         if (positionFrom.getFen() !== positionTo.getFen()) {
             this.state.position.setFen(fen)
+            this.view.visualMoveInput.positionChanged()
             this.state.invokeExtensionPoints(EXTENSION_POINT.positionChanged)
         }
         return this.positionAnimationsQueue.enqueuePositionChange(positionFrom, this.state.position.clone(), animated)
