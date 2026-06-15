@@ -8,9 +8,9 @@ export class Utils {
 
     static delegate(element, eventName, selector, handler) {
         const eventListener = function (event) {
-            const match = event.target.closest(selector);
+            const match = event.target.closest(selector)
             if (match && this.contains(match)) {
-                handler.call(match, event);
+                handler.call(match, event)
             }
         }
         element.addEventListener(eventName, eventListener)
