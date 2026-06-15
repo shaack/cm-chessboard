@@ -8,12 +8,9 @@ export class Utils {
 
     static delegate(element, eventName, selector, handler) {
         const eventListener = function (event) {
-            let target = event.target
-            while (target && target !== this) {
-                if (target.matches(selector)) {
-                    handler.call(target, event)
-                }
-                target = target.parentNode
+            const match = event.target.closest(selector);
+            if (match && this.contains(match)) {
+                handler.call(match, event);
             }
         }
         element.addEventListener(eventName, eventListener)
