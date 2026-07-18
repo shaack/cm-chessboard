@@ -372,14 +372,10 @@ export class VisualMoveInput {
             if (square) {
                 if (this.moveInputState === MOVE_INPUT_STATE.dragTo || this.moveInputState === MOVE_INPUT_STATE.clickDragTo) {
                     if (this.fromSquare === square) {
-                        if (this.moveInputState === MOVE_INPUT_STATE.clickDragTo) {
-                            this.chessboard.state.position.setPiece(this.fromSquare, this.movedPiece)
-                            this.view.setPieceVisibility(this.fromSquare)
-                            this.moveInputCanceledCallback(square, null, MOVE_CANCELED_REASON.draggedBack)
-                            this.setMoveInputState(MOVE_INPUT_STATE.reset)
-                        } else {
-                            this.setMoveInputState(MOVE_INPUT_STATE.clickTo, {square: square})
-                        }
+                        this.chessboard.state.position.setPiece(this.fromSquare, this.movedPiece)
+                        this.view.setPieceVisibility(this.fromSquare)
+                        this.moveInputCanceledCallback(square, null, MOVE_CANCELED_REASON.draggedBack)
+                        this.setMoveInputState(MOVE_INPUT_STATE.reset)
                     } else {
                         this.setMoveInputState(MOVE_INPUT_STATE.moveDone, {square: square})
                     }
