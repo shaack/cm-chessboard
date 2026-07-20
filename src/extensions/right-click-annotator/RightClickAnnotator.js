@@ -3,7 +3,7 @@
  * Combines Arrows and Markers to draw/toggle arrows and circle markers with right-click + modifiers.
  * Colors:
  * - Green: Right-click
- * - Blue: Alt + Right-click
+ * - Blue: Alt, Cmd or AltGr + Right-click
  * - Red: Shift + Right-click
  * - Orange: Shift + Alt + Right-click
  * Redrawing the same arrow or marker removes it.
@@ -120,7 +120,7 @@ export class RightClickAnnotator extends Extension {
         this.dragStart = {
             square,
             modifiers: {
-                alt: event.altKey,
+                alt: event.altKey || event.metaKey || (event.getModifierState && event.getModifierState("AltGraph")),
                 shift: event.shiftKey || event.ctrlKey
             }
         }
