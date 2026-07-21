@@ -68,6 +68,10 @@ export class ChessboardView {
         this.pointerDownListener = this.pointerDownHandler.bind(this)
         this.container.addEventListener("mousedown", this.pointerDownListener)
         this.container.addEventListener("touchstart", this.pointerDownListener, {passive: false})
+        // Suppress the native context menu on the whole board
+        // VisualMoveInput triggers a move cancel with a transient listener on right click
+        this.contextMenuListener = (e) => e.preventDefault()
+        this.container.addEventListener("contextmenu", this.contextMenuListener)
         this.createSvgAndGroups()
         this.handleResize()
     }
@@ -91,8 +95,9 @@ export class ChessboardView {
         if (this.resizeListener) {
             window.removeEventListener("resize", this.resizeListener)
         }
-        this.chessboard.context.removeEventListener("mousedown", this.pointerDownListener)
-        this.chessboard.context.removeEventListener("touchstart", this.pointerDownListener)
+        this.container.removeEventListener("mousedown", this.pointerDownListener)
+        this.container.removeEventListener("touchstart", this.pointerDownListener)
+        this.container.removeEventListener("contextmenu", this.contextMenuListener)
         Svg.removeElement(this.svg)
         this.container.remove()
     }
