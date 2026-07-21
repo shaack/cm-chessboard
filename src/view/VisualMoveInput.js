@@ -208,7 +208,7 @@ export class VisualMoveInput {
                     this.pointerCancelListener = null
                 }
                 if (this.contextMenuListener) {
-                    removeEventListener("contextmenu", this.contextMenuListener)
+                    this.chessboard.view.svg.removeEventListener("contextmenu", this.contextMenuListener)
                     this.contextMenuListener = null
                 }
                 this.setMoveInputState(MOVE_INPUT_STATE.waitForInputStart)
