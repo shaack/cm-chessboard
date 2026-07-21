@@ -171,7 +171,9 @@ export class VisualMoveInput {
                     throw new Error("moveInputState")
                 }
                 this.toSquare = params.square
-                if (this.toSquare && this.validateMoveInputCallback(this.fromSquare, this.toSquare)) {
+                const validated = params.validated !== undefined ?
+                    params.validated : this.validateMoveInputCallback(this.fromSquare, this.toSquare)
+                if (this.toSquare && validated) {
                     this.chessboard.movePiece(this.fromSquare, this.toSquare, prevState === MOVE_INPUT_STATE.clickTo).then(() => {
                         if (prevState === MOVE_INPUT_STATE.clickTo) {
                             this.view.setPieceVisibility(this.toSquare, true)
@@ -314,6 +316,8 @@ export class VisualMoveInput {
                             } else {
                                 this.setMoveInputState(MOVE_INPUT_STATE.reset)
                             }
+                        } else {
+                            this.setMoveInputState(MOVE_INPUT_STATE.moveDone, {square: square, validated: result})
                         }
                     } else {
                         this.setMoveInputState(MOVE_INPUT_STATE.moveDone, {square: square})
