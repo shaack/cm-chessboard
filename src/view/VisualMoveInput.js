@@ -59,8 +59,8 @@ export class VisualMoveInput {
         this.view.movingOverSquareCallback(fromSquare, toSquare)
     }
 
-    validateMoveInputCallback(fromSquare, toSquare) {
-        const result = this.view.validateMoveInputCallback(fromSquare, toSquare)
+    validateMoveInputCallback(fromSquare, toSquare, probe = false) {
+        const result = this.view.validateMoveInputCallback(fromSquare, toSquare, probe)
         this.chessboard.state.moveInputProcess.resolve(result)
         return result
     }
@@ -298,8 +298,10 @@ export class VisualMoveInput {
                     const startPieceName = this.chessboard.getPiece(this.fromSquare)
                     const startPieceColor = startPieceName ? startPieceName.substring(0, 1) : null
                     if (color && startPieceColor === pieceColor) {
-                        // added to allow chess960 castling
-                        const result = this.validateMoveInputCallback(this.fromSquare, square)
+                        // added to allow chess960 castling. This is only a probe:
+                        // a falsy result means the user re-selected another own
+                        // piece, not that an illegal move was attempted.
+                        const result = this.validateMoveInputCallback(this.fromSquare, square, true)
                         if(!result) {
                             this.moveInputCanceledCallback(this.fromSquare, square, MOVE_CANCELED_REASON.clickedAnotherPiece)
                             if (this.moveInputStartedCallback(square)) {
