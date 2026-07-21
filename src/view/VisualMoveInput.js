@@ -23,7 +23,8 @@ export const MOVE_CANCELED_REASON = {
     secondaryClick: "secondaryClick", // right click while moving
     movedOutOfBoard: "movedOutOfBoard",
     draggedBack: "draggedBack", // dragged to the start square
-    clickedAnotherPiece: "clickedAnotherPiece" // of the same color
+    clickedAnotherPiece: "clickedAnotherPiece", // of the same color
+    touchCanceled: "touchCanceled"
 }
 
 const DRAG_THRESHOLD = 4
@@ -90,6 +91,10 @@ export class VisualMoveInput {
                     removeEventListener(this.pointerUpListener.type, this.pointerUpListener)
                     this.pointerUpListener = null
                 }
+                if (this.pointerCancelListener) {
+                    removeEventListener(this.pointerCancelListener.type, this.pointerCancelListener)
+                    this.pointerCancelListener = null
+                }
                 this.fromSquare = params.square
                 this.toSquare = null
                 this.movedPiece = params.piece
@@ -109,6 +114,9 @@ export class VisualMoveInput {
                         this.pointerUpListener = this.onPointerUp.bind(this)
                         this.pointerUpListener.type = "touchend"
                         addEventListener("touchend", this.pointerUpListener)
+                        this.pointerCancelListener = this.onPointerCancel.bind(this)
+                        this.pointerCancelListener.type = "touchcancel"
+                        addEventListener("touchcancel", this.pointerCancelListener)
                     } else {
                         throw Error("4b74af")
                     }
@@ -194,6 +202,10 @@ export class VisualMoveInput {
                 if (this.pointerUpListener) {
                     removeEventListener(this.pointerUpListener.type, this.pointerUpListener)
                     this.pointerUpListener = null
+                }
+                if (this.pointerCancelListener) {
+                    removeEventListener(this.pointerCancelListener.type, this.pointerCancelListener)
+                    this.pointerCancelListener = null
                 }
                 if (this.contextMenuListener) {
                     removeEventListener("contextmenu", this.contextMenuListener)
@@ -399,6 +411,13 @@ export class VisualMoveInput {
             this.view.redrawPieces()
             this.setMoveInputState(MOVE_INPUT_STATE.reset)
         }
+    }
+
+    onPointerCancel() {
+        this.view.redrawPieces()
+        const moveStartSquare = this.fromSquare
+        this.setMoveInputState(MOVE_INPUT_STATE.reset)
+        this.moveInputCanceledCallback(moveStartSquare, null, MOVE_CANCELED_REASON.touchCanceled)
     }
 
     onContextMenu(e) { // while moving
