@@ -74,4 +74,45 @@ describe("TestVisualMoveInput", () => {
         chessboard.destroy()
     })
 
+    // Regression for https://github.com/shaack/cm-chessboard/pull/174
+    it("should validate once and finish the move when moving into own piece is marked as valid", async () => {
+        const chessboard = new Chessboard(document.getElementById("TestBoard"), {
+            assetsUrl: "../assets/",
+            position: FEN.start
+        })
+        let validateCallCount = 0
+        let moveInputFinishedCount = 0
+        chessboard.enableMoveInput((event) => {
+            if (event.type === INPUT_EVENT_TYPE.validateMoveInput) {
+                validateCallCount++
+                return true // accept the castling-by-clicking-the-rook move
+            } else if (event.type === INPUT_EVENT_TYPE.moveInputFinished) {
+                moveInputFinishedCount++
+            }
+            return true
+        }, COLOR.white)
+        const visualMoveInput = chessboard.view.visualMoveInput
+
+        // simulate an existing click-to-move selection of the white king on e1
+        visualMoveInput.moveInputStartedCallback("e1")
+        visualMoveInput.moveInputState = STATE_CLICK_TO
+        visualMoveInput.fromSquare = "e1"
+
+        // castle by clicking the rook on h1 -> same-color-click (probe) branch
+        visualMoveInput.onPointerDown({
+            type: "touchstart",
+            target: {getAttribute: (name) => (name === "data-square" ? "h1" : null)},
+            touches: [{clientX: 100, clientY: 100}],
+            preventDefault: () => {}
+        })
+
+        assert.equal(validateCallCount, 1)
+
+        await new Promise((resolve) => setTimeout(resolve))
+        // the move must complete (not get stuck in `clickTo`), firing moveInputFinished exactly once
+        assert.equal(moveInputFinishedCount, 1)
+
+        chessboard.destroy()
+    })
+
 })

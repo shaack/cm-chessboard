@@ -171,7 +171,10 @@ export class VisualMoveInput {
                     throw new Error("moveInputState")
                 }
                 this.toSquare = params.square
-                if (this.toSquare && this.validateMoveInputCallback(this.fromSquare, this.toSquare)) {
+                // if the move was already validated, don't trigger the validator again so possible user side effects run once at most
+                const validated = params.validated !== undefined ? 
+                    params.validated : this.validateMoveInputCallback(this.fromSquare, this.toSquare)
+                if (this.toSquare && validated) {
                     this.chessboard.movePiece(this.fromSquare, this.toSquare, prevState === MOVE_INPUT_STATE.clickTo).then(() => {
                         if (prevState === MOVE_INPUT_STATE.clickTo) {
                             this.view.setPieceVisibility(this.toSquare, true)
@@ -298,11 +301,11 @@ export class VisualMoveInput {
                     const startPieceName = this.chessboard.getPiece(this.fromSquare)
                     const startPieceColor = startPieceName ? startPieceName.substring(0, 1) : null
                     if (color && startPieceColor === pieceColor) {
-                        // added to allow chess960 castling. This is only a probe:
-                        // a falsy result means the user re-selected another own
-                        // piece, not that an illegal move was attempted.
+                        // added to allow moves into own pieces, useful for chess960 castle style or recapture premoves
+                        // result holds false if the user legality checker deemed the move into another own piece as illegal
+                        // in that case, we start a new move by selecting the target piece
                         const result = this.validateMoveInputCallback(this.fromSquare, square, true)
-                        if(!result) {
+                        if (!result) {
                             this.moveInputCanceledCallback(this.fromSquare, square, MOVE_CANCELED_REASON.clickedAnotherPiece)
                             if (this.moveInputStartedCallback(square)) {
                                 this.setMoveInputState(MOVE_INPUT_STATE.pieceClickedThreshold, {
@@ -314,6 +317,10 @@ export class VisualMoveInput {
                             } else {
                                 this.setMoveInputState(MOVE_INPUT_STATE.reset)
                             }
+                        } else {
+                            // if the user deemed the move into own piece legal, execute it
+                            // but prevent validating the move again with the validated flag
+                            this.setMoveInputState(MOVE_INPUT_STATE.moveDone, {square: square, validated: true})
                         }
                     } else {
                         this.setMoveInputState(MOVE_INPUT_STATE.moveDone, {square: square})

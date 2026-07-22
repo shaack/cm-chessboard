@@ -207,9 +207,14 @@ The event has the following **`event.type`**:
   Return `true` or `false` to validate the start square. `false` cancels the move.
 - **`INPUT_EVENT_TYPE.validateMoveInput`**: To validate the users move input. `event.squareFrom` and `event.squareTo`
   contain the coordinates. Return `true` or `false` to validate the move. `false` cancels the move.
-  `event.probe` is `true` when the target square still holds one of the mover's own pieces (e.g. clicking another own
-  piece, or a chess960 castling target). A falsy result then means "re-select that piece" rather than an illegal move,
-  so you can suppress illegal-move feedback when `event.probe` is set.
+  The validator runs once at most per sequence of actions that describe a move (e.g. click starting piece, click destination),
+  so side effects like updating game position state or triggering sounds can run here.
+  One special case is moving a piece to a square occupied by another friendly piece. This kind of move can be useful
+  when you want to allow chess960 castling style (moving the king into the rook position) or when you want to allow
+  recapture premoves. `event.probe` is `true` when the target square still holds one of the mover's own pieces.
+  Here, a falsy result by the validator means "re-select that piece" rather than an illegal move,
+  so you can suppress illegal-move feedback when `event.probe` is set. A truthy result under `event.probe` still commits
+  the move (e.g. castling by clicking the rook).
 - **`INPUT_EVENT_TYPE.moveInputCanceled`**: The user canceled the move with clicking again on the start square, clicking
   outside the board or right click.
 - **`INPUT_EVENT_TYPE.moveInputFinished`**: Fired after the move was made, also when canceled.
