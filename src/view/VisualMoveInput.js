@@ -59,8 +59,8 @@ export class VisualMoveInput {
         this.view.movingOverSquareCallback(fromSquare, toSquare)
     }
 
-    validateMoveInputCallback(fromSquare, toSquare, probe = false) {
-        const result = this.view.validateMoveInputCallback(fromSquare, toSquare, probe)
+    validateMoveInputCallback(fromSquare, toSquare) {
+        const result = this.view.validateMoveInputCallback(fromSquare, toSquare)
         this.chessboard.state.moveInputProcess.resolve(result)
         return result
     }
@@ -304,7 +304,7 @@ export class VisualMoveInput {
                         // added to allow moves into own pieces, useful for chess960 castle style or recapture premoves
                         // result holds false if the user legality checker deemed the move into another own piece as illegal
                         // in that case, we start a new move by selecting the target piece
-                        const result = this.validateMoveInputCallback(this.fromSquare, square, true)
+                        const result = this.validateMoveInputCallback(this.fromSquare, square)
                         if (!result) {
                             this.moveInputCanceledCallback(this.fromSquare, square, MOVE_CANCELED_REASON.clickedAnotherPiece)
                             if (this.moveInputStartedCallback(square)) {

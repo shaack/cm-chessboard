@@ -39,41 +39,6 @@ describe("TestVisualMoveInput", () => {
         chessboard.destroy()
     })
 
-    it("should mark the same-color reselect validation as a probe", async () => {
-        const chessboard = new Chessboard(document.getElementById("TestBoard"), {
-            assetsUrl: "../assets/",
-            position: FEN.start
-        })
-        let probeSeen
-        chessboard.enableMoveInput((event) => {
-            if (event.type === INPUT_EVENT_TYPE.validateMoveInput) {
-                probeSeen = event.probe
-                return false // reject -> this is a re-selection, not a real move
-            }
-            return true
-        }, COLOR.white)
-        const visualMoveInput = chessboard.view.visualMoveInput
-
-        // simulate an existing click-to-move selection of the white e2 pawn
-        // (moveInputStartedCallback sets up the internal moveInputProcess task)
-        visualMoveInput.moveInputStartedCallback("e2")
-        visualMoveInput.moveInputState = STATE_CLICK_TO
-        visualMoveInput.fromSquare = "e2"
-
-        // click another own (white) piece, the d1 queen -> chess960 probe branch
-        visualMoveInput.onPointerDown({
-            type: "touchstart",
-            target: {getAttribute: (name) => (name === "data-square" ? "d1" : null)},
-            touches: [{clientX: 100, clientY: 100}],
-            preventDefault: () => {}
-        })
-
-        assert.equal(probeSeen, true)
-
-        await new Promise((resolve) => setTimeout(resolve))
-        chessboard.destroy()
-    })
-
     // Regression for https://github.com/shaack/cm-chessboard/pull/174
     it("should validate once and finish the move when moving into own piece is marked as valid", async () => {
         const chessboard = new Chessboard(document.getElementById("TestBoard"), {
@@ -98,7 +63,7 @@ describe("TestVisualMoveInput", () => {
         visualMoveInput.moveInputState = STATE_CLICK_TO
         visualMoveInput.fromSquare = "e1"
 
-        // castle by clicking the rook on h1 -> same-color-click (probe) branch
+        // castle by clicking the rook on h1 -> same-color-click branch
         visualMoveInput.onPointerDown({
             type: "touchstart",
             target: {getAttribute: (name) => (name === "data-square" ? "h1" : null)},

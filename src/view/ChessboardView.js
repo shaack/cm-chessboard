@@ -410,18 +410,13 @@ export class ChessboardView {
         this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
     }
 
-    validateMoveInputCallback(squareFrom, squareTo, probe = false) {
+    validateMoveInputCallback(squareFrom, squareTo) {
         const data = {
             chessboard: this.chessboard,
             type: INPUT_EVENT_TYPE.validateMoveInput,
             squareFrom: squareFrom,
             squareTo: squareTo,
-            piece: this.chessboard.getPiece(squareFrom),
-            // true when this is only a speculative check whether the clicked
-            // same-color piece is a legal target (e.g. chess960 castling). A
-            // falsy result then means "re-select this piece", not an illegal
-            // move, so consumers can suppress illegal-move feedback.
-            probe: probe
+            piece: this.chessboard.getPiece(squareFrom)
         }
         if (this.chessboard.state.moveInputCallback) {
             data.moveInputCallbackResult = this.chessboard.state.moveInputCallback(data)
