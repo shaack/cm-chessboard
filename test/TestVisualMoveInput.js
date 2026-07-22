@@ -231,4 +231,82 @@ describe("TestVisualMoveInput", () => {
         board.destroy()
     })
 
+    // Regression for https://github.com/shaack/cm-chessboard/pull/165
+    it("should cancel and keep the new position when the held piece is captured via setPosition", async () => {
+        const board = newBoard()
+        let canceled = null
+        board.enableMoveInput((e) => {
+            if (e.type === INPUT_EVENT_TYPE.moveInputCanceled) canceled = {square: e.squareFrom, reason: e.reason}
+            return true
+        }, COLOR.white)
+        const vmi = board.view.visualMoveInput
+        vmi.onPointerDown(mouseDown("e2"))
+        vmi.onPointerUp(mouseUp("e2"))
+        assert.equal(vmi.moveInputState, STATE_CLICK_TO)
+
+        // the opponent captures the held e2 pawn (e2 now holds a black knight)
+        const capturedFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPnPPP/RNBQKBNR"
+        await board.setPosition(capturedFen)
+
+        assert.equal(canceled && canceled.reason, MOVE_CANCELED_REASON.movedPieceChanged)
+        assert.equal(canceled && canceled.square, "e2") // the real start square, not null
+        assert.equal(vmi.moveInputState, STATE_WAIT_FOR_INPUT_START)
+        // the position must not be corrupted back to the white pawn
+        assert.equal("" + board.getPosition(), capturedFen)
+        await tick()
+        board.destroy()
+    })
+
+    it("should not cancel a normal move completion", async () => {
+        const board = newBoard()
+        let canceledReason
+        let finished = 0
+        board.enableMoveInput((e) => {
+            if (e.type === INPUT_EVENT_TYPE.moveInputCanceled) canceledReason = e.reason
+            if (e.type === INPUT_EVENT_TYPE.moveInputFinished) finished++
+            return true
+        }, COLOR.white)
+        const vmi = board.view.visualMoveInput
+        vmi.onPointerDown(mouseDown("e2"))
+        vmi.onPointerUp(mouseUp("e2"))
+        vmi.onPointerDown(mouseDown("e4")) // completes via moveDone -> movePiece()
+        await tick()
+        assert.equal(board.getPiece("e4"), "wp")
+        assert.equal(canceledReason, undefined) // the guard must prevent a spurious cancel
+        assert.equal(finished, 1)
+        board.destroy()
+    })
+
+    it("should cancel when the held piece is captured via movePiece or setPiece", async () => {
+        // via setPiece
+        let board = newBoard()
+        let reason
+        board.enableMoveInput((e) => {
+            if (e.type === INPUT_EVENT_TYPE.moveInputCanceled) reason = e.reason
+            return true
+        }, COLOR.white)
+        let vmi = board.view.visualMoveInput
+        vmi.onPointerDown(mouseDown("e2"))
+        vmi.onPointerUp(mouseUp("e2"))
+        await board.setPiece("e2", "bn")
+        assert.equal(reason, MOVE_CANCELED_REASON.movedPieceChanged)
+        await tick()
+        board.destroy()
+
+        // via movePiece (a black pawn captures onto e2)
+        board = newBoard()
+        reason = undefined
+        board.enableMoveInput((e) => {
+            if (e.type === INPUT_EVENT_TYPE.moveInputCanceled) reason = e.reason
+            return true
+        }, COLOR.white)
+        vmi = board.view.visualMoveInput
+        vmi.onPointerDown(mouseDown("e2"))
+        vmi.onPointerUp(mouseUp("e2"))
+        await board.movePiece("d7", "e2")
+        assert.equal(reason, MOVE_CANCELED_REASON.movedPieceChanged)
+        await tick()
+        board.destroy()
+    })
+
 })

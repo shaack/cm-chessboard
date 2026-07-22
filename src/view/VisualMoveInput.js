@@ -24,7 +24,8 @@ export const MOVE_CANCELED_REASON = {
     movedOutOfBoard: "movedOutOfBoard",
     draggedBack: "draggedBack", // dragged to the start square
     clickedAnotherPiece: "clickedAnotherPiece", // of the same color
-    touchCanceled: "touchCanceled"
+    touchCanceled: "touchCanceled",
+    movedPieceChanged: "movedPieceChanged" // the held piece changed on the board, most likely got captured
 }
 
 const DRAG_THRESHOLD = 4
@@ -37,6 +38,7 @@ export class VisualMoveInput {
         this.moveInputState = null
         this.fromSquare = null
         this.toSquare = null
+        this.movedPiece = null
 
         this.setMoveInputState(MOVE_INPUT_STATE.waitForInputStart)
     }
@@ -430,6 +432,30 @@ export class VisualMoveInput {
         this.view.redrawPieces()
         this.setMoveInputState(MOVE_INPUT_STATE.reset)
         this.moveInputCanceledCallback(this.fromSquare, null, MOVE_CANCELED_REASON.secondaryClick)
+    }
+
+    // Called after the board position changed (setPosition/movePiece/setPiece).
+    // If the piece we are holding changed on its square — most likely captured
+    // by an external position update — cancel the in-progress move input.
+    positionChanged() {
+        // Only cancel while actually holding a piece. Never in moveDone/reset:
+        // completing a move itself goes through movePiece() and must not self-cancel.
+        const holdingStates = [
+            MOVE_INPUT_STATE.pieceClickedThreshold,
+            MOVE_INPUT_STATE.clickTo,
+            MOVE_INPUT_STATE.secondClickThreshold,
+            MOVE_INPUT_STATE.dragTo,
+            MOVE_INPUT_STATE.clickDragTo
+        ]
+        if (this.fromSquare && holdingStates.includes(this.moveInputState) &&
+            this.chessboard.getPiece(this.fromSquare) !== this.movedPiece) {
+            const moveStartSquare = this.fromSquare
+            // drop the stale held piece so the reset branch does not stamp it
+            // back onto the square, overwriting the piece just placed there
+            this.movedPiece = null
+            this.setMoveInputState(MOVE_INPUT_STATE.reset)
+            this.moveInputCanceledCallback(moveStartSquare, null, MOVE_CANCELED_REASON.movedPieceChanged)
+        }
     }
 
     isDragging() {

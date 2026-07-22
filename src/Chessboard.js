@@ -77,6 +77,7 @@ export class Chessboard {
     async setPiece(square, piece, animated = false) {
         const positionFrom = this.state.position.clone()
         this.state.position.setPiece(square, piece)
+        this.view.visualMoveInput.positionChanged()
         this.state.invokeExtensionPoints(EXTENSION_POINT.positionChanged)
         return this.positionAnimationsQueue.enqueuePositionChange(positionFrom, this.state.position.clone(), animated)
     }
@@ -84,6 +85,7 @@ export class Chessboard {
     async movePiece(squareFrom, squareTo, animated = false) {
         const positionFrom = this.state.position.clone()
         this.state.position.movePiece(squareFrom, squareTo)
+        this.view.visualMoveInput.positionChanged()
         this.state.invokeExtensionPoints(EXTENSION_POINT.positionChanged)
         return this.positionAnimationsQueue.enqueuePositionChange(positionFrom, this.state.position.clone(), animated)
     }
@@ -93,6 +95,7 @@ export class Chessboard {
         const positionTo = new Position(fen)
         if (positionFrom.getFen() !== positionTo.getFen()) {
             this.state.position.setFen(fen)
+            this.view.visualMoveInput.positionChanged()
             this.state.invokeExtensionPoints(EXTENSION_POINT.positionChanged)
         }
         return this.positionAnimationsQueue.enqueuePositionChange(positionFrom, this.state.position.clone(), animated)
