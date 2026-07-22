@@ -16,7 +16,8 @@
   "module": "./src/Chessboard.js",
   "browser": "./src/Chessboard.js",
   "scripts": {
-    "test": "tput setaf 4;echo 'Run test/index.html in your browser for unit testing.'; echo ''; exit 0"
+    "test": "tput setaf 4;echo 'Run test/index.html in your browser for unit testing, or `npm run test:headless` (needs a global puppeteer).'; echo ''; exit 0",
+    "test:headless": "node test/headless.mjs"
   },
   "repository": {
     "type": "git",

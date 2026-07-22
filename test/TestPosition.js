@@ -39,5 +39,41 @@ describe("TestPosition", () => {
         assert.equal(rooks.length, 1)
         assert.equal(rooks[0].square, "f5")
     })
+    it("should round-trip every square through index conversion", () => {
+        for (let i = 0; i < 64; i++) {
+            assert.equal(Position.squareToIndex(Position.indexToSquare(i)), i)
+        }
+    })
+    it("should set, get and remove a piece", () => {
+        const position = new Position(FEN.empty)
+        assert.equal(position.getPiece("e4"), null)
+        position.setPiece("e4", "wq")
+        assert.equal(position.getPiece("e4"), "wq")
+        position.setPiece("e4", null)
+        assert.equal(position.getPiece("e4"), null)
+    })
+    it("should move a piece", () => {
+        const position = new Position("8/8/8/8/8/8/4P3/8")
+        position.movePiece("e2", "e4")
+        assert.equal(position.getPiece("e2"), null)
+        assert.equal(position.getPiece("e4"), "wp")
+    })
+    it("should represent an empty board as FEN", () => {
+        const position = new Position(FEN.empty)
+        assert.equal(position.getFen(), "8/8/8/8/8/8/8/8")
+    })
+    it("should store only the piece placement of a full FEN", () => {
+        const position = new Position("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+        assert.equal(position.getFen(), "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR")
+    })
+    it("should count the pieces of the start position", () => {
+        const position = new Position(FEN.start)
+        assert.equal(position.getPieces().length, 32)
+        assert.equal(position.getPieces(COLOR.white).length, 16)
+        assert.equal(position.getPieces(COLOR.black, PIECE_TYPE.pawn).length, 8)
+    })
+    it("should return no pieces for an empty board", () => {
+        assert.equal(new Position(FEN.empty).getPieces().length, 0)
+    })
 })
 

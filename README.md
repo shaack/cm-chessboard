@@ -423,6 +423,17 @@ const chessboard = new Chessboard(document.getElementById("board"), {
 
 When `movePieceForm` is enabled, press **Shift+Option+E** (Mac) or **Shift+Alt+E** (Windows/Linux) to focus the "Move from" input field.
 
+## Testing
+
+The unit tests use the tiny [Teevi](https://github.com/shaack/teevi) framework and run in a real browser.
+
+- **In the browser (no install needed):** open [`test/index.html`](test/index.html) directly, or run `npm test`, which
+  just prints that hint.
+- **Headless (optional):** `npm run test:headless` runs the same suite in headless Chrome and exits non-zero on failure,
+  which is handy for CI. To keep cm-chessboard dependency-free, [puppeteer](https://pptr.dev) is **not** a project
+  dependency; install it **globally** for this: `npm install -g puppeteer`. The runner starts its own static server, so
+  nothing else is required.
+
 ## Usage with JS Frameworks
 
 - Works with **Vue** out of the box

@@ -39,4 +39,19 @@ describe("TestMarkers", () => {
         chessboard.destroy()
     })
 
+    it("should add different marker types and remove all markers at once", () => {
+        const chessboard = new Chessboard(document.getElementById("TestMarkers"), {
+            assetsUrl: "../assets/",
+            extensions: [{class: Markers}]
+        })
+        chessboard.addMarker(MARKER_TYPE.dot, "e4")
+        chessboard.addMarker(MARKER_TYPE.circle, "d4")
+        chessboard.addMarker(MARKER_TYPE.circleDanger, "c4")
+        assert.equal(chessboard.getMarkers().length, 3)
+        assert.equal(chessboard.getMarkers(MARKER_TYPE.dot).length, 1)
+        chessboard.removeMarkers()
+        assert.equal(chessboard.getMarkers().length, 0)
+        chessboard.destroy()
+    })
+
 })

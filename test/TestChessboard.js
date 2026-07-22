@@ -5,7 +5,7 @@
  */
 
 import {describe, it, assert} from "../node_modules/teevi/src/teevi.js"
-import {PIECE, Chessboard} from "../src/Chessboard.js"
+import {PIECE, COLOR, Chessboard} from "../src/Chessboard.js"
 import {FEN} from "../src/model/Position.js"
 
 describe("TestChessboard", () => {
@@ -66,6 +66,49 @@ describe("TestChessboard", () => {
         assert.equal(chessboard.getPiece("a1"), "bk")
         chessboard.setPiece("e5", PIECE.wk)
         assert.equal(chessboard.getPiece("e5"), "wk")
+        chessboard.destroy()
+    })
+
+    it("should move a piece via the api", async () => {
+        const chessboard = new Chessboard(document.getElementById("TestBoard"), {
+            assetsUrl: "../assets/",
+            position: FEN.start,
+            style: {animationDuration: 0}
+        })
+        await chessboard.movePiece("e2", "e4", false)
+        assert.equal(chessboard.getPiece("e2"), null)
+        assert.equal(chessboard.getPiece("e4"), "wp")
+        chessboard.destroy()
+    })
+
+    it("should remove a piece when set to null", () => {
+        const chessboard = new Chessboard(document.getElementById("TestBoard"), {
+            assetsUrl: "../assets/",
+            position: FEN.start
+        })
+        chessboard.setPiece("e2", null)
+        assert.equal(chessboard.getPiece("e2"), null)
+        chessboard.destroy()
+    })
+
+    it("should create an empty board from FEN.empty", () => {
+        const chessboard = new Chessboard(document.getElementById("TestBoard"), {
+            assetsUrl: "../assets/",
+            position: FEN.empty
+        })
+        assert.equal("" + chessboard.getPosition(), "8/8/8/8/8/8/8/8")
+        chessboard.destroy()
+    })
+
+    it("should set and get the orientation", async () => {
+        const chessboard = new Chessboard(document.getElementById("TestBoard"), {
+            assetsUrl: "../assets/",
+            position: FEN.start,
+            style: {animationDuration: 0}
+        })
+        assert.equal(chessboard.getOrientation(), COLOR.white)
+        await chessboard.setOrientation(COLOR.black)
+        assert.equal(chessboard.getOrientation(), COLOR.black)
         chessboard.destroy()
     })
 
