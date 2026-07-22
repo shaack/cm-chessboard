@@ -25,7 +25,8 @@ export const MOVE_CANCELED_REASON = {
     draggedBack: "draggedBack", // dragged to the start square
     clickedAnotherPiece: "clickedAnotherPiece", // of the same color
     touchCanceled: "touchCanceled",
-    movedPieceChanged: "movedPieceChanged" // the held piece changed on the board, most likely got captured
+    movedPieceChanged: "movedPieceChanged", // the held piece changed on the board, most likely got captured
+    canceled: "canceled" // cancelled programmatically via chessboard.cancelMoveInput()
 }
 
 const DRAG_THRESHOLD = 4
@@ -432,6 +433,16 @@ export class VisualMoveInput {
         this.view.redrawPieces()
         this.setMoveInputState(MOVE_INPUT_STATE.reset)
         this.moveInputCanceledCallback(this.fromSquare, null, MOVE_CANCELED_REASON.secondaryClick)
+    }
+
+    // Cancel a move input that is currently in progress. No-op when idle.
+    cancelMoveInput() {
+        if (this.moveInputState !== MOVE_INPUT_STATE.waitForInputStart) {
+            const moveStartSquare = this.fromSquare
+            this.view.redrawPieces()
+            this.setMoveInputState(MOVE_INPUT_STATE.reset)
+            this.moveInputCanceledCallback(moveStartSquare, null, MOVE_CANCELED_REASON.canceled)
+        }
     }
 
     // Called after the board position changed (setPosition/movePiece/setPiece).

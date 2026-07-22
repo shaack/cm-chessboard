@@ -309,4 +309,53 @@ describe("TestVisualMoveInput", () => {
         board.destroy()
     })
 
+    it("should cancel an in-progress click selection via cancelMoveInput()", async () => {
+        const board = newBoard()
+        let canceled = null
+        board.enableMoveInput((e) => {
+            if (e.type === INPUT_EVENT_TYPE.moveInputCanceled) canceled = {square: e.squareFrom, reason: e.reason}
+            return true
+        }, COLOR.white)
+        const vmi = board.view.visualMoveInput
+        vmi.onPointerDown(mouseDown("e2"))
+        vmi.onPointerUp(mouseUp("e2"))
+        assert.equal(vmi.moveInputState, STATE_CLICK_TO)
+
+        board.cancelMoveInput()
+        assert.equal(canceled && canceled.reason, MOVE_CANCELED_REASON.canceled)
+        assert.equal(canceled && canceled.square, "e2")
+        assert.equal(vmi.moveInputState, STATE_WAIT_FOR_INPUT_START)
+        await tick()
+        board.destroy()
+    })
+
+    it("should cancel a drag in progress via cancelMoveInput() without moving the piece", async () => {
+        const board = newBoard()
+        board.enableMoveInput(() => true, COLOR.white)
+        const vmi = board.view.visualMoveInput
+        vmi.onPointerDown(mouseDown("e2", 100, 100))
+        vmi.onPointerMove(mouseMove("e4", 100, 140)) // -> dragTo
+        assert.equal(vmi.moveInputState, STATE_DRAG_TO)
+
+        board.cancelMoveInput()
+        assert.equal(vmi.moveInputState, STATE_WAIT_FOR_INPUT_START)
+        assert.equal(board.getPiece("e2"), "wp")
+        assert.equal(board.getPiece("e4"), null)
+        await tick()
+        board.destroy()
+    })
+
+    it("should be a no-op when cancelMoveInput() is called with no move in progress", () => {
+        const board = newBoard()
+        let canceledCount = 0
+        board.enableMoveInput((e) => {
+            if (e.type === INPUT_EVENT_TYPE.moveInputCanceled) canceledCount++
+            return true
+        }, COLOR.white)
+        board.cancelMoveInput()
+        assert.equal(canceledCount, 0)
+        assert.equal(board.view.visualMoveInput.moveInputState, STATE_WAIT_FOR_INPUT_START)
+        board.destroy()
+    })
+
 })

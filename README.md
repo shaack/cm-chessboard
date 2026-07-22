@@ -247,6 +247,12 @@ chessboard.enableMoveInput((event) => {
 
 Disables moves via user input.
 
+### cancelMoveInput()
+
+Cancels a move input that is currently in progress (a piece picked up or a square selected), without disabling move
+input. Fires a `moveInputCanceled` event with `event.reason === "canceled"`. It is a no-op when no move input is in
+progress. Useful to abort a move from your own UI, e.g. on an "escape" key press or a cancel button.
+
 ### isMoveInputEnabled()
 
 Returns `true` if move input is currently enabled for white or black.

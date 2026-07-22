@@ -134,6 +134,11 @@ export class Chessboard {
         this.view.disableMoveInput()
     }
 
+    // Cancel a move input that is currently in progress (leaves move input enabled).
+    cancelMoveInput() {
+        this.view.visualMoveInput.cancelMoveInput()
+    }
+
     isMoveInputEnabled() {
         return this.state.inputWhiteEnabled || this.state.inputBlackEnabled
     }
