@@ -124,6 +124,58 @@ describe("TestVisualMoveInput", () => {
         board.destroy()
     })
 
+    // A click move always completes with its own animation (see the test above),
+    // which is unwanted for premoves made by click. `event.animate = false` in the
+    // validator lets a consumer opt out per-move instead of having to toggle
+    // `chessboard.props.style.animationDuration` around the move.
+    it("should skip a click move's own animation when the validator sets event.animate = false", async () => {
+        const board = newBoard()
+        let capturedAnimated = null
+        const originalMovePiece = board.movePiece.bind(board)
+        board.movePiece = (from, to, animated) => {
+            capturedAnimated = animated
+            return originalMovePiece(from, to, animated)
+        }
+        board.enableMoveInput((e) => {
+            if (e.type === INPUT_EVENT_TYPE.validateMoveInput) {
+                e.animate = false
+                return true
+            }
+            return true
+        }, COLOR.white)
+        const vmi = board.view.visualMoveInput
+
+        vmi.onPointerDown(mouseDown("e2"))
+        vmi.onPointerUp(mouseUp("e2"))
+        vmi.onPointerDown(mouseDown("e4"))
+        await tick()
+
+        assert.equal(capturedAnimated, false)
+        assert.equal(board.getPiece("e4"), "wp")
+        board.destroy()
+    })
+
+    it("should still animate a click move by default (event.animate untouched)", async () => {
+        const board = newBoard()
+        let capturedAnimated = null
+        const originalMovePiece = board.movePiece.bind(board)
+        board.movePiece = (from, to, animated) => {
+            capturedAnimated = animated
+            return originalMovePiece(from, to, animated)
+        }
+        board.enableMoveInput(() => true, COLOR.white)
+        const vmi = board.view.visualMoveInput
+
+        vmi.onPointerDown(mouseDown("e2"))
+        vmi.onPointerUp(mouseUp("e2"))
+        vmi.onPointerDown(mouseDown("e4"))
+        await tick()
+
+        assert.equal(capturedAnimated, true)
+        assert.equal(board.getPiece("e4"), "wp");
+        board.destroy()
+    })
+
     it("should complete a drag move to a new square", async () => {
         const board = newBoard()
         board.enableMoveInput(() => true, COLOR.white)

@@ -178,7 +178,10 @@ export class VisualMoveInput {
                 const validated = params.validated !== undefined ? 
                     params.validated : this.validateMoveInputCallback(this.fromSquare, this.toSquare)
                 if (this.toSquare && validated) {
-                    this.chessboard.movePiece(this.fromSquare, this.toSquare, prevState === MOVE_INPUT_STATE.clickTo).then(() => {
+                    // A click move always completes with its own animation, unless the
+                    // validator opted out via `event.animate = false` (see ChessboardView).
+                    const animate = prevState === MOVE_INPUT_STATE.clickTo && this.chessboard.state.moveInputAnimate !== false
+                    this.chessboard.movePiece(this.fromSquare, this.toSquare, animate).then(() => {
                         if (prevState === MOVE_INPUT_STATE.clickTo) {
                             this.view.setPieceVisibility(this.toSquare, true)
                         }
