@@ -95,6 +95,9 @@ export class Chessboard {
         const positionTo = new Position(fen)
         if (positionFrom.getFen() !== positionTo.getFen()) {
             this.state.position.setFen(fen)
+            this.state.check = false
+            this.state.checkColor = null
+            this.view.setCheck()
             this.view.visualMoveInput.positionChanged()
             this.state.invokeExtensionPoints(EXTENSION_POINT.positionChanged)
         }
@@ -124,6 +127,16 @@ export class Chessboard {
 
     getOrientation() {
         return this.state.orientation
+    }
+
+    setCheck(check, color = null) {
+        this.state.check = check
+        this.state.checkColor = color
+        this.view.setCheck()
+    }
+
+    setLastMove(from, to) {
+        this.view.setLastMove(from, to)
     }
 
     enableMoveInput(eventHandler, color = undefined) {

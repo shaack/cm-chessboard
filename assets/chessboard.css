@@ -316,3 +316,25 @@
   outline-offset: 2px; }
 
 /*# sourceMappingURL=chessboard.css.map */
+
+/* check */
+.cm-chessboard-check {
+  fill: rgba(220, 0, 0, 0.78);
+  filter:
+      blur(calc(var(--check-size) * 0.08))
+      drop-shadow(
+          0 0 calc(var(--check-size) * 0.12)
+          rgba(220, 0, 0, 0.75)
+      );
+  pointer-events: none;}
+
+/* last move */
+.cm-chessboard-last-move-from {
+  fill: rgb(135, 165, 78);
+  pointer-events: none;
+}
+
+.cm-chessboard-last-move-to {
+  fill: rgb(168, 195, 84);
+  pointer-events: none;
+}

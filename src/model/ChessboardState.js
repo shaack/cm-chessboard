@@ -16,6 +16,10 @@ export class ChessboardState {
         this.moveInputCallback = null
         this.extensionPoints = {}
         this.moveInputProcess = Promise.resolve()
+        this.check = false
+        this.checkColor = null
+        this.lastMoveFrom = null
+        this.lastMoveTo = null
     }
 
     inputEnabled() {

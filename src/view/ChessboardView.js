@@ -134,6 +134,7 @@ export class ChessboardView {
         this.updateMetrics()
         this.boardGroup = Svg.addElement(this.svg, "g", {class: "board"})
         this.coordinatesGroup = Svg.addElement(this.svg, "g", {class: "coordinates", "aria-hidden": "true"})
+        this.lastMoveLayer = Svg.addElement(this.svg, "g", { class: "last-move-layer" })
         this.markersLayer = Svg.addElement(this.svg, "g", {class: "markers-layer"})
         this.piecesLayer = Svg.addElement(this.svg, "g", {class: "pieces-layer"})
         this.piecesGroup = Svg.addElement(this.piecesLayer, "g", {class: "pieces"})
@@ -183,6 +184,8 @@ export class ChessboardView {
         this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.beforeRedrawBoard)
         this.redrawSquares()
         this.drawCoordinates()
+        this.redrawCheck()
+        this.redrawLastMove()
         this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.afterRedrawBoard)
         this.visualizeInputState()
     }
@@ -264,6 +267,86 @@ export class ChessboardView {
             } else {
                 textElement.textContent = "" + (1 + rank)
             }
+        }
+    }
+
+    setCheck(check) {
+        this.redrawCheck()
+    }
+
+    redrawCheck() {
+        this.markersLayer
+            .querySelectorAll(".cm-chessboard-check")
+            .forEach(element => element.remove())
+
+        if (!this.chessboard.state.check) {
+            return
+        }
+
+        const checkColor = this.chessboard.state.checkColor
+        const position = this.chessboard.state.position
+
+        for (let i = 0; i < 64; i++) {
+            const piece = position.squares[i]
+
+            if (piece && piece[1] === "k" && piece[0] === checkColor) {
+                const square = Position.indexToSquare(i)
+                const point = this.squareToPoint(square)
+
+                const highlight = Svg.addElement(this.markersLayer, "circle", {
+                    cx: point.x + this.squareWidth / 2,
+                    cy: point.y + this.squareHeight / 2,
+                    r: Math.min(this.squareWidth, this.squareHeight) * 0.38,
+                    class: "cm-chessboard-check"
+                })
+
+                highlight.style.setProperty(
+                    "--check-size",
+                    `${Math.min(this.squareWidth, this.squareHeight)}px`
+                )
+
+                break
+            }
+        }
+    }
+
+    setLastMove(from, to) {
+        this.chessboard.state.lastMoveFrom = from ?? null
+        this.chessboard.state.lastMoveTo = to ?? null
+
+        this.redrawLastMove()
+    }
+
+    redrawLastMove() {
+        this.lastMoveLayer
+            .querySelectorAll(
+                ".cm-chessboard-last-move-from, .cm-chessboard-last-move-to"
+            )
+            .forEach(el => el.remove())
+
+        const from = this.chessboard.state.lastMoveFrom
+        const to = this.chessboard.state.lastMoveTo
+
+        if (from && to) {
+            const fromPoint = this.squareToPoint(from)
+
+            const fromRect = Svg.addElement(this.lastMoveLayer, "rect", {
+                x: fromPoint.x,
+                y: fromPoint.y,
+                width: this.squareWidth,
+                height: this.squareHeight,
+                class: "cm-chessboard-last-move-from"
+            })
+
+            const toPoint = this.squareToPoint(to)
+
+            const toRect = Svg.addElement(this.lastMoveLayer, "rect", {
+                x: toPoint.x,
+                y: toPoint.y,
+                width: this.squareWidth,
+                height: this.squareHeight,
+                class: "cm-chessboard-last-move-to"
+            })
         }
     }
 
