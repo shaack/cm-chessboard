@@ -421,6 +421,9 @@ export class ChessboardView {
         if (this.chessboard.state.moveInputCallback) {
             data.moveInputCallbackResult = this.chessboard.state.moveInputCallback(data)
         }
+        // A validator can set `event.animate = false` to skip this move's own completion animation 
+        // (e.g. a premove made by click, which would otherwise always animate)
+        this.chessboard.state.moveInputAnimate = data.animate
         this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
         return data.moveInputCallbackResult
     }
