@@ -14,6 +14,9 @@ export class ChessboardState {
         this.inputBlackEnabled = false
         this.squareSelectEnabled = false
         this.moveInputCallback = null
+        // set per move from `event.animate` in the validateMoveInput callback; `false` skips
+        // the completion animation of a click move (see ChessboardView/VisualMoveInput)
+        this.moveInputAnimate = undefined
         this.extensionPoints = {}
         this.moveInputProcess = Promise.resolve()
     }

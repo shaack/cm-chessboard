@@ -215,7 +215,10 @@ The event has the following **`event.type`**:
   clicked own piece simply becomes the new selection, so if you show illegal-move feedback, skip it when `event.squareTo`
   still holds one of the mover's own pieces.
   A move made by click always plays its own move animation. Set `event.animate = false` before returning to skip it for this move only
-  (e.g. a premove made by click) — this is read once, right after validation, so there is nothing to reset afterward.
+  (e.g. a premove made by click); this is read once, right after validation, so there is nothing to reset afterward.
+  The opt-out only applies to click moves. A drag move never animates its completion, so `event.animate = true` has no effect there.
+  Extensions receive a clone of the event and therefore opt out by setting `chessboard.state.moveInputAnimate = false`
+  in their `moveInput` extension point handler instead.
 - **`INPUT_EVENT_TYPE.moveInputCanceled`**: The user canceled the move with clicking again on the start square, clicking
   outside the board or right click.
 - **`INPUT_EVENT_TYPE.moveInputFinished`**: Fired after the move was made, also when canceled.
