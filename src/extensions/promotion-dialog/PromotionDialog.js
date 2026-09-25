@@ -34,6 +34,9 @@ export const PROMOTION_DIALOG_RESULT_TYPE = {
     canceled: "canceled"
 }
 
+// Keys the open dialog handles itself, see handleKeyDown
+const HANDLED_KEYS = ["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight", "Enter", " ", "Escape", "Tab"]
+
 export class PromotionDialog extends Extension {
 
     /** @constructor */
@@ -259,8 +262,12 @@ export class PromotionDialog extends Extension {
                 this.promotionDialogOnClickPiece.bind(this))
             this.contextMenuListener = this.contextMenu.bind(this)
             this.chessboard.view.svg.addEventListener("contextmenu", this.contextMenuListener)
-            // Add keyboard listener
-            document.addEventListener("keydown", this.handleKeyDown)
+            // Keyboard listener in the capture phase: while the dialog is open its keys
+            // must not reach anything else. Applications commonly bind the arrow keys on
+            // document for history navigation (chess-console does), and those listeners
+            // are registered before the dialog opens, so in the bubble phase they would
+            // run first and change the position under the open dialog.
+            document.addEventListener("keydown", this.handleKeyDown, true)
         } else if (displayState === DISPLAY_STATE.hidden) {
             if (this.clickDelegate) {
                 this.clickDelegate.remove()
@@ -271,7 +278,7 @@ export class PromotionDialog extends Extension {
                 this.contextMenuListener = null
             }
             // Remove keyboard listener
-            document.removeEventListener("keydown", this.handleKeyDown)
+            document.removeEventListener("keydown", this.handleKeyDown, true)
             // Restore focus (only if the dialog was actually shown before)
             if (prevState === DISPLAY_STATE.shown &&
                 this.previouslyFocusedElement && this.previouslyFocusedElement.focus) {
@@ -291,6 +298,12 @@ export class PromotionDialog extends Extension {
     handleKeyDown(event) {
         if (this.state.displayState !== DISPLAY_STATE.shown) {
             return
+        }
+        // Keys the dialog owns are consumed here, they must not reach the page below.
+        // Without this the arrow keys would also drive an application's own history
+        // navigation and change the position while the dialog is waiting for an answer.
+        if (HANDLED_KEYS.includes(event.key)) {
+            event.stopPropagation()
         }
         switch (event.key) {
             case "ArrowDown":
@@ -395,7 +408,7 @@ export class PromotionDialog extends Extension {
             clearTimeout(this.announceTimeoutId)
             this.announceTimeoutId = null
         }
-        document.removeEventListener("keydown", this.handleKeyDown)
+        document.removeEventListener("keydown", this.handleKeyDown, true)
         if (this.liveRegion && this.liveRegion.parentNode) {
             this.liveRegion.parentNode.removeChild(this.liveRegion)
             this.liveRegion = null
