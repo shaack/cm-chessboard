@@ -59,7 +59,7 @@
             event.chessboard.addLegalMovesMarkers(moves)
             return moves.length > 0
         } else if (event.type === INPUT_EVENT_TYPE.validateMoveInput) {
-            const move = {from: event.squareFrom, to: event.squareTo, promotion: event.promotion}
+            const move = {from: event.squareFrom, to: event.squareTo}
             const result = chess.move(move)
             if (result) {
                 event.chessboard.state.moveInputProcess.then(() => { // wait for the move input process has finished
