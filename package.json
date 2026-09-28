@@ -15,9 +15,16 @@
   "type": "module",
   "module": "./src/Chessboard.js",
   "browser": "./src/Chessboard.js",
+  "files": [
+    "src",
+    "assets",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "test": "tput setaf 4;echo 'Run test/index.html in your browser for unit testing, or `npm run test:headless` (needs a global puppeteer).'; echo ''; exit 0",
-    "test:headless": "node test/headless.mjs"
+    "test:headless": "node test/headless.mjs",
+    "test:package": "node test/package.mjs"
   },
   "repository": {
     "type": "git",
