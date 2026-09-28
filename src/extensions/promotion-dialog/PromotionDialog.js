@@ -167,41 +167,15 @@ export class PromotionDialog extends Extension {
                     class: "promotion-dialog"
                 })
             const dialogParams = this.state.dialogParams
-            if (turned) {
-                this.drawPieceButton(PIECE[dialogParams.color + "q"], {
+            // The buttons share their order with `this.pieceOrder`, which `focusButton()`
+            // uses for the screen reader announcement, so both must stay in sync.
+            this.pieceOrder.forEach((pieceType, index) => {
+                const rowOffset = turned ? -(index + 1) : index
+                this.drawPieceButton(PIECE[dialogParams.color + pieceType], {
                     x: squareCenterPoint.x + offsetX,
-                    y: squareCenterPoint.y - squareHeight
-                }, 0)
-                this.drawPieceButton(PIECE[dialogParams.color + "r"], {
-                    x: squareCenterPoint.x + offsetX,
-                    y: squareCenterPoint.y - squareHeight * 2
-                }, 1)
-                this.drawPieceButton(PIECE[dialogParams.color + "b"], {
-                    x: squareCenterPoint.x + offsetX,
-                    y: squareCenterPoint.y - squareHeight * 3
-                }, 2)
-                this.drawPieceButton(PIECE[dialogParams.color + "n"], {
-                    x: squareCenterPoint.x + offsetX,
-                    y: squareCenterPoint.y - squareHeight * 4
-                }, 3)
-            } else {
-                this.drawPieceButton(PIECE[dialogParams.color + "q"], {
-                    x: squareCenterPoint.x + offsetX,
-                    y: squareCenterPoint.y
-                }, 0)
-                this.drawPieceButton(PIECE[dialogParams.color + "r"], {
-                    x: squareCenterPoint.x + offsetX,
-                    y: squareCenterPoint.y + squareHeight
-                }, 1)
-                this.drawPieceButton(PIECE[dialogParams.color + "b"], {
-                    x: squareCenterPoint.x + offsetX,
-                    y: squareCenterPoint.y + squareHeight * 2
-                }, 2)
-                this.drawPieceButton(PIECE[dialogParams.color + "n"], {
-                    x: squareCenterPoint.x + offsetX,
-                    y: squareCenterPoint.y + squareHeight * 3
-                }, 3)
-            }
+                    y: squareCenterPoint.y + rowOffset * squareHeight
+                }, index)
+            })
         }
     }
 
