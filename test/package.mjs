@@ -97,7 +97,9 @@ rmSync(join(pkg, "test", "package.mjs"), {force: true}) // don't recurse
 symlinkSync(join(projectRoot, "node_modules"), join(pkg, "node_modules"), "dir")
 try {
     const output = execSync(`node "${join(pkg, "test", "headless.mjs")}"`, {encoding: "utf8"})
-    const summary = output.trim().split("\n").pop()
+    // the runner prints the summary first and diagnostics (e.g. failed requests) after it
+    const lines = output.trim().split("\n")
+    const summary = lines.find((line) => /All \d+ tests passed|\d+ tests, \d+ passed, \d+ failed/.test(line)) || lines.pop()
     check("the test suite passes against the unpacked package", /All \d+ tests passed/.test(summary), summary)
 } catch (error) {
     check("the test suite passes against the unpacked package", false,

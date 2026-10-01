@@ -443,7 +443,8 @@ The unit tests use the tiny [Teevi](https://github.com/shaack/teevi) framework a
 - **Headless (optional):** `npm run test:headless` runs the same suite in headless Chrome and exits non-zero on failure,
   which is handy for CI. To keep cm-chessboard dependency-free, [puppeteer](https://pptr.dev) is **not** a project
   dependency; install it **globally** for this: `npm install -g puppeteer`. The runner starts its own static server, so
-  nothing else is required.
+  nothing else is required. `TEEVI_TIMEOUT` (ms, default 30000) raises the limit for slow machines, and a test that
+  hangs fails after 10 seconds with its name, see `teevi.run({timeout})` in `test/index.html`.
 
 ## Usage with JS Frameworks
 
