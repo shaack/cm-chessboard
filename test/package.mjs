@@ -12,7 +12,7 @@
  *      shipped sources against the shipped files,
  *   3. runs the regular Teevi suite against the unpacked package.
  *
- * Step 3 needs a global puppeteer, like test/headless.mjs:
+ * Step 3 needs a global puppeteer, like `npm test`:
  *     npm install -g puppeteer
  *     npm run test:package
  */
@@ -96,7 +96,8 @@ cpSync(join(projectRoot, "test"), join(pkg, "test"), {recursive: true})
 rmSync(join(pkg, "test", "package.mjs"), {force: true}) // don't recurse
 symlinkSync(join(projectRoot, "node_modules"), join(pkg, "node_modules"), "dir")
 try {
-    const output = execSync(`node "${join(pkg, "test", "headless.mjs")}"`, {encoding: "utf8"})
+    // the teevi runner serves its working directory, so run it inside the unpacked package
+    const output = execSync(`node "${join(projectRoot, "node_modules", "teevi", "bin", "teevi.mjs")}"`, {cwd: pkg, encoding: "utf8"})
     // the runner prints the summary first and diagnostics (e.g. failed requests) after it
     const lines = output.trim().split("\n")
     const summary = lines.find((line) => /All \d+ tests passed|\d+ tests, \d+ passed, \d+ failed/.test(line)) || lines.pop()

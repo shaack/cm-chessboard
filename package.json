@@ -22,8 +22,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "test": "tput setaf 4;echo 'Run test/index.html in your browser for unit testing, or `npm run test:headless` (needs a global puppeteer).'; echo ''; exit 0",
-    "test:headless": "node test/headless.mjs",
+    "test": "teevi",
     "test:package": "node test/package.mjs"
   },
   "repository": {
@@ -37,6 +36,6 @@
   },
   "homepage": "https://github.com/shaack/cm-chessboard#readme",
   "devDependencies": {
-    "teevi": "^2.6.0"
+    "teevi": "^2.7.0"
   }
 }
