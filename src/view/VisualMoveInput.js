@@ -86,50 +86,11 @@ export class VisualMoveInput {
                 if (MOVE_INPUT_STATE.waitForInputStart !== prevState && MOVE_INPUT_STATE.clickTo !== prevState) {
                     throw new Error("moveInputState")
                 }
-                if (this.pointerMoveListener) {
-                    removeEventListener(this.pointerMoveListener.type, this.pointerMoveListener)
-                    this.pointerMoveListener = null
-                }
-                if (this.pointerUpListener) {
-                    removeEventListener(this.pointerUpListener.type, this.pointerUpListener)
-                    this.pointerUpListener = null
-                }
-                if (this.pointerCancelListener) {
-                    removeEventListener(this.pointerCancelListener.type, this.pointerCancelListener)
-                    this.pointerCancelListener = null
-                }
                 this.fromSquare = params.square
                 this.toSquare = null
                 this.movedPiece = params.piece
                 this.startPoint = params.point
-                if (!this.pointerMoveListener && !this.pointerUpListener) {
-                    if (params.type === "mousedown") {
-                        this.pointerMoveListener = this.onPointerMove.bind(this)
-                        this.pointerMoveListener.type = "mousemove"
-                        addEventListener("mousemove", this.pointerMoveListener)
-                        this.pointerUpListener = this.onPointerUp.bind(this)
-                        this.pointerUpListener.type = "mouseup"
-                        addEventListener("mouseup", this.pointerUpListener)
-                    } else if (params.type === "touchstart") {
-                        this.pointerMoveListener = this.onPointerMove.bind(this)
-                        this.pointerMoveListener.type = "touchmove"
-                        addEventListener("touchmove", this.pointerMoveListener)
-                        this.pointerUpListener = this.onPointerUp.bind(this)
-                        this.pointerUpListener.type = "touchend"
-                        addEventListener("touchend", this.pointerUpListener)
-                        this.pointerCancelListener = this.onPointerCancel.bind(this)
-                        this.pointerCancelListener.type = "touchcancel"
-                        addEventListener("touchcancel", this.pointerCancelListener)
-                    } else {
-                        throw Error("4b74af")
-                    }
-                    if (!this.contextMenuListener) {
-                        this.contextMenuListener = this.onContextMenu.bind(this)
-                        this.chessboard.view.svg.addEventListener("contextmenu", this.contextMenuListener)
-                    }
-                } else {
-                    throw Error("94ad0c")
-                }
+                this.setPointerListeners(params.type)
                 break
 
             case MOVE_INPUT_STATE.clickTo:
@@ -147,6 +108,11 @@ export class VisualMoveInput {
                     throw new Error("moveInputState")
                 }
                 this.startPoint = params.point
+                // The piece may have been selected with another input type than the one
+                // continuing now, e.g. by the compatibility mouse events iOS fires after a
+                // tap, followed by a finger drag. Listen to the current type, otherwise the
+                // drag is never seen and the input hangs in this state.
+                this.setPointerListeners(params.type)
                 break
 
             case MOVE_INPUT_STATE.dragTo:
@@ -204,18 +170,7 @@ export class VisualMoveInput {
                     Svg.removeElement(this.draggablePiece)
                     this.draggablePiece = null
                 }
-                if (this.pointerMoveListener) {
-                    removeEventListener(this.pointerMoveListener.type, this.pointerMoveListener)
-                    this.pointerMoveListener = null
-                }
-                if (this.pointerUpListener) {
-                    removeEventListener(this.pointerUpListener.type, this.pointerUpListener)
-                    this.pointerUpListener = null
-                }
-                if (this.pointerCancelListener) {
-                    removeEventListener(this.pointerCancelListener.type, this.pointerCancelListener)
-                    this.pointerCancelListener = null
-                }
+                this.removePointerListeners()
                 if (this.contextMenuListener) {
                     this.chessboard.view.svg.removeEventListener("contextmenu", this.contextMenuListener)
                     this.contextMenuListener = null
@@ -230,6 +185,51 @@ export class VisualMoveInput {
 
             default:
                 throw Error(`260b09: moveInputState ${newState}`)
+        }
+    }
+
+    // (Re)install the move/up/cancel listeners of the input type that started the
+    // current step ("mousedown" or "touchstart")
+    setPointerListeners(type) {
+        this.removePointerListeners()
+        if (type === "mousedown") {
+            this.pointerMoveListener = this.onPointerMove.bind(this)
+            this.pointerMoveListener.type = "mousemove"
+            addEventListener("mousemove", this.pointerMoveListener)
+            this.pointerUpListener = this.onPointerUp.bind(this)
+            this.pointerUpListener.type = "mouseup"
+            addEventListener("mouseup", this.pointerUpListener)
+        } else if (type === "touchstart") {
+            this.pointerMoveListener = this.onPointerMove.bind(this)
+            this.pointerMoveListener.type = "touchmove"
+            addEventListener("touchmove", this.pointerMoveListener)
+            this.pointerUpListener = this.onPointerUp.bind(this)
+            this.pointerUpListener.type = "touchend"
+            addEventListener("touchend", this.pointerUpListener)
+            this.pointerCancelListener = this.onPointerCancel.bind(this)
+            this.pointerCancelListener.type = "touchcancel"
+            addEventListener("touchcancel", this.pointerCancelListener)
+        } else {
+            throw Error("4b74af")
+        }
+        if (!this.contextMenuListener) {
+            this.contextMenuListener = this.onContextMenu.bind(this)
+            this.chessboard.view.svg.addEventListener("contextmenu", this.contextMenuListener)
+        }
+    }
+
+    removePointerListeners() {
+        if (this.pointerMoveListener) {
+            removeEventListener(this.pointerMoveListener.type, this.pointerMoveListener)
+            this.pointerMoveListener = null
+        }
+        if (this.pointerUpListener) {
+            removeEventListener(this.pointerUpListener.type, this.pointerUpListener)
+            this.pointerUpListener = null
+        }
+        if (this.pointerCancelListener) {
+            removeEventListener(this.pointerCancelListener.type, this.pointerCancelListener)
+            this.pointerCancelListener = null
         }
     }
 

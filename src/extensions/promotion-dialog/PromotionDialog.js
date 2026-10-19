@@ -190,6 +190,9 @@ export class PromotionDialog extends Extension {
                 }
             }
             if (piece) {
+                // Without this iOS fires compatibility mousedown/mouseup at the tap
+                // position after the dialog closed, they select the piece below it
+                event.preventDefault()
                 this.selectPiece(piece)
             } else {
                 this.promotionDialogOnCancel(event)

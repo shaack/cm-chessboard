@@ -410,4 +410,40 @@ describe("TestVisualMoveInput", () => {
         board.destroy()
     })
 
+    // Regression: a piece selected by a mouse click (e.g. the compatibility mousedown/mouseup
+    // iOS fires after a tap) installed only mouse listeners. Dragging it with a finger then
+    // stuck in secondClickThreshold, every further touch ran into the void until a reload.
+    it("should complete a touch drag of a piece that was selected by mouse", async () => {
+        const board = newBoard()
+        board.enableMoveInput(() => true, COLOR.white)
+        const vmi = board.view.visualMoveInput
+
+        vmi.onPointerDown(mouseDown("e2"))
+        vmi.onPointerUp(mouseUp("e2"))
+        assert.equal(vmi.moveInputState, STATE_CLICK_TO)
+
+        vmi.onPointerDown({
+            type: "touchstart", target: squareTarget("e2"),
+            touches: [{clientX: 100, clientY: 100}], preventDefault: () => {}
+        })
+        const elementFromPoint = document.elementFromPoint
+        document.elementFromPoint = () => squareTarget("e4")
+        try {
+            const touchMove = new Event("touchmove")
+            touchMove.touches = [{clientX: 100, clientY: 140, pageX: 100, pageY: 140}]
+            window.dispatchEvent(touchMove)
+            assert.equal(vmi.moveInputState, "clickDragTo")
+            const touchEnd = new Event("touchend")
+            touchEnd.changedTouches = [{clientX: 100, clientY: 140}]
+            window.dispatchEvent(touchEnd)
+        } finally {
+            document.elementFromPoint = elementFromPoint
+        }
+        await tick()
+        assert.equal(board.getPiece("e4"), "wp")
+        assert.equal(board.getPiece("e2"), null)
+        assert.equal(vmi.moveInputState, STATE_WAIT_FOR_INPUT_START)
+        board.destroy()
+    })
+
 })

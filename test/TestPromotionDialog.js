@@ -125,6 +125,18 @@ describe("TestPromotionDialog", () => {
         chessboard.destroy()
     })
 
+    // Without preventDefault iOS Safari fires compatibility mousedown/mouseup at the
+    // tap position after the dialog is gone, which select the piece below it.
+    it("should prevent the default of the pointerdown that selects a piece", async () => {
+        const chessboard = makeBoard()
+        await showDialog(chessboard, "b8", COLOR.white)
+        const queen = buttonsOf(chessboard).find((b) => b.piece === "wq")
+        const event = new PointerEvent("pointerdown", {bubbles: true, cancelable: true, button: 0})
+        queen.group.querySelector("rect.promotion-dialog-button").dispatchEvent(event)
+        assert.true(event.defaultPrevented)
+        chessboard.destroy()
+    })
+
     it("should answer canceled on escape", async () => {
         const chessboard = makeBoard()
         const answer = await showDialog(chessboard, "b8", COLOR.white)
