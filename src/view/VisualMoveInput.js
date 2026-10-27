@@ -49,6 +49,9 @@ export class VisualMoveInput {
         if (result) {
             this.chessboard.state.moveInputProcess = Utils.createTask()
             this.chessboard.state.moveInputProcess.then((result) => {
+                if (!this.chessboard.state) {
+                    return // the board was destroyed meanwhile
+                }
                 if (this.moveInputState === MOVE_INPUT_STATE.waitForInputStart ||
                     this.moveInputState === MOVE_INPUT_STATE.moveDone) {
                     this.view.moveInputFinishedCallback(this.fromSquare, this.toSquare, result)
@@ -311,7 +314,11 @@ export class VisualMoveInput {
                         // result holds false if the user legality checker deemed the move into another own piece as illegal
                         // in that case, we start a new move by selecting the target piece
                         const result = this.validateMoveInputCallback(this.fromSquare, square)
-                        if (!result) {
+                        if (!result && this.chessboard.state.moveInputPremove) {
+                            // the validator consumed the move without executing it (e.g. stored a
+                            // recapture premove), finish the input without selecting the target piece
+                            this.setMoveInputState(MOVE_INPUT_STATE.moveDone, {square: square, validated: false})
+                        } else if (!result) {
                             this.moveInputCanceledCallback(this.fromSquare, square, MOVE_CANCELED_REASON.clickedAnotherPiece)
                             if (this.moveInputStartedCallback(square)) {
                                 this.setMoveInputState(MOVE_INPUT_STATE.pieceClickedThreshold, {

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>cm-chessboard</title>
+    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"/>
+    <link rel="stylesheet" href="../styles/examples.css"/>
+    <link rel="stylesheet" href="../../assets/chessboard.css"/>
+    <link rel="stylesheet" href="../../assets/extensions/markers/markers.css"/>
+    <link rel="stylesheet" href="../../assets/extensions/premove/premove.css"/>
+</head>
+<body>
+<h1><a href="../../">cm-chessboard</a></h1>
+<h2>Example: Premove extension</h2>
+<p>You play white against random moves, which take <span id="delay"></span> seconds. Make your next move while the
+    opponent thinks, it is stored as premove and played instantly after the opponent's move, if it is legal then.
+    Click anywhere on the board to cancel a premove.</p>
+<p>
+    <label>Opponent think time
+        <select id="delaySelect">
+            <option value="300">0.3 s</option>
+            <option value="1500" selected>1.5 s</option>
+            <option value="3000">3 s</option>
+        </select>
+    </label>
+</p>
+<div class="board board-large" id="board"></div>
+<pre id="output"></pre>
+
+<script type="module">
+    import {INPUT_EVENT_TYPE, COLOR, Chessboard, BORDER_TYPE} from "../../src/Chessboard.js"
+    import {MARKER_TYPE, Markers} from "../../src/extensions/markers/Markers.js"
+    import {Premove} from "../../src/extensions/premove/Premove.js"
+    import {Chess} from "https://cdn.jsdelivr.net/npm/chess.mjs@1/src/chess.mjs/Chess.js"
+
+    const chess = new Chess()
+    const output = document.getElementById("output")
+    const delaySelect = document.getElementById("delaySelect")
+    const updateDelay = () => document.getElementById("delay").textContent = delaySelect.value / 1000
+    delaySelect.addEventListener("change", updateDelay)
+    updateDelay()
+
+    function log(text) {
+        output.textContent = text + "\n" + output.textContent.split("\n").slice(0, 8).join("\n")
+    }
+
+    let seed = 71
+    function random() {
+        const x = Math.sin(seed++) * 10000
+        return x - Math.floor(x)
+    }
+
+    // the player made a move (regular or premove), now it is the opponent's turn
+    function playerMoved() {
+        board.setTurn(COLOR.black)
+        if (chess.game_over()) {
+            log("game over")
+            return
+        }
+        setTimeout(opponentMove, parseInt(delaySelect.value, 10))
+    }
+
+    function opponentMove() {
+        const moves = chess.moves({verbose: true})
+        const move = moves[Math.floor(random() * moves.length)]
+        chess.move({from: move.from, to: move.to, promotion: "q"})
+        board.setPosition(chess.fen(), true)
+        // play the premove instantly, the game logic does not wait for the animation, the board queues it
+        const played = board.playPremove((premove) => {
+            const result = chess.move({from: premove.from, to: premove.to, promotion: premove.promotion || "q"})
+            if (!result) {
+                return false // illegal in the new position, the premove is dropped
+            }
+            board.setPosition(chess.fen(), true)
+            return true
+        })
+        if (played) {
+            playerMoved()
+        }
+    }
+
+    // regular move input, while it is the player's turn
+    function inputHandler(event) {
+        if (event.type === INPUT_EVENT_TYPE.movingOverSquare) {
+            return
+        }
+        if (event.type !== INPUT_EVENT_TYPE.moveInputFinished) {
+            board.removeLegalMovesMarkers()
+        }
+        if (event.type === INPUT_EVENT_TYPE.moveInputStarted) {
+            const moves = chess.moves({square: event.squareFrom, verbose: true})
+            board.addLegalMovesMarkers(moves)
+            return moves.length > 0
+        } else if (event.type === INPUT_EVENT_TYPE.validateMoveInput) {
+            const result = chess.move({from: event.squareFrom, to: event.squareTo, promotion: "q"})
+            if (result) {
+                board.state.moveInputProcess.then(() => { // update castling, en passant and promotion
+                    board.setPosition(chess.fen(), true)
+                })
+                playerMoved()
+            }
+            return result
+        }
+    }
+
+    const board = new Chessboard(document.getElementById("board"), {
+        position: chess.fen(),
+        assetsUrl: "../../assets/",
+        style: {borderType: BORDER_TYPE.none, pieces: {file: "pieces/staunty.svg"}, animationDuration: 200},
+        orientation: COLOR.white,
+        extensions: [
+            {class: Markers, props: {autoMarkers: MARKER_TYPE.square}},
+            {
+                class: Premove, props: {
+                    color: COLOR.white,
+                    onSet: (premove) => log(`premove set ${premove.from}-${premove.to}`),
+                    onUnset: (premove, reason) => log(`premove ${premove.from}-${premove.to} unset: ${reason}`)
+                }
+            }
+        ]
+    })
+    board.setTurn(COLOR.white)
+    // move input stays enabled for white the whole game, the Premove extension takes it over on black's turn
+    board.enableMoveInput(inputHandler, COLOR.white)
+</script>
+</body>
+</html>

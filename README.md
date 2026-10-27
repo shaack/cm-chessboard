@@ -26,6 +26,7 @@ The core of cm-chessboard is small, fast and reduced to the essentials. You can 
   - [Arrows Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/arrows-extension.html) ⇨ renders arrows on the chessboard
 - [Accessibility Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/accessibility-extension.html) ⇨ makes the chessboard more accessible
 - [PromotionDialog Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/promotion-dialog-extension.html) ⇨ shows a dialog to select the piece to promote to
+- [Premove Extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/premove-extension.html) ⇨ lichess style premoves, enter a move while the opponent thinks
 
 ## Demo and repository
 
@@ -219,6 +220,9 @@ The event has the following **`event.type`**:
   The opt-out only applies to click moves. A drag move never animates its completion, so `event.animate = true` has no effect there.
   Extensions receive a clone of the event and therefore opt out by setting `chessboard.state.moveInputAnimate = false`
   in their `moveInput` extension point handler instead.
+  Set `event.premove = true` and return `false` to mark the move as consumed without executing it, e.g. when you
+  store it as premove yourself. Then a click into an own piece does not select that piece instead. The
+  [Premove extension](https://shaack.com/projekte/cm-chessboard/examples/extensions/premove-extension.html) does this for you.
 - **`INPUT_EVENT_TYPE.moveInputCanceled`**: The user canceled the move with clicking again on the start square, clicking
   outside the board or right click.
 - **`INPUT_EVENT_TYPE.moveInputFinished`**: Fired after the move was made, also when canceled.

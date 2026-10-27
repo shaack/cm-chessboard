@@ -381,6 +381,18 @@ export class ChessboardView {
 
     // callbacks //
 
+    // Pass a move input event to the interceptor (if set and it handles the event), else to the
+    // `moveInputCallback`. The handler sets `data.moveInputCallbackResult`.
+    dispatchMoveInputEvent(data) {
+        const state = this.chessboard.state
+        if (state.moveInputInterceptor && state.moveInputInterceptor(data)) {
+            return
+        }
+        if (state.moveInputCallback) {
+            data.moveInputCallbackResult = state.moveInputCallback(data)
+        }
+    }
+
     moveInputStartedCallback(square) {
         const data = {
             chessboard: this.chessboard,
@@ -389,9 +401,7 @@ export class ChessboardView {
             squareFrom: square,
             piece: this.chessboard.getPiece(square)
         }
-        if (this.chessboard.state.moveInputCallback) {
-            data.moveInputCallbackResult = this.chessboard.state.moveInputCallback(data)
-        }
+        this.dispatchMoveInputEvent(data)
         this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
         return data.moveInputCallbackResult
     }
@@ -404,9 +414,7 @@ export class ChessboardView {
             squareTo: squareTo,
             piece: this.chessboard.getPiece(squareFrom)
         }
-        if (this.chessboard.state.moveInputCallback) {
-            data.moveInputCallbackResult = this.chessboard.state.moveInputCallback(data)
-        }
+        this.dispatchMoveInputEvent(data)
         this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
     }
 
@@ -418,14 +426,15 @@ export class ChessboardView {
             squareTo: squareTo,
             piece: this.chessboard.getPiece(squareFrom)
         }
-        if (this.chessboard.state.moveInputCallback) {
-            data.moveInputCallbackResult = this.chessboard.state.moveInputCallback(data)
-        }
+        this.dispatchMoveInputEvent(data)
         // A validator can set `event.animate = false` to skip this move's own completion animation
         // (e.g. a premove made by click, which would otherwise always animate).
         // Assigned before the extension points on purpose: extensions receive a clone of `data`,
         // so they opt out by setting `state.moveInputAnimate` directly, which must not be clobbered here.
         this.chessboard.state.moveInputAnimate = data.animate
+        // A validator can set `event.premove = true` (and return false) to mark the move as consumed,
+        // e.g. stored as a premove. Then a click into an own piece does not select that piece instead.
+        this.chessboard.state.moveInputPremove = data.premove === true
         this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
         return data.moveInputCallbackResult
     }
@@ -438,9 +447,7 @@ export class ChessboardView {
             squareFrom: squareFrom,
             squareTo: squareTo
         }
-        if (this.chessboard.state.moveInputCallback) {
-            this.chessboard.state.moveInputCallback(data)
-        }
+        this.dispatchMoveInputEvent(data)
         this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
     }
 
@@ -452,9 +459,7 @@ export class ChessboardView {
             squareTo: squareTo,
             legalMove: legalMove
         }
-        if (this.chessboard.state.moveInputCallback) {
-            this.chessboard.state.moveInputCallback(data)
-        }
+        this.dispatchMoveInputEvent(data)
         this.chessboard.state.invokeExtensionPoints(EXTENSION_POINT.moveInput, data)
     }
 

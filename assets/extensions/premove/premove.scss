@@ -1,0 +1,18 @@
+// Premove markers, colors inspired by lichess
+$premove-color: rgb(20, 30, 85);
+
+.cm-chessboard {
+  .markers {
+    .marker {
+      &.marker-premove {
+        fill: $premove-color;
+        opacity: 0.4;
+      }
+
+      &.marker-premove-dest {
+        fill: $premove-color;
+        opacity: 0.3;
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+.cm-chessboard .markers .marker.marker-premove {
+  fill: rgb(20, 30, 85);
+  opacity: 0.4;
+}
+.cm-chessboard .markers .marker.marker-premove-dest {
+  fill: rgb(20, 30, 85);
+  opacity: 0.3;
+}
