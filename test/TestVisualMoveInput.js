@@ -62,6 +62,35 @@ describe("TestVisualMoveInput", () => {
         chessboard.destroy()
     })
 
+    it("should not call moveInputFinished on a board destroyed during move input", async () => {
+        const chessboard = newBoard()
+        let finished = 0
+        chessboard.enableMoveInput((event) => {
+            if (event.type === INPUT_EVENT_TYPE.moveInputFinished) finished++
+            return true
+        }, COLOR.white)
+        const errors = []
+        const onRejection = (e) => {
+            errors.push(e.reason)
+            e.preventDefault()
+        }
+        window.addEventListener("unhandledrejection", onRejection)
+        try {
+            chessboard.view.visualMoveInput.onPointerDown(mouseDown("e2"))
+            assert.equal(chessboard.view.visualMoveInput.moveInputState, STATE_PIECE_CLICKED_THRESHOLD)
+            // ending the input resolves the move input process, its moveInputFinished callback
+            // runs async. Destroying the board in the same task (e.g. from the app's handler)
+            // leaves that callback running on a destroyed board.
+            chessboard.cancelMoveInput()
+            chessboard.destroy()
+            await tick()
+        } finally {
+            window.removeEventListener("unhandledrejection", onRejection)
+        }
+        assert.equal(errors.length, 0)
+        assert.equal(finished, 0)
+    })
+
     // Regression for https://github.com/shaack/cm-chessboard/pull/174
     it("should validate once and finish the move when moving into own piece is marked as valid", async () => {
         const chessboard = new Chessboard(document.getElementById("TestBoard"), {

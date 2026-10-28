@@ -49,6 +49,9 @@ export class VisualMoveInput {
         if (result) {
             this.chessboard.state.moveInputProcess = Utils.createTask()
             this.chessboard.state.moveInputProcess.then((result) => {
+                if (!this.chessboard.state) {
+                    return // the board was destroyed meanwhile
+                }
                 if (this.moveInputState === MOVE_INPUT_STATE.waitForInputStart ||
                     this.moveInputState === MOVE_INPUT_STATE.moveDone) {
                     this.view.moveInputFinishedCallback(this.fromSquare, this.toSquare, result)
