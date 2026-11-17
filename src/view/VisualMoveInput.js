@@ -33,7 +33,7 @@ const DRAG_THRESHOLD = 4
 // After a tap, browsers fire compatibility mouse events (mousedown, mouseup, click), unless
 // touchstart was prevented, which it is not on an empty target square. A mousedown this soon after
 // a touch is such an event and is ignored, otherwise it selected the piece that just landed there.
-const COMPATIBILITY_MOUSE_EVENTS_MS = 1000
+const COMPATIBILITY_MOUSE_EVENTS_MS = 500
 
 export class VisualMoveInput {
 
