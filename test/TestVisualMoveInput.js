@@ -176,6 +176,40 @@ describe("TestVisualMoveInput", () => {
         board.destroy()
     })
 
+    // A click move animates for animationDuration. A click in that time, typically a fast
+    // premove, was ignored because the input was still in the state moveDone.
+    it("should accept a new move input while a click move is still animating", async () => {
+        const board = new Chessboard(document.getElementById("TestBoard"), {
+            assetsUrl: "../assets/",
+            position: FEN.start,
+            style: {animationDuration: 300}
+        })
+        let finished = 0
+        board.enableMoveInput((e) => {
+            if (e.type === INPUT_EVENT_TYPE.moveInputFinished) finished++
+            return true
+        }, COLOR.white)
+        const vmi = board.view.visualMoveInput
+
+        vmi.onPointerDown(mouseDown("e2"))
+        vmi.onPointerUp(mouseUp("e2"))
+        vmi.onPointerDown(mouseDown("e4")) // animates for 300 ms
+        await tick()
+        vmi.onPointerDown(mouseDown("e4")) // during the animation
+        assert.equal(vmi.moveInputState, STATE_PIECE_CLICKED_THRESHOLD)
+        assert.equal(vmi.fromSquare, "e4")
+        vmi.onPointerUp(mouseUp("e4"))
+        assert.equal(vmi.moveInputState, STATE_CLICK_TO)
+        vmi.onPointerDown(mouseDown("e5"))
+        await new Promise((resolve) => setTimeout(resolve, 800))
+
+        assert.equal(board.getPiece("e5"), "wp")
+        assert.equal(board.getPiece("e4"), null)
+        assert.equal(vmi.moveInputState, STATE_WAIT_FOR_INPUT_START)
+        assert.equal(finished, 2)
+        board.destroy()
+    })
+
     it("should complete a drag move to a new square", async () => {
         const board = newBoard()
         board.enableMoveInput(() => true, COLOR.white)

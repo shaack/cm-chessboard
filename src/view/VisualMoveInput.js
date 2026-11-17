@@ -147,7 +147,12 @@ export class VisualMoveInput {
                     // A click move always completes with its own animation, unless the
                     // validator opted out via `event.animate = false` (see ChessboardView).
                     const animate = prevState === MOVE_INPUT_STATE.clickTo && this.chessboard.state.moveInputAnimate !== false
+                    const moveDoneId = this.moveDoneId = (this.moveDoneId || 0) + 1
                     this.chessboard.movePiece(this.fromSquare, this.toSquare, animate).then(() => {
+                        // a pointerdown during the animation already reset the input and may have started the next move
+                        if (this.moveInputState !== MOVE_INPUT_STATE.moveDone || this.moveDoneId !== moveDoneId) {
+                            return
+                        }
                         if (prevState === MOVE_INPUT_STATE.clickTo) {
                             this.view.setPieceVisibility(this.toSquare, true)
                         }
@@ -266,6 +271,11 @@ export class VisualMoveInput {
         const square = e.target.getAttribute("data-square")
         if (!square) { // pointer on square
             return
+        }
+        if (this.moveInputState === MOVE_INPUT_STATE.moveDone) {
+            // The previous move is still animating (a click move takes animationDuration).
+            // Finish its input now, otherwise this pointerdown is lost, e.g. a fast premove.
+            this.setMoveInputState(MOVE_INPUT_STATE.reset)
         }
         const pieceName = this.chessboard.getPiece(square)
         let color
