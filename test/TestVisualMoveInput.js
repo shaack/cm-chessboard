@@ -519,4 +519,46 @@ describe("TestVisualMoveInput", () => {
         board.destroy()
     })
 
+    // The counterpart: only mouse events right after a touch are ignored. Once the window of
+    // 500 ms has passed, a mouse click works again, e.g. on a device with touch screen and mouse.
+    it("should accept mouse input again after the compatibility mouse events window", async () => {
+        const board = newBoard()
+        board.enableMoveInput(() => true)
+        const vmi = board.view.visualMoveInput
+        const tap = (square) => {
+            vmi.onPointerDown({
+                type: "touchstart", target: squareTarget(square),
+                touches: [{clientX: 100, clientY: 100}], preventDefault: () => {}
+            })
+            const elementFromPoint = document.elementFromPoint
+            document.elementFromPoint = () => squareTarget(square)
+            try {
+                const touchEnd = new Event("touchend")
+                touchEnd.changedTouches = [{clientX: 100, clientY: 100}]
+                window.dispatchEvent(touchEnd)
+            } finally {
+                document.elementFromPoint = elementFromPoint
+            }
+        }
+        tap("g1")
+        tap("f3")
+        await tick()
+        assert.equal(board.getPiece("f3"), "wn")
+        const now = Date.now
+        Date.now = () => now() + 600
+        try {
+            vmi.onPointerDown(mouseDown("f3"))
+            vmi.onPointerUp(mouseUp("f3"))
+            assert.equal(vmi.moveInputState, STATE_CLICK_TO)
+            vmi.onPointerDown(mouseDown("g5"))
+            await tick()
+        } finally {
+            Date.now = now
+        }
+        assert.equal(board.getPiece("g5"), "wn")
+        assert.equal(board.getPiece("f3"), null)
+        assert.equal(vmi.moveInputState, STATE_WAIT_FOR_INPUT_START)
+        board.destroy()
+    })
+
 })
