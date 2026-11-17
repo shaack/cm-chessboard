@@ -30,6 +30,10 @@ export const MOVE_CANCELED_REASON = {
 }
 
 const DRAG_THRESHOLD = 4
+// After a tap, browsers fire compatibility mouse events (mousedown, mouseup, click), unless
+// touchstart was prevented, which it is not on an empty target square. A mousedown this soon after
+// a touch is such an event and is ignored, otherwise it selected the piece that just landed there.
+const COMPATIBILITY_MOUSE_EVENTS_MS = 1000
 
 export class VisualMoveInput {
 
@@ -268,6 +272,11 @@ export class VisualMoveInput {
         if (!(e.type === "mousedown" && e.button === 0 || e.type === "touchstart")) {
             return
         }
+        if (e.type === "touchstart") {
+            this.lastTouchTime = Date.now()
+        } else if (this.lastTouchTime && Date.now() - this.lastTouchTime < COMPATIBILITY_MOUSE_EVENTS_MS) {
+            return
+        }
         const square = e.target.getAttribute("data-square")
         if (!square) { // pointer on square
             return
@@ -401,6 +410,7 @@ export class VisualMoveInput {
         if (e.type === "mouseup") {
             target = e.target
         } else if (e.type === "touchend") {
+            this.lastTouchTime = Date.now()
             target = document.elementFromPoint(e.changedTouches[0].clientX, e.changedTouches[0].clientY)
         }
         if (target && target.getAttribute) {

@@ -480,4 +480,43 @@ describe("TestVisualMoveInput", () => {
         board.destroy()
     })
 
+    // A tap on an empty target square is not prevented, so the browser fires compatibility mouse
+    // events after it. The mousedown landed on the piece that just moved there and selected it
+    // again: every further tap moved it once more (forum puzzles on mobile, 17.11.2026).
+    it("should ignore the compatibility mouse events after a tap on the target square", async () => {
+        const board = newBoard()
+        let started = 0
+        board.enableMoveInput((e) => {
+            if (e.type === INPUT_EVENT_TYPE.moveInputStarted) started++
+            return true
+        })
+        const vmi = board.view.visualMoveInput
+        const tap = (square) => {
+            vmi.onPointerDown({
+                type: "touchstart", target: squareTarget(square),
+                touches: [{clientX: 100, clientY: 100}], preventDefault: () => {}
+            })
+            const elementFromPoint = document.elementFromPoint
+            document.elementFromPoint = () => squareTarget(square)
+            try {
+                const touchEnd = new Event("touchend")
+                touchEnd.changedTouches = [{clientX: 100, clientY: 100}]
+                window.dispatchEvent(touchEnd)
+            } finally {
+                document.elementFromPoint = elementFromPoint
+            }
+        }
+        tap("g1")
+        assert.equal(vmi.moveInputState, STATE_CLICK_TO)
+        tap("f3")
+        // compatibility events of the second tap
+        vmi.onPointerDown(mouseDown("f3"))
+        vmi.onPointerUp(mouseUp("f3"))
+        await tick()
+        assert.equal(board.getPiece("f3"), "wn")
+        assert.equal(vmi.moveInputState, STATE_WAIT_FOR_INPUT_START)
+        assert.equal(started, 1)
+        board.destroy()
+    })
+
 })
