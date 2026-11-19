@@ -177,6 +177,7 @@ export class RightClickAnnotator extends Extension {
         // We rely mainly on our dragStart flag and clear on mouseup/mouseleave
         const toSquare = this.findSquareFromEvent(event)
         if (!toSquare || toSquare === this.dragStart.square) {
+            this.removePreviewArrow()
             return
         }
         if (this.previewActiveTo === toSquare) {
@@ -201,6 +202,7 @@ export class RightClickAnnotator extends Extension {
             this.chessboard.removeArrows(this.previewArrowType)
             this.previewArrowType = undefined
         }
+        this.previewActiveTo = undefined
     }
 
     modifiersToColorKey(modifiers) {
