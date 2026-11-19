@@ -30,4 +30,24 @@ describe("TestArrows", () => {
         chessboard.destroy()
     })
 
+    // Regression for https://github.com/shaack/cm-chessboard/pull/185
+    it("should give arrows between the same squares distinct marker ids", () => {
+        const chessboard = new Chessboard(document.getElementById("TestArrows"), {
+            assetsUrl: "../assets/",
+            extensions: [{class: Arrows}]
+        })
+        chessboard.addArrow(ARROW_TYPE.default, "e2", "e4")
+        chessboard.addArrow(ARROW_TYPE.danger, "e2", "e4")
+        const markers = chessboard.context.querySelectorAll(".arrows marker")
+        assert.equal(markers.length, 2)
+        assert.true(markers[0].id !== markers[1].id)
+        // every arrow line points to the marker in its own group
+        chessboard.context.querySelectorAll(".arrows > g").forEach((group) => {
+            const marker = group.querySelector("marker")
+            const line = group.querySelector("line")
+            assert.equal(line.getAttribute("marker-end"), "url(#" + marker.id + ")")
+        })
+        chessboard.destroy()
+    })
+
 })

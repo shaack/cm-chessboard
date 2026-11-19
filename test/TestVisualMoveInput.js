@@ -299,6 +299,28 @@ describe("TestVisualMoveInput", () => {
         board.destroy()
     })
 
+    // Regression for https://github.com/shaack/cm-chessboard/pull/183
+    it("should report the start square when a move is canceled by right click", async () => {
+        const board = newBoard()
+        let canceledEvent
+        board.enableMoveInput((e) => {
+            if (e.type === INPUT_EVENT_TYPE.moveInputCanceled) canceledEvent = e
+            return true
+        }, COLOR.white)
+        const vmi = board.view.visualMoveInput
+
+        vmi.onPointerDown(mouseDown("e2"))
+        vmi.onPointerUp(mouseUp("e2"))
+        assert.equal(vmi.moveInputState, STATE_CLICK_TO)
+
+        vmi.onContextMenu({preventDefault: () => {}})
+        assert.equal(canceledEvent.reason, MOVE_CANCELED_REASON.secondaryClick)
+        assert.equal(canceledEvent.squareFrom, "e2")
+        assert.equal(vmi.moveInputState, STATE_WAIT_FOR_INPUT_START)
+        await tick()
+        board.destroy()
+    })
+
     // Regression for https://github.com/shaack/cm-chessboard/pull/173
     it("should cancel an in-progress move on right click", async () => {
         const board = newBoard()
