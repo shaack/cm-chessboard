@@ -454,8 +454,9 @@ export class VisualMoveInput {
     onContextMenu(e) { // while moving
         e.preventDefault()
         this.view.redrawPieces()
+        const moveStartSquare = this.fromSquare
         this.setMoveInputState(MOVE_INPUT_STATE.reset)
-        this.moveInputCanceledCallback(this.fromSquare, null, MOVE_CANCELED_REASON.secondaryClick)
+        this.moveInputCanceledCallback(moveStartSquare, null, MOVE_CANCELED_REASON.secondaryClick)
     }
 
     // Cancel a move input that is currently in progress. No-op when idle.
