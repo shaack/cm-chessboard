@@ -61,12 +61,12 @@ export class Arrows extends Extension {
         while (this.arrowGroup.firstChild) {
             this.arrowGroup.removeChild(this.arrowGroup.firstChild)
         }
-        this.arrows.forEach((arrow) => {
-            this.drawArrow(arrow)
+        this.arrows.forEach((arrow, index) => {
+            this.drawArrow(arrow, index)
         })
     }
 
-    drawArrow(arrow) {
+    drawArrow(arrow, index) {
         const view = this.chessboard.view
         const arrowsGroup = Svg.addElement(this.arrowGroup, "g")
         arrowsGroup.setAttribute("data-arrow", arrow.from + arrow.to)
@@ -75,7 +75,7 @@ export class Arrows extends Extension {
         const ptTo = view.squareToPoint(arrow.to)
         const spriteUrl = this.chessboard.props.assetsCache ? "" : this.getSpriteUrl()
         const defs = Svg.addElement(arrowsGroup, "defs")
-        const id = "arrow-" + this.instanceId + "-" + arrow.from + arrow.to
+        const id = "arrow-" + this.instanceId + "-" + index + "-" + arrow.from + arrow.to
         const marker = Svg.addElement(defs, "marker", {
             id: id,
             markerWidth: this.props.headSize,
