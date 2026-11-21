@@ -462,6 +462,11 @@ export class VisualMoveInput {
         this.moveInputCanceledCallback(moveStartSquare, null, MOVE_CANCELED_REASON.secondaryClick)
     }
 
+    // Whether a move input is in progress: from the press on a piece until the move is done or canceled.
+    isMoveInputInProgress() {
+        return this.moveInputState !== MOVE_INPUT_STATE.waitForInputStart
+    }
+
     // Cancel a move input that is currently in progress. No-op when idle.
     cancelMoveInput() {
         if (this.moveInputState !== MOVE_INPUT_STATE.waitForInputStart) {

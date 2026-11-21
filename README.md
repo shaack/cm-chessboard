@@ -258,6 +258,14 @@ Cancels a move input that is currently in progress (a piece picked up or a squar
 input. Fires a `moveInputCanceled` event with `event.reason === "canceled"`. It is a no-op when no move input is in
 progress. Useful to abort a move from your own UI, e.g. on an "escape" key press or a cancel button.
 
+### isMoveInputInProgress()
+
+Returns `true` while a move input is in progress: from the press on a piece (a piece picked up or a square selected)
+until the move is done or canceled. Useful for your own pointer handling on the board, e.g. to tell a click that
+completes a click-click move from a click on an empty square while no move is being entered. The board handles
+`mousedown`/`touchstart`, which browsers fire after `pointerdown`, so a `pointerdown` listener reads the state from
+before the press.
+
 ### isMoveInputEnabled()
 
 Returns `true` if move input is currently enabled for white or black.

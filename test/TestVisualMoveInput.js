@@ -466,6 +466,49 @@ describe("TestVisualMoveInput", () => {
         board.destroy()
     })
 
+    it("should report a click-click move input in progress until the move is done", async () => {
+        const board = newBoard()
+        board.enableMoveInput(() => true, COLOR.white)
+        const vmi = board.view.visualMoveInput
+        assert.equal(board.isMoveInputInProgress(), false)
+
+        vmi.onPointerDown(mouseDown("e2"))
+        vmi.onPointerUp(mouseUp("e2"))
+        assert.equal(board.isMoveInputInProgress(), true)
+
+        vmi.onPointerDown(mouseDown("e4"))
+        await tick()
+        assert.equal(board.getPiece("e4"), "wp")
+        assert.equal(board.isMoveInputInProgress(), false)
+        board.destroy()
+    })
+
+    it("should report a drag in progress until it is canceled", async () => {
+        const board = newBoard()
+        board.enableMoveInput(() => true, COLOR.white)
+        const vmi = board.view.visualMoveInput
+        vmi.onPointerDown(mouseDown("e2", 100, 100))
+        vmi.onPointerMove(mouseMove("e4", 100, 140)) // -> dragTo
+        assert.equal(board.isMoveInputInProgress(), true)
+
+        board.cancelMoveInput()
+        assert.equal(board.isMoveInputInProgress(), false)
+        await tick()
+        board.destroy()
+    })
+
+    it("should report no move input in progress for a press on an empty square", async () => {
+        const board = newBoard()
+        board.enableMoveInput(() => true, COLOR.white)
+        const vmi = board.view.visualMoveInput
+        vmi.onPointerDown(mouseDown("e4"))
+        assert.equal(board.isMoveInputInProgress(), false)
+        vmi.onPointerUp(mouseUp("e4"))
+        assert.equal(board.isMoveInputInProgress(), false)
+        await tick()
+        board.destroy()
+    })
+
     it("should cancel a drag in progress via cancelMoveInput() without moving the piece", async () => {
         const board = newBoard()
         board.enableMoveInput(() => true, COLOR.white)
