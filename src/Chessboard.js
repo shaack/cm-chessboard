@@ -139,6 +139,11 @@ export class Chessboard {
         this.view.visualMoveInput.cancelMoveInput()
     }
 
+    // Whether a move input is in progress (a piece picked up or a square selected).
+    isMoveInputInProgress() {
+        return this.view.visualMoveInput.isMoveInputInProgress()
+    }
+
     isMoveInputEnabled() {
         return this.state.inputWhiteEnabled || this.state.inputBlackEnabled
     }
